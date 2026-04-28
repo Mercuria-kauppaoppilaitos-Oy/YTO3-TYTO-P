@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Työttömyysturva ja eläke – Tiina</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:20px}
+.exercise-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
+.exercise-header::after{content:'🛡️';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
+.exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
+.exercise-header p{opacity:.9;font-size:.95rem}
+.progress-container{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.progress-bar{flex:1;height:8px;background:#e8e8f0;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:4px;transition:width .5s ease}
+.step-label{font-size:.9rem;font-weight:700;color:#667eea;white-space:nowrap}
+.card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.card h2{font-size:1.2rem;font-weight:700;margin-bottom:10px;color:#1a1a2e}
+/* Tiina character card */
+.tiina-card{display:flex;gap:20px;align-items:flex-start;background:linear-gradient(135deg,#667eea15,#764ba215);border:1px solid #c5cbf5;border-radius:14px;padding:20px;margin-bottom:20px}
+.tiina-avatar{font-size:3.5rem;flex-shrink:0}
+.tiina-info h3{font-weight:700;font-size:1.05rem;margin-bottom:6px}
+.tiina-info p{font-size:.9rem;color:#555;line-height:1.5}
+.tiina-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ttag{background:#fff;border:1px solid #c5cbf5;border-radius:20px;padding:3px 12px;font-size:.8rem;color:#667eea;font-weight:600}
+/* Timeline interactive */
+.info-timeline{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.tl-item{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:12px;padding:16px;cursor:pointer;transition:all .25s;position:relative}
+.tl-item:hover{border-color:#667eea;box-shadow:0 4px 16px rgba(102,126,234,.15)}
+.tl-item.opened{border-color:#667eea;background:#fff}
+.tl-item-header{display:flex;align-items:center;gap:12px}
+.tl-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+.tl-item-title{font-weight:700;font-size:.95rem;flex:1}
+.tl-expand{color:#667eea;font-size:1.2rem;transition:transform .3s}
+.tl-item.opened .tl-expand{transform:rotate(180deg)}
+.tl-body{margin-top:12px;padding-top:12px;border-top:1px solid #e8e8f5;display:none}
+.tl-item.opened .tl-body{display:block}
+.tl-body p{font-size:.88rem;color:#444;line-height:1.6;margin-bottom:8px}
+.highlight-box{background:linear-gradient(135deg,#667eea15,#764ba215);border-left:4px solid #667eea;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.85rem;color:#333}
+/* Decision scenarios */
+.scenario-box{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:14px;padding:20px;margin-bottom:16px}
+.scenario-box .s-label{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#667eea;margin-bottom:8px}
+.scenario-box .s-text{font-size:.95rem;line-height:1.6;margin-bottom:16px;color:#333}
+.action-btns{display:flex;flex-direction:column;gap:8px}
+.action-btn{background:#fff;border:2px solid #e0e4ff;border-radius:10px;padding:12px 16px;font-size:.9rem;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit;color:#333}
+.action-btn:hover{border-color:#667eea;background:#f0f2ff}
+.action-btn.correct{border-color:#22c55e;background:#f0fdf4;color:#166534;pointer-events:none}
+.action-btn.wrong{border-color:#ef4444;background:#fef2f2;color:#991b1b;pointer-events:none}
+.action-btn.partial{border-color:#f59e0b;background:#fffbeb;color:#92400e;pointer-events:none}
+.feedback-box{margin-top:12px;border-radius:10px;padding:14px;font-size:.88rem;line-height:1.5;display:none}
+.feedback-box.show{display:block}
+.feedback-correct{background:#f0fdf4;border:1px solid #86efac;color:#166534}
+.feedback-wrong{background:#fef2f2;border:1px solid #fca5a5;color:#991b1b}
+.feedback-partial{background:#fffbeb;border:1px solid #fcd34d;color:#92400e}
+/* Pension calculator */
+.pension-calc{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:14px;padding:20px}
+.slider-row{margin-bottom:16px}
+.slider-row label{font-size:.9rem;font-weight:600;color:#333;display:block;margin-bottom:8px}
+.slider-row input[type=range]{width:100%;accent-color:#667eea;cursor:pointer}
+.slider-val{display:inline-block;background:#667eea;color:#fff;border-radius:8px;padding:3px 12px;font-size:.9rem;font-weight:700;margin-left:8px}
+.pension-bar-container{background:#e8e8f5;border-radius:8px;height:32px;margin:12px 0;overflow:hidden;position:relative}
+.pension-bar{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:8px;transition:width .5s ease;display:flex;align-items:center;padding-left:10px;color:#fff;font-size:.85rem;font-weight:700;min-width:60px}
+.pension-result{font-size:1.1rem;font-weight:700;color:#667eea;text-align:center;padding:12px;background:#fff;border-radius:10px;border:2px solid #e0e4ff;margin-top:8px}
+/* Score/completion */
+.score-tally{background:linear-gradient(135deg,#667eea15,#764ba215);border-radius:12px;padding:16px 20px;margin:16px 0;display:flex;align-items:center;gap:16px}
+.score-tally .s-icon{font-size:2rem}
+.score-tally h4{font-size:1rem;font-weight:700;color:#667eea;margin-bottom:4px}
+.score-tally p{font-size:.88rem;color:#555}
+.score-pts{font-size:1.8rem;font-weight:800;color:#764ba2;margin-left:auto}
+.completion-screen{text-align:center;padding:40px 20px;animation:fadeIn .6s ease}
+.completion-badge{font-size:5rem;margin-bottom:16px;animation:bounce .8s ease}
+.completion-screen h2{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+.score-display{font-size:2.5rem;font-weight:800;color:#667eea;margin:16px 0}
+.score-display .s-max{font-size:1.5rem;color:#aaa}
+.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 4px 16px rgba(102,126,234,.35)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-secondary{background:#fff;color:#667eea;border:2px solid #667eea}
+.btn-row{margin-top:20px;display:flex;justify-content:flex-end;gap:10px}
+.nav-footer{background:#fff;border-radius:16px;padding:20px 24px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.btn-back{color:#667eea;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
+.btn-back:hover{text-decoration:underline}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.phase-panel{animation:fadeUp .4s ease}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="exercise-header">
+    <h1>🛡️ Työttömyysturva ja eläke</h1>
+    <p>Tiina saa lomautusilmoituksen — auta häntä ymmärtämään oikeutensa</p>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:33%"></div></div>
+    <div class="step-label">Vaihe <span id="currentStep">1</span>/3</div>
+  </div>
+
+  <!-- Phase 1: Info Timeline -->
+  <div id="phase1" class="phase-panel">
+    <div class="card">
+      <h2>📖 Tiina saa lomautuksen</h2>
+      <div class="tiina-card">
+        <div class="tiina-avatar">👩</div>
+        <div class="tiina-info">
+          <h3>Tiina, 23 vuotta</h3>
+          <p>Tiina on työskennellyt osa-aikaisena myyjänä kaupan alalla 2 vuotta. Hän saa yllättäen lomautusilmoituksen — työnantajalla on taloudelliset vaikeudet.</p>
+          <div class="tiina-tags">
+            <span class="ttag">📍 Helsinki</span>
+            <span class="ttag">🛒 Kaupan ala</span>
+            <span class="ttag">⏱️ Osa-aikainen</span>
+            <span class="ttag">📅 2 vuotta töissä</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.9rem;color:#555;margin-bottom:16px">Klikkaa jokaista korttia oppiaksesi, mitä Tiina voi tehdä ja mihin hän on oikeutettu:</p>
+      <div class="info-timeline">
+        <div class="tl-item" onclick="toggleTL(this)">
+          <div class="tl-item-header">
+            <div class="tl-num">1</div>
+            <div class="tl-item-title">🏢 TE-palveluihin ilmoittautuminen</div>
+            <span class="tl-expand">▼</span>
+          </div>
+          <div class="tl-body">
+            <p><strong>Tiina tulee ilmoittautua TE-toimistoon (Työvoimapalvelut) viimeistään ensimmäisenä työttömyyspäivänä.</strong></p>
+            <p>Ilmoittautuminen tapahtuu verkossa osoitteessa te-palvelut.fi. Tiinan tulee pitää työnhaku aktiivisena — se on edellytys päivärahalle.</p>
+            <div class="highlight-box">⚠️ Jos ilmoittautuminen viivästyy, päivärahan maksu voi alkaa vasta ilmoittautumispäivästä alkaen.</div>
+          </div>
+        </div>
+        <div class="tl-item" onclick="toggleTL(this)">
+          <div class="tl-item-header">
+            <div class="tl-num">2</div>
+            <div class="tl-item-title">💰 Ansiosidonnainen vs. peruspäiväraha</div>
+            <span class="tl-expand">▼</span>
+          </div>
+          <div class="tl-body">
+            <p><strong>Ansiosidonnainen päiväraha:</strong> Maksetaan työttömyyskassan jäsenille. Korvaa n. 50–70 % aiemmasta palkasta.</p>
+            <p><strong>Peruspäiväraha (Kela):</strong> Jos ei ole kassanjäsen, Kela maksaa peruspäivärahan (~37,21 €/pv vuonna 2025).</p>
+            <div class="highlight-box">💡 Tiina kuuluu Kaupan liiton kassaan — hän saa ansiosidonnaista! Hänen tulee kuitenkin olla ollut kassan jäsen 26 viikkoa.</div>
+          </div>
+        </div>
+        <div class="tl-item" onclick="toggleTL(this)">
+          <div class="tl-item-header">
+            <div class="tl-num">3</div>
+            <div class="tl-item-title">📋 Työssäoloehto</div>
+            <span class="tl-expand">▼</span>
+          </div>
+          <div class="tl-body">
+            <p>Ansiosidonnaisen saaminen edellyttää, että on ollut töissä <strong>vähintään 26 viikkoa</strong> viimeisten 28 kuukauden aikana.</p>
+            <p>Tiina on ollut töissä 2 vuotta (osa-aikaisena) — hänellä täyttyy työssäoloehto. ✅</p>
+            <div class="highlight-box">📌 Osa-aikaisessa työssä viikkotyöajan tulee olla vähintään 18h/vk, jotta viikko kerryttää työssäoloehtoa.</div>
+          </div>
+        </div>
+        <div class="tl-item" onclick="toggleTL(this)">
+          <div class="tl-item-header">
+            <div class="tl-num">4</div>
+            <div class="tl-item-title">⏳ Omavastuuaika (karenssi)</div>
+            <span class="tl-expand">▼</span>
+          </div>
+          <div class="tl-body">
+            <p><strong>Omavastuuaika on 5 päivää</strong> — nämä ovat ns. odotuspäiviä, joilta ei makseta päivärahaa. Ne kuluvat täysille päiville.</p>
+            <p>Tiina ei voi tehdä mitään nopeuttaakseen tätä — se on automaattinen odotusjakso.</p>
+            <div class="highlight-box">⚠️ Huom! Karenssi (laiminlyönnistä johtuva) on eri asia. Se voi olla 30–90 päivää, jos kieltäytyy sopivasta työstä.</div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="goToPhase(2)">Seuraava: Tiina päättää →</button></div>
+    </div>
+  </div>
+
+  <!-- Phase 2: Scenario decisions -->
+  <div id="phase2" class="phase-panel hidden">
+    <div class="card">
+      <h2>🤔 Tiina päättää — oletko samaa mieltä?</h2>
+      <p style="font-size:.9rem;color:#555;margin-bottom:20px">Kolme päätöstilannetta. Valitse oikea toimintatapa jokaisessa.</p>
+
+      <div class="scenario-box" id="s1">
+        <div class="s-label">Tilanne 1 / 3</div>
+        <div class="s-text">🗂️ <strong>Työtarjous eri alalta.</strong> Tiina saa työtarjouksen toimistoassistentiksi. Se ei ole hänen alansa, mutta palkka on sama. Mitä Tiina tekee?</div>
+        <div class="action-btns">
+          <button class="action-btn" onclick="answerScenario(1,'a',this)">✅ Ottaa työn vastaan — on velvollisuus ottaa sopiva työ</button>
+          <button class="action-btn" onclick="answerScenario(1,'b',this)">❌ Kieltäytyy — se ei ole hänen alansa</button>
+          <button class="action-btn" onclick="answerScenario(1,'c',this)">🤔 Pyytää lisäaikaa harkita 2 kuukautta</button>
+        </div>
+        <div id="fb1" class="feedback-box"></div>
+      </div>
+
+      <div class="scenario-box" id="s2">
+        <div class="s-label">Tilanne 2 / 3</div>
+        <div class="s-text">💡 <strong>Starttiraha yrittäjyydelle.</strong> Tiina haaveilee oman kukkakaupan perustamisesta. Voiko hän saada tukea?</div>
+        <div class="action-btns">
+          <button class="action-btn" onclick="answerScenario(2,'a',this)">✅ Kyllä — TE-toimistosta voi hakea starttirahaa</button>
+          <button class="action-btn" onclick="answerScenario(2,'b',this)">❌ Ei — starttirahaa saa vain jo yrittäjänä oleva</button>
+          <button class="action-btn" onclick="answerScenario(2,'c',this)">🤔 Vain, jos Tiinalla on jo valmis liiketoimintasuunnitelma ja 10 000 € omaa pääomaa</button>
+        </div>
+        <div id="fb2" class="feedback-box"></div>
+      </div>
+
+      <div class="scenario-box" id="s3">
+        <div class="s-label">Tilanne 3 / 3</div>
+        <div class="s-text">🎂 <strong>Eläkekertymä.</strong> Tiina on 23. Milloin hänen eläkkeensä on alkanut kertyä?</div>
+        <div class="action-btns">
+          <button class="action-btn" onclick="answerScenario(3,'a',this)">✅ 17-vuotiaasta lähtien, jokaisesta työskentelykuukaudesta</button>
+          <button class="action-btn" onclick="answerScenario(3,'b',this)">❌ 18-vuotiaasta, mutta vain kokoaikaisesta työstä</button>
+          <button class="action-btn" onclick="answerScenario(3,'c',this)">❌ Eläke alkaa kertyä vasta 25 vuoden iässä</button>
+        </div>
+        <div id="fb3" class="feedback-box"></div>
+      </div>
+
+      <div class="score-tally" id="phase2Score" style="display:none">
+        <span class="s-icon">🏅</span>
+        <div><h4>Skenaarioiden pisteet</h4><p>Katso tulos ennen kuin jatkat</p></div>
+        <span class="score-pts" id="s2pts">0/3</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goToPhase(1)">← Takaisin</button>
+        <button class="btn btn-primary" id="nextToPhase3" onclick="goToPhase(3)" disabled>Seuraava: Eläkelaskuri →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3: Pension calculator -->
+  <div id="phase3" class="phase-panel hidden">
+    <div class="card">
+      <h2>📊 Eläkkeen kertyminen — kokeile laskuria</h2>
+      <p style="font-size:.9rem;color:#555;margin-bottom:20px">Eläke kertyy 1,5 % vuodessa ansioista aina 53 ikävuoteen asti (sen jälkeen 1,7 %). Kokeile liukusäätimillä!</p>
+      <div class="pension-calc">
+        <div class="slider-row">
+          <label>💼 Työvuosia: <span class="slider-val" id="yearsVal">10</span></label>
+          <input type="range" min="1" max="40" value="10" id="yearsSlider" oninput="updatePension()">
+        </div>
+        <div class="slider-row">
+          <label>💰 Kuukausipalkka (brutto): <span class="slider-val" id="salaryVal">1 800 €</span></label>
+          <input type="range" min="800" max="5000" step="50" value="1800" id="salarySlider" oninput="updatePension()">
+        </div>
+        <div id="pensionBarContainer" class="pension-bar-container">
+          <div id="pensionBar" class="pension-bar">...</div>
+        </div>
+        <div class="pension-result" id="pensionResult">Lasketaan...</div>
+        <div style="margin-top:12px;font-size:.82rem;color:#888">
+          ℹ️ Luku on arvio ennen veroja (TyEL-karttuma n. 1,5 %/v). Eläke maksetaan vanhuuseläkkeenä alkaen noin 65–68 v iästä.
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;background:#fffbeb;border:1px solid #fcd34d;box-shadow:none">
+        <h2 style="color:#92400e">🧮 Esimerkki: Tiina</h2>
+        <p style="font-size:.9rem;color:#555;line-height:1.6">Tiina on 23. Hän on työskennellyt 2 vuotta palkalla n. 1 200 €/kk (osa-aikainen).</p>
+        <ul style="font-size:.88rem;color:#555;margin:10px 0 0 16px;line-height:1.8">
+          <li>Eläkekertymä 2 vuodelta: 2 × 1 200 × 12 × 1,5 % = <strong>432 €/vuosi</strong></li>
+          <li>Jos hän jatkaa 40 v töissä kokoaikaisena (palkka kasvaa), eläke voi olla <strong>1 800–2 400 €/kk</strong></li>
+          <li>Lisäksi kertyvät kansaneläke ja mahdollinen lisäeläke</li>
+        </ul>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goToPhase(2)">← Takaisin</button>
+        <button class="btn btn-primary" onclick="showCompletion()">Valmis — katso tulokset 🏆</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Completion -->
+  <div id="completionScreen" class="phase-panel hidden">
+    <div class="card completion-screen">
+      <div class="completion-badge">🏆</div>
+      <h2>Harjoitus suoritettu!</h2>
+      <div class="score-display" id="finalScore">0 <span class="s-max">/ 3</span></div>
+      <p id="finalFeedback">Hienoa työtä!</p>
+      <div class="nav-footer" style="margin-top:24px">
+        <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SCORM = (() => {
+    let api = null, connected = false;
+    function findAPI(win) {
+        let a = 0;
+        while (win && !win.API && a < 10) {
+            if (win.parent && win.parent !== win) win = win.parent;
+            else if (win.opener) win = win.opener;
+            else break;
+            a++;
+        }
+        return win && win.API ? win.API : null;
+    }
+    function init() { api = findAPI(window); if (api) { const r = api.LMSInitialize(''); connected = r === 'true' || r === true; } }
+    function setValue(k, v) { if (!connected || !api) return; api.LMSSetValue(k, String(v)); }
+    function commit() { if (!connected || !api) return; api.LMSCommit(''); }
+    function complete(score, max) { setValue('cmi.core.score.raw', score); setValue('cmi.core.score.max', max); setValue('cmi.core.score.min', 0); setValue('cmi.core.lesson_status', (score/max)>=0.5?'passed':'failed'); commit(); }
+    return { init, complete };
+})();
+window.addEventListener('load', SCORM.init);
+
+const scenarioAnswers = { 1: 'a', 2: 'a', 3: 'a' };
+const scenarioFeedback = {
+    1: { a: { type:'correct', text:'✅ Oikein! Työttömällä on velvollisuus ottaa vastaan <em>sopiva työ</em>. Kieltäytyminen ilman perusteltua syytä johtaa karenssiaikaan (30–90 pv).' }, b: { type:'wrong', text:'❌ Väärin. Eri ala ei riitä perusteeksi kieltäytyä. Palkka on sama, työ on sopivaa.' }, c: { type:'wrong', text:'❌ Väärin. Lisäaikaa ei myönnetä näin pitkäksi. Tarjous tulee ottaa vastaan tai kieltäytyminen tulee perustella heti.' } },
+    2: { a: { type:'correct', text:'✅ Oikein! Starttiraha on TE-toimiston myöntämä tuki uusille yrittäjille. Se on ~100 % peruspäivärahasta (n. 37 €/pv) ja voidaan myöntää 6–12 kuukaudeksi. Tarvitaan liiketoimintasuunnitelma, mutta ei omaa pääomaa.' }, b: { type:'wrong', text:'❌ Väärin. Starttirahaa haetaan juuri ennen yrittäjäksi ryhtymistä — ei sen jälkeen.' }, c: { type:'wrong', text:'❌ Väärin. Liiketoimintasuunnitelma tarvitaan, mutta 10 000 € vaatimusta ei ole.' } },
+    3: { a: { type:'correct', text:'✅ Oikein! Suomessa eläke alkaa kertyä 17 vuoden iästä jokaisesta työskentelykuukaudesta — myös osa-aikaisesta ja lyhytkestoisesta työstä.' }, b: { type:'wrong', text:'❌ Väärin. Eläkeikäraja on 17 vuotta (ei 18), ja osa-aikatyö kerryttää eläkettä.' }, c: { type:'wrong', text:'❌ Väärin. Ikäraja on 17 vuotta.' } }
+};
+let scenarioScores = { 1: 0, 2: 0, 3: 0 };
+let answeredScenarios = {};
+
+function toggleTL(el) { el.classList.toggle('opened'); }
+
+function goToPhase(n) {
+    document.querySelectorAll('.phase-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('phase' + n).classList.remove('hidden');
+    const pcts = { 1: 33, 2: 66, 3: 100 };
+    document.getElementById('progressFill').style.width = (pcts[n] || 33) + '%';
+    document.getElementById('currentStep').textContent = n;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function answerScenario(num, choice, btn) {
+    if (answeredScenarios[num]) return;
+    answeredScenarios[num] = true;
+    const correct = scenarioAnswers[num];
+    const fb = scenarioFeedback[num][choice];
+    const btns = btn.parentElement.querySelectorAll('.action-btn');
+    btns.forEach(b => b.disabled = true);
+    const isCorrect = (choice === correct);
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) btns[['a','b','c'].indexOf(correct)].classList.add('correct');
+    scenarioScores[num] = isCorrect ? 1 : 0;
+    const fbEl = document.getElementById('fb' + num);
+    fbEl.className = 'feedback-box show feedback-' + fb.type;
+    fbEl.innerHTML = fb.text;
+    if (Object.keys(answeredScenarios).length === 3) {
+        const total = scenarioScores[1] + scenarioScores[2] + scenarioScores[3];
+        document.getElementById('phase2Score').style.display = 'flex';
+        document.getElementById('s2pts').textContent = total + '/3';
+        document.getElementById('nextToPhase3').disabled = false;
+    }
+}
+
+function updatePension() {
+    const years = parseInt(document.getElementById('yearsSlider').value);
+    const salary = parseInt(document.getElementById('salarySlider').value);
+    document.getElementById('yearsVal').textContent = years;
+    document.getElementById('salaryVal').textContent = salary.toLocaleString('fi-FI') + ' €';
+    const annualSalary = salary * 12;
+    const accumulationRate = 0.015;
+    const annualPension = annualSalary * accumulationRate;
+    const totalMonthlyPension = (annualPension * years) / 12;
+    const maxPensionForBar = 3000;
+    const pct = Math.min(100, (totalMonthlyPension / maxPensionForBar) * 100);
+    document.getElementById('pensionBar').style.width = Math.max(5, pct) + '%';
+    document.getElementById('pensionBar').textContent = Math.round(totalMonthlyPension) + ' €/kk';
+    document.getElementById('pensionResult').textContent = `📊 Kertynyt eläke: ${Math.round(totalMonthlyPension).toLocaleString('fi-FI')} €/kk (${years} vuoden jälkeen)`;
+}
+updatePension();
+
+function showCompletion() {
+    const total = scenarioScores[1] + scenarioScores[2] + scenarioScores[3];
+    goToPhase(0);
+    document.getElementById('completionScreen').classList.remove('hidden');
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('finalScore').innerHTML = total + ' <span class="s-max">/ 3</span>';
+    const msgs = ['Harjoittelemalla oppii! 💪 Kertaa materiaalit ja yritä uudelleen.', 'Hyvä alku! Jotain meni vielä pieleen — lue selitykset huolella.', 'Melkein täysin! Hyvä suoritus! 🌟', 'Täydellistä! Tiina on hyvissä käsissä! 🏆'];
+    document.getElementById('finalFeedback').textContent = msgs[Math.min(total, 3)];
+    SCORM.complete(Math.round((total / 3) * 100), 100);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

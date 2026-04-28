@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tunnista–Toimi–Tue: kiusaaminen ja häirintä</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:20px}
+.exercise-header{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
+.exercise-header::after{content:'⚠️';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
+.exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
+.exercise-header p{opacity:.9;font-size:.95rem}
+.progress-container{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.progress-bar{flex:1;height:8px;background:#e8e8f0;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#f093fb,#f5576c);border-radius:4px;transition:width .5s ease}
+.step-label{font-size:.9rem;font-weight:700;color:#f5576c;white-space:nowrap}
+/* Scenario card */
+.scenario-card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07);display:none}
+.scenario-card.active{display:block;animation:fadeUp .4s ease}
+.s-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:700;margin-bottom:16px}
+.scene-visual{font-size:2.5rem;background:#fdf4ff;border-radius:14px;padding:20px;text-align:center;margin-bottom:16px;border:2px solid #f3e8ff}
+.scene-visual p{font-size:.9rem;color:#555;margin-top:8px;font-style:italic;line-height:1.5}
+.scenario-text{font-size:.93rem;line-height:1.7;color:#333;margin-bottom:20px;padding:16px;background:#fdf9ff;border-radius:12px;border-left:4px solid #f093fb}
+.action-label{font-size:.85rem;font-weight:700;color:#555;margin-bottom:10px}
+.action-btns{display:flex;flex-direction:column;gap:10px}
+.action-btn{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:12px;padding:14px 18px;font-size:.9rem;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit;color:#333;line-height:1.4}
+.action-btn:hover:not(:disabled){border-color:#f093fb;background:#fdf4ff;transform:translateX(4px)}
+.action-btn:disabled{cursor:default;transform:none}
+.action-btn.correct{border-color:#22c55e;background:#f0fdf4;color:#166534}
+.action-btn.wrong{border-color:#ef4444;background:#fef2f2;color:#991b1b}
+.action-btn.partial{border-color:#f59e0b;background:#fffbeb;color:#92400e}
+.action-btn.correct::before{content:'✅ ';}
+.action-btn.wrong::before{content:'❌ ';}
+.action-btn.partial::before{content:'⚠️ ';}
+/* Feedback */
+.feedback-panel{margin-top:16px;border-radius:12px;padding:16px;display:none;animation:fadeIn .4s ease}
+.feedback-panel.show{display:block}
+.feedback-correct{background:#f0fdf4;border:1px solid #86efac;color:#166534}
+.feedback-wrong{background:#fef2f2;border:1px solid #fca5a5;color:#991b1b}
+.feedback-partial{background:#fffbeb;border:1px solid #fcd34d;color:#92400e}
+.feedback-panel h4{font-weight:700;margin-bottom:8px}
+.feedback-panel .learn-point{margin-top:10px;padding:10px;background:rgba(255,255,255,.6);border-radius:8px;font-size:.85rem}
+.feedback-panel .learn-point::before{content:'💡 Oppi: '}
+.score-row{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding:12px 16px;background:#f7f8ff;border-radius:10px;font-size:.9rem}
+.score-row strong{color:#f5576c}
+.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;box-shadow:0 4px 16px rgba(240,147,251,.35)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-secondary{background:#fff;color:#f5576c;border:2px solid #f5576c}
+.btn-row{margin-top:20px;display:flex;gap:10px;justify-content:flex-end}
+/* Completion */
+.completion-screen{background:#fff;border-radius:16px;padding:40px 24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.completion-badge{font-size:5rem;margin-bottom:16px;animation:bounce .8s ease}
+.score-display{font-size:2.5rem;font-weight:800;color:#f5576c;margin:16px 0}
+.score-display .s-max{font-size:1.5rem;color:#aaa}
+.nav-footer{background:#fff;border-radius:16px;padding:20px 24px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.btn-back{color:#f5576c;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
+.btn-back:hover{text-decoration:underline}
+.next-exercise{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.next-label{font-size:.78rem;color:#888;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.btn-next{display:inline-flex;flex-direction:column;align-items:flex-start;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;padding:12px 20px;border-radius:14px;text-decoration:none;font-weight:700;font-size:.95rem;transition:all .2s}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,87,108,.4)}
+.btn-next small{font-size:.78rem;opacity:.85;font-weight:400;margin-top:2px}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+/* Scenario overview */
+.scenarios-overview{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:600px){.scenarios-overview{grid-template-columns:repeat(2,1fr)}}
+.ov-item{background:#fff;border-radius:10px;padding:12px;text-align:center;font-size:.82rem;font-weight:600;color:#777;border:2px solid #e0e4ff;transition:all .2s}
+.ov-item.current{border-color:#f5576c;color:#f5576c;background:#fdf4ff}
+.ov-item.done-correct{border-color:#22c55e;color:#22c55e;background:#f0fdf4}
+.ov-item.done-partial{border-color:#f59e0b;color:#f59e0b;background:#fffbeb}
+.ov-item.done-wrong{border-color:#ef4444;color:#ef4444;background:#fef2f2}
+.ov-icon{font-size:1.5rem;display:block;margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="exercise-header">
+    <h1>⚠️ Tunnista–Toimi–Tue</h1>
+    <p>Kiusaaminen, häirintä ja vaikeat tilanteet työpaikalla</p>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="step-label">Skenaario <span id="currentScenario">1</span>/4</div>
+  </div>
+
+  <div class="scenarios-overview" id="scenariosOv">
+    <div class="ov-item current" id="ov1"><span class="ov-icon">💬</span>Häirintä</div>
+    <div class="ov-item" id="ov2"><span class="ov-icon">📋</span>Syrjintä</div>
+    <div class="ov-item" id="ov3"><span class="ov-icon">😤</span>Uhkaava asiakas</div>
+    <div class="ov-item" id="ov4"><span class="ov-icon">📱</span>Some-kiusaaminen</div>
+  </div>
+
+  <!-- Scenario 1 -->
+  <div id="sc1" class="scenario-card active">
+    <div class="s-badge">📋 Skenaario 1/4</div>
+    <div class="scene-visual">
+      😰 👴 ➡️ 🧑
+      <p>"Kommentointi jatkuu viikosta toiseen..."</p>
+    </div>
+    <div class="scenario-text">
+      <strong>Aleksi, 17,</strong> aloitti kassamyyjänä viikko sitten. Vanhempi kollega Matti (45) kommentoi toistuvasti Aleksin ulkonäköä ja pukeutumista muiden kuullen: <em>"Pojat nykyään on niin nuoria ja huolimattomia."</em> Aleksi tuntee olonsa epämukavaksi, ja kommentit jatkuvat päivästä toiseen.
+    </div>
+    <div class="action-label">💭 Mitä Aleksi tekee? Valitse paras toimintatapa:</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(1,'a',this)">Kerro asiasta työvuorovastaavalle tai esihenkilölle heti</button>
+      <button class="action-btn" onclick="answer(1,'b',this)">Jätä asia sikseen — se loppuu varmasti itsestään</button>
+      <button class="action-btn" onclick="answer(1,'c',this)">Sano Matille suoraan, että se tuntuu pahalta</button>
+      <button class="action-btn" onclick="answer(1,'d',this)">Puhu asiasta muiden kollegoiden kesken — yhteinen paine auttaa</button>
+    </div>
+    <div class="feedback-panel" id="fb1"></div>
+    <div class="score-row" id="sr1" style="display:none">Pisteet tästä tilanteesta: <strong id="spts1">0</strong>/3</div>
+    <div class="btn-row"><button class="btn btn-primary" id="next1" onclick="nextScenario(2)" disabled>Seuraava skenaario →</button></div>
+  </div>
+
+  <!-- Scenario 2 -->
+  <div id="sc2" class="scenario-card">
+    <div class="s-badge">📋 Skenaario 2/4</div>
+    <div class="scene-visual">
+      🧕 📋 ❓ 🤔
+      <p>"Aina takahuoneeseen — miksi?"</p>
+    </div>
+    <div class="scenario-text">
+      <strong>Leila, 28,</strong> on muslimi ja käyttää hijab-huivia. Hän huomaa, että hänet laitetaan aina takahuoneeseen töihin eikä kassalle tai asiakaspalveluun, toisin kuin muut uudet työntekijät — ilman mitään selitystä.
+    </div>
+    <div class="action-label">💭 Mitä Leila tekee?</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(2,'a',this)">Kysy esihenkilöltä suoraan ja asiallisesti syytä tähän käytäntöön</button>
+      <button class="action-btn" onclick="answer(2,'b',this)">Ota asia esille luottamusmiehen kautta</button>
+      <button class="action-btn" onclick="answer(2,'c',this)">Hyväksy tilanne — ehkä se on sattumaa eikä tarkoituksellista</button>
+      <button class="action-btn" onclick="answer(2,'d',this)">Jätä työ välittömästi ja tee rikosilmoitus</button>
+    </div>
+    <div class="feedback-panel" id="fb2"></div>
+    <div class="score-row" id="sr2" style="display:none">Pisteet tästä tilanteesta: <strong id="spts2">0</strong>/3</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextScenario(1)">← Edellinen</button>
+      <button class="btn btn-primary" id="next2" onclick="nextScenario(3)" disabled>Seuraava skenaario →</button>
+    </div>
+  </div>
+
+  <!-- Scenario 3 -->
+  <div id="sc3" class="scenario-card">
+    <div class="s-badge">📋 Skenaario 3/4</div>
+    <div class="scene-visual">
+      😡 🛒 → 🧍‍♀️💻
+      <p>"Asiakas lähestyy tiskin takaa..."</p>
+    </div>
+    <div class="scenario-text">
+      <strong>Sinä</strong> olet kassamyyjänä. Asiakas tulee tiskille huutaen ja kiroillen, huitoo käsiään ja vaatii "rahoja takaisin tai muuten!". Hän alkaa liikkua kohti tiskin takaosaa.
+    </div>
+    <div class="action-label">💭 Miten toimit?</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(3,'a',this)">Pysy rauhallisena, pidä etäisyyttä ja hälytä apua napilla tai kollegalle</button>
+      <button class="action-btn" onclick="answer(3,'b',this)">Vastaa tiukasti takaisin — kerro soittavasi poliisille heti</button>
+      <button class="action-btn" onclick="answer(3,'c',this)">Mene takahuoneeseen ja jätä asiakas odottamaan</button>
+      <button class="action-btn" onclick="answer(3,'d',this)">Anna takaisin rahoja kassasta rauhoittaaksesi tilanteen</button>
+    </div>
+    <div class="feedback-panel" id="fb3"></div>
+    <div class="score-row" id="sr3" style="display:none">Pisteet tästä tilanteesta: <strong id="spts3">0</strong>/3</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextScenario(2)">← Edellinen</button>
+      <button class="btn btn-primary" id="next3" onclick="nextScenario(4)" disabled>Seuraava skenaario →</button>
+    </div>
+  </div>
+
+  <!-- Scenario 4 -->
+  <div id="sc4" class="scenario-card">
+    <div class="s-badge">📋 Skenaario 4/4</div>
+    <div class="scene-visual">
+      📱 📹 😢
+      <p>"Video leviää työkaverien feedissä..."</p>
+    </div>
+    <div class="scenario-text">
+      Näet, että työkaveri <strong>Petra</strong> on laittanut TikTokiin videon, jossa haukutaan nimeämättä "yhtä työkaveria". Video on kuitenkin selvästi tarkoitettu <strong>Sannille</strong> — kaikki tietävät tämän. Muutama kollega tykkää videosta.
+    </div>
+    <div class="action-label">💭 Mitä teet?</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(4,'a',this)">Kerro asiasta esihenkilölle — kiusaaminen kuuluu raportoida</button>
+      <button class="action-btn" onclick="answer(4,'b',this)">Kommentoi videoon julkisesti, että se on väärin</button>
+      <button class="action-btn" onclick="answer(4,'c',this)">Älä puutu — se ei koske sinua, se on Sannin ongelma</button>
+      <button class="action-btn" onclick="answer(4,'d',this)">Laita oma video vastineeksi puolustaaksesi Sannia</button>
+    </div>
+    <div class="feedback-panel" id="fb4"></div>
+    <div class="score-row" id="sr4" style="display:none">Pisteet tästä tilanteesta: <strong id="spts4">0</strong>/3</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextScenario(3)">← Edellinen</button>
+      <button class="btn btn-primary" id="next4" onclick="showCompletion()" disabled>Katso tuloksesi 🏆</button>
+    </div>
+  </div>
+
+  <!-- Completion -->
+  <div id="completionScreen" class="completion-screen hidden">
+    <div class="completion-badge">🏆</div>
+    <h2>Harjoitus suoritettu!</h2>
+    <div class="score-display" id="finalScore">0 <span class="s-max">/ 12</span></div>
+    <p id="finalFeedback" style="color:#555;max-width:500px;margin:0 auto 20px"></p>
+    <div class="nav-footer">
+      <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
+      <div class="next-exercise">
+        <span class="next-label">Seuraava harjoitus:</span>
+        <a href="../harjoitus-2-tapaturma/index.html" class="btn-next">
+          🚨 Tapaturma! Miten toimit? →
+          <small>Järjestele toimintavaiheet oikein</small>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SCORM = (() => {
+    let api=null,connected=false;
+    function findAPI(win){let a=0;while(win&&!win.API&&a<10){if(win.parent&&win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;}return win&&win.API?win.API:null;}
+    function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;}}
+    function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
+    function commit(){if(!connected||!api)return;api.LMSCommit('');}
+    function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
+    return{init,complete};
+})();
+window.addEventListener('load',SCORM.init);
+
+const scenarios = {
+    1: {
+        correct:'a', partial:'c',
+        fb:{
+            a:{type:'correct',pts:3,text:'Esihenkilölle tai työvuorovastaavalle ilmoittaminen on oikea ja velvoitettu toimintatapa. Häirintä on työnantajan vastuulla korjata.',learn:'Toistuva kommentointi on häirintää — siihen ei tarvitse sopeutua. Ilmoitusvelvollisuus on tärkeä.'},
+            b:{type:'wrong',pts:0,text:'Häirintä harvoin loppuu itsestään. Hiljaisuus voidaan tulkita hyväksynnäksi, ja se rohkaisee jatkamaan.',learn:'Passiivisuus ei ole ratkaisu. Häirintä on aina puututtava tavalla tai toisella.'},
+            c:{type:'partial',pts:1,text:'Suoran viestimisen voi kokeilla ensin — mutta ilman ilmoitusta esihenkilölle ongelma ei välttämättä ratkea.',learn:'Suora palaute voi olla hyvä ensiaskel, mutta muista myös raportoida esihenkilölle.'},
+            d:{type:'wrong',pts:0,text:'Juoruilu ja kollegoiden painostus ei ole oikea kanava. Se voi pahentaa tilannetta ja tehdä sinustakin osapuolen.',learn:'Virallinen kanava on aina esihenkilö, luottamusmies tai HR.'}
+        }
+    },
+    2: {
+        correct:'a', partial:'b',
+        fb:{
+            a:{type:'correct',pts:3,text:'Suora ja asiallinen kysymys on oikea tapa aloittaa. Leilan oikeus on saada selitys erilaisten työtehtävien jakamiselle.',learn:'Etniseen taustaan tai uskontoon perustuva syrjintä on kiellettyä (yhdenvertaisuuslaki). Kysyminen on oikeus.'},
+            b:{type:'partial',pts:2,text:'Luottamusmies on hyvä kanava! Tämä on erityisen hyvä vaihtoehto, jos esihenkilö ei reagoi. Molemmat vastauksista a ja b ovat oikeita.',learn:'Luottamusmiehen rooli on tukea työntekijöitä juuri tällaisissa tilanteissa. Hänellä on salassapitovelvollisuus.'},
+            c:{type:'wrong',pts:0,text:'Systemaattinen erilainen kohtelu ei ole sattumaa. Hyväksyminen vain jatkaa syrjintää.',learn:'Yhdenvertaisuuslaki kieltää syrjinnän etnisen taustan, uskonnon ja ulkonäön perusteella.'},
+            d:{type:'wrong',pts:0,text:'Välitön irtisanoutuminen ja rikosilmoitus ilman aiempaa selvitysprosessia on liian raskas ensiaskel.',learn:'Virallinen prosessi: ensin esihenkilö → luottamusmies → tarvittaessa tasa-arvo- ja yhdenvertaisuusvaltuutettu.'}
+        }
+    },
+    3: {
+        correct:'a', partial:null,
+        fb:{
+            a:{type:'correct',pts:3,text:'Rauhallisuus, etäisyyden pitäminen ja avun hälyttäminen — tämä on oikea protokolla uhkaavassa tilanteessa. Turvallisuus ensin!',learn:'Uhkaavassa tilanteessa: älä provosoi, pidä etäisyys, hälytä apua. Asiakas ei saa ylittää tiskin rajaa.'},
+            b:{type:'wrong',pts:0,text:'Tiukka vastaamistyyli voi provosoida tilanteen eskaloitumista. Poliisiuhkaus voi lisätä uhkaa.',learn:'Uhkaavan asiakkaan kanssa: älä haasta, älä uhkaile. Rauhoittava olemus ja avun hälyttäminen on tärkeintä.'},
+            c:{type:'wrong',pts:0,text:'Takahuoneeseen poistuminen ilman kollegan hälyttämistä jättää asiakkaan valvomatta ja muut riskeille.',learn:'Poistuessasi tilanteesta: ilmoita kollegalle tai käytä hätäpainiketta ennen poistumista.'},
+            d:{type:'wrong',pts:0,text:'Kassavaroista ei saa antaa rahaa ilman lupaa — se on kassavajaus ja voi johtaa kurinpidollisiin toimiin sinua kohtaan.',learn:'Rahaa ei koskaan anneta kassasta ilman valtuutusta — vaikka se tuntuisi nopeimmalta ratkaisulta.'}
+        }
+    },
+    4: {
+        correct:'a', partial:'b',
+        fb:{
+            a:{type:'correct',pts:3,text:'Esihenkilölle kertominen on oikea ja vastuullinen toimintatapa. Kiusaaminen sosiaalisessa mediassa on työnantajan velvollisuus puuttua.',learn:'Some-kiusaaminen on kiusaamista — myös vapaa-ajalla tehty, jos se kohdistuu työtoveriin. Työnantajalla on puuttumisvelvollisuus.'},
+            b:{type:'partial',pts:1,text:'Julkinen kommentti voi osoittaa empatiaa Sannille, mutta se voi myös laajentaa konfliktia. Hyvä ensireaktio, mutta ei riittävä.',learn:'Julkinen puuttuminen on yksi kanava, mutta virallinen ilmoitus esihenkilölle on tärkeämpi.'},
+            c:{type:'wrong',pts:0,text:'Passiivisuus mahdollistaa kiusaamisen jatkumisen. Sivustakatsoja ei ole viaton — he ovat osa ryhmädynamiikkaa.',learn:'Kiusaaminen tarvitsee yleisön — passiivinen hyväksyntä rohkaisee kiusaajaa.'},
+            d:{type:'wrong',pts:0,text:'Vastavideon tekeminen lisää konfliktia eikä ratkaise sitä. Se voi myös tehdä sinusta osapuolen.',learn:'Vastahyökkäys somessa ei ole ratkaisu — se vain ruokkii konfliktia.'}
+        }
+    }
+};
+
+const scores = { 1:0, 2:0, 3:0, 4:0 };
+const answered = {};
+
+function answer(scNum, choice, btn) {
+    if (answered[scNum]) return;
+    answered[scNum] = true;
+    const sc = scenarios[scNum];
+    const fb = sc.fb[choice];
+    const btns = btn.parentElement.querySelectorAll('.action-btn');
+    btns.forEach(b => { b.disabled = true; });
+    btn.classList.add(fb.type === 'correct' ? 'correct' : fb.type === 'partial' ? 'partial' : 'wrong');
+    if (choice !== sc.correct) {
+        btns[['a','b','c','d'].indexOf(sc.correct)].classList.add('correct');
+    }
+    scores[scNum] = fb.pts;
+    const fbEl = document.getElementById('fb' + scNum);
+    fbEl.className = 'feedback-panel show feedback-' + (fb.type === 'partial' ? 'partial' : fb.type === 'correct' ? 'correct' : 'wrong');
+    fbEl.innerHTML = `<h4>${fb.type === 'correct' ? '✅ Oikein!' : fb.type === 'partial' ? '⚠️ Osittain oikein' : '❌ Väärin'}</h4><p>${fb.text}</p><div class="learn-point">${fb.learn}</div>`;
+    document.getElementById('sr' + scNum).style.display = 'flex';
+    document.getElementById('spts' + scNum).textContent = fb.pts;
+    document.getElementById('next' + scNum).disabled = false;
+    updateProgress(scNum);
+}
+
+function updateProgress(n) {
+    const pct = (Object.keys(answered).length / 4) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const types = { correct:'done-correct', partial:'done-partial', wrong:'done-wrong' };
+    const ovEl = document.getElementById('ov' + n);
+    const choice = Object.keys(scenarios[n].fb).find(k => scenarios[n].fb[k].pts === scores[n] && answered[n]);
+    if (choice) {
+        ovEl.className = 'ov-item ' + types[scenarios[n].fb[choice].type];
+    }
+}
+
+function nextScenario(n) {
+    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+    if (n >= 1 && n <= 4) {
+        document.getElementById('sc' + n).classList.add('active');
+        document.getElementById('currentScenario').textContent = n;
+        document.querySelectorAll('.ov-item').forEach((el, i) => {
+            if (!el.classList.contains('done-correct') && !el.classList.contains('done-partial') && !el.classList.contains('done-wrong')) {
+                el.classList.remove('current');
+            }
+        });
+        const ovEl = document.getElementById('ov' + n);
+        if (!ovEl.classList.contains('done-correct') && !ovEl.classList.contains('done-partial') && !ovEl.classList.contains('done-wrong')) {
+            ovEl.classList.add('current');
+        }
+    }
+    window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function showCompletion() {
+    const total = scores[1] + scores[2] + scores[3] + scores[4];
+    document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('completionScreen').classList.remove('hidden');
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('finalScore').innerHTML = total + ' <span class="s-max">/ 12</span>';
+    const msgs = [
+        'Harjoittele lisää! Lue selitykset huolella — nämä tilanteet ovat tärkeitä. 💪',
+        'Hyvä alku! Muutama tilanne oli vaikea — katso selitykset. 👍',
+        'Hyvin menee! Tunnistit useimmat tilanteet oikein. 🌟',
+        'Erinomainen! Olet valmis kohtaamaan hankalat tilanteet työpaikalla! 🏆'
+    ];
+    document.getElementById('finalFeedback').textContent = msgs[total <= 4 ? 0 : total <= 8 ? 1 : total <= 11 ? 2 : 3];
+    SCORM.complete(Math.round((total/12)*100), 100);
+    window.scrollTo({ top:0, behavior:'smooth' });
+}
+</script>
+</body>
+</html>

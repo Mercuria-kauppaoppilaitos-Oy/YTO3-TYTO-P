@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oikeudet ja velvollisuudet – Vedä ja pudota</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:1024px;margin:0 auto;padding:20px}
+.exercise-header{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
+.exercise-header::after{content:'🤝';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
+.exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
+.exercise-header p{opacity:.9;font-size:.95rem}
+.instructions{background:#fff;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:16px;align-items:flex-start}
+.instructions .i-icon{font-size:2rem;flex-shrink:0}
+.instructions p{font-size:.9rem;color:#444;line-height:1.5}
+.instructions strong{color:#11998e}
+/* Drop zones */
+.zones-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+@media(max-width:640px){.zones-grid{grid-template-columns:1fr}}
+.drop-zone{border-radius:16px;padding:16px;min-height:220px;border:3px dashed transparent;transition:all .25s;position:relative}
+.drop-zone.employer{background:rgba(59,130,246,.08);border-color:#93c5fd}
+.drop-zone.employee{background:rgba(34,197,94,.08);border-color:#86efac}
+.drop-zone.both{background:rgba(251,191,36,.1);border-color:#fcd34d}
+.drop-zone.drag-over{transform:scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.drop-zone.employer.drag-over{border-color:#3b82f6;background:rgba(59,130,246,.15)}
+.drop-zone.employee.drag-over{border-color:#22c55e;background:rgba(34,197,94,.15)}
+.drop-zone.both.drag-over{border-color:#f59e0b;background:rgba(251,191,36,.2)}
+.zone-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid rgba(0,0,0,.08)}
+.zone-header .z-icon{font-size:1.5rem}
+.zone-header h3{font-size:.95rem;font-weight:700}
+.zone-header .z-count{margin-left:auto;background:rgba(0,0,0,.1);border-radius:20px;padding:2px 10px;font-size:.8rem;font-weight:700}
+.zone-cards{min-height:120px;display:flex;flex-direction:column;gap:8px}
+/* Draggable cards */
+.cards-pool{background:#fff;border-radius:16px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cards-pool h3{font-size:.95rem;font-weight:700;color:#555;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.pool-grid{display:flex;flex-wrap:wrap;gap:10px}
+.drag-card{background:#fff;border:2px solid #e0e0f0;border-radius:10px;padding:12px 16px;font-size:.88rem;cursor:grab;user-select:none;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;max-width:300px}
+.drag-card:hover{border-color:#11998e;box-shadow:0 4px 14px rgba(17,153,142,.2);transform:translateY(-2px)}
+.drag-card.dragging{opacity:.4;transform:scale(.95)}
+.drag-card.placed-employer{background:rgba(59,130,246,.08);border-color:#93c5fd;cursor:default}
+.drag-card.placed-employee{background:rgba(34,197,94,.08);border-color:#86efac;cursor:default}
+.drag-card.placed-both{background:rgba(251,191,36,.1);border-color:#fcd34d;cursor:default}
+.drag-card.correct-card{border-color:#22c55e;background:#f0fdf4}
+.drag-card.wrong-card{border-color:#ef4444;background:#fef2f2}
+.drag-card .c-icon{font-size:1rem;flex-shrink:0}
+.drag-card .c-text{flex:1;line-height:1.4}
+.result-badge{display:none;font-size:.9rem;margin-left:auto}
+.drag-card.correct-card .result-badge{display:inline;color:#22c55e}
+.drag-card.wrong-card .result-badge{display:inline;color:#ef4444}
+/* Mobile tap-to-place */
+.drag-card.selected-mobile{border-color:#11998e;background:#f0fff8;box-shadow:0 0 0 3px rgba(17,153,142,.25)}
+/* Buttons */
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;margin-top:16px}
+.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;box-shadow:0 4px 16px rgba(17,153,142,.35)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-secondary{background:#fff;color:#11998e;border:2px solid #11998e}
+/* Results panel */
+.results-panel{background:#fff;border-radius:16px;padding:24px;margin-top:16px;display:none}
+.result-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.result-item:last-child{border-bottom:none}
+.ri-icon{font-size:1.2rem;width:28px;flex-shrink:0;text-align:center}
+.ri-text{flex:1}
+.ri-text .ri-card{font-weight:600;font-size:.9rem}
+.ri-text .ri-answer{font-size:.83rem;color:#555;margin-top:2px}
+.ri-text .ri-correct{font-size:.83rem;color:#22c55e;font-weight:600}
+.ri-text .ri-wrong-ans{font-size:.83rem;color:#ef4444}
+/* Completion */
+.completion-screen{text-align:center;padding:40px 20px;animation:fadeIn .6s ease}
+.completion-badge{font-size:5rem;margin-bottom:16px;animation:bounce .8s ease}
+.score-display{font-size:2.5rem;font-weight:800;color:#11998e;margin:16px 0}
+.score-display .s-max{font-size:1.5rem;color:#aaa}
+.nav-footer{background:#fff;border-radius:16px;padding:20px 24px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.btn-back{color:#11998e;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
+.btn-back:hover{text-decoration:underline}
+.next-exercise{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.next-label{font-size:.78rem;color:#888;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.btn-next{display:inline-flex;flex-direction:column;align-items:flex-start;background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:12px 20px;border-radius:14px;text-decoration:none;font-weight:700;font-size:.95rem;transition:all .2s}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(17,153,142,.4)}
+.btn-next small{font-size:.78rem;opacity:.85;font-weight:400;margin-top:2px}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="exercise-header">
+    <h1>🤝 Oikeudet ja velvollisuudet</h1>
+    <p>Lajittele 12 väittämää oikeisiin lokeroihin</p>
+  </div>
+
+  <div class="instructions">
+    <span class="i-icon">💡</span>
+    <p><strong>Miten pelata:</strong> Vedä ja pudota kortit oikeaan lokeroon — <strong>Työnantajan velvollisuus</strong>, <strong>Työntekijän oikeus</strong> tai <strong>Molemmat</strong>. Mobiililla: klikkaa ensin korttia, sitten lokeroa. Kun kaikki kortit on sijoitettu, tarkista vastauksesi!</p>
+  </div>
+
+  <div id="mainArea">
+    <div class="cards-pool">
+      <h3>📋 Lajiteltavat kortit <span id="poolCount" style="color:#11998e">(12 jäljellä)</span></h3>
+      <div class="pool-grid" id="cardsPool"></div>
+    </div>
+
+    <div class="zones-grid">
+      <div class="drop-zone employer" id="zone-employer"
+           ondragover="ev.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="dropCard(event,'employer')"
+           onclick="placeSelectedMobile('employer')">
+        <div class="zone-header">
+          <span class="z-icon">🔵</span>
+          <h3>Työnantajan velvollisuus</h3>
+          <span class="z-count" id="cnt-employer">0</span>
+        </div>
+        <div class="zone-cards" id="zcards-employer"></div>
+      </div>
+      <div class="drop-zone employee" id="zone-employee"
+           ondragover="ev.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="dropCard(event,'employee')"
+           onclick="placeSelectedMobile('employee')">
+        <div class="zone-header">
+          <span class="z-icon">🟢</span>
+          <h3>Työntekijän oikeus</h3>
+          <span class="z-count" id="cnt-employee">0</span>
+        </div>
+        <div class="zone-cards" id="zcards-employee"></div>
+      </div>
+      <div class="drop-zone both" id="zone-both"
+           ondragover="ev.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="dropCard(event,'both')"
+           onclick="placeSelectedMobile('both')">
+        <div class="zone-header">
+          <span class="z-icon">🟡</span>
+          <h3>Molemmat</h3>
+          <span class="z-count" id="cnt-both">0</span>
+        </div>
+        <div class="zone-cards" id="zcards-both"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="resetAll()">🔄 Aloita uudelleen</button>
+      <button class="btn btn-primary" id="checkBtn" onclick="checkAnswers()" disabled>✅ Tarkista vastaukset</button>
+    </div>
+
+    <div class="results-panel" id="resultsPanel"></div>
+  </div>
+
+  <div id="completionScreen" class="hidden">
+    <div class="completion-screen" style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.07)">
+      <div class="completion-badge">🏆</div>
+      <h2>Harjoitus suoritettu!</h2>
+      <div class="score-display" id="finalScore">0 <span class="s-max">/ 12</span></div>
+      <p id="finalFeedback" style="color:#555;max-width:500px;margin:0 auto 20px"></p>
+      <button class="btn btn-secondary" onclick="document.getElementById('completionScreen').classList.add('hidden');document.getElementById('mainArea').classList.remove('hidden');resetAll()" style="margin-bottom:20px">🔄 Yritä uudelleen</button>
+      <div class="nav-footer">
+        <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
+        <div class="next-exercise">
+          <span class="next-label">Seuraava harjoitus:</span>
+          <a href="../harjoitus-2-tyosopimus-sopimusvertailu/index.html" class="btn-next">
+            📝 Työsopimus ja sopimusvertailu →
+            <small>Vertaile kolmea sopimustyyppiä</small>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SCORM = (() => {
+    let api = null, connected = false;
+    function findAPI(win) { let a=0; while(win&&!win.API&&a<10){if(win.parent&&win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;} return win&&win.API?win.API:null; }
+    function init() { api=findAPI(window); if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;} }
+    function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
+    function commit(){if(!connected||!api)return;api.LMSCommit('');}
+    function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
+    return{init,complete};
+})();
+window.addEventListener('load',SCORM.init);
+
+const cards = [
+  { id:'c1', icon:'💳', text:'Maksaa palkan sovittuna päivänä', correct:'employer' },
+  { id:'c2', icon:'🏖️', text:'Saada lakisääteinen vuosiloma', correct:'employee' },
+  { id:'c3', icon:'📋', text:'Järjestää perehdytys uudelle työntekijälle', correct:'employer' },
+  { id:'c4', icon:'💰', text:'Saada palkka vähintään TES:n mukaan', correct:'employee' },
+  { id:'c5', icon:'⚖️', text:'Noudattaa tasa-arvo- ja yhdenvertaisuuslakia', correct:'both' },
+  { id:'c6', icon:'🔒', text:'Pitää salassa liikesalaisuudet', correct:'both' },
+  { id:'c7', icon:'🦺', text:'Tarjota turvallinen työympäristö', correct:'employer' },
+  { id:'c8', icon:'📅', text:'Ilmoittaa poissaolosta hyvissä ajoin', correct:'both' },
+  { id:'c9', icon:'👶', text:'Saada perhevapaita', correct:'employee' },
+  { id:'c10', icon:'📝', text:'Kirjata työsopimus kirjallisesti', correct:'employer' },
+  { id:'c11', icon:'📚', text:'Kehittää omaa ammattitaitoa', correct:'both' },
+  { id:'c12', icon:'💬', text:'Saada palautetta ja ohjausta', correct:'employee' },
+];
+
+const placement = {};
+let selectedMobile = null;
+let checked = false;
+
+function renderPool() {
+    const pool = document.getElementById('cardsPool');
+    pool.innerHTML = '';
+    cards.forEach(c => {
+        if (placement[c.id]) return;
+        const el = document.createElement('div');
+        el.className = 'drag-card';
+        el.id = 'card-' + c.id;
+        el.draggable = true;
+        el.innerHTML = `<span class="c-icon">${c.icon}</span><span class="c-text">${c.text}</span>`;
+        el.addEventListener('dragstart', e => { e.dataTransfer.setData('cardId', c.id); el.classList.add('dragging'); });
+        el.addEventListener('dragend', () => el.classList.remove('dragging'));
+        el.addEventListener('click', () => selectMobile(c.id, el));
+        pool.appendChild(el);
+    });
+    const poolLeft = cards.filter(c => !placement[c.id]).length;
+    document.getElementById('poolCount').textContent = `(${poolLeft} jäljellä)`;
+    document.getElementById('checkBtn').disabled = poolLeft > 0;
+}
+
+function renderZones() {
+    ['employer','employee','both'].forEach(zone => {
+        const el = document.getElementById('zcards-' + zone);
+        el.innerHTML = '';
+        const cnt = cards.filter(c => placement[c.id] === zone);
+        document.getElementById('cnt-' + zone).textContent = cnt.length;
+        cnt.forEach(c => {
+            const d = document.createElement('div');
+            d.className = 'drag-card placed-' + zone;
+            d.innerHTML = `<span class="c-icon">${c.icon}</span><span class="c-text">${c.text}</span>`;
+            d.addEventListener('click', () => returnCard(c.id));
+            el.appendChild(d);
+        });
+    });
+}
+
+function dropCard(e, zone) {
+    e.preventDefault();
+    document.getElementById('zone-' + zone).classList.remove('drag-over');
+    const id = e.dataTransfer.getData('cardId');
+    if (id && !checked) { placement[id] = zone; render(); }
+}
+
+function selectMobile(id, el) {
+    if (checked) return;
+    if (selectedMobile === id) { selectedMobile = null; document.querySelectorAll('.drag-card').forEach(c => c.classList.remove('selected-mobile')); return; }
+    document.querySelectorAll('.drag-card').forEach(c => c.classList.remove('selected-mobile'));
+    selectedMobile = id;
+    el.classList.add('selected-mobile');
+}
+
+function placeSelectedMobile(zone) {
+    if (!selectedMobile || checked) return;
+    placement[selectedMobile] = zone;
+    selectedMobile = null;
+    render();
+}
+
+function returnCard(id) {
+    if (checked) return;
+    delete placement[id];
+    render();
+}
+
+function render() { renderPool(); renderZones(); }
+
+function checkAnswers() {
+    checked = true;
+    let score = 0;
+    const resultsPanel = document.getElementById('resultsPanel');
+    let html = '<h3 style="margin-bottom:16px">📊 Tulokset</h3>';
+    cards.forEach(c => {
+        const given = placement[c.id];
+        const isCorrect = given === c.correct;
+        if (isCorrect) score++;
+        const zoneNames = { employer:'Työnantajan velvollisuus', employee:'Työntekijän oikeus', both:'Molemmat' };
+        html += `<div class="result-item">
+          <span class="ri-icon">${isCorrect ? '✅' : '❌'}</span>
+          <div class="ri-text">
+            <div class="ri-card">${c.icon} ${c.text}</div>
+            <div class="${isCorrect ? 'ri-correct' : 'ri-wrong-ans'}">
+              ${isCorrect ? '✓ Oikein: ' + zoneNames[c.correct] : '✗ Vastauksesi: ' + (given ? zoneNames[given] : 'Ei vastattu') + ' — Oikea: ' + zoneNames[c.correct]}
+            </div>
+          </div>
+        </div>`;
+    });
+    resultsPanel.innerHTML = html;
+    resultsPanel.style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('mainArea').classList.add('hidden');
+        document.getElementById('completionScreen').classList.remove('hidden');
+        const pct = Math.round((score / 12) * 100);
+        document.getElementById('finalScore').innerHTML = score + ' <span class="s-max">/ 12</span>';
+        const msgs = ['Harjoittele lisää! Lue selitykset ja yritä uudelleen. 💪', 'Hyvä alku! Muutama epäselvyys vielä — katso selitykset.', 'Hyvin menee! Melkein täydellistä! 🌟', 'Loistava suoritus! Olet lakiekspertti! 🏆'];
+        document.getElementById('finalFeedback').textContent = msgs[score <= 4 ? 0 : score <= 8 ? 1 : score <= 11 ? 2 : 3];
+        SCORM.complete(pct, 100);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 2000);
+}
+
+function resetAll() {
+    Object.keys(placement).forEach(k => delete placement[k]);
+    checked = false;
+    selectedMobile = null;
+    document.getElementById('resultsPanel').style.display = 'none';
+    render();
+}
+
+render();
+</script>
+</body>
+</html>
