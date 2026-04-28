@@ -88,7 +88,7 @@ ITSENÄINEN SUORITTAMINEN
 |---|---|---|---|
 | TM1 | tuntee työmarkkinoiden nykytilaa ja kehityssuuntia | ✅ Osio 1: Tulevaisuuden työ + materiaalit | Hyvä pohja, päivitettävä tekoäly/automatisaatio mukaan |
 | TM2 | tuntee alan työllistymismahdollisuuksia | ✅ Osio 1: Kauppa työurana + Kaupan ala | Käyttökelpoinen, lisätään monimuotoisuus |
-| TM3 | tuntee työmarkkinajärjestelmän toimintaa | ✅ Osio 1: H5P sanasto + välitesti | H5P päivitettävissä — kirjallinen välitesti korvattavissa interaktiivisella |
+| TM3 | tuntee työmarkkinajärjestelmän toimintaa | ✅ Osio 1: H5P sanasto + välitesti | H5P päivitettävissä — kirjallinen välitesti ei välttämättä poisteta kokonaan; jokin fyysinen aktiviteetti säilytetään |
 | TM4 | tuntee työttömyysturvan ja eläkkeen kertymisen periaatteita | ❌ **Puuttuu kokonaan** | **UUSI — vaatii kokonaan uutta sisältöä** |
 
 **Kohdealue: Työehdot ja työsopimus**
@@ -121,7 +121,7 @@ ITSENÄINEN SUORITTAMINEN
 - Itsenäinen suorittaminen on huomioitu kurssin rakenteessa
 
 **Heikkoudet ja uudistamistarpeet:**
-1. **Kirjallinen välitesti paperilla** on vanhanaikainen — korvattava interaktiivisella harjoituksella
+1. **Kirjallinen välitesti paperilla** — ei välttämättä poisteta kokonaan; kurssilla on hyvä olla jotain fyysistä materiaalia, jossa opiskelijat tekevät ilman konetta. Ei tarvitse olla juuri vastaava välitesti, mutta jokin fyysinen aktiviteetti säilytetään
 2. **Tehtäväpalautukset ovat pääosin PP-esityksiä ilman kontekstia** — tehtävät irtonaisina, ei punaista lankaa
 3. **Tehtävänannot ovat teknisiä ohjeita** ("Palauta PP PDF-muodossa") ilman oppimisen tavoitteen kuvausta
 4. **Työttömyysturva ja eläke puuttuvat kokonaan** — merkittävin sisällöllinen puute uusiin perusteisiin nähden
@@ -136,12 +136,11 @@ ITSENÄINEN SUORITTAMINEN
 - Työsopimus prosessina (A–E) -tehtäväkokonaisuus — modernisoidaan
 - Mitä palkkakuitissa lukee -video — toimii edelleen perustana
 - Kaupan alan TES 2025–2028 -materiaali — käytettävissä sellaisenaan
-- Vaarallisen henkilön kohtaaminen -video ja materiaali — laajennetaan
 - eKampuksen kurssirakenne (Esittely, Itsenäinen suorittaminen, Osiot, Itsearviointi)
 - Itsearviointi ja kurssipalaute -kysely — päivitettävissä
 
 **Suositellaan hylättäväksi tai korvattavaksi:**
-- Kirjallinen välitesti (paperikoe) — korvaa interaktiivisella SCORM-harjoituksella
+- Kirjallinen välitesti (paperikoe) — ei välttämättä poisteta kokonaan; kurssilla on hyvä olla jokin fyysinen aktiviteetti, jossa opiskelijat työskentelevät ilman konetta
 - Kypsyyskoe (paperikoe) — korvaa Moodle-tenttinä tai sähköisenä näyttönä
 - Tehtävä 3.3 Pukeudu töihisi oikein (irrallinen, ei kytkeydy uusiin perusteisiin tarpeeksi) — integroitu muihin tehtäviin
 - Pelkät PP-palautukset ilman kontekstia — korvataan monipuolisemmilla tehtävätyypeillä
@@ -153,7 +152,7 @@ ITSENÄINEN SUORITTAMINEN
 ### 3.1. Kurssin perusperiaatteet
 
 - **Punainen lanka:** "Minä kaupan alan ammattilaisena" — opiskelija rakentaa kurssin aikana ammatillista identiteettiään. Tehtävät nivoutuvat tilanteisiin, joissa kuvattu henkilö (tai opiskelija itse) aloittaa ensimmäisessä kaupan alan työpaikassaan ja kohtaa työelämän arjen ilmiöitä
-- **Skenaarioihin perustuva oppiminen:** Tehtävissä on reaalimaailman tilanteita (työnhaku, työsopimuksen tarkistaminen, konflikti työpaikalla, tapaturma) — ei pelkästään tiedon toistamista
+- **Skenaarioihin perustuva oppiminen:** Tehtävissä on reaalimaailman tilanteita (työsopimuksen tarkistaminen, konflikti työpaikalla, tapaturma) — ei pelkästään tiedon toistamista
 - **Interaktiiviset simulaattorit:** Kurssi sisältää HTML+CSS+JS-pohjaisia harjoituksia (työsopimuksen täyttösimulaattori, palkanlaskuri, tapaturmaskenaario), jotka viedään SCORM 1.2 -paketteina Moodleen
 - **Monipuoliset tehtävätyypit:** Verkkoteksti, video, H5P, SCORM-simulaattori, pari-/ryhmätehtävä, reflektio, ei pelkästään PP-esityksiä
 - **Ryhmäkeskustelu vaihtoehtona:** Soveltuvissa ei-interaktiivisissa tehtävissä voidaan hyödyntää ryhmäkeskustelua tai yhteistä pohdintaa. Tämä on kuitenkin vaihtoehtoinen tapa — kaikki tehtävät on suunniteltu niin, että itsenäinen suorittaminen sujuu yhtä hyvin ilman ryhmää
@@ -207,13 +206,18 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 
 **Kesto:** Lähiopetus nuoret: ~13h / Aikuisten iltakurssi: ~6h
 
+> **⚠️ Avoimet kysymykset — Osio 1:**
+> - Molemmat nykyisen kurssin videoista (Tulevaisuuden työ + Suomen työmarkkinajärjestelmä) ovat noin 10 vuotta vanhoja. Ennen toteutusta selvitetään, onko saatavilla uusia vastaavia videoita vai korvataan aihealue toisella materiaalimuodolla (artikkeli, infografiikka, verkkoteksti).
+> - **Kauppa on yhteiskunnan elämän rytmittäjä (pdf):** Sisältö on käyttökelpoista, mutta formaatti on väärä ja materiaali liian pitkä. Uudistettava lyhyempään, helpommin käsiteltävään muotoon (verkkoteksti tai tiivistetty artikkeli). Samalla lisätään toimistotyöhön — erityisesti taloushallintoon — liittyvää sisältöä, joka tällä hetkellä puuttuu.
+> - **Kirjallinen välitesti (A4-moniste):** Ei välttämättä poisteta kokonaan. Kurssilla on hyvä olla jokin fyysinen aktiviteetti, jossa opiskelijat työskentelevät ilman konetta — ei tarvitse olla juuri tämä välitesti, mutta vastaava fyysinen elementti säilytetään.
+
 #### Oppimateriaali
 
 | Materiaali | Tyyppi | Uusi/Päivitetty/Vanha |
 |---|---|---|
-| Tulevaisuuden työ — nykytrendit, digitalisaatio, tekoäly kaupan alalla | Video + lyhyt artikkeli | **PÄIVITETTY** (vanha pdf-pohja, uusi konteksti: tekoäly, automatisaatio, kestävyys) |
+| Tulevaisuuden työ — nykytrendit, digitalisaatio, tekoäly kaupan alalla | Video + lyhyt artikkeli | **⚠️ UUSITTAVA** — nykyinen video on ~10 vuotta vanha; tarvitaan uusi video tai vaihtoehtoinen materiaalimuoto (esim. artikkeli, infografiikka). Konteksti: tekoäly, automatisaatio, kestävyys |
 | Kaupan ala työnantajana — ammattinimikkeet ja urapolut | Oppimateriaali (sivu) + linkit | **PÄIVITETTY** (päivitetään kaupan alan ammattinimikkeet 2025) |
-| Suomen työmarkkinajärjestelmä — työnantaja- ja työntekijäjärjestöt, TES, neuvottelujärjestelmä | Video + kaavio | **PÄIVITETTY** (vanha sanastotehtävä päivitetään) |
+| Suomen työmarkkinajärjestelmä — työnantaja- ja työntekijäjärjestöt, TES, neuvottelujärjestelmä | Video + kaavio | **⚠️ UUSITTAVA** — nykyinen video on ~10 vuotta vanha; tarvitaan uusi video tai vaihtoehtoinen materiaalimuoto aiheesta |
 | Työttömyysturva ja eläke — periaatteet, kertyminen, etuudet | Ohje + infografiikka | **UUSI** |
 | H5P: Työmarkkinajärjestelmän käsitteet (matching/drag-and-drop) | H5P | **PÄIVITETTY** (vanha pohja, päivitetyt käsitteet) |
 | SCORM: Kaupan alan urapolku -simulaattori (interaktiivinen päätöspuu) | HTML+JS SCORM | **UUSI** |
@@ -251,6 +255,8 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 
 **Kesto:** Lähiopetus nuoret: ~13h / Aikuisten iltakurssi: ~7h
 
+> **⚠️ Huomio — Osio 2:** Tässä osiossa ei käsitellä työnhakua (työhakemus, videohakemus, haastattelu tms.), sillä ne eivät kuulu tämän kurssin osaamistavoitteisiin. Osio 2 keskittyy työsuhteen ehtoihin, oikeuksiin, velvollisuuksiin, sopimuksiin ja palkanmuodostukseen.
+
 #### Oppimateriaali
 
 | Materiaali | Tyyppi | Uusi/Päivitetty/Vanha |
@@ -270,9 +276,8 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 |---|---|---|---|---|---|
 | 2.1 | **Oikeudet ja velvollisuudet -kartoitus** | Interaktiivinen H5P tai SCORM: opiskelija luokittelee väittämiä "työnantajan velvollisuus / työntekijän oikeus / molempia / ei kumpaakaan". Sisältää esimerkkitapauksia kaupan alalta. Voidaan tehdä pareittain kiistaherättäjänä. | Yksilö/pari | Valmentava | **UUSI** — korvaa irrallisen Pelisäännöt-kysymyskokonaisuuden |
 | 2.2 | **Testaa tietosi työelämän säännöistä** | Päivitetty H5P-diasarja: opiskelijat etsivät vastauksia TES:stä ja lainsäädännöstä. Kysymykset kattavat sekä uudet oikeudet/velvollisuudet että TES:n käytännön soveltamisen. | Yksilö | **1–5** | **PÄIVITETTY** — vanha H5P-tehtävä, päivitetty TES 2025–2028:aan |
-| 2.3 | **Työsopimus prosessina** | Laaja A–E-tehtäväkokonaisuus (säilytetty ja modernisoitu):<br>**A.** Tutki kolmea työnhakusivustoa ja löydä sopiva paikka<br>**B.** Täytä sähköinen hakemus (H5P-lomake tai eKampus-versio) — vinkki: AI-hakemusapuri kokeiluksi mutta kriittinen arviointi pakollinen<br>**C.** Tee videohakemus (kuvataan eKampuksella)<br>**D.** Valmistaudu ja käy läpi virtuaalinen työhaastattelu (H5P-skenaario tai pariharjoitus)<br>**E.** Sopimusvertailu ja riskianalyysi SCORM-harjoituksella: tutki kolmea sopimustyyppiä (kesätyösopimus, toimeksiantosopimus/kevytyrittäjyys, kaupan alan TES osa-aikainen työsopimus), tunnista sopimusten rakenne, oikeudet, velvollisuudet ja riskipaikat interaktiivisesti — erityishuomio toimeksiantosopimuksen riskeihin | Yksilö (B+D parivaihtoehto) | **1–5** | **PÄIVITETTY** — tekoäly-hakemusvinkki, SCORM-sopimusvertailu, parihaastattelu |
+| 2.3 | **Työsopimus ja sopimusvertailu** | SCORM-harjoitus: opiskelija tutkii kolmea sopimustyyppiä (kesätyösopimus, toimeksiantosopimus/kevytyrittäjyys, kaupan alan TES osa-aikainen työsopimus), tunnistaa sopimusten rakenne, oikeudet, velvollisuudet ja riskipaikat interaktiivisesti — erityishuomio toimeksiantosopimuksen riskeihin | Yksilö | **1–5** | **PÄIVITETTY** — työnhakuun liittyvät osat (hakemus, haastattelu) on poistettu tästä osiosta; tehtävä keskittyy sopimuksiin ja oikeuksiin |
 | 2.4 | **Palkkakuitti tutuksi — palkanlaskuri** | Opiskelija katsoo Mitä palkkakuitissa lukee -videon, sitten käyttää SCORM-palkanlaskuria: syöttää tuntimäärät, tuntipalkka, osa-/kokoaikaisuus, verokortti — laskuri näyttää brutto, netto, TES-lisät. Lopuksi reflektiokirjoitus: "Mikä yllätti?" | Yksilö | Hyv/hyl | **UUSI SCORM** — vanhan videon ympärille rakennettu |
-| 2.5 | **Työnhakudokumentit — parityö/portfolio** | Kurssin aikana kertyneet työnhakudokumentit (hakemus, työsopimus, palkkalaskelma) kootaan lyhyeksi portfolioksi / yhteenvedoksi: "Mitä opin, mitä tein?" — lähiopetuksessa jaetaan pareittain | Yksilö/pari | Hyv/hyl | **UUSI** — integraatiotehtävä, sopii erityisen hyvin aikuisille |
 
 #### Tehtävät — Itsenäinen suorittaminen
 
@@ -280,9 +285,8 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 |---|---|---|---|---|
 | I-2.1 | Oikeudet ja velvollisuudet -kartoitus | Sama SCORM/H5P-harjoitus | Valmentava | |
 | I-2.2 | Testaa tietosi | Sama H5P | 1–5 | |
-| I-2.3 | Työsopimus prosessina A–E | Sama kuin 2.3 (D = itsenäinen haastattelu H5P-skenaariolla) | 1–5 | |
+| I-2.3 | Työsopimus ja sopimusvertailu | Sama SCORM-harjoitus kuin 2.3 | 1–5 | |
 | I-2.4 | Palkanlaskuri | Sama SCORM + reflektio | Hyv/hyl | |
-| I-2.5 | Portfolio | Kirjallinen yhteenveto | Hyv/hyl | |
 
 ---
 
@@ -297,6 +301,8 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 
 **Kesto:** Lähiopetus nuoret: ~10h / Aikuisten iltakurssi: ~5h
 
+> **⚠️ Huomio — Osio 3:** Tämä osio halutaan vuorovaikutteiseksi: rakenteeseen lisätään keskustelua ja yhteistä pohdintaa (esim. foorumikeskustelu tai ohjattu ryhmäkeskustelu tehtävien yhteydessä). Lisäksi: "Vaarallisen henkilön kohtaaminen" -video on 14 vuotta vanha eikä sitä käytetä. Aiheen sisältö (uhkaavat tilanteet työpaikalla) käsitellään muuta kautta — erityisesti Tapaturma-SCORM-skenaariossa ja uuden oppimateriaalin kautta.
+
 #### Oppimateriaali
 
 | Materiaali | Tyyppi | Uusi/Päivitetty/Vanha |
@@ -306,8 +312,8 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 | Miten aloittaa uudessa työpaikassa? (linkki) | Linkki | **VANHA** — toimii |
 | Kiusaaminen, häirintä, syrjintä ja väkivalta — mitä ne tarkoittavat käytännössä | Ohje + esimerkkejä | **UUSI** |
 | Toimintaohjeet hankalissa tilanteissa — miten ilmoittaa, keneen ottaa yhteyttä | Ohje + kaavio | **UUSI** |
-| Tapaturmat ja henkeä uhkaavat tilanteet — ensiavun perusteet + ilmoitusvelvollisuus | Ohje + video (esim. SPR) | **UUSI** |
-| Vaarallisen henkilön kohtaaminen (video + linkki) | Video + linkki | **VANHA** — toimii, laajennetaan |
+| Tapaturmat ja henkeä uhkaavat tilanteet (ml. uhkaava asiakas) — ensiavun perusteet + ilmoitusvelvollisuus | Ohje + video (esim. SPR) | **UUSI** — sisältää myös uhkaavaan asiakastilanteeseen toimimisen, joka korvaa poistetun videon |
+| ~~Vaarallisen henkilön kohtaaminen (video + linkki)~~ | ~~Video + linkki~~ | **❌ POISTETAAN** — video on 14 vuotta vanha, ei käytetä. Aiheen sisältö käsitellään uuden oppimateriaalin ja Tapaturma-SCORM-skenaarion kautta |
 | SCORM: Kiusaamistilanteen skenaarioharjoitus (päätöspuu) | HTML+JS SCORM | **UUSI** |
 | H5P: Vekan eka duuni (päivitetty aikajana) | H5P | **PÄIVITETTY** (vanha pohja, uudet tilanteet) |
 
@@ -320,6 +326,7 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 | 3.3 | **Yhteistoimintapaja** | Ryhmätehtävä: pienryhmässä käsitellään case-esimerkkejä, joissa työnantaja ja henkilöstö ovat eri mieltä (esim. työvuorojen muutos, lomakausi, ylityöt). Ryhmä pohtii: miten asia pitäisi käsitellä yhteistoiminnassa? Tuloksena pienryhmän yhteinen kirjallinen ratkaisu tai lyhyt suullinen esittely. | Ryhmä | **1–5** | **UUSI** — kattaa TY1 ja TY2; itsenäisille kirjallinen case-analyysi |
 | 3.4 | **Tapaturma! Miten toimit?** | SCORM-harjoitus: opiskelija saa eri tapaturmaskenaarion (kaatuminen varastossa, asiakaspyörtyminen, uhkaava tilanne). Valitsee toimenpiteet järjestyksessä — saa välitöntä palautetta. Sisältää myös perustieto ilmoitusvelvollisuudesta ja läheltä piti -ilmoituksesta. | Yksilö | Hyv/hyl | **UUSI SCORM** — kattaa TY5 |
 | 3.5 | **Turvallinen työpaikka alkaa minusta** | Reflektiokirjoitus + itsearviointi: "Millainen olen itse työkaverina? Miten edistän turvallista ilmapiiriä?" Lähiopetuksessa voi aloittaa pareittain ja kirjoittaa yksin. Yhdistetään luontevasti osion loppuun. | Yksilö | Hyv/hyl | **UUSI** — kattaa TY2, yhdistää kurssiteeman |
+| 3.6 | **Osion yhteinen loppukeskustelu** | Ohjattu ryhmäkeskustelu tai foorumikeskustelu: "Mitä jäi mieleen? Mikä yllätti? Mitä tekisit toisin?" Käydään läpi osion keskeisiä tilanteita yhdessä — jokainen tuo esiin yhden konkreettisen tilanteen tai oivalluksen. Lähiopetuksessa suullisena, itsenäisille kirjallisena foorumivastuksena. | Ryhmä / Foorumi | Hyv/hyl | **UUSI** — toteuttaa osion vuorovaikutteisen tavoitteen; itsenäisille foorumiversio eKampuksella |
 
 #### Tehtävät — Itsenäinen suorittaminen
 
@@ -330,6 +337,7 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 | I-3.3 | Yhteistoimintapaja | Kirjallinen case-analyysi itsenäisesti | 1–5 | |
 | I-3.4 | Tapaturma! | Sama SCORM | Hyv/hyl | |
 | I-3.5 | Reflektio | Sama kirjoitus | Hyv/hyl | |
+| I-3.6 | Loppukeskustelu | Kirjallinen foorumivastaus eKampuksella | Hyv/hyl | |
 
 ---
 
@@ -351,10 +359,10 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 | TM2 | tuntee alan työllistymismahdollisuuksia | 1.2 Urapolku-simulaattori, 1.3 Yritys organisaationa | I-1.2, I-1.3 |
 | TM3 | tuntee työmarkkinajärjestelmän toimintaa | 1.4 Työmarkkinajärjestelmä H5P | I-1.4 |
 | TM4 | tuntee työttömyysturvan ja eläkkeen kertymisen periaatteita | 1.5 Työttömyysturva ja eläke | I-1.5 |
-| TE1 | tuntee keskeistä työlainsäädäntöä | 2.2 Testaa tietosi (H5P), 2.3 Työsopimus prosessina | I-2.2, I-2.3 |
+| TE1 | tuntee keskeistä työlainsäädäntöä | 2.2 Testaa tietosi (H5P), 2.3 Työsopimus ja sopimusvertailu | I-2.2, I-2.3 |
 | TE2 | tuntee työnantajan oikeuksia ja velvollisuuksia | 2.1 Oikeudet ja velvollisuudet | I-2.1 |
 | TE3 | tuntee työntekijän oikeuksia ja velvollisuuksia | 2.1 Oikeudet ja velvollisuudet | I-2.1 |
-| TE4 | tietää työsopimuksessa sovittavia asioita | 2.3 Työsopimus prosessina (E: simulaattori) | I-2.3 |
+| TE4 | tietää työsopimuksessa sovittavia asioita | 2.3 Työsopimus ja sopimusvertailu (SCORM) | I-2.3 |
 | TE5 | tietää periaatteet, joiden mukaan palkka muodostuu | 2.4 Palkanlaskuri | I-2.4 |
 | TY1 | tuntee yhteistoiminnan periaatteita | 3.3 Yhteistoimintapaja | I-3.3 |
 | TY2 | tietää tapoja edistää yhteisöllisyyttä ja turvallista ilmapiiriä | 3.1 Vekan eka duuni, 3.5 Reflektio | I-3.1, I-3.5 |
@@ -375,8 +383,8 @@ Ensin orientoidutaan aiheeseen (video, artikkeli tai simulaattori), sitten harjo
 | 3 | Osio 1 | Yritys organisaationa -esitys, työmarkkinajärjestelmä | 4h | **1.3 Yritys (esitys)**, 1.4 Järjestelmä H5P |
 | 4 | Osio 1 | Työttömyysturva ja eläke | 4h | **1.5 Työttömyysturva ja eläke** |
 | 5 | Osio 2 | Työnantajan/työntekijän oikeudet, TES:n lukeminen | 4h | 2.1 Oikeudet ja velvollisuudet, 2.2 Testaa tietosi |
-| 6 | Osio 2 | Työnhaku, työsopimus A–D | 4h | **2.3 Työsopimus prosessina (A–D)** |
-| 7 | Osio 2 | Työsopimus E + palkanlaskuri + portfolio | 4h | **2.3 (E)**, 2.4 Palkanlaskuri, 2.5 Portfolio |
+| 6 | Osio 2 | Työsopimus prosessina — sopimusvertailu ja riskianalyysi | 4h | **2.3 Työsopimus ja sopimusvertailu** |
+| 7 | Osio 2 | Palkanlaskuri | 4h | **2.3 (viimeistely)**, 2.4 Palkanlaskuri |
 | 8 | Osio 3 | Uusi työpaikka, Vekan eka duuni, kiusaamistilanteet | 4h | 3.1 Vekan eka duuni, **3.2 Tunnista–Toimi–Tue** |
 | 9 | Osio 3 | Yhteistoiminta + tapaturmat + reflektio + loppukoe | 4h | **3.3 Yhteistoimintapaja**, 3.4 Tapaturma, 3.5 Reflektio |
 
@@ -398,14 +406,15 @@ Opiskelija etenee osio kerrallaan omaan tahtiin. Arvioidut palautukset:
 2. Kaupan alan yritys (1–5)
 3. Työttömyysturva ja eläke (1–5)
 4. Testaa tietosi (1–5)
-5. Työsopimus prosessina A–E (1–5)
+5. Työsopimus ja sopimusvertailu (1–5)
 6. Palkanlaskuri + reflektio (hyv/hyl)
 7. Tunnista–Toimi–Tue -skenaario (1–5)
 8. Yhteistoimintapaja / case-analyysi (1–5)
 9. Tapaturma-SCORM (hyv/hyl)
 10. Reflektio: Turvallinen työpaikka (hyv/hyl)
-11. Loppukoe (0–5)
-12. Itsearviointi ja kurssipalaute
+11. Osion 3 loppukeskustelu (foorumivastaus, hyv/hyl)
+12. Loppukoe (0–5)
+13. Itsearviointi ja kurssipalaute
 
 ---
 
@@ -415,17 +424,19 @@ Opiskelija etenee osio kerrallaan omaan tahtiin. Arvioidut palautukset:
 
 Arvosana 1–5 muodostuu arvioitavien tehtävien perusteella. Geneerisiä arviointikriteerejä (YTTT26) sovelletaan kokonaisuuteen.
 
+> **Arviointiperusteiden painotus (alustava):** Kukin kolmesta pääosiosta muodostaa 25 % arvosanasta, ja loppukoe on myös 25 %. Jako: Osio 1 = 25 %, Osio 2 = 25 %, Osio 3 = 25 %, Loppukoe = 25 %.
+
 **Arvioitavat tehtävät (1–5):**
 
-| Tehtävä | Paino | Mitä arvioidaan |
-|---|---|---|
-| 1.3 Kaupan alan yritys organisaationa | ★★ | Tiedon monipuolisuus, esittäminen, vastuullisuus- ja työllistymisnäkökulma |
-| 1.5 Työttömyysturva ja eläke | ★★ | Käsitteiden hallinta, tilanteiden soveltaminen |
-| 2.2 Testaa tietosi (H5P) | ★ | Lainsäädännön ja TES:n tuntemus |
-| 2.3 Työsopimus prosessina A–E | ★★★ | Työnhakuprosessin hallinta, työsopimuksen sisällön tuntemus, vuorovaikutus |
-| 3.2 Tunnista–Toimi–Tue | ★★ | Tilanteiden tunnistaminen, toimintatapojen hallinta |
-| 3.3 Yhteistoimintapaja / case | ★★ | Yhteistoiminnan periaatteiden ymmärrys, perustelutaidot |
-| 4.1 Loppukoe | ★★ | Kurssin sisällön kokonaisvaltainen hallinta |
+| Tehtävä | Paino | Osio | Mitä arvioidaan |
+|---|---|---|---|
+| 1.3 Kaupan alan yritys organisaationa | ★★ | Osio 1 (25 %) | Tiedon monipuolisuus, esittäminen, vastuullisuus- ja työllistymisnäkökulma |
+| 1.5 Työttömyysturva ja eläke | ★★ | Osio 1 (25 %) | Käsitteiden hallinta, tilanteiden soveltaminen |
+| 2.2 Testaa tietosi (H5P) | ★ | Osio 2 (25 %) | Lainsäädännön ja TES:n tuntemus |
+| 2.3 Työsopimus ja sopimusvertailu | ★★★ | Osio 2 (25 %) | Työsopimuksen sisällön tuntemus, sopimusten vertailu ja riskien tunnistaminen |
+| 3.2 Tunnista–Toimi–Tue | ★★ | Osio 3 (25 %) | Tilanteiden tunnistaminen, toimintatapojen hallinta |
+| 3.3 Yhteistoimintapaja / case | ★★ | Osio 3 (25 %) | Yhteistoiminnan periaatteiden ymmärrys, perustelutaidot |
+| 4.1 Loppukoe | ★★ | Loppukoe (25 %) | Kurssin sisällön kokonaisvaltainen hallinta |
 
 **Hyväksytty/hylätty -tehtävät (vaaditaan hyväksytty suoritus):**
 - Tulevaisuuden työ -reflektio
@@ -435,6 +446,7 @@ Arvosana 1–5 muodostuu arvioitavien tehtävien perusteella. Geneerisiä arvioi
 - Vekan eka duuni
 - Tapaturma-SCORM
 - Turvallinen työpaikka -reflektio
+- Osion 3 loppukeskustelu / foorumivastaus
 - Itsearviointi
 
 ### 6.2. Arviointikriteerien soveltaminen (YTTT26)
@@ -457,8 +469,8 @@ Arvosana 1–5 muodostuu arvioitavien tehtävien perusteella. Geneerisiä arvioi
 |---|---|
 | **Tekemällä oppiminen** | Kaikki tehtävät ovat käytännön tilanteita tai simulaatioita, ei pelkkää teoriaa |
 | **Ryhmätyöt** | Kaupan alan yritys -esitys (pari/ryhmä), Yhteistoimintapaja (ryhmä), Vekan eka duuni voidaan tehdä pareittain |
-| **Sosiaalisten taitojen kehittäminen** | Parihaastattelu (työsopimus), ohjattu yhteistoimintapaja, reflektio yhdessä |
-| **Projektit** | "Minä kaupan alan ammattilaisena" kulkee punaisena lankana koko kurssin (urapolku → työnhaku → työsopimus → oikeudet → turvallinen työpaikka) |
+| **Sosiaalisten taitojen kehittäminen** | Pari-/ryhmätehtävät (työsopimus, yhteistoimintapaja), ohjattu loppukeskustelu Osio 3:ssa, reflektio yhdessä |
+| **Projektit** | "Minä kaupan alan ammattilaisena" kulkee punaisena lankana koko kurssin (urapolku → työsopimus → oikeudet → turvallinen työpaikka) |
 | **Skenaarioihin perustuva oppiminen** | SCORM-skenaarioharjoitukset (kiusaaminen, tapaturma, urapolku) — opiskelija ei passiivisesti lue vaan tekee päätöksiä |
 | **Vastuullisuus** | Yhdenvertaisuus ja syrjimättömyys, turvallinen ilmapiiri, kestävä kehitys kaupan alalla |
 
@@ -466,7 +478,7 @@ Arvosana 1–5 muodostuu arvioitavien tehtävien perusteella. Geneerisiä arvioi
 
 - Kaikki SCORM-harjoitukset ja H5P-tehtävät toimivat täysin verkossa ilman lähiopetusta
 - Ryhmätehtävistä selkeä yksilöversio kaikille (esim. Yhteistoimintapaja → case-kirjoitus)
-- Työsopimus prosessina (A–E) on suunniteltu siten, että itsenäinen suorittaja voi tehdä haastattelun H5P-skenaariolla (simuloitu työnantaja)
+- Työsopimus ja sopimusvertailu -tehtävä on suunniteltu siten, että itsenäinen suorittaja voi tehdä koko SCORM-harjoituksen yksin verkossa
 - Aikataulun voi suunnitella itse, edetään osio kerrallaan
 - Selkeät ohjeet itsenäiselle suorittamiselle erillisessä osiossa
 - Opettajan verkko-ohjausajat (Nähdään verkossa -toiminto)
@@ -551,28 +563,28 @@ Tekninen toteutus:
 | H5P: Vekan eka duuni (timeline) | ♻️ Päivitä | Osio 3 — laajennetaan uusilla skenaarioilla |
 | H5P: Testaa tietosi työelämän säännöistä | ♻️ Päivitä | Osio 2 — päivitetään TES 2025–2028:aan |
 | H5P: Kaupan toimialat kotimaassa | ♻️ Integroi | Osio 1 — voidaan integroida Urapolku-simulaattoriin |
-| H5P: Sähköinen työnhaku -hakemuslomake | ♻️ Päivitä | Osio 2 — tehtävä 2.3 B |
-| Tehtävä 2.2 Työsopimus prosessina A–E | ♻️ Modernisoi | Osio 2 — säilytetään runko, lisätään SCORM-sopimusvertailu (E-kohta) + AI-vinkki |
+| H5P: Sähköinen työnhaku -hakemuslomake | ❌ Poista | Työnhakuun liittyvä materiaali ei kuulu Osio 2:n sisältöön — poistetaan |
+| Tehtävä 2.2 Työsopimus prosessina A–E | ❌ Uudista | Osio 2 — työnhakuosat (A–D: hakemus, videohakemus, haastattelu) poistetaan; säilytetään sopimusvertailuosuus uudistettuna tehtävänä 2.3 |
 | Kaupan alan TES 2025–2028 (pdf) | ✅ Käytä — viittaa linkillä | Osio 2 — oppimateriaali (ei ladata omana tiedostona, linkitetään suoraan lähteeseen) |
 | Työsopimuksesta tietoa (linkki) | ✅ Käytä | Osio 2 — oppimateriaali |
 | Mitä palkkakuitissa lukee (video) | ✅ Käytä | Osio 2 — pohjaa SCORM-palkanlaskurille |
-| Miten töitä kokemattomalle (pdf) | ♻️ Korvaa linkillä | Osio 2 — päivitä linkiksi verkkosivulle (esim. TE-palvelut / Ura-akatemia), ei PDF-tiedostona |
-| Töitä ilman työkokemusta? (linkki) | ♻️ Tarkista | Osio 2 — tukimateriaali |
-| Ohjeita videohakemuksen tekemiseen (pdf 2016) | ❌ Korvaa | Vanhentunut — uusi ohje 2026 tarvitaan; toteutetaan verkkosivuna tai linkkinä, ei PDF:nä |
+| Miten töitä kokemattomalle (pdf) | ❌ Poista | Työnhakumateriaali ei kuulu Osio 2:n sisältöön — poistetaan |
+| Töitä ilman työkokemusta? (linkki) | ❌ Poista | Työnhakumateriaali ei kuulu Osio 2:n sisältöön — poistetaan |
+| Ohjeita videohakemuksen tekemiseen (pdf 2016) | ❌ Poista | Työnhakumateriaali ei kuulu Osio 2:n sisältöön — poistetaan |
 | Onnistunut PP-esitys (pdf) | ♻️ Korvaa linkillä | Osio 1 — tukimateriaali yritysesitystehtävään; korvaa ajankohtaisella linkillä, ei PDF:nä |
 | Työelämän pelisäännöt 2022 (pdf) | ✅ Käytä | Osio 3 — oppimateriaali |
 | Työelämän pelisäännöt, uusi työntekijä (video) | ✅ Käytä | Osio 3 — oppimateriaali |
 | Miten aloittaa uudessa työpaikassa? (linkki) | ✅ Käytä | Osio 3 — tukimateriaali |
-| Vaarallisen henkilön kohtaaminen (video + linkki) | ♻️ Integroi | Osio 3 — osa Tapaturma-SCORMia |
+| Vaarallisen henkilön kohtaaminen (video + linkki) | ❌ Poista | Video on 14 vuotta vanha — ei käytetä. Aiheen sisältö (uhkaavat tilanteet) käsitellään uuden oppimateriaalin ja Tapaturma-SCORM-skenaarion kautta |
 | Trailer: Vaarallisen henkilön kohtaaminen | ✅ Käytä | Osio 3 — motivointimateriaali |
 | Uhkaavan asiakkaan kohtaaminen (linkki) | ✅ Käytä | Osio 3 — tukimateriaali |
 | Tehtävä 3.3 Pukeudu töihisi oikein | ❌ Poista | Ei kuulu uusiin perusteisiin omana tehtävänä — integroi tarvittaessa yhteistoimintapajaan |
-| Kirjallinen välitesti: Työmarkkinajärjestelmä (paperi) | ❌ Korvaa | Korvataan digitaalisella harjoituksella |
+| Kirjallinen välitesti: Työmarkkinajärjestelmä (paperi) | ⚠️ Harkitse | Ei välttämättä poisteta kokonaan — kurssilla on hyvä olla jokin fyysinen aktiviteetti, jossa opiskelijat työskentelevät ilman konetta. Ei tarvitse olla juuri tämä välitesti, mutta vastaava fyysinen elementti harkitaan säilytettäväksi |
 | Kypsyyskoe (paperi) | ❌ Arvioi | Tutkinnonosavastaava päättää — suositus: sähköinen |
 | 4.1 Loppukoe (Moodle-testi) | ✅ Päivitä | Osio 4 — päivitä kysymykset uusiin sisältöihin |
 | Itsearviointi ja kurssipalaute (kysely) | ♻️ Päivitä | Osio 4 — päivitetään uusiin osaamistavoitteisiin |
 | Esittely ja ohjausta -osio | ♻️ Päivitä | Rakenne säilyy, sisältö päivitetään, lisätään tervetuloa-video |
 | Ohje yhtenäiseen työpukeutumiseen | ♻️ Integroi | Osio 1 tai 3 — lisämateriaali |
-| Kauppa on yhteiskunnan elämän rytmittäjä (pdf) | ♻️ Korvaa linkillä | Osio 1 — tukimateriaali; korvaa ajankohtaisella Kaupan liiton tai vastaavan sivuston linkillä, ei PDF:nä |
+| Kauppa on yhteiskunnan elämän rytmittäjä (pdf) | ♻️ Uudista | Osio 1 — sisältö käyttökelpoista mutta formaatti väärä ja materiaali liian pitkä. Uudistettava lyhyempään muotoon (verkkoteksti tai tiivistetty artikkeli). Lisätään toimistotyöhön (erityisesti taloushallintoon) liittyvää sisältöä |
 | Kaupan ala (linkki) + Ura kaupassa (linkki) | ✅ Käytä | Osio 1 — tukimateriaali |
 | Checklist: T1 paketti (opettajalle) | ♻️ Päivitä | Uudet painotetut sisällöt |
