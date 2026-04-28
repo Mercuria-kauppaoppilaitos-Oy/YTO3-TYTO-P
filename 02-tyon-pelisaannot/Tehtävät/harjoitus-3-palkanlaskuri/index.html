@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palkanlaskuri – Kaupan ala</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:20px}
+.exercise-header{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
+.exercise-header::after{content:'💰';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
+.exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
+.exercise-header p{opacity:.9;font-size:.95rem}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+@media(max-width:700px){.layout{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.card h2{font-size:1.05rem;font-weight:700;margin-bottom:16px;color:#1a1a2e;display:flex;align-items:center;gap:8px}
+/* Sliders */
+.slider-group{margin-bottom:18px}
+.slider-label{font-size:.88rem;font-weight:600;color:#333;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.slider-val{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;border-radius:8px;padding:3px 10px;font-size:.85rem;font-weight:700;min-width:70px;text-align:center}
+input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
+.toggle-row{display:flex;gap:8px;margin-bottom:18px}
+.toggle-btn{flex:1;border:2px solid #e0e0f0;background:#f7f8ff;border-radius:10px;padding:10px;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;color:#555}
+.toggle-btn.active{border-color:#11998e;background:#f0fff8;color:#11998e}
+/* Results display */
+.result-card{background:linear-gradient(135deg,#f0fff8,#e8fdf5);border:2px solid #6ee7b7;border-radius:16px;padding:24px}
+.result-card h2{font-size:1.05rem;font-weight:700;margin-bottom:16px;color:#065f46;display:flex;align-items:center;gap:8px}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.9rem}
+.result-row:last-child{border-bottom:none}
+.result-row .r-label{color:#555}
+.result-row .r-val{font-weight:700;color:#1a1a2e}
+.result-row .r-val.minus{color:#ef4444}
+.result-row .r-val.net{color:#11998e;font-size:1.3rem}
+.divider{border:none;border-top:2px solid #6ee7b7;margin:8px 0}
+.net-highlight{background:linear-gradient(135deg,#11998e,#38ef7d);border-radius:12px;padding:16px;margin-top:12px;text-align:center;color:#fff}
+.net-highlight .net-label{font-size:.85rem;opacity:.9;margin-bottom:4px}
+.net-highlight .net-amount{font-size:2rem;font-weight:800}
+/* TES additions */
+.tes-panel{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.tes-panel h2{font-size:1.05rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.tes-row{display:flex;align-items:center;gap:12px;padding:10px;background:#f7f8ff;border-radius:10px;margin-bottom:8px;font-size:.88rem}
+.tes-row .tes-icon{font-size:1.2rem;width:28px;text-align:center}
+.tes-row .tes-info{flex:1}
+.tes-row .tes-info strong{display:block;font-size:.88rem;color:#1a1a2e}
+.tes-row .tes-info span{font-size:.8rem;color:#777}
+.tes-row .tes-amount{font-weight:700;color:#11998e;font-size:.9rem}
+/* Info panels */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.info-tile{background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.05);border-top:4px solid #11998e}
+.info-tile h4{font-size:.85rem;font-weight:700;margin-bottom:6px;color:#11998e}
+.info-tile p{font-size:.82rem;color:#555;line-height:1.5}
+/* Scenario box */
+.scenario-box{background:#fffbeb;border:1px solid #fcd34d;border-radius:14px;padding:20px;margin-bottom:20px}
+.scenario-box h3{font-size:.95rem;font-weight:700;color:#92400e;margin-bottom:12px}
+.scenario-result{background:#fff;border-radius:10px;padding:14px;margin-top:12px;border:1px solid #fcd34d;font-size:.88rem;line-height:1.7}
+/* Buttons */
+.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;box-shadow:0 4px 16px rgba(17,153,142,.35)}
+.btn-primary:hover{transform:translateY(-2px)}
+.nav-footer{background:#fff;border-radius:16px;padding:20px 24px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.btn-back{color:#11998e;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
+.btn-back:hover{text-decoration:underline}
+.completed-banner{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;border-radius:12px;padding:14px 20px;text-align:center;font-weight:700;font-size:.95rem;margin-bottom:16px;display:none}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+.net-highlight{animation:pulse 2s infinite}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="exercise-header">
+    <h1>💰 Kaupan alan palkanlaskuri</h1>
+    <p>Laske brutto- ja nettopalkka TES-lisineen</p>
+  </div>
+
+  <div id="completedBanner" class="completed-banner">🎉 Hienoa! Olet käyttänyt laskuria — harjoitus merkitty suoritetuksi!</div>
+
+  <div class="layout">
+    <!-- Input panel -->
+    <div class="card">
+      <h2>🎛️ Syötä tiedot</h2>
+
+      <div class="slider-group">
+        <div class="slider-label"><span>⏱️ Viikkotyötunnit</span><span class="slider-val" id="hoursVal">20 h/vk</span></div>
+        <input type="range" min="1" max="40" value="20" id="hoursSlider" oninput="calc()">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label"><span>💵 Tuntipalkka</span><span class="slider-val" id="rateVal">13,50 €/h</span></div>
+        <input type="range" min="1300" max="2000" step="10" value="1350" id="rateSlider" oninput="calc()">
+      </div>
+
+      <div style="margin-bottom:12px;font-size:.85rem;font-weight:600;color:#555">Työsuhde:</div>
+      <div class="toggle-row">
+        <button class="toggle-btn active" id="btn-part" onclick="setType('part',this)">⏱️ Osa-aikainen</button>
+        <button class="toggle-btn" id="btn-full" onclick="setType('full',this)">🕐 Kokoaikainen</button>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label"><span>🌙 Iltalisätunnit/kk (klo 18 jälkeen)</span><span class="slider-val" id="eveningVal">0 h</span></div>
+        <input type="range" min="0" max="80" step="1" value="0" id="eveningSlider" oninput="calc()">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label"><span>📅 Lauantaityötunnit/kk</span><span class="slider-val" id="satVal">0 h</span></div>
+        <input type="range" min="0" max="40" step="1" value="0" id="satSlider" oninput="calc()">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label"><span>⛪ Sunnuntaityötunnit/kk</span><span class="slider-val" id="sunVal">0 h</span></div>
+        <input type="range" min="0" max="32" step="1" value="0" id="sunSlider" oninput="calc()">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label"><span>🧾 Verokortti %</span><span class="slider-val" id="taxVal">20%</span></div>
+        <input type="range" min="5" max="50" step="1" value="20" id="taxSlider" oninput="calc()">
+      </div>
+    </div>
+
+    <!-- Results panel -->
+    <div class="result-card">
+      <h2>📊 Palkkalaskelma</h2>
+      <div class="result-row"><span class="r-label">Perustunnit × tuntipalkka</span><span class="r-val" id="rBaseWage">-</span></div>
+      <div class="result-row"><span class="r-label">+ Iltalisät</span><span class="r-val" id="rEveningAdd">-</span></div>
+      <div class="result-row"><span class="r-label">+ Lauantailisät</span><span class="r-val" id="rSatAdd">-</span></div>
+      <div class="result-row"><span class="r-label">+ Sunnuntailisät</span><span class="r-val" id="rSunAdd">-</span></div>
+      <hr class="divider">
+      <div class="result-row"><span class="r-label"><strong>= Bruttopalkka / kk</strong></span><span class="r-val" id="rGross">-</span></div>
+      <hr class="divider">
+      <div class="result-row"><span class="r-label">− Verotus (<span id="rTaxPct">-</span>%)</span><span class="r-val minus" id="rTax">-</span></div>
+      <div class="result-row"><span class="r-label">− TyEL (7,15 %)</span><span class="r-val minus" id="rTyel">-</span></div>
+      <div class="result-row"><span class="r-label">− Sairausvakuutusmaksu (1,5 %)</span><span class="r-val minus" id="rSickIns">-</span></div>
+      <hr class="divider">
+      <div class="net-highlight">
+        <div class="net-label">💚 NETTOPALKKA / KK</div>
+        <div class="net-amount" id="rNet">-</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TES additions info -->
+  <div class="tes-panel">
+    <h2>📋 TES-lisät (Kaupan alan TES 2025–2028)</h2>
+    <div class="tes-row">
+      <span class="tes-icon">🌙</span>
+      <div class="tes-info">
+        <strong>Iltalisä (klo 18:00–22:00)</strong>
+        <span>Maksetaan jokaiselta tunnilta epämukavana aikana</span>
+      </div>
+      <span class="tes-amount">+1,22 €/h</span>
+    </div>
+    <div class="tes-row">
+      <span class="tes-icon">📅</span>
+      <div class="tes-info">
+        <strong>Lauantailisä</strong>
+        <span>Perustuntipalkan päälle (ei tuplapalkka, vaan prosenttilisä)</span>
+      </div>
+      <span class="tes-amount">+15 %</span>
+    </div>
+    <div class="tes-row">
+      <span class="tes-icon">⛪</span>
+      <div class="tes-info">
+        <strong>Sunnuntailisä</strong>
+        <span>Sunnuntaityö = kaksinkertainen perustuntipalkka</span>
+      </div>
+      <span class="tes-amount">+100 %</span>
+    </div>
+    <div class="tes-row">
+      <span class="tes-icon">🎄</span>
+      <div class="tes-info">
+        <strong>Arkipyhälisä (pyhät kuten joulu, juhannus)</strong>
+        <span>Erillinen sopimus — yleensä sama kuin sunnuntai</span>
+      </div>
+      <span class="tes-amount">+100 %</span>
+    </div>
+  </div>
+
+  <!-- Info panels -->
+  <div class="info-grid">
+    <div class="info-tile">
+      <h4>💡 Brutto vs. Netto</h4>
+      <p><strong>Bruttopalkka</strong> on palkka ennen vähennyksiä. <strong>Nettopalkka</strong> on se, mitä tilille tulee — eli brutto miinus verot ja sosiaalimaksut.</p>
+    </div>
+    <div class="info-tile">
+      <h4>🏦 TyEL — Eläkemaksu</h4>
+      <p><strong>TyEL</strong> (Työntekijän eläkelaki) kertyy eläkettä varten. Sinä maksat n. 7,15 %, työnantaja n. 17 %. Alkaa kertyä 17-vuotiaana.</p>
+    </div>
+    <div class="info-tile">
+      <h4>🏥 Sairausvakuutus</h4>
+      <p><strong>Sairausvakuutusmaksu</strong> (1,5 %) menee Kelalle. Se kattaa sairaspäivärahaa, äitiysrahaa ja terveydenhuollon kuluja.</p>
+    </div>
+    <div class="info-tile">
+      <h4>🧾 Verokortti</h4>
+      <p>Verokorttisi ennakonpidätysprosentti riippuu tuloistasi ja henkilökohtaisesta tilanteestasi. Hae se OmaVero-palvelusta.</p>
+    </div>
+  </div>
+
+  <!-- Scenario: Tiina -->
+  <div class="scenario-box">
+    <h3>🧮 Kokeile yhdessä: Tiina</h3>
+    <p style="font-size:.88rem;color:#555;margin-bottom:12px">Tiina tekee 20 h/vk, tuntipalkka 13,50 €, 5 h iltalisää kuukaudessa, verokortti 18 %. Aseta liukusäätimet ja katso tulos!</p>
+    <button class="btn btn-primary" onclick="setTiina()" style="font-size:.88rem;padding:10px 18px">🎯 Aseta Tiinan luvut automaattisesti</button>
+    <div class="scenario-result" id="tiinaSummary" style="display:none"></div>
+  </div>
+
+  <div class="nav-footer">
+    <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
+  </div>
+</div>
+
+<script>
+const SCORM = (() => {
+    let api=null,connected=false;
+    function findAPI(win){let a=0;while(win&&!win.API&&a<10){if(win.parent&&win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;}return win&&win.API?win.API:null;}
+    function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;}}
+    function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
+    function commit(){if(!connected||!api)return;api.LMSCommit('');}
+    function completePassFail(passed){setValue('cmi.core.lesson_status',passed?'passed':'failed');setValue('cmi.core.score.raw',passed?100:0);setValue('cmi.core.score.max',100);commit();}
+    return{init,completePassFail};
+})();
+window.addEventListener('load',SCORM.init);
+
+let calcCount = 0;
+let completed = false;
+let workType = 'part';
+
+function setType(type, btn) {
+    workType = type;
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (type === 'full') {
+        document.getElementById('hoursSlider').value = 37.5;
+        document.getElementById('hoursSlider').step = 0.5;
+    }
+    calc();
+}
+
+function fmt(n) { return n.toLocaleString('fi-FI', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' €'; }
+function fmtInt(n) { return n.toLocaleString('fi-FI', { maximumFractionDigits:2 }) + ' €'; }
+
+function calc() {
+    const hours = parseFloat(document.getElementById('hoursSlider').value);
+    const rate = parseInt(document.getElementById('rateSlider').value) / 100;
+    const eveningH = parseInt(document.getElementById('eveningSlider').value);
+    const satH = parseInt(document.getElementById('satSlider').value);
+    const sunH = parseInt(document.getElementById('sunSlider').value);
+    const taxPct = parseInt(document.getElementById('taxSlider').value);
+
+    document.getElementById('hoursVal').textContent = hours + ' h/vk';
+    document.getElementById('rateVal').textContent = rate.toFixed(2).replace('.', ',') + ' €/h';
+    document.getElementById('eveningVal').textContent = eveningH + ' h';
+    document.getElementById('satVal').textContent = satH + ' h';
+    document.getElementById('sunVal').textContent = sunH + ' h';
+    document.getElementById('taxVal').textContent = taxPct + '%';
+
+    // Monthly hours: hours/week * 52/12
+    const monthlyHours = hours * (52 / 12);
+    const baseWage = monthlyHours * rate;
+    const eveningAdd = eveningH * 1.22;
+    const satAdd = satH * rate * 0.15;
+    const sunAdd = sunH * rate * 1.00;
+    const gross = baseWage + eveningAdd + satAdd + sunAdd;
+
+    const taxAmount = gross * (taxPct / 100);
+    const tyelAmount = gross * 0.0715;
+    const sickAmount = gross * 0.015;
+    const net = gross - taxAmount - tyelAmount - sickAmount;
+
+    document.getElementById('rBaseWage').textContent = fmt(baseWage);
+    document.getElementById('rEveningAdd').textContent = eveningH > 0 ? '+' + fmt(eveningAdd) : '0,00 €';
+    document.getElementById('rSatAdd').textContent = satH > 0 ? '+' + fmt(satAdd) : '0,00 €';
+    document.getElementById('rSunAdd').textContent = sunH > 0 ? '+' + fmt(sunAdd) : '0,00 €';
+    document.getElementById('rGross').textContent = fmt(gross);
+    document.getElementById('rTaxPct').textContent = taxPct;
+    document.getElementById('rTax').textContent = '-' + fmt(taxAmount);
+    document.getElementById('rTyel').textContent = '-' + fmt(tyelAmount);
+    document.getElementById('rSickIns').textContent = '-' + fmt(sickAmount);
+    document.getElementById('rNet').textContent = fmt(net);
+
+    calcCount++;
+    if (calcCount >= 3 && !completed) {
+        completed = true;
+        document.getElementById('completedBanner').style.display = 'block';
+        SCORM.completePassFail(true);
+    }
+}
+
+function setTiina() {
+    document.getElementById('hoursSlider').value = 20;
+    document.getElementById('rateSlider').value = 1350;
+    document.getElementById('eveningSlider').value = 5;
+    document.getElementById('satSlider').value = 0;
+    document.getElementById('sunSlider').value = 0;
+    document.getElementById('taxSlider').value = 18;
+    setType('part', document.getElementById('btn-part'));
+    calc();
+    const hours = 20 * (52/12);
+    const rate = 13.50;
+    const base = hours * rate;
+    const evening = 5 * 1.22;
+    const gross = base + evening;
+    const tax = gross * 0.18;
+    const tyel = gross * 0.0715;
+    const sick = gross * 0.015;
+    const net = gross - tax - tyel - sick;
+    document.getElementById('tiinaSummary').style.display = 'block';
+    document.getElementById('tiinaSummary').innerHTML = `
+      <strong>🧮 Tiinan laskelma:</strong><br>
+      • Kuukausitunnit: ${Math.round(hours)} h<br>
+      • Perusansio: ${base.toFixed(2).replace('.',',')} €<br>
+      • Iltalisät (5 h × 1,22 €): ${evening.toFixed(2).replace('.',',')} €<br>
+      • <strong>Bruttopalkka: ${gross.toFixed(2).replace('.',',')} €</strong><br>
+      • Verot (18 %): -${tax.toFixed(2).replace('.',',')} €<br>
+      • TyEL (7,15 %): -${tyel.toFixed(2).replace('.',',')} €<br>
+      • SV-maksu (1,5 %): -${sick.toFixed(2).replace('.',',')} €<br>
+      • <strong style="color:#11998e">Nettopalkka: ${net.toFixed(2).replace('.',',')} €</strong>`;
+}
+
+calc();
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Osio 2: Työn pelisäännöt</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:20px}
+.hero{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:40px 32px;border-radius:20px;margin-bottom:32px;position:relative;overflow:hidden}
+.hero::before{content:'⚖️';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.18}
+.hero h1{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;margin-bottom:8px}
+.hero .subtitle{font-size:1rem;opacity:.9;margin-bottom:16px}
+.objectives{background:rgba(255,255,255,.15);border-radius:12px;padding:16px;margin-top:12px}
+.objectives h3{font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8;margin-bottom:10px}
+.obj-list{display:flex;flex-wrap:wrap;gap:8px}
+.obj-tag{background:rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:.85rem;border:1px solid rgba(255,255,255,.35)}
+.section-title{font-size:1.1rem;font-weight:700;color:#11998e;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.exercises-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:32px}
+.exercise-card{background:#fff;border-radius:16px;padding:28px;cursor:pointer;text-decoration:none;color:inherit;display:block;border:2px solid transparent;transition:all .3s ease;box-shadow:0 2px 12px rgba(0,0,0,.07);position:relative;overflow:hidden}
+.exercise-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#11998e,#38ef7d)}
+.exercise-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(17,153,142,.25);border-color:#11998e}
+.card-num{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#11998e;margin-bottom:10px}
+.card-icon{font-size:2.8rem;margin-bottom:12px;display:block}
+.card-title{font-size:1.1rem;font-weight:700;margin-bottom:8px;color:#1a1a2e}
+.card-desc{font-size:.88rem;color:#555;line-height:1.5;margin-bottom:16px}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tag{background:#f0fff8;color:#11998e;border-radius:20px;padding:3px 10px;font-size:.78rem;font-weight:600}
+.card-arrow{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:8px 18px;border-radius:20px;font-size:.9rem;font-weight:600;transition:opacity .2s}
+.exercise-card:hover .card-arrow{opacity:.85}
+.info-box{background:#fff;border-radius:12px;padding:20px;border-left:4px solid #11998e;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.info-box h3{font-size:.95rem;font-weight:700;color:#11998e;margin-bottom:8px}
+.info-box p{font-size:.88rem;color:#555;line-height:1.6}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.exercise-card{animation:fadeUp .5s ease both}
+.exercise-card:nth-child(2){animation-delay:.1s}
+.exercise-card:nth-child(3){animation-delay:.2s}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>⚖️ Osio 2: Työn pelisäännöt</h1>
+    <p class="subtitle">Tunne oikeutesi ja velvollisuutesi — työsopimuksesta palkkaan</p>
+    <div class="objectives">
+      <h3>🎯 Oppimistavoitteet</h3>
+      <div class="obj-list">
+        <span class="obj-tag">Työntekijän oikeudet</span>
+        <span class="obj-tag">Työnantajan velvollisuudet</span>
+        <span class="obj-tag">Työsopimustyypit</span>
+        <span class="obj-tag">Palkanlaskenta</span>
+        <span class="obj-tag">TES-lisät</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-title">📚 Harjoitustehtävät</p>
+
+  <div class="exercises-grid">
+    <a href="harjoitus-1-oikeudet-velvollisuudet/index.html" class="exercise-card">
+      <div class="card-num">Harjoitus 1 / 3</div>
+      <span class="card-icon">🤝</span>
+      <div class="card-title">Oikeudet ja velvollisuudet</div>
+      <p class="card-desc">Lajittele 12 väittämää oikeisiin lokeroihin: työnantajan velvollisuus, työntekijän oikeus tai molemmat. Vedä ja pudota!</p>
+      <div class="card-tags">
+        <span class="tag">🖱️ Vedä ja pudota</span>
+        <span class="tag">⚖️ Työoikeus</span>
+      </div>
+      <span class="card-arrow">Aloita harjoitus →</span>
+    </a>
+
+    <a href="harjoitus-2-tyosopimus-sopimusvertailu/index.html" class="exercise-card">
+      <div class="card-num">Harjoitus 2 / 3</div>
+      <span class="card-icon">📝</span>
+      <div class="card-title">Työsopimus ja sopimusvertailu</div>
+      <p class="card-desc">Vertaile kolmea erilaista sopimustyyppiä — kesätyö, kevytyrittäjyys ja TES-pohjainen osa-aikatyö. Mikä suojelee sinua parhaiten?</p>
+      <div class="card-tags">
+        <span class="tag">📄 Sopimukset</span>
+        <span class="tag">⚠️ Riskit</span>
+        <span class="tag">🔍 Vertailu</span>
+      </div>
+      <span class="card-arrow">Aloita harjoitus →</span>
+    </a>
+
+    <a href="harjoitus-3-palkanlaskuri/index.html" class="exercise-card">
+      <div class="card-num">Harjoitus 3 / 3</div>
+      <span class="card-icon">💰</span>
+      <div class="card-title">Palkanlaskuri</div>
+      <p class="card-desc">Laske kaupan alan palkka liukusäätimillä — brutto, verot, TyEL ja netto. Opiskele TES-lisät: ilta-, lauantai- ja sunnuntaityö.</p>
+      <div class="card-tags">
+        <span class="tag">🧮 Laskuri</span>
+        <span class="tag">💵 Palkka</span>
+        <span class="tag">📊 TES-lisät</span>
+      </div>
+      <span class="card-arrow">Aloita harjoitus →</span>
+    </a>
+  </div>
+
+  <div class="info-box">
+    <h3>💡 Vinkki</h3>
+    <p>Aloita oikeuksista ja velvollisuuksista — se antaa perustan sopimusvertailulle. Palkanlaskurissa pääset kokeilemaan eri skenaarioita käytännössä.</p>
+  </div>
+</div>
+</body>
+</html>
