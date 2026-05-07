@@ -63,6 +63,12 @@ input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
 .btn-back{color:#11998e;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
 .btn-back:hover{text-decoration:underline}
 .completed-banner{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;border-radius:12px;padding:14px 20px;text-align:center;font-weight:700;font-size:.95rem;margin-bottom:16px;display:none}
+
+.next-exercise{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.next-label{font-size:.78rem;color:#888;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.btn-next{display:inline-flex;flex-direction:column;align-items:flex-start;background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:12px 20px;border-radius:14px;text-decoration:none;font-weight:700;font-size:.95rem;transition:all .2s}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(17,153,142,.4)}
+.btn-next small{font-size:.78rem;opacity:.85;font-weight:400;margin-top:2px}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
 .net-highlight{animation:pulse 2s infinite}
 </style>
@@ -206,6 +212,13 @@ input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
 
   <div class="nav-footer">
     <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
+    <div class="next-exercise">
+      <span class="next-label">Seuraava harjoitus:</span>
+      <a href="../harjoitus-4-tyoviikon-suunnittelu/index.html" class="btn-next">
+        🗓️ Työviikon suunnittelu →
+        <small>Suunnittele viikon opinnot, työvuorot ja palkka</small>
+      </a>
+    </div>
   </div>
 </div>
 

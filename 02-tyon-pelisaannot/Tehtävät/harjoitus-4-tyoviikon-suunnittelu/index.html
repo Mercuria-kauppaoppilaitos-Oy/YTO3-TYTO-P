@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Työviikon suunnittelu</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#eef3f8;
+  --card:#ffffff;
+  --text:#1a1a2e;
+  --muted:#5b6475;
+  --line:#d8e0ea;
+  --study:#4f46e5;
+  --study-soft:#e8e7ff;
+  --work:#0f9d7a;
+  --work-soft:#ddfbf3;
+  --accent:#0ea5e9;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#f4f7fb,#e9eff6);color:var(--text);min-height:100vh}
+.container{max-width:1320px;margin:0 auto;padding:20px}
+.exercise-header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:34px;border-radius:22px;margin-bottom:22px;position:relative;overflow:hidden;box-shadow:0 18px 42px rgba(79,70,229,.18)}
+.exercise-header::after{content:'🗓️';position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:84px;opacity:.15}
+.exercise-header h1{font-size:clamp(1.5rem,3.6vw,2.3rem);font-weight:800;margin-bottom:8px}
+.exercise-header p{max-width:850px;font-size:1rem;line-height:1.55;opacity:.96}
+.top-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-bottom:20px}
+.card{background:var(--card);border-radius:18px;padding:22px;box-shadow:0 6px 24px rgba(15,23,42,.08)}
+.card h2{font-size:1.08rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.intro p,.tes-task p,.goal-box p{color:var(--muted);line-height:1.65;font-size:.95rem}
+.intro p + p,.tes-task p + p,.goal-box p + p{margin-top:10px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.step{background:#f8fbff;border:1px solid #dce7f3;border-radius:14px;padding:14px}
+.step strong{display:block;font-size:.88rem;margin-bottom:6px;color:#1e3a8a}
+.step span{font-size:.84rem;color:var(--muted);line-height:1.5}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.legend-item{display:inline-flex;align-items:center;gap:8px;background:#f8fafc;border-radius:999px;padding:8px 12px;font-size:.84rem;font-weight:700;color:#334155;border:1px solid #e2e8f0}
+.legend-swatch{width:14px;height:14px;border-radius:4px}
+.legend-study{background:var(--study)}
+.legend-work{background:var(--work)}
+.legend-select{background:var(--accent)}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.summary-tile{border-radius:18px;padding:18px;background:#f8fafc;border:1px solid #e2e8f0}
+.summary-tile.study{background:linear-gradient(135deg,#eef2ff,#f8f7ff);border-color:#c7d2fe}
+.summary-tile.work{background:linear-gradient(135deg,#ecfdf5,#f0fdf9);border-color:#a7f3d0}
+.summary-tile.total{background:linear-gradient(135deg,#eff6ff,#f0f9ff);border-color:#bae6fd}
+.summary-tile h3{font-size:.83rem;letter-spacing:.05em;text-transform:uppercase;color:#475569;margin-bottom:8px}
+.summary-value{font-size:2rem;font-weight:800}
+.summary-tile.study .summary-value{color:var(--study)}
+.summary-tile.work .summary-value{color:var(--work)}
+.summary-tile.total .summary-value{color:#0369a1}
+.summary-note{font-size:.82rem;color:var(--muted);margin-top:8px;line-height:1.45}
+.calendar-card{padding:20px 16px 16px}
+.calendar-header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px;padding:0 6px}
+.calendar-header p{color:var(--muted);font-size:.9rem;line-height:1.5;max-width:780px}
+.calendar-wrapper{overflow:auto;padding-bottom:4px}
+.calendar{min-width:1120px;display:grid;grid-template-columns:92px repeat(7,minmax(135px,1fr));gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.time-head,.day-head{padding:14px 10px;font-size:.82rem;font-weight:800;border-bottom:1px solid var(--line);background:#f8fbff;position:sticky;top:0;z-index:2}
+.time-head{left:0;z-index:3;text-transform:uppercase;letter-spacing:.06em;color:#64748b}
+.day-head{text-align:center}
+.day-head span{display:block;font-size:.78rem;font-weight:600;color:#64748b;margin-top:3px}
+.time-label,.slot{border-bottom:1px solid var(--line)}
+.time-label{padding:0 10px;height:24px;font-size:.74rem;color:#64748b;background:#fbfdff;display:flex;align-items:flex-start;justify-content:flex-end;position:sticky;left:0;z-index:1}
+.slot{height:24px;border-left:1px solid var(--line);background:#fff;cursor:crosshair;transition:background .12s ease;position:relative}
+.slot:hover{background:#f8fbff}
+.slot.selected-range{background:rgba(14,165,233,.18)!important}
+.slot.study{background:var(--study-soft)}
+.slot.work{background:var(--work-soft)}
+.slot[data-rounded-top="true"]{border-top-left-radius:10px;border-top-right-radius:10px}
+.slot[data-rounded-bottom="true"]{border-bottom-left-radius:10px;border-bottom-right-radius:10px}
+.slot[data-bordered="study"]{box-shadow:inset 4px 0 0 var(--study)}
+.slot[data-bordered="work"]{box-shadow:inset 4px 0 0 var(--work)}
+.slot-label{position:absolute;left:10px;top:3px;font-size:.72rem;font-weight:800;letter-spacing:.02em}
+.slot.study .slot-label{color:var(--study)}
+.slot.work .slot-label{color:var(--work)}
+.day-total-row{display:grid;grid-template-columns:repeat(7,minmax(135px,1fr));gap:12px;margin:16px 0 6px 92px;min-width:1010px}
+.day-total{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 12px}
+.day-total strong{display:block;font-size:.82rem;margin-bottom:4px}
+.day-total span{font-size:.8rem;color:var(--muted)}
+.blocks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:18px}
+.day-blocks{background:#f8fafc;border-radius:16px;padding:16px;border:1px solid #e2e8f0}
+.day-blocks h3{font-size:.95rem;font-weight:800;margin-bottom:10px}
+.block-list{display:flex;flex-direction:column;gap:8px}
+.block-item{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border-radius:12px;padding:10px 12px;border:1px solid #e2e8f0}
+.block-item.study{border-left:4px solid var(--study)}
+.block-item.work{border-left:4px solid var(--work)}
+.block-meta{display:flex;flex-direction:column;gap:3px}
+.block-type{font-size:.82rem;font-weight:800}
+.block-time{font-size:.82rem;color:var(--muted)}
+.block-remove{border:none;background:#fee2e2;color:#b91c1c;border-radius:999px;padding:7px 10px;cursor:pointer;font-size:.78rem;font-weight:700;font-family:inherit}
+.empty-state{font-size:.84rem;color:var(--muted);line-height:1.5}
+.warning-box{margin-top:18px;border-radius:16px;padding:16px 18px;background:#fff7ed;border:1px solid #fdba74;color:#9a3412;display:none}
+.warning-box strong{display:block;margin-bottom:8px}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.85rem;font-weight:700;margin-bottom:6px}
+.field input{width:100%;border:1px solid #cbd5e1;border-radius:12px;padding:12px 14px;font-size:1rem;font-family:inherit}
+.field small{display:block;margin-top:6px;color:var(--muted);line-height:1.5}
+.pay-card{background:linear-gradient(135deg,#f0fdf9,#ecfeff);border:1px solid #99f6e4}
+.pay-card .result-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(15,23,42,.08);font-size:.92rem}
+.pay-card .result-row:last-child{border-bottom:none}
+.pay-card .result-row strong:last-child{font-size:1.25rem;color:#0f766e}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:20px}
+.goal-box{background:#fff;border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(15,23,42,.08);border-top:4px solid #38bdf8}
+.goal-box h3{font-size:1rem;font-weight:800;margin-bottom:10px}
+.completed-banner{background:linear-gradient(135deg,#0f9d7a,#14b8a6);color:#fff;border-radius:14px;padding:14px 18px;text-align:center;font-weight:800;font-size:.95rem;margin:0 0 18px;display:none}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:30}
+.modal{background:#fff;border-radius:20px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(15,23,42,.28)}
+.modal h3{font-size:1.15rem;margin-bottom:8px}
+.modal p{font-size:.92rem;color:var(--muted);line-height:1.55;margin-bottom:18px}
+.modal-actions{display:flex;flex-wrap:wrap;gap:10px}
+.btn{border:none;cursor:pointer;border-radius:999px;padding:12px 18px;font-size:.94rem;font-weight:800;font-family:inherit;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-study{background:var(--study);color:#fff;box-shadow:0 8px 20px rgba(79,70,229,.25)}
+.btn-work{background:var(--work);color:#fff;box-shadow:0 8px 20px rgba(15,157,122,.22)}
+.btn-secondary{background:#eef2f7;color:#334155}
+.nav-footer{background:#fff;border-radius:16px;padding:18px 22px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 6px 24px rgba(15,23,42,.08)}
+.btn-back{color:#4f46e5;text-decoration:none;font-weight:700;font-size:.92rem}
+.btn-back:hover{text-decoration:underline}
+.helper-line{font-size:.84rem;color:var(--muted);margin-top:10px}
+@media(max-width:980px){
+  .top-grid,.pay-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .container{padding:14px}
+  .exercise-header{padding:26px 22px}
+  .card{padding:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="exercise-header">
+    <h1>🗓️ Työviikon suunnittelu</h1>
+    <p>Kuvittele olevasi Mercuriassa opiskeleva merkonomiopiskelija, joka tekee opintojen rinnalla osa-aikaista työtä myyjänä. Suunnittele yksi viikko niin, että sekä opinnot, työvuorot että oma jaksaminen pysyvät tasapainossa.</p>
+  </div>
+
+  <div id="completedBanner" class="completed-banner">🎉 Hienoa! Olet suunnitellut viikon ja laskenut työvuorojen palkan.</div>
+
+  <div class="top-grid">
+    <div class="card intro">
+      <h2>📘 Tehtävän ohje</h2>
+      <p>Rakenna kalenteriin oma viikkosuunnitelmasi maanantaista sunnuntaihin. Merkitse kalenteriin opintoihin käytettävä aika ja myyjän työvuorot vetämällä hiirellä päivän kohdalle sopivan pituinen ajanjakso.</p>
+      <p>Kun vapautat hiiren, valitse lisätäänkö kohtaan <strong>Opinnot</strong> vai <strong>Työvuoro</strong>. Järjestelmä laskee automaattisesti viikkotuntisi, seuraa kokonaiskuormitusta ja arvioi työvuoroista saatavan palkan.</p>
+      <div class="steps">
+        <div class="step"><strong>1. Maalaa kalenteriin</strong><span>Vedä yhden päivän sisällä haluamasi aikajakso puolentunnin tarkkuudella.</span></div>
+        <div class="step"><strong>2. Valitse merkintä</strong><span>Päättäessäsi valitse lisäätkö kohtaan opintoja vai työvuoron.</span></div>
+        <div class="step"><strong>3. Tarkastele yhteenvetoa</strong><span>Seuraa tuntimääriä, päivän kuormitusta ja mahdollisia hyvinvointimuistutuksia.</span></div>
+        <div class="step"><strong>4. Laske palkka</strong><span>Selvitä TES:n mukainen tuntipalkkasi ja syötä se laskentaan.</span></div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-swatch legend-study"></span>Opinnot</div>
+        <div class="legend-item"><span class="legend-swatch legend-work"></span>Työvuoro</div>
+        <div class="legend-item"><span class="legend-swatch legend-select"></span>Valittava alue</div>
+      </div>
+      <div class="helper-line">Vinkki: voit poistaa merkinnän klikkaamalla sen rivin poista-painiketta päivän listassa.</div>
+    </div>
+
+
+  </div>
+
+  <div class="card calendar-card">
+    <div class="calendar-header">
+      <div>
+        <h2>🧭 Viikkokalenteri</h2>
+        <p>Kalenterissa näkyy yksi viikko puolentunnin tarkkuudella. Voit lisätä samalle päivälle useita palkkeja, kunhan ne eivät mene päällekkäin.</p>
+      </div>
+    </div>
+
+    <div class="calendar-wrapper">
+      <div class="calendar" id="calendar"></div>
+      <div class="day-total-row" id="dayTotals"></div>
+    </div>
+
+    <div class="blocks-grid" id="blocksGrid"></div>
+  </div>
+
+  <div class="card">
+    <h2>📊 Viikon yhteenveto</h2>
+    <div class="summary-grid">
+      <div class="summary-tile study">
+        <h3>Opintoja viikossa</h3>
+        <div class="summary-value" id="studyHours">0 h</div>
+        <div class="summary-note">Kaikki kalenteriin merkityt opiskeluajat yhteensä.</div>
+      </div>
+      <div class="summary-tile work">
+        <h3>Työvuoroja viikossa</h3>
+        <div class="summary-value" id="workHours">0 h</div>
+        <div class="summary-note">Kaikki kalenteriin merkityt työvuorot yhteensä.</div>
+      </div>
+      <div class="summary-tile total">
+        <h3>Yhteensä viikossa</h3>
+        <div class="summary-value" id="totalHours">0 h</div>
+        <div class="summary-note">Opinnot ja työvuorot yhteensä. Huomioi kokonaiskuorma.</div>
+      </div>
+    </div>
+    <div id="warningBox" class="warning-box"></div>
+  </div>
+
+  <div class="pay-grid">
+    <div class="card tes-task">
+      <h2>💶 Lisätehtävä: TES ja palkka</h2>
+      <p>Selvitä Kaupan alan työehtosopimuksesta, mikä on myyjän tuntipalkka ensimmäisen työkokemusvuoden aikana. Syötä löytämäsi tuntipalkka kenttään ja vertaile sitä kalenteriin merkitsemiisi työvuoroihin.</p>
+      <p>Laskenta huomioi automaattisesti työvuoroihin osuvat ilta- ja viikonloppulisät tämän tehtävän mallissa seuraavasti: iltalisä klo 18–22 <strong>+1,33 €/h</strong>, lauantailisä <strong>+1,33 €/h</strong> ja sunnuntaityö <strong>+100 % perustuntipalkasta</strong>. Sunnuntain iltalisä lisätään sunnuntaikorotuksen päälle.</p>
+      <div class="field">
+        <label for="hourlyRate">Syötä TES:n mukainen tuntipalkka (€ / h)</label>
+        <input id="hourlyRate" type="number" min="0" step="0.01" placeholder="Esim. 11,96">
+        <small>Vinkki: vuoden 2023–2025 taulukossa myyjän 1. vuoden tuntipalkka oli esimerkiksi pääkaupunkiseudulla 11,96 €/h ja muualla Suomessa 11,49 €/h.</small>
+      </div>
+      <div class="field">
+        <label for="reflection">Pohdi lyhyesti</label>
+        <input id="reflection" type="text" placeholder="Mitä huomaat viikkosi kuormasta ja palkasta?">
+        <small>Tavoitteena on huomata, miten työmäärä, opiskeluaika ja ansiot vaikuttavat arkeesi.</small>
+      </div>
+    </div>
+
+    <div class="card pay-card">
+      <h2>🧮 Palkka työvuoroista</h2>
+      <div class="result-row"><span>Peruspalkka työvuoroista / viikko</span><span id="basePayWeek">0,00 €</span></div>
+      <div class="result-row"><span>Iltalisät / viikko</span><span id="eveningPayWeek">0,00 €</span></div>
+      <div class="result-row"><span>Lauantailisät / viikko</span><span id="saturdayPayWeek">0,00 €</span></div>
+      <div class="result-row"><span>Sunnuntaikorotus / viikko</span><span id="sundayPayWeek">0,00 €</span></div>
+      <div class="result-row"><span><strong>Palkka työvuoroista viikossa</strong></span><strong id="weeklyPay">0,00 €</strong></div>
+      <div class="result-row"><span><strong>Palkka työvuoroista kuukaudessa</strong></span><strong id="monthlyPay">0,00 €</strong></div>
+      <div class="helper-line">Kuukausipalkka on arvio, jossa saman viikon oletetaan toistuvan koko kuukauden ajan.</div>
+    </div>
+  </div>
+
+  <div class="goals">
+    <div class="goal-box">
+      <h3>🎯 Tehtävän tavoitteet</h3>
+      <p>Opiskelija oppii hahmottamaan oman opiskelu- ja työaikansa kokonaisuutta, arvioimaan viikoittaista kuormitusta sekä pohtimaan omaa hyvinvointiaan.</p>
+    </div>
+    <div class="goal-box">
+      <h3>💡 Mitä opit palkasta?</h3>
+      <p>Opiskelija oppii ymmärtämään, miten tuntipalkka, ilta- ja viikonloppulisät sekä työvuorojen määrä vaikuttavat palkkion muodostumiseen.</p>
+    </div>
+  </div>
+
+  <div class="nav-footer">
+    <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="typeModal">
+  <div class="modal">
+    <h3>Lisätäänkö valittu aika opintoihin vai työhön?</h3>
+    <p id="modalText">Valitse merkinnän tyyppi tälle aikajaksolle.</p>
+    <div class="modal-actions">
+      <button class="btn btn-study" id="studyBtn">📘 Opinnot</button>
+      <button class="btn btn-work" id="workBtn">🛍️ Työvuoro</button>
+      <button class="btn btn-secondary" id="cancelBtn">Peruuta</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SCORM = (() => {
+  let api = null, connected = false;
+  function findAPI(win){let a=0;while(win && !win.API && a<10){if(win.parent && win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;}return win && win.API ? win.API : null;}
+  function init(){api = findAPI(window);if(api){const r = api.LMSInitialize('');connected = r === 'true' || r === true;}}
+  function setValue(k,v){if(!connected || !api)return;api.LMSSetValue(k,String(v));}
+  function commit(){if(!connected || !api)return;api.LMSCommit('');}
+  function complete(){setValue('cmi.core.lesson_status','passed');setValue('cmi.core.score.raw',100);setValue('cmi.core.score.max',100);commit();}
+  return { init, complete };
+})();
+window.addEventListener('load', SCORM.init);
+
+const days = [
+  { key: 'mon', label: 'Maanantai', short: 'Ma' },
+  { key: 'tue', label: 'Tiistai', short: 'Ti' },
+  { key: 'wed', label: 'Keskiviikko', short: 'Ke' },
+  { key: 'thu', label: 'Torstai', short: 'To' },
+  { key: 'fri', label: 'Perjantai', short: 'Pe' },
+  { key: 'sat', label: 'Lauantai', short: 'La' },
+  { key: 'sun', label: 'Sunnuntai', short: 'Su' }
+];
+const startHour = 6;
+const endHour = 22;
+const slotsPerHour = 2;
+const totalSlots = (endHour - startHour) * slotsPerHour;
+const entries = [];
+let currentSelection = null;
+let pendingSelection = null;
+let completed = false;
+
+const calendarEl = document.getElementById('calendar');
+const dayTotalsEl = document.getElementById('dayTotals');
+const blocksGridEl = document.getElementById('blocksGrid');
+const modalEl = document.getElementById('typeModal');
+const modalTextEl = document.getElementById('modalText');
+const hourlyRateEl = document.getElementById('hourlyRate');
+const reflectionEl = document.getElementById('reflection');
+
+function fmtHours(hours){
+  return (Math.round(hours * 10) / 10).toLocaleString('fi-FI', { minimumFractionDigits: hours % 1 === 0 ? 0 : 1, maximumFractionDigits: 1 }) + ' h';
+}
+function fmtMoney(amount){
+  return amount.toLocaleString('fi-FI', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+function slotToTime(slotIndex){
+  const totalMinutes = startHour * 60 + slotIndex * 30;
+  const hours = Math.floor(totalMinutes / 60).toString().padStart(2,'0');
+  const minutes = (totalMinutes % 60).toString().padStart(2,'0');
+  return `${hours}.${minutes}`;
+}
+function hoursBetween(start, end){
+  return (end - start) * 0.5;
+}
+function getDayIndex(dayKey){
+  return days.findIndex(day => day.key === dayKey);
+}
+function createCalendar(){
+  calendarEl.innerHTML = '';
+  const timeHead = document.createElement('div');
+  timeHead.className = 'time-head';
+  timeHead.textContent = 'Aika';
+  calendarEl.appendChild(timeHead);
+
+  days.forEach(day => {
+    const head = document.createElement('div');
+    head.className = 'day-head';
+    head.innerHTML = `${day.label}<span>${day.short}</span>`;
+    calendarEl.appendChild(head);
+  });
+
+  for(let slot = 0; slot < totalSlots; slot++){
+    const timeLabel = document.createElement('div');
+    timeLabel.className = 'time-label';
+    timeLabel.textContent = slot % 2 === 0 ? slotToTime(slot) : '';
+    calendarEl.appendChild(timeLabel);
+
+    days.forEach(day => {
+      const cell = document.createElement('div');
+      cell.className = 'slot';
+      cell.dataset.day = day.key;
+      cell.dataset.slot = slot;
+      cell.addEventListener('mousedown', startSelection);
+      cell.addEventListener('mouseenter', updateSelection);
+      calendarEl.appendChild(cell);
+    });
+  }
+
+  dayTotalsEl.innerHTML = days.map(day => `
+    <div class="day-total" id="total-${day.key}">
+      <strong>${day.label}</strong>
+      <span>Ei merkintöjä vielä</span>
+    </div>`).join('');
+}
+
+function startSelection(event){
+  if (event.button !== 0) return;
+  if (event.currentTarget.dataset.entryId) return;
+  const cell = event.currentTarget;
+  currentSelection = {
+    day: cell.dataset.day,
+    startSlot: Number(cell.dataset.slot),
+    endSlot: Number(cell.dataset.slot)
+  };
+  applySelectionHighlight();
+}
+
+function updateSelection(event){
+  if (!currentSelection) return;
+  const cell = event.currentTarget;
+  if (cell.dataset.day !== currentSelection.day) return;
+  currentSelection.endSlot = Number(cell.dataset.slot);
+  applySelectionHighlight();
+}
+
+function clearSelectionHighlight(){
+  document.querySelectorAll('.slot.selected-range').forEach(el => el.classList.remove('selected-range'));
+}
+
+function applySelectionHighlight(){
+  clearSelectionHighlight();
+  if (!currentSelection) return;
+  const start = Math.min(currentSelection.startSlot, currentSelection.endSlot);
+  const end = Math.max(currentSelection.startSlot, currentSelection.endSlot);
+  for(let slot = start; slot <= end; slot++){
+    const cell = document.querySelector(`.slot[data-day="${currentSelection.day}"][data-slot="${slot}"]`);
+    if (cell && !cell.dataset.entryId) cell.classList.add('selected-range');
+  }
+}
+
+function finishSelection(){
+  if (!currentSelection) return;
+  const start = Math.min(currentSelection.startSlot, currentSelection.endSlot);
+  const end = Math.max(currentSelection.startSlot, currentSelection.endSlot) + 1;
+  const overlap = entries.some(entry => entry.day === currentSelection.day && !(end <= entry.start || start >= entry.end));
+  clearSelectionHighlight();
+  if (overlap) {
+    alert('Valitsemallasi kohdalla on jo merkintä. Poista vanha merkintä tai valitse toinen aika.');
+    currentSelection = null;
+    return;
+  }
+  pendingSelection = { day: currentSelection.day, start, end };
+  const dayLabel = days.find(day => day.key === pendingSelection.day).label;
+  modalTextEl.textContent = `${dayLabel} ${slotToTime(start)}–${slotToTime(end)} (${fmtHours(hoursBetween(start, end))})`;
+  modalEl.style.display = 'flex';
+  currentSelection = null;
+}
+
+function addEntry(type){
+  if (!pendingSelection) return;
+  entries.push({
+    id: `${type}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    day: pendingSelection.day,
+    start: pendingSelection.start,
+    end: pendingSelection.end,
+    type
+  });
+  closeModal();
+  renderEverything();
+}
+
+function closeModal(){
+  pendingSelection = null;
+  modalEl.style.display = 'none';
+}
+
+function removeEntry(entryId){
+  const index = entries.findIndex(entry => entry.id === entryId);
+  if (index >= 0) {
+    entries.splice(index, 1);
+    renderEverything();
+  }
+}
+
+function renderCalendarEntries(){
+  document.querySelectorAll('.slot').forEach(cell => {
+    cell.className = 'slot';
+    cell.removeAttribute('data-entry-id');
+    cell.removeAttribute('data-rounded-top');
+    cell.removeAttribute('data-rounded-bottom');
+    cell.removeAttribute('data-bordered');
+    cell.innerHTML = '';
+  });
+
+  entries.forEach(entry => {
+    for(let slot = entry.start; slot < entry.end; slot++){
+      const cell = document.querySelector(`.slot[data-day="${entry.day}"][data-slot="${slot}"]`);
+      if (!cell) continue;
+      cell.classList.add(entry.type);
+      cell.dataset.entryId = entry.id;
+      cell.dataset.bordered = entry.type;
+      const previousFilled = slot > entry.start;
+      const nextFilled = slot < entry.end - 1;
+      cell.dataset.roundedTop = previousFilled ? 'false' : 'true';
+      cell.dataset.roundedBottom = nextFilled ? 'false' : 'true';
+      if (slot === entry.start) {
+        const label = document.createElement('div');
+        label.className = 'slot-label';
+        label.textContent = entry.type === 'study' ? 'Opinnot' : 'Työvuoro';
+        cell.appendChild(label);
+      }
+    }
+  });
+}
+
+function renderDayTotals(){
+  days.forEach(day => {
+    const dayEntries = entries.filter(entry => entry.day === day.key);
+    const studyHours = dayEntries.filter(entry => entry.type === 'study').reduce((sum, entry) => sum + hoursBetween(entry.start, entry.end), 0);
+    const workHours = dayEntries.filter(entry => entry.type === 'work').reduce((sum, entry) => sum + hoursBetween(entry.start, entry.end), 0);
+    const total = studyHours + workHours;
+    document.getElementById(`total-${day.key}`).innerHTML = `<strong>${day.label}</strong><span>${total ? `Opinnot ${fmtHours(studyHours)} · Työ ${fmtHours(workHours)} · Yhteensä ${fmtHours(total)}` : 'Ei merkintöjä vielä'}</span>`;
+  });
+}
+
+function renderBlockLists(){
+  blocksGridEl.innerHTML = '';
+  days.forEach(day => {
+    const dayEntries = entries
+      .filter(entry => entry.day === day.key)
+      .sort((a, b) => a.start - b.start);
+    const wrapper = document.createElement('div');
+    wrapper.className = 'day-blocks';
+    wrapper.innerHTML = `<h3>${day.label}</h3>`;
+    const list = document.createElement('div');
+    list.className = 'block-list';
+
+    if (!dayEntries.length) {
+      list.innerHTML = '<div class="empty-state">Tälle päivälle ei ole vielä lisätty opintoja tai työvuoroja.</div>';
+    } else {
+      dayEntries.forEach(entry => {
+        const item = document.createElement('div');
+        item.className = `block-item ${entry.type}`;
+        item.innerHTML = `
+          <div class="block-meta">
+            <span class="block-type">${entry.type === 'study' ? '📘 Opinnot' : '🛍️ Työvuoro'}</span>
+            <span class="block-time">${slotToTime(entry.start)}–${slotToTime(entry.end)} · ${fmtHours(hoursBetween(entry.start, entry.end))}</span>
+          </div>
+          <button class="block-remove" type="button">Poista</button>`;
+        item.querySelector('button').addEventListener('click', () => removeEntry(entry.id));
+        list.appendChild(item);
+      });
+    }
+    wrapper.appendChild(list);
+    blocksGridEl.appendChild(wrapper);
+  });
+}
+
+function getTotals(){
+  const studyHours = entries.filter(entry => entry.type === 'study').reduce((sum, entry) => sum + hoursBetween(entry.start, entry.end), 0);
+  const workHours = entries.filter(entry => entry.type === 'work').reduce((sum, entry) => sum + hoursBetween(entry.start, entry.end), 0);
+  return { studyHours, workHours, totalHours: studyHours + workHours };
+}
+
+function renderSummary(){
+  const totals = getTotals();
+  document.getElementById('studyHours').textContent = fmtHours(totals.studyHours);
+  document.getElementById('workHours').textContent = fmtHours(totals.workHours);
+  document.getElementById('totalHours').textContent = fmtHours(totals.totalHours);
+}
+
+function renderWarnings(){
+  const warningBox = document.getElementById('warningBox');
+  const dailyWarnings = days
+    .map(day => {
+      const load = entries.filter(entry => entry.day === day.key).reduce((sum, entry) => sum + hoursBetween(entry.start, entry.end), 0);
+      return load > 12 ? `${day.label}: päivän kokonaiskuorma on ${fmtHours(load)}.` : null;
+    })
+    .filter(Boolean);
+  const weeklyLoad = getTotals().totalHours;
+  const warnings = [...dailyWarnings];
+  if (weeklyLoad > 38) warnings.push(`Viikon kokonaiskuorma on ${fmtHours(weeklyLoad)}.`);
+
+  if (!warnings.length) {
+    warningBox.style.display = 'none';
+    warningBox.innerHTML = '';
+    return;
+  }
+
+  warningBox.style.display = 'block';
+  warningBox.innerHTML = `<strong>Huomio hyvinvointi ja jaksaminen</strong><div>${warnings.join('<br>')}<br>Jos kokonaiskuorma kasvaa suureksi, mieti missä voisit keventää viikkoasi tai jättää palautumisaikaa.</div>`;
+}
+
+function getWorkedSegments(){
+  const rate = Number(hourlyRateEl.value.replace(',', '.')) || 0;
+  let base = 0;
+  let evening = 0;
+  let saturday = 0;
+  let sunday = 0;
+
+  entries.filter(entry => entry.type === 'work').forEach(entry => {
+    const dayIndex = getDayIndex(entry.day);
+    for(let slot = entry.start; slot < entry.end; slot++){
+      const hour = startHour + slot / 2;
+      base += rate * 0.5;
+      if (hour >= 18 && hour < 22) evening += 1.33 * 0.5;
+      if (dayIndex === 5) saturday += 1.33 * 0.5;
+      if (dayIndex === 6) sunday += rate * 0.5;
+    }
+  });
+
+  return { base, evening, saturday, sunday, total: base + evening + saturday + sunday };
+}
+
+function renderPay(){
+  const pay = getWorkedSegments();
+  document.getElementById('basePayWeek').textContent = fmtMoney(pay.base);
+  document.getElementById('eveningPayWeek').textContent = fmtMoney(pay.evening);
+  document.getElementById('saturdayPayWeek').textContent = fmtMoney(pay.saturday);
+  document.getElementById('sundayPayWeek').textContent = fmtMoney(pay.sunday);
+  document.getElementById('weeklyPay').textContent = fmtMoney(pay.total);
+  document.getElementById('monthlyPay').textContent = fmtMoney(pay.total * (52 / 12));
+}
+
+function updateCompletion(){
+  const hasStudy = entries.some(entry => entry.type === 'study');
+  const hasWork = entries.some(entry => entry.type === 'work');
+  const hasRate = (Number(hourlyRateEl.value.replace(',', '.')) || 0) > 0;
+  const hasReflection = reflectionEl.value.trim().length > 5;
+  if (!completed && hasStudy && hasWork && hasRate && hasReflection) {
+    completed = true;
+    document.getElementById('completedBanner').style.display = 'block';
+    SCORM.complete();
+  }
+}
+
+function renderEverything(){
+  renderCalendarEntries();
+  renderDayTotals();
+  renderBlockLists();
+  renderSummary();
+  renderWarnings();
+  renderPay();
+  updateCompletion();
+}
+
+document.addEventListener('mouseup', finishSelection);
+document.addEventListener('mouseleave', event => {
+  if (event.target === document.documentElement) finishSelection();
+});
+document.getElementById('studyBtn').addEventListener('click', () => addEntry('study'));
+document.getElementById('workBtn').addEventListener('click', () => addEntry('work'));
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+modalEl.addEventListener('click', event => { if (event.target === modalEl) closeModal(); });
+hourlyRateEl.addEventListener('input', renderEverything);
+reflectionEl.addEventListener('input', updateCompletion);
+
+createCalendar();
+renderEverything();
+</script>
+</body>
+</html>
