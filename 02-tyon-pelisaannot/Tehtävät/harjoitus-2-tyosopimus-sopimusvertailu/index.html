@@ -3,335 +3,964 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Työsopimus ja sopimusvertailu</title>
+<title>Harjoitus 2 – Sopimusvertailu</title>
 <style>
+/* ── Reset & base ─────────────────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
-.container{max-width:1024px;margin:0 auto;padding:20px}
-.exercise-header{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
-.exercise-header::after{content:'📝';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
-.exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
-.exercise-header p{opacity:.9;font-size:.95rem}
-.tab-bar{display:flex;gap:0;margin-bottom:0;background:#fff;border-radius:14px 14px 0 0;padding:8px 8px 0;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto}
-.tab-btn{border:none;background:transparent;padding:12px 18px;font-size:.9rem;font-weight:600;cursor:pointer;border-radius:10px 10px 0 0;transition:all .2s;white-space:nowrap;font-family:inherit;color:#666;border-bottom:3px solid transparent}
-.tab-btn.active{color:#11998e;border-bottom-color:#11998e;background:#f0fff8}
-.tab-btn:hover:not(.active){background:#f7f8f9}
-.tab-content{background:#fff;border-radius:0 0 14px 14px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07);display:none}
-.tab-content.active{display:block;animation:fadeUp .35s ease}
-/* Contract document style */
-.contract-doc{border:2px solid #e0e0e0;border-radius:12px;padding:20px;background:#fafafa;font-size:.88rem;line-height:1.7}
-.contract-doc .doc-title{font-size:1.1rem;font-weight:700;text-align:center;padding-bottom:12px;border-bottom:2px solid #e0e0e0;margin-bottom:16px;color:#1a1a2e}
-.contract-section{border:1px solid #e8e8e8;border-radius:8px;padding:12px;margin-bottom:10px;cursor:pointer;transition:all .2s;position:relative;background:#fff}
-.contract-section:hover{border-color:#11998e;background:#f0fff8;box-shadow:0 2px 8px rgba(17,153,142,.1)}
-.contract-section.highlighted{background:linear-gradient(135deg,rgba(17,153,142,.08),rgba(56,239,125,.08));border-color:#11998e}
-.cs-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.cs-label{font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#888}
-.cs-click{margin-left:auto;color:#11998e;font-size:.8rem;font-weight:600}
-.cs-content{font-size:.87rem;color:#333}
-.clause-popup{background:linear-gradient(135deg,#f0fff8,#e8fdf5);border:1px solid #6ee7b7;border-radius:10px;padding:14px;margin-top:8px;font-size:.85rem;line-height:1.6;display:none}
-.contract-section.highlighted .clause-popup{display:block}
-.clause-popup .cp-title{font-weight:700;color:#065f46;margin-bottom:4px}
-.clause-popup .cp-risk{margin-top:6px;padding:6px 10px;border-radius:6px;font-size:.82rem;font-weight:600}
-.risk-ok{background:#f0fdf4;color:#166534;border:1px solid #86efac}
-.risk-warn{background:#fffbeb;color:#92400e;border:1px solid #fcd34d}
-.risk-bad{background:#fef2f2;color:#991b1b;border:1px solid #fca5a5}
-/* Risk meter */
-.risk-meter-container{margin:20px 0;padding:16px;background:#f7f8ff;border-radius:12px}
-.risk-meter-container h4{font-size:.9rem;font-weight:700;margin-bottom:12px;color:#333}
-.risk-bar-wrap{display:flex;align-items:center;gap:12px;margin-bottom:6px}
-.risk-label{font-size:.85rem;width:80px;color:#555}
-.risk-track{flex:1;height:14px;background:#e8e8f0;border-radius:7px;overflow:hidden}
-.risk-fill{height:100%;border-radius:7px;transition:width 1s ease}
-.risk-low{background:linear-gradient(90deg,#22c55e,#86efac)}
-.risk-med{background:linear-gradient(90deg,#f59e0b,#fcd34d)}
-.risk-high{background:linear-gradient(90deg,#ef4444,#f87171)}
-.risk-pct{font-size:.85rem;font-weight:700;width:35px;text-align:right}
-/* Comparison checklist */
-.checklist-section{background:#fff;border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-.checklist-section h2{font-size:1.1rem;font-weight:700;margin-bottom:8px}
-.checklist-section p{font-size:.88rem;color:#555;margin-bottom:20px}
-.checklist-table{width:100%;border-collapse:collapse;font-size:.88rem}
-.checklist-table th{padding:10px 14px;background:#f7f8ff;font-weight:700;font-size:.83rem;border-bottom:2px solid #e0e4ff;text-align:center}
-.checklist-table th:first-child{text-align:left}
-.checklist-table td{padding:10px 14px;border-bottom:1px solid #f0f0f8;text-align:center}
-.checklist-table td:first-child{text-align:left;font-weight:600}
-.check-btn{border:none;background:#f0f0f0;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.85rem;transition:all .2s;font-family:inherit}
-.check-btn:hover{background:#e0e0f0}
-.check-btn.revealed-yes{background:#f0fdf4;color:#166534;border:1px solid #86efac;cursor:default}
-.check-btn.revealed-no{background:#fef2f2;color:#991b1b;border:1px solid #fca5a5;cursor:default}
-.check-btn.revealed-partial{background:#fffbeb;color:#92400e;border:1px solid #fcd34d;cursor:default}
-/* Buttons */
-.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
-.btn-primary{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;box-shadow:0 4px 16px rgba(17,153,142,.35)}
-.btn-primary:hover{transform:translateY(-2px)}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn-secondary{background:#fff;color:#11998e;border:2px solid #11998e}
-.btn-row{margin-top:20px;display:flex;justify-content:flex-end;gap:10px}
-.warning-box{background:#fff3cd;border:1px solid #ffc107;border-radius:12px;padding:16px 20px;margin:20px 0;font-size:.9rem;color:#664d03}
-.warning-box strong{color:#664d03}
-/* Completion */
-.completion-screen{text-align:center;padding:40px 20px;animation:fadeIn .6s ease}
-.completion-badge{font-size:5rem;margin-bottom:16px;animation:bounce .8s ease}
-.score-display{font-size:2.5rem;font-weight:800;color:#11998e;margin:16px 0}
-.nav-footer{background:#fff;border-radius:16px;padding:20px 24px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-.btn-back{color:#11998e;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
-.btn-back:hover{text-decoration:underline}
-.next-exercise{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.next-label{font-size:.78rem;color:#888;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-.btn-next{display:inline-flex;flex-direction:column;align-items:flex-start;background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:12px 20px;border-radius:14px;text-decoration:none;font-weight:700;font-size:.95rem;transition:all .2s}
-.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(17,153,142,.4)}
-.btn-next small{font-size:.78rem;opacity:.85;font-weight:400;margin-top:2px}
-.hidden{display:none!important}
-@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.progress-container{background:#fff;border-radius:12px;padding:12px 20px;margin-bottom:8px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.progress-bar{flex:1;height:8px;background:#e8e8f0;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#11998e,#38ef7d);border-radius:4px;transition:width .5s ease}
-.step-label{font-size:.9rem;font-weight:700;color:#11998e;white-space:nowrap}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f3;color:#1a1a2e;min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* ── Layout chrome ────────────────────────────────────────────── */
+.page-wrap{max-width:900px;margin:0 auto;padding:20px 16px 48px}
+
+.ex-header{
+  background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%);
+  color:#fff;padding:28px 32px;border-radius:16px;margin-bottom:24px;
+  position:relative;overflow:hidden;
+}
+.ex-header::after{
+  content:'📄';position:absolute;right:24px;top:50%;
+  transform:translateY(-50%);font-size:72px;opacity:.15;pointer-events:none;
+}
+.ex-header h1{font-size:clamp(1.1rem,3vw,1.75rem);font-weight:800;margin-bottom:6px}
+.ex-header p{opacity:.92;font-size:.92rem;max-width:520px}
+
+/* progress bar */
+.progress-bar{background:rgba(255,255,255,.3);border-radius:99px;height:8px;margin-top:14px;overflow:hidden}
+.progress-fill{height:100%;background:#fff;border-radius:99px;transition:width .5s ease}
+
+/* ── Screen system ────────────────────────────────────────────── */
+.screen{display:none}
+.screen.active{display:block;animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Step indicator ───────────────────────────────────────────── */
+.step-indicator{display:flex;align-items:center;gap:4px;margin-bottom:18px;font-size:.82rem;color:#666}
+.step-dot{width:28px;height:28px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0;transition:all .3s}
+.step-dot.done{background:#11998e;color:#fff}
+.step-dot.current{background:#38ef7d;color:#1a1a2e;box-shadow:0 0 0 3px rgba(56,239,125,.3)}
+.step-line{flex:1;height:2px;background:#ddd;border-radius:2px}
+.step-line.done{background:#11998e}
+
+/* ── Question card ────────────────────────────────────────────── */
+.q-card{
+  background:#fff;border-radius:14px;padding:22px 24px;
+  box-shadow:0 3px 16px rgba(0,0,0,.09);margin-bottom:20px;
+  border-left:5px solid #11998e;
+}
+.q-num{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#11998e;margin-bottom:8px}
+.q-text{font-size:1.05rem;font-weight:700;color:#1a1a2e;margin-bottom:16px;line-height:1.45}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice-btn{
+  background:#f7f9f8;border:2px solid #e0e8e5;border-radius:10px;
+  padding:13px 16px;font-size:.93rem;font-weight:600;cursor:pointer;
+  text-align:left;font-family:inherit;transition:all .2s;color:#1a1a2e;
+}
+.choice-btn:hover:not(:disabled){border-color:#11998e;background:#f0fff8;transform:translateX(3px)}
+.choice-btn.correct{background:#d4fce8;border-color:#11998e;color:#0a6659}
+.choice-btn.wrong{background:#fde8e8;border-color:#e05555;color:#8b1a1a}
+.choice-btn:disabled{cursor:default;transform:none}
+
+.feedback-box{
+  margin-top:14px;padding:12px 16px;border-radius:10px;font-size:.9rem;
+  font-weight:600;display:none;
+}
+.feedback-box.show{display:block}
+.feedback-box.ok{background:#d4fce8;color:#0a6659;border:1px solid #7dd8b8}
+.feedback-box.err{background:#fde8e8;color:#8b1a1a;border:1px solid #f4aaaa}
+.feedback-box .expl{font-weight:400;margin-top:4px;font-size:.85rem;opacity:.9}
+
+/* ── Q progress inside card ───────────────────────────────────── */
+.q-progress{display:flex;align-items:center;gap:6px;margin-bottom:16px}
+.q-dot{width:10px;height:10px;border-radius:50%;background:#e0e8e5;transition:background .3s}
+.q-dot.answered-ok{background:#11998e}
+.q-dot.answered-err{background:#e05555}
+.q-dot.current-q{background:#38ef7d;box-shadow:0 0 0 2px rgba(56,239,125,.4)}
+
+/* ── Contract document ────────────────────────────────────────── */
+.contract-wrap{background:#fff;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.1);overflow:hidden;margin-bottom:20px}
+.contract-paper{
+  background:#fdfcf8;
+  border:1px solid #d8d0c4;
+  margin:0;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:.88rem;
+  line-height:1.75;
+  color:#222;
+  padding:36px 40px;
+}
+.contract-header-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px}
+.company-logo-box{
+  border:2px solid #bbb;border-radius:6px;padding:8px 14px;
+  font-family:'Segoe UI',sans-serif;font-size:.8rem;font-weight:700;
+  color:#555;background:#f5f5f5;text-align:center;min-width:120px;line-height:1.3;
+}
+.contract-title-block{flex:1;text-align:center}
+.contract-main-title{
+  font-size:1.25rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;border-bottom:3px double #555;
+  padding-bottom:8px;margin-bottom:6px;display:inline-block;
+}
+.contract-subtitle{font-size:.82rem;color:#666;font-style:italic}
+.doc-num{font-family:'Segoe UI',sans-serif;font-size:.75rem;color:#999;text-align:right;min-width:100px}
+
+.parties-box{
+  border:1px solid #ccc;border-radius:4px;padding:12px 16px;
+  margin-bottom:20px;background:#fafaf7;
+}
+.parties-box table{width:100%;border-collapse:collapse}
+.parties-box td{padding:3px 8px;font-size:.85rem;vertical-align:top}
+.parties-box td:first-child{font-weight:700;white-space:nowrap;color:#444;width:130px}
+
+.contract-clause{margin-bottom:14px}
+.clause-title{font-weight:700;font-size:.9rem;margin-bottom:3px;color:#1a1a1a}
+.clause-body{font-size:.87rem;color:#333;margin-left:16px}
+
+/* risk highlight */
+.risk-clause{
+  border-radius:4px;padding:2px 4px;cursor:pointer;
+  transition:background .2s;
+  border-bottom:2px solid transparent;
+}
+.risk-clause.risk-hidden{background:transparent;border-bottom-color:transparent}
+.risk-clause.risk-shown{background:#fff3b0;border-bottom-color:#f0b429}
+.risk-tip{
+  display:none;background:#fff3b0;border:1px solid #f0b429;
+  border-radius:8px;padding:10px 14px;margin:8px 0 8px 16px;
+  font-family:'Segoe UI',sans-serif;font-size:.82rem;color:#7a4f00;
+  line-height:1.5;
+}
+.risk-tip.show{display:block;animation:fadeUp .2s ease}
+.risk-badge{
+  display:inline-block;background:#f0b429;color:#7a4f00;
+  font-family:'Segoe UI',sans-serif;font-size:.7rem;font-weight:700;
+  padding:1px 7px;border-radius:99px;vertical-align:middle;margin-left:6px;
+}
+
+.contract-signature{border-top:1px solid #ccc;margin-top:20px;padding-top:16px;display:flex;gap:40px;font-size:.82rem;color:#555}
+.sig-col{flex:1}
+.sig-line{border-bottom:1px solid #999;margin-top:24px;margin-bottom:4px}
+
+/* ── Navigation buttons ───────────────────────────────────────── */
+.nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:12px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 22px;border-radius:10px;font-size:.93rem;
+  font-weight:700;cursor:pointer;border:none;font-family:inherit;
+  transition:all .2s;text-decoration:none;
+}
+.btn-primary{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(17,153,142,.35)}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;border:2px solid #c8d8d4;color:#555}
+.btn-ghost:hover{border-color:#11998e;color:#11998e;background:#f0fff8}
+.btn-back-link{font-size:.82rem;color:#888;display:inline-flex;align-items:center;gap:5px}
+.btn-back-link:hover{color:#11998e}
+
+/* ── Score badge ──────────────────────────────────────────────── */
+.score-badge{
+  background:linear-gradient(135deg,#11998e,#38ef7d);
+  color:#fff;border-radius:99px;font-size:.8rem;font-weight:700;
+  padding:4px 14px;display:inline-block;margin-left:8px;
+}
+
+/* ── Section label above contract ────────────────────────────── */
+.section-label{
+  font-size:.75rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:#11998e;margin-bottom:6px;
+}
+.section-title{font-size:1.1rem;font-weight:700;color:#1a1a2e;margin-bottom:4px}
+.section-desc{font-size:.88rem;color:#666;margin-bottom:18px}
+
+/* ── Final screen ─────────────────────────────────────────────── */
+.final-card{background:#fff;border-radius:14px;padding:28px;box-shadow:0 3px 16px rgba(0,0,0,.09);margin-bottom:20px}
+.final-card h2{font-size:1.2rem;font-weight:800;margin-bottom:14px;color:#1a1a2e}
+.final-card h3{font-size:1rem;font-weight:700;margin-bottom:10px;margin-top:18px;color:#1a1a2e}
+
+.score-summary{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.score-item{flex:1;min-width:120px;border-radius:12px;padding:16px;text-align:center}
+.score-item.c1{background:#edf9f4;border:2px solid #7dd8b8}
+.score-item.c2{background:#fff8e6;border:2px solid #f0b429}
+.score-item.c3{background:#edf1ff;border:2px solid #8fa8f0}
+.score-num{font-size:2rem;font-weight:800;line-height:1}
+.score-lbl{font-size:.78rem;color:#666;margin-top:4px}
+
+.risk-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.risk-item{display:flex;gap:12px;align-items:flex-start;background:#fff9e6;border:1px solid #f0d080;border-radius:10px;padding:12px 14px}
+.risk-icon{font-size:1.2rem;flex-shrink:0;line-height:1.4}
+.risk-text strong{font-size:.9rem;color:#7a4f00}
+.risk-text span{font-size:.83rem;color:#666;display:block;margin-top:2px}
+
+.tes-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.tes-item{display:flex;gap:10px;align-items:flex-start;background:#edf9f4;border:1px solid #7dd8b8;border-radius:10px;padding:10px 14px;font-size:.87rem}
+.tes-check{color:#11998e;font-size:1rem;flex-shrink:0;line-height:1.5}
+
+/* comparison table */
+.compare-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.85rem}
+.compare-table th{padding:9px 12px;background:#f0fff8;font-weight:700;text-align:left;border-bottom:2px solid #7dd8b8;color:#11998e}
+.compare-table td{padding:9px 12px;border-bottom:1px solid #e8f0ed;vertical-align:top}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table td:first-child{font-weight:600;color:#444;width:34%}
+.compare-table .yes{color:#0a6659;font-weight:700}
+.compare-table .no{color:#c0392b;font-weight:700}
+.compare-table .warn{color:#7a4f00;font-weight:700}
+
+/* finish big score */
+.finish-score{
+  text-align:center;padding:32px;background:linear-gradient(135deg,#11998e,#38ef7d);
+  border-radius:14px;color:#fff;margin-bottom:20px;
+}
+.finish-score .big{font-size:3.5rem;font-weight:900;line-height:1}
+.finish-score p{margin-top:8px;font-size:1rem;opacity:.92}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media(max-width:600px){
+  .contract-paper{padding:20px 18px}
+  .contract-header-row{flex-direction:column;align-items:center}
+  .doc-num{display:none}
+  .parties-box td:first-child{width:90px}
+  .contract-signature{flex-direction:column;gap:12px}
+  .score-summary{flex-direction:column}
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="exercise-header">
-    <h1>📝 Työsopimus ja sopimusvertailu</h1>
-    <p>Vertaile kolmea erilaista sopimustyyppiä ja tunnista riskit</p>
+<div class="page-wrap">
+
+  <!-- ── Exercise header ── -->
+  <header class="ex-header">
+    <h1>Harjoitus 2 – Sopimusvertailu</h1>
+    <p>Lue kolme erilaista sopimusta ja vastaa kysymyksiin. Lopussa analysoidaan sopimuksiin liittyvät riskit.</p>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </header>
+
+  <!-- ── Step indicator ── -->
+  <div class="step-indicator" id="stepIndicator">
+    <div class="step-dot current" id="dot1">1</div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-dot" id="dot2">2</div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-dot" id="dot3">3</div>
+    <div class="step-line" id="line3"></div>
+    <div class="step-dot" id="dot4">🏁</div>
   </div>
 
-  <div class="progress-container">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
-    <div class="step-label">Tutki sopimukset ja täytä vertailutaulukko</div>
-  </div>
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN 1 — Kesätyösopimus
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="screen active" id="screen1">
+    <div class="section-label">Sopimus 1 / 3</div>
+    <div class="section-title">Kesätyösopimus – K-Supermarket</div>
+    <div class="section-desc">Lue alla oleva työsopimus huolellisesti ja vastaa kolmeen kysymykseen.</div>
 
-  <div id="mainContent">
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="showTab('tab1',this)">📄 1. Kesätyösopimus</button>
-      <button class="tab-btn" onclick="showTab('tab2',this)">🆓 2. Kevytyrittäjyys</button>
-      <button class="tab-btn" onclick="showTab('tab3',this)">⚖️ 3. TES osa-aikatyö</button>
+    <!-- Q-card -->
+    <div class="q-card" id="qcard1">
+      <div class="q-progress">
+        <div class="q-dot current-q" id="s1d0"></div>
+        <div class="q-dot" id="s1d1"></div>
+        <div class="q-dot" id="s1d2"></div>
+        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s1qLabel">Kysymys 1 / 3</span>
+        <span class="score-badge" id="s1score">0 / 3</span>
+      </div>
+      <div class="q-num" id="s1qNum">Kysymys 1</div>
+      <div class="q-text" id="s1qText">Milloin palkka maksetaan?</div>
+      <div class="choices" id="s1choices"></div>
+      <div class="feedback-box" id="s1fb"></div>
     </div>
 
-    <!-- Tab 1: Summer job -->
-    <div id="tab1" class="tab-content active">
-      <div class="contract-doc">
-        <div class="doc-title">📄 MÄÄRÄAIKAINEN TYÖSOPIMUS — Kesätyö</div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§1 Sopimuksen kesto</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Sopimus on voimassa 1.6.–31.8.2025 (määräaikainen)</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Sopimus päättyy automaattisesti ilman irtisanomista. Työnantaja ei voi jatkaa sopimusta ilman uutta sopimusta — mutta ei myöskään tarvitse! Sinulla ei ole irtisanomissuojaa kuten vakituisella.<div class="cp-risk risk-warn">⚠️ Huomio: Et voi vaatia jatkosopimusta, vaikka työ sujuisi hyvin.</div></div>
+    <!-- Contract 1 -->
+    <div class="contract-wrap">
+      <div class="contract-paper">
+        <div class="contract-header-row">
+          <div class="company-logo-box">K-Supermarket<br>Merituuli Oy</div>
+          <div class="contract-title-block">
+            <div class="contract-main-title">Määräaikainen työsopimus</div>
+            <div class="contract-subtitle">Kesätyöntekijä · Sesonkityö 2025</div>
+          </div>
+          <div class="doc-num">Nro: KSM-2025-147<br>Pvm: 15.4.2025</div>
         </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§2 Palkka</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Palkka: 13,50 €/h (Kaupan alan TES:n mukainen). Maksetaan 15. joka kuukausi.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>TES (työehtosopimus) takaa vähimmäispalkan. Palkka on lainmukaisesti määräytyvä — työnantaja ei voi maksaa alle sen.<div class="cp-risk risk-ok">✅ Hyvä: TES-palkka on turvattu.</div></div>
-        </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§3 Vuosiloma</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Loma ansaitaan vuosilomalain mukaisesti (2 pv/kk). Lomakorvaus maksetaan sopimuksen päättyessä.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Kesätyöntekijä ei useinkaan pidä lomaa sopimuksen aikana, mutta hänelle maksetaan lomakorvaus (noin 9–11 % palkasta) työsuhteen päättyessä.<div class="cp-risk risk-ok">✅ Hyvä: Lomakorvaus on pakollinen.</div></div>
-        </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§4 Koeaika</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Koeaika: 1 kuukausi. Koeaikana sopimus voidaan purkaa välittömästi kumman tahansa osapuolen toimesta.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Koeaikana sekä sinä että työnantaja voivat lopettaa työsuhteen ilman irtisanomisaikaa tai perusteluja (ei kuitenkaan syrjivistä syistä).<div class="cp-risk risk-warn">⚠️ Muista: Koeaikana ei ole irtisanomissuojaa.</div></div>
-        </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§5 Sairausajan palkka</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Sairausajalta maksetaan palkka työnantajan toimesta ensimmäisestä sairauspäivästä (kaupan TES).</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Kaupan TES takaa sairausajan palkan työnantajalta — toisin kuin esim. rakennusalalla, jossa ensimmäinen päivä on omavastuupäivä.<div class="cp-risk risk-ok">✅ Hyvä: Sairausajan palkka on turvattu.</div></div>
-        </div>
-      </div>
-      <div class="risk-meter-container">
-        <h4>📊 Riskimittari: Kesätyösopimus</h4>
-        <div class="risk-bar-wrap"><span class="risk-label">Kokonaisriski</span><div class="risk-track"><div class="risk-fill risk-low" style="width:30%"></div></div><span class="risk-pct" style="color:#22c55e">Matala</span></div>
-        <p style="font-size:.83rem;color:#555;margin-top:8px">Työnantaja ja TES suojaavat — mutta sopimus on lyhyt. Määräaikaisuus rajoittaa turvallisuutta.</p>
-      </div>
-    </div>
 
-    <!-- Tab 2: Freelance/light entrepreneur -->
-    <div id="tab2" class="tab-content">
-      <div class="warning-box">⚠️ <strong>Tärkeää!</strong> Toimeksiantosopimus / kevytyrittäjyys EI ole työsuhde. Et ole tällöin TES:n suojaama!</div>
-      <div class="contract-doc">
-        <div class="doc-title">🆓 TOIMEKSIANTOSOPIMUS — Kevytyrittäjä</div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§1 Sopimuksen luonne</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Toimeksisaaja toimii itsenäisenä yrittäjänä (esim. Ukko.fi / OP-kevytyrittäjä). Ei työsuhde.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Et ole työtekijä — olet yrittäjä. Tämä tarkoittaa: EI TES-suojaa, EI työnantajan eläkemaksuja, EI sairausajan palkkaa automaattisesti.<div class="cp-risk risk-bad">🚨 Vaara: Menetät useimmat työntekijän oikeudet!</div></div>
+        <div class="parties-box">
+          <table>
+            <tr><td>Työnantaja:</td><td><strong>K-Supermarket Merituuli Oy</strong> (Y-tunnus 1234567-8)<br>Meritullinkatu 12, 00170 Helsinki</td></tr>
+            <tr><td>Työntekijä:</td><td><strong>[Opiskelija]</strong><br>Syntymäaika: pp.kk.vvvv</td></tr>
+          </table>
         </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§2 Korvaus</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Korvaus: 15 €/h (sovittu). Toimeksisaaja vastaa itse veroista (ennakkoverot).</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Tuntipalkka saattaa näyttää paremmalta, mutta muista: sinä maksat itse YEL-eläkemaksut (~20 %), sinulla ei ole palkattua lomaa, etkä saa sairausajan palkkaa työnantajalta.<div class="cp-risk risk-bad">🚨 Vaara: 15 €/h brutto on oikeasti n. 10–11 €/h nettona työsuhteen palkan 13,50 €:iin verrattuna.</div></div>
-        </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§3 Vuosiloma</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Toimeksisaajalla ei ole oikeutta vuosilomaan. Ei lomakorvausta.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Et saa palkallista lomaa lainkaan. Vuosilomalaki ei koske yrittäjiä.<div class="cp-risk risk-bad">🚨 Vaara: Ei lomaa, ei lomakorvausta.</div></div>
-        </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§4 Sosiaaliturva</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Toimeksisaaja vastaa itse sosiaaliturvamaksuista (YEL tai yrittäjän vakuutukset).</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Sinulla ei ole työnantajan maksamia: TyEL-eläkettä, tapaturmavakuutusta, ryhmähenkivakuutusta. Joudut maksamaan ne itse tai jäämään ilman.<div class="cp-risk risk-bad">🚨 Vaara: Loukkaantuessasi ei työtapaturmakorvausta!</div></div>
-        </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§5 Sopimuksen päättyminen</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Sopimus voidaan päättää välittömästi ilman irtisanomisaikaa tai perusteluja kumman tahansa toimesta.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Työnantaja voi lopettaa sinut ilman varoitusta, irtisanomisaikaa tai korvausta. Sinulla ei ole irtisanomissuojaa.<div class="cp-risk risk-bad">🚨 Vaara: Täysin ilman irtisanomissuojaa.</div></div>
-        </div>
-      </div>
-      <div class="risk-meter-container">
-        <h4>📊 Riskimittari: Kevytyrittäjyys</h4>
-        <div class="risk-bar-wrap"><span class="risk-label">Kokonaisriski</span><div class="risk-track"><div class="risk-fill risk-high" style="width:90%"></div></div><span class="risk-pct" style="color:#ef4444">KORKEA</span></div>
-        <p style="font-size:.83rem;color:#555;margin-top:8px">Ei TES-suojaa, ei eläketurvaa työnantajalta, ei lomaa, ei sairausajan palkkaa, ei irtisanomissuojaa!</p>
-      </div>
-    </div>
 
-    <!-- Tab 3: Part-time TES -->
-    <div id="tab3" class="tab-content">
-      <div class="contract-doc">
-        <div class="doc-title">⚖️ OSA-AIKAINEN TYÖSOPIMUS — Kaupan TES</div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§1 Sopimuksen laatu</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Toistaiseksi voimassa oleva työsopimus, osa-aikainen (20 h/vk). Kaupan alan TES:n alainen.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Vakituinen työsuhde — vaikka osa-aikainen. Saat kaikki vakituisen työntekijän oikeudet! Työnantaja tarvitsee asiallisen ja painavan syyn irtisanomiseen.<div class="cp-risk risk-ok">✅ Hyvä: Vakituinen työsuhde ja irtisanomissuoja.</div></div>
+        <div class="contract-clause">
+          <div class="clause-title">§ 1 &nbsp;Sopimuksen kesto</div>
+          <div class="clause-body">Sopimus on <strong>määräaikainen</strong> ajalla <strong>1.6.–31.8.2025</strong>. Määräaikaisuuden peruste: sesonkityö (kesän lisähenkilöstötarve). Sopimus ei jatku automaattisesti sopimuskauden päättyessä.</div>
         </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§2 Palkka ja TES-lisät</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Perustuntipalkka 13,50 €/h. Iltalisä +1,22 €/h (klo 18 jälkeen). Lauantailisä +15 %. Sunnuntailisä +100 %.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>TES takaa peruspalkan lisäksi lisäkorvaukset epämukavista ajoista. Sunnuntaityö tuplapalkkaa — tämä on laki, ei pelkkä sopimus.<div class="cp-risk risk-ok">✅ Hyvä: Lisät on pakollisia TES:n mukaan.</div></div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 2 &nbsp;Työnkuva</div>
+          <div class="clause-body">Myyjä, asiakaspalvelutehtävät kassalla ja myymälässä. Tehtävänkuva voi muuttua työnantajan ohjeiden mukaisesti toimipisteen tarpeiden niin vaatiessa.</div>
         </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§3 Eläke ja vakuutukset</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Työnantaja maksaa TyEL-eläkemaksun (~17 % palkasta). Tapaturmavakuutus työnantajan kustannuksella.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Työnantaja maksaa ison osan eläkemaksuistasi! Sinä maksat vain n. 7 % palkastasi, työnantaja n. 17 %. Lisäksi tapaturmavakuutus on automaattinen.<div class="cp-risk risk-ok">✅ Hyvä: Eläkekertymä ja tapaturmaturva automaattisesti.</div></div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 3 &nbsp;Palkka ja palkanmaksu</div>
+          <div class="clause-body">Palkka määräytyy <strong>Kaupan alan TES:n</strong> mukaan, vaativuusryhmä B2: <strong>13,50 €/tunti</strong>. <strong>Palkanmaksupäivä on kuun 15. päivä.</strong> Palkka maksetaan työntekijän ilmoittamalle pankkitilille.</div>
         </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§4 Vuosiloma</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Vuosiloma ansaitaan vuosilomalain ja TES:n mukaan. Pitkässä työsuhteessa jopa 30 pv/vuosi.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Osa-aikainen saa saman lomaoikeuden kuin kokoaikainen (suhteessa työtunteihin). Loma maksetaan täysipalkkaista.<div class="cp-risk risk-ok">✅ Hyvä: Palkallinen vuosiloma.</div></div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 4 &nbsp;Työaika</div>
+          <div class="clause-body">Työvuorot sovitaan viikottain erikseen. Enintään <strong>37,5 h/viikko</strong>. Ylityöt maksetaan TES:n mukaisella korotuksella.</div>
         </div>
-        <div class="contract-section" onclick="toggleClause(this)">
-          <div class="cs-header"><span class="cs-label">§5 YT-neuvottelu</span><span class="cs-click">👆 Klikkaa selitykseen</span></div>
-          <div class="cs-content">Henkilöstöllä on oikeus osallistua yhteistoimintaneuvotteluihin (YT) mahdollisissa irtisanomistilanteissa.</div>
-          <div class="clause-popup"><div class="cp-title">Mitä tämä tarkoittaa?</div>Työnantajan on neuvoteltava henkilöstön kanssa ennen laajempia irtisanomisia (YT-laki, yli 10 henkilön yritykset). Sinulla on oikeus olla edustettuna.<div class="cp-risk risk-ok">✅ Hyvä: Neuvotteluoikeus suojaa.</div></div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 5 &nbsp;Koeaika</div>
+          <div class="clause-body">Koeaika on <strong>1 kuukausi</strong>. Koeajan aikana <strong>molemmat osapuolet voivat irtisanoa</strong> sopimuksen ilman irtisanomisaikaa. Koeaikairtisanomiselle ei tarvita erityistä perustetta, mutta irtisanominen ei saa tapahtua syrjivin perustein.</div>
         </div>
-      </div>
-      <div class="risk-meter-container">
-        <h4>📊 Riskimittari: TES-pohjainen osa-aikatyö</h4>
-        <div class="risk-bar-wrap"><span class="risk-label">Kokonaisriski</span><div class="risk-track"><div class="risk-fill risk-low" style="width:15%"></div></div><span class="risk-pct" style="color:#22c55e">Matala</span></div>
-        <p style="font-size:.83rem;color:#555;margin-top:8px">Paras suoja: TES-palkka, eläke, loma, sairausajan palkka ja irtisanomissuoja. Osa-aikaisuus on ainoa rajoite.</p>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 6 &nbsp;Sairausajan palkka</div>
+          <div class="clause-body">Sairausajan palkka maksetaan <strong>Kaupan alan TES:n mukaisesti 1. sairauspäivästä</strong> alkaen, edellyttäen lääkärintodistusta tai muuta luotettavaa selvitystä.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 7 &nbsp;Vuosiloma</div>
+          <div class="clause-body">Vuosiloma ansaitaan vuosilomalain mukaan. Koska työsuhde päättyy ennen lomasesonkia, <strong>kertynyt loma maksetaan lomakorvauksena</strong> työsuhteen päättyessä.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 8 &nbsp;Sopimuksen päättyminen</div>
+          <div class="clause-body">Määräaikainen sopimus <strong>päättyy automaattisesti 31.8.2025</strong> ilman irtisanomismenettelyä. Koeajan jälkeen sopimusta ei voida irtisanoa ennenaikaisesti ilman molemminpuolista suostumusta tai laillisia perusteita.</div>
+        </div>
+
+        <div class="contract-signature">
+          <div class="sig-col">
+            <div>Työnantajan allekirjoitus</div>
+            <div class="sig-line"></div>
+            <div>Paikka ja päivämäärä</div>
+          </div>
+          <div class="sig-col">
+            <div>Työntekijän allekirjoitus</div>
+            <div class="sig-line"></div>
+            <div>Paikka ja päivämäärä</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Comparison checklist -->
-    <div class="checklist-section">
-      <h2>✅ Sopimusvertailu — paljasta totuus</h2>
-      <p>Klikkaa jokaista ruutua nähdäksesi, mitä kukin sopimus tarjoaa tai ei tarjoa.</p>
-      <div style="overflow-x:auto">
-        <table class="checklist-table">
-          <thead>
-            <tr>
-              <th>Etu / Oikeus</th>
-              <th>📄 Kesätyö</th>
-              <th>🆓 Kevytyrittäjyys</th>
-              <th>⚖️ TES osa-aikatyö</th>
-            </tr>
-          </thead>
-          <tbody id="checklistBody"></tbody>
-        </table>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="completeBtn" onclick="showCompletion()" disabled>🏆 Valmis — katso tulokset</button>
-      </div>
+    <div class="nav-row">
+      <a href="../index.html" class="btn-back-link">← Takaisin osion tehtäviin</a>
+      <button class="btn btn-primary" id="s1next" disabled onclick="goToScreen(2)">Seuraava sopimus →</button>
     </div>
   </div>
 
-  <!-- Completion -->
-  <div id="completionScreen" class="hidden">
-    <div style="background:#fff;border-radius:16px;padding:40px 24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.07)">
-      <div style="font-size:5rem;margin-bottom:16px;animation:bounce .8s ease">🏆</div>
-      <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:12px">Harjoitus suoritettu!</h2>
-      <p style="color:#555;margin-bottom:8px">Olet tutkinut kaikki kolme sopimustyyppiä.</p>
-      <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:12px;padding:16px;margin:20px auto;max-width:500px;text-align:left">
-        <strong style="color:#991b1b">🚨 Tärkein oppi:</strong>
-        <p style="color:#991b1b;margin-top:6px;font-size:.9rem">Kevytyrittäjyys/toimeksiantosopimus ei tarjoa TES-suojaa, palkallista lomaa, eläketurvaa työnantajalta, sairausajan palkkaa eikä irtisanomissuojaa. Vaikka tuntipalkka näyttää korkeammalta, kokonaisturva on paljon heikompi!</p>
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN 2 — Toimeksiantosopimus
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="screen" id="screen2">
+    <div class="section-label">Sopimus 2 / 3</div>
+    <div class="section-title">Toimeksiantosopimus – DigiSales Nordic</div>
+    <div class="section-desc">Tämä sopimus ei ole työsopimus. Lue erityisen tarkasti ja vastaa kysymyksiin.</div>
+
+    <!-- Q-card -->
+    <div class="q-card" id="qcard2" style="border-left-color:#f0b429">
+      <div class="q-progress">
+        <div class="q-dot current-q" id="s2d0"></div>
+        <div class="q-dot" id="s2d1"></div>
+        <div class="q-dot" id="s2d2"></div>
+        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s2qLabel">Kysymys 1 / 3</span>
+        <span class="score-badge" style="background:linear-gradient(135deg,#f0b429,#f7d070);color:#7a4f00" id="s2score">0 / 3</span>
       </div>
-      <div class="nav-footer" style="margin-top:24px">
-        <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
-        <div class="next-exercise">
-          <span class="next-label">Seuraava harjoitus:</span>
-          <a href="../harjoitus-3-palkanlaskuri/index.html" class="btn-next">
-            💰 Palkanlaskuri →
-            <small>Laske oma kaupan alan palkka</small>
-          </a>
+      <div class="q-num" id="s2qNum" style="color:#c89010">Kysymys 1</div>
+      <div class="q-text" id="s2qText"></div>
+      <div class="choices" id="s2choices"></div>
+      <div class="feedback-box" id="s2fb"></div>
+    </div>
+
+    <!-- Contract 2 -->
+    <div class="contract-wrap">
+      <div class="contract-paper">
+        <div class="contract-header-row">
+          <div class="company-logo-box" style="border-color:#aaa;color:#333">DigiSales<br>Nordic Oy</div>
+          <div class="contract-title-block">
+            <div class="contract-main-title">Toimeksiantosopimus</div>
+            <div class="contract-subtitle">Puhelinmyyntityö — Kevytyrittäjyys</div>
+          </div>
+          <div class="doc-num">Nro: DSN-2025-089<br>Pvm: 2.5.2025</div>
+        </div>
+
+        <div class="parties-box">
+          <table>
+            <tr><td>Toimeksiantaja:</td><td><strong>DigiSales Nordic Oy</strong> (Y-tunnus 9876543-2)<br>Runeberginkatu 5 B, 00100 Helsinki</td></tr>
+            <tr><td>Toimeksisaaja:</td><td><strong>[Opiskelija nimi]</strong><br>Verotustiedot: Toimeksisaaja vastaa itse</td></tr>
+          </table>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 1 &nbsp;Sopimuksen luonne</div>
+          <div class="clause-body">
+            <span class="risk-clause risk-hidden" id="r1" onclick="toggleRisk('r1','tip1')">Toimeksisaaja toimii <strong>itsenäisenä yrittäjänä</strong> kevytyrittäjyyspalvelun kautta (esim. Ukko.fi). <strong>TÄMÄ SOPIMUS EI MUODOSTA TYÖSUHDETTA.</strong> Kummallakaan osapuolella ei ole työsuhteeseen liittyviä lakisääteisiä velvollisuuksia.</span>
+            <div class="risk-tip" id="tip1">⚠️ <strong>Huomio:</strong> Koska sopimus ei ole työsopimus, siihen ei sovelleta työlainsäädäntöä. Et saa TES-suojaa, työterveyshuoltoa työnantajalta eikä vuosilomapalkkaa samalla tavalla. Kevytyrittäjyys on laillinen tapa tehdä töitä, mutta muista mitä oikeuksia menetät.</div>
+          </div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 2 &nbsp;Toimeksiannon sisältö</div>
+          <div class="clause-body">Puhelinmyynti yritysasiakkaille (B2B-myynti). Tavoite: <strong>vähintään 15 myyntiä/viikko.</strong> Toimeksisaaja vastaa itse välineistä, työtilasta ja työajoistaan.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 3 &nbsp;Korvaus</div>
+          <div class="clause-body">
+            Provisio <strong>8 % myydystä arvosta.</strong> Pohjapalkkio <strong>600 €/kk</strong>, mikäli viikkotavoite (§ 2) täyttyy jokaisella viikolla.<br>
+            <span class="risk-clause risk-hidden" id="r2" onclick="toggleRisk('r2','tip2')">Toimeksisaaja <strong>laskuttaa työn kevytyrittäjyyspalvelun kautta</strong> ja vastaa itse veroista, eläkemaksuista (YEL) sekä sosiaalivakuutusmaksuista.</span>
+            <div class="risk-tip" id="tip2">⚠️ <strong>Huomio:</strong> Bruttopalkasta vähennetään ennakkoverot + YEL-maksu (~8–15 % tuloista). Todellinen nettotulo voi olla huomattavasti pienempi kuin sopimuksessa mainittu summa. Muista laskea tämä etukäteen!</div>
+          </div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 4 &nbsp;Peruutusprosentti</div>
+          <div class="clause-body">
+            <span class="risk-clause risk-hidden" id="r3" onclick="toggleRisk('r3','tip3')">Mikäli toimeksisaajan hankkimien tilausten <strong>peruutusprosentti ylittää 10 %</strong>, pohjapalkkiosta <strong>vähennetään 50 %</strong> kyseisen peruutuskuukauden ajalta.</span>
+            <div class="risk-tip" id="tip3">⚠️ <strong>Huomio:</strong> Jos asiakkaat peruuttavat tilauksia — vaikka se ei olisi sinun vikasi — menetät puolet pohjapalkkiostasi. 600 € → 300 €. Tähän kannattaa kiinnittää huomiota sopimusta allekirjoittaessa.</div>
+          </div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 5 &nbsp;Kilpailukielto ja vaitiolovelvollisuus</div>
+          <div class="clause-body">
+            <span class="risk-clause risk-hidden" id="r4" onclick="toggleRisk('r4','tip4')">Toimeksisaajalla on <strong>12 kuukauden kilpailukielto</strong> toimeksiannon päättymisen jälkeen samalla toimialalla.</span>
+            <div class="risk-tip" id="tip4">⚠️ <strong>Huomio:</strong> 12 kuukauden kilpailukielto toimeksiannon jälkeen. Toimeksiantosopimuksissa kilpailukieltoja ei säätele sama laki kuin työsopimuksissa — tarkista oikeusasemasi ennen allekirjoittamista.</div>
+            <br>
+            <span class="risk-clause risk-hidden" id="r5" onclick="toggleRisk('r5','tip5')">Mikäli toimeksisaaja ottaa yhteyttä toimeksiantajan asiakkaisiin suoraan <strong>24 kuukauden sisällä</strong> sopimuksen päättymisestä, <strong>sopimussakko on 20 000 €.</strong></span>
+            <div class="risk-tip" id="tip5">⚠️ <strong>Vakava riski:</strong> 20 000 euron sopimussakko on erittäin suuri nuorelle henkilölle. Muista, että tämä koskee kaikkia asiakkaita, joihin olet ollut yhteydessä sopimuksen aikana — myös entisiä tuttuja yrityksiä.</div>
+          </div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 6 &nbsp;Sopimuksen päättyminen</div>
+          <div class="clause-body">
+            <span class="risk-clause risk-hidden" id="r6" onclick="toggleRisk('r6','tip6')">Sopimus voidaan päättää <strong>välittömästi ilman irtisanomisaikaa tai korvauksia</strong> kumman tahansa toimesta milloin tahansa.</span>
+            <div class="risk-tip" id="tip6">⚠️ <strong>Huomio:</strong> Toimeksiantaja voi lopettaa sopimuksen heti, ilman varoitusaikaa ja ilman korvauksia. Työsopimuksessa työnantajalla olisi irtisanomisaika ja lakisääteiset velvollisuudet.</div>
+          </div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 7 &nbsp;Erimielisyydet</div>
+          <div class="clause-body">Erimielisyydet ratkaistaan <strong>Helsingin käräjäoikeudessa</strong>. Sopimukseen sovelletaan Suomen lakia.</div>
+        </div>
+
+        <div class="contract-signature">
+          <div class="sig-col">
+            <div>Toimeksiantajan allekirjoitus</div>
+            <div class="sig-line"></div>
+            <div>Paikka ja päivämäärä</div>
+          </div>
+          <div class="sig-col">
+            <div>Toimeksisaajan allekirjoitus</div>
+            <div class="sig-line"></div>
+            <div>Paikka ja päivämäärä</div>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goToScreen(1)">← Edellinen</button>
+      <button class="btn btn-primary" id="s2next" disabled onclick="goToScreen(3)">Seuraava sopimus →</button>
+    </div>
   </div>
-</div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN 3 — Osa-aikainen työsopimus
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="screen" id="screen3">
+    <div class="section-label">Sopimus 3 / 3</div>
+    <div class="section-title">Osa-aikainen työsopimus – Lidl</div>
+    <div class="section-desc">Toistaiseksi voimassa oleva osa-aikainen työsopimus. Lue ja vastaa kysymyksiin.</div>
+
+    <!-- Q-card -->
+    <div class="q-card" id="qcard3" style="border-left-color:#5c7cfa">
+      <div class="q-progress">
+        <div class="q-dot current-q" id="s3d0"></div>
+        <div class="q-dot" id="s3d1"></div>
+        <div class="q-dot" id="s3d2"></div>
+        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s3qLabel">Kysymys 1 / 3</span>
+        <span class="score-badge" style="background:linear-gradient(135deg,#5c7cfa,#a8bff7);color:#fff" id="s3score">0 / 3</span>
+      </div>
+      <div class="q-num" id="s3qNum" style="color:#5c7cfa">Kysymys 1</div>
+      <div class="q-text" id="s3qText"></div>
+      <div class="choices" id="s3choices"></div>
+      <div class="feedback-box" id="s3fb"></div>
+    </div>
+
+    <!-- Contract 3 -->
+    <div class="contract-wrap">
+      <div class="contract-paper">
+        <div class="contract-header-row">
+          <div class="company-logo-box" style="border-color:#003087;color:#003087">Lidl<br>Suomi Ky</div>
+          <div class="contract-title-block">
+            <div class="contract-main-title">Työsopimus</div>
+            <div class="contract-subtitle">Osa-aikainen työsuhde · Toistaiseksi voimassa</div>
+          </div>
+          <div class="doc-num">Nro: LIDL-25-3341<br>Pvm: 20.4.2025</div>
+        </div>
+
+        <div class="parties-box">
+          <table>
+            <tr><td>Työnantaja:</td><td><strong>Lidl Suomi Ky</strong> (Y-tunnus 2020928-2)<br>Vantaankoski, 01730 Vantaa</td></tr>
+            <tr><td>Työntekijä:</td><td><strong>[Opiskelija]</strong><br>Syntymäaika: pp.kk.vvvv</td></tr>
+          </table>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 1 &nbsp;Työsuhteen laatu</div>
+          <div class="clause-body"><strong>Toistaiseksi voimassa oleva, osa-aikainen</strong> työsuhde. Säännöllinen viikkotyöaika <strong>20 h/viikko.</strong> Sopimus on <strong>Kaupan alan TES:n</strong> alainen.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 2 &nbsp;Työnkuva</div>
+          <div class="clause-body">Myyjä, vuorotyö kassalla ja myymälässä. Työnantajalla on oikeus siirtää työntekijä toimipisteen sisällä muihin tehtäviin.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 3 &nbsp;Palkka</div>
+          <div class="clause-body">
+            Peruspalkka TES vaativuusryhmä A: <strong>13,50 €/h</strong>.<br>
+            Iltalisä: <strong>+1,22 €/h</strong> (klo 18–22).<br>
+            Lauantailisä: <strong>+15 %</strong> peruspalkasta.<br>
+            <strong>Sunnuntailisä: +100 %</strong> (kaksinkertainen palkka).
+          </div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 4 &nbsp;Työaika</div>
+          <div class="clause-body">Työvuorot sovitaan työvuorolistalla <strong>vähintään 2 viikkoa etukäteen.</strong> Minimityöaika <strong>20 h/viikko</strong> taataan ellei työntekijä itse pyydä poikkeusta.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 5 &nbsp;Koeaika</div>
+          <div class="clause-body">Koeaika on <strong>4 kuukautta</strong> (vakituisessa työsuhteessa pidempi koeaika on TES:n mukaan sallittu). Koeajan aikana molemmat voivat irtisanoa sopimuksen ilman irtisanomisaikaa.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 6 &nbsp;Irtisanomisaika</div>
+          <div class="clause-body">
+            <strong>Työnantaja:</strong> 1–6 kuukautta työsuhteen kestosta riippuen (palvelusvuodet 0–1 v: 1 kk, 1–4 v: 1 kk, jne.).<br>
+            <strong>Työntekijä:</strong> 14 päivää – 1 kuukausi.<br>
+            Koeajan jälkeen työnantaja <strong>tarvitsee laillisen perusteen</strong> irtisanomiseen (henkilökohtainen tai tuotannollinen syy).
+          </div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 7 &nbsp;Vuosiloma</div>
+          <div class="clause-body">Vuosiloma määräytyy vuosilomalain mukaan: <strong>2,5 pv/täysi lomakuukausi.</strong> Loma pidetään sovittuna ajanjaksona; lomakorvaus maksetaan lomapalkkana.</div>
+        </div>
+
+        <div class="contract-clause">
+          <div class="clause-title">§ 8 &nbsp;Sairausajan palkka</div>
+          <div class="clause-body">Sairausajan palkka maksetaan <strong>TES:n mukaan 1. sairauspäivästä</strong> alkaen työnantajan toimesta edellyttäen asianmukaista selvitystä.</div>
+        </div>
+
+        <div class="contract-signature">
+          <div class="sig-col">
+            <div>Työnantajan allekirjoitus</div>
+            <div class="sig-line"></div>
+            <div>Paikka ja päivämäärä</div>
+          </div>
+          <div class="sig-col">
+            <div>Työntekijän allekirjoitus</div>
+            <div class="sig-line"></div>
+            <div>Paikka ja päivämäärä</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goToScreen(2)">← Edellinen</button>
+      <button class="btn btn-primary" id="s3next" disabled onclick="goToScreen(4)">Loppuanalyysi →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN 4 — Final risk reveal
+  ══════════════════════════════════════════════════════════════ -->
+  <div class="screen" id="screen4">
+
+    <div class="finish-score">
+      <div class="big" id="finalScoreBig">0 / 9</div>
+      <p id="finalScoreMsg">Oikeat vastaukset</p>
+    </div>
+
+    <div class="score-summary">
+      <div class="score-item c1">
+        <div class="score-num" id="fs1">0/3</div>
+        <div class="score-lbl">Sopimus 1<br>Kesätyö</div>
+      </div>
+      <div class="score-item c2">
+        <div class="score-num" id="fs2">0/3</div>
+        <div class="score-lbl">Sopimus 2<br>Toimeksianto</div>
+      </div>
+      <div class="score-item c3">
+        <div class="score-num" id="fs3">0/3</div>
+        <div class="score-lbl">Sopimus 3<br>Osa-aikainen</div>
+      </div>
+    </div>
+
+    <!-- Risk analysis -->
+    <div class="final-card">
+      <h2>⚠️ Toimeksiantosopimuksen riskit — klikkaa lausekkeita sopimuksesta</h2>
+      <p style="font-size:.88rem;color:#666;margin-bottom:16px">Toimeksiantosopimus (kevytyrittäjyys) voi sopia tilanteeseen, mutta nämä riskit on hyvä tiedostaa:</p>
+
+      <ul class="risk-list">
+        <li class="risk-item">
+          <span class="risk-icon">🚫</span>
+          <div class="risk-text">
+            <strong>Ei työsuhdetta — ei TES-suojaa</strong>
+            <span>Et saa kaupan alan TES:n mukaisia etuja (sairausajan palkkaa työnantajalta, vuosilomaa, ylityökorotuksia) automaattisesti.</span>
+          </div>
+        </li>
+        <li class="risk-item">
+          <span class="risk-icon">💰</span>
+          <div class="risk-text">
+            <strong>Verot ja YEL maksat itse</strong>
+            <span>Bruttotulostasi vähennetään ennakkovero + yrittäjän eläkemaksu. 600 €/kk voi olla nettona huomattavasti vähemmän.</span>
+          </div>
+        </li>
+        <li class="risk-item">
+          <span class="risk-icon">📉</span>
+          <div class="risk-text">
+            <strong>Pohjapalkkio voi puolittua (§ 4)</strong>
+            <span>Jos peruutusprosentti ylittää 10 %, pohjapalkkiosta vähennetään 50 % — vaikka peruutukset eivät olisi sinun vikasi.</span>
+          </div>
+        </li>
+        <li class="risk-item">
+          <span class="risk-icon">⚖️</span>
+          <div class="risk-text">
+            <strong>20 000 € sopimussakko (§ 5)</strong>
+            <span>Yhteydenotto asiakkaisiin 24 kuukauden sisällä johtaa erittäin suureen sopimussakkoon. Tämä on poikkeuksellisen kova ehto.</span>
+          </div>
+        </li>
+        <li class="risk-item">
+          <span class="risk-icon">🔚</span>
+          <div class="risk-text">
+            <strong>Sopimus voidaan päättää heti (§ 6)</strong>
+            <span>Toimeksiantaja voi lopettaa sopimuksen välittömästi ilman korvauksia. Työsopimuksessa on aina irtisanomisaika.</span>
+          </div>
+        </li>
+      </ul>
+
+      <h3 style="margin-top:22px">✅ Milloin kevytyrittäjyys voi sopia?</h3>
+      <ul class="tes-list">
+        <li class="tes-item"><span class="tes-check">✓</span>Haluat kokeilla myyntityötä sivutulojen lähteenä muun työn ohessa</li>
+        <li class="tes-item"><span class="tes-check">✓</span>Sinulla on jo vakituinen työ tai opiskelu, joka kattaa sosiaaliturvan</li>
+        <li class="tes-item"><span class="tes-check">✓</span>Provisiopalkka kiinnostaa ja sinulla on hyvä myyntimotivaatio</li>
+        <li class="tes-item"><span class="tes-check">✓</span>Ymmärrät ja hyväksyt sopimuksen ehdot tietoisesti</li>
+      </ul>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="final-card">
+      <h2>📊 TES-suoja vs. Toimeksiantosopimus</h2>
+      <table class="compare-table">
+        <tr>
+          <th>Ominaisuus</th>
+          <th>TES-työsopimus</th>
+          <th>Toimeksiantosopimus</th>
+        </tr>
+        <tr>
+          <td>Sairausajan palkka</td>
+          <td class="yes">✓ Kyllä (TES)</td>
+          <td class="no">✗ Ei automaattisesti</td>
+        </tr>
+        <tr>
+          <td>Vuosiloma</td>
+          <td class="yes">✓ Kyllä (laki)</td>
+          <td class="warn">~ Sovittava erikseen</td>
+        </tr>
+        <tr>
+          <td>Irtisanomissuoja</td>
+          <td class="yes">✓ Kyllä (työsopimuslaki)</td>
+          <td class="no">✗ Ei — voidaan päättää heti</td>
+        </tr>
+        <tr>
+          <td>Pohjapalkan varmuus</td>
+          <td class="yes">✓ Kyllä</td>
+          <td class="warn">~ Ehdollinen (§ 4)</td>
+        </tr>
+        <tr>
+          <td>Verot & sosiaalimaksut</td>
+          <td class="yes">✓ Työnantaja hoitaa</td>
+          <td class="no">✗ Itse vastuussa</td>
+        </tr>
+        <tr>
+          <td>Lisät (ilta, su, lauantai)</td>
+          <td class="yes">✓ TES:n mukaan</td>
+          <td class="no">✗ Vain provisio</td>
+        </tr>
+        <tr>
+          <td>Sopimussakon riski</td>
+          <td class="yes">✓ Ei vastaavaa</td>
+          <td class="no">✗ 20 000 € (§ 5)</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goToScreen(3)">← Takaisin</button>
+      <a href="../harjoitus-3-palkanlaskuri/index.html" class="btn btn-primary">Seuraava harjoitus →</a>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
 
 <script>
+// ── SCORM boilerplate ──────────────────────────────────────────────────────
 const SCORM = (() => {
     let api=null,connected=false;
     function findAPI(win){let a=0;while(win&&!win.API&&a<10){if(win.parent&&win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;}return win&&win.API?win.API:null;}
     function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;}}
     function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
     function commit(){if(!connected||!api)return;api.LMSCommit('');}
-    function completePassFail(passed){setValue('cmi.core.lesson_status',passed?'passed':'failed');setValue('cmi.core.score.raw',passed?100:0);setValue('cmi.core.score.max',100);commit();}
-    return{init,completePassFail};
+    function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
+    return{init,complete};
 })();
 window.addEventListener('load',SCORM.init);
 
-const checklistData = [
-    { label:'💰 Vuosiloma (palkallinen)', summer:'yes', freelance:'no', tes:'yes' },
-    { label:'🏥 Sairausajan palkka', summer:'yes', freelance:'no', tes:'yes' },
-    { label:'🏦 TyEL-eläke (työnantajan maksu)', summer:'yes', freelance:'no', tes:'yes' },
-    { label:'⚖️ TES-suoja', summer:'yes', freelance:'no', tes:'yes' },
-    { label:'🛡️ Irtisanomissuoja', summer:'partial', freelance:'no', tes:'yes' },
-    { label:'🤝 YT-neuvotteluoikeus', summer:'partial', freelance:'no', tes:'yes' },
-    { label:'🦺 Tapaturmavakuutus', summer:'yes', freelance:'no', tes:'yes' },
+// ── Quiz data ──────────────────────────────────────────────────────────────
+const quizData = [
+  // Screen 1 — Kesätyösopimus
+  [
+    {
+      q:'Milloin palkka maksetaan?',
+      choices:['1. päivä kuukautta','15. päivä kuukautta','30. päivä kuukautta'],
+      correct:1,
+      expl:'Sopimuksen §3 mukaan palkanmaksupäivä on kuun 15. päivä.'
+    },
+    {
+      q:'Onko sopimuksessa maininta sairausajan palkasta?',
+      choices:['Kyllä — maksetaan TES:n mukaan','Ei mainintaa lainkaan','Vain koeajan jälkeen'],
+      correct:0,
+      expl:'§6 mukaan sairausajan palkka maksetaan Kaupan alan TES:n mukaisesti 1. sairauspäivästä alkaen.'
+    },
+    {
+      q:'Mitä tarkoittaa koeaika tässä sopimuksessa?',
+      choices:['Työnantaja voi irtisanoa heti ilman perusteluja','Molemmat osapuolet voivat irtisanoa sopimuksen','Palkka on alempi koeajalla'],
+      correct:1,
+      expl:'§5 mukaan koeajalla molemmat osapuolet voivat irtisanoa sopimuksen. Irtisanominen ei kuitenkaan saa tapahtua syrjivin perustein.'
+    }
+  ],
+  // Screen 2 — Toimeksiantosopimus
+  [
+    {
+      q:'Kuinka suuri on sopimussakko, jos otat yhteyttä yrityksen asiakkaisiin omatoimisesti kahden vuoden sisällä sopimuksen päättymisestä?',
+      choices:['5 000 €','20 000 €','Ei sopimussakkoa'],
+      correct:1,
+      expl:'§5 mukaan sopimussakko on 20 000 €, jos otat yhteyttä toimeksiantajan asiakkaisiin 24 kuukauden sisällä sopimuksen päättymisestä.'
+    },
+    {
+      q:'Mitä tapahtuu pohjapalkkiolle, jos peruutusprosentti ylittää 10 %?',
+      choices:['Pohjapalkkio katoaa kokonaan','Pohjapalkkiosta vähennetään 50 %','Ei mitään vaikutusta'],
+      correct:1,
+      expl:'§4 mukaan pohjapalkkiosta vähennetään 50 % kyseisen peruutuskuukauden ajalta, jos peruutusprosentti ylittää 10 %.'
+    },
+    {
+      q:'Onko tässä sopimuksessa kyse työsuhteesta?',
+      choices:['Kyllä — kevytyrittäjyys on työsuhde','Ei — sopimus ei muodosta työsuhdetta','Riippuu työtuntien määrästä'],
+      correct:1,
+      expl:'§1 sanoo selkeästi: "TÄMÄ SOPIMUS EI MUODOSTA TYÖSUHDETTA." Kevytyrittäjyys on yrittäjyyden muoto, ei työsuhde.'
+    }
+  ],
+  // Screen 3 — Osa-aikainen työsopimus
+  [
+    {
+      q:'Kuinka pitkä on koeaika tässä sopimuksessa?',
+      choices:['1 kuukausi','4 kuukautta','6 kuukautta'],
+      correct:1,
+      expl:'§5 mukaan koeaika on 4 kuukautta. Vakituisessa työsuhteessa pidempi koeaika on TES:n mukaan sallittu.'
+    },
+    {
+      q:'Paljonko saat lisäkorvausta sunnuntaityöstä?',
+      choices:['+50 % peruspalkasta','+100 % (kaksinkertainen palkka)','Ei lisäkorvausta'],
+      correct:1,
+      expl:'§3 mukaan sunnuntailisä on +100 %, eli saat kaksinkertaisen palkan sunnuntaisin tehdystä työstä.'
+    },
+    {
+      q:'Milloin työnantaja voi irtisanoa sinut ilman erityistä perustetta?',
+      choices:['Ei lainkaan — tarvitsee aina perustelun','Vain koeajan aikana','Heti ilman perusteluja milloin tahansa'],
+      correct:1,
+      expl:'§5 ja §6 mukaan koeajan aikana irtisanominen ei vaadi erityistä perustetta. Koeajan jälkeen työnantaja tarvitsee aina laillisen syyn (henkilökohtainen tai tuotannollinen).'
+    }
+  ]
 ];
-const labelMap = { yes:'✅ Kyllä', no:'❌ Ei', partial:'⚠️ Osittain' };
-const classMap = { yes:'revealed-yes', no:'revealed-no', partial:'revealed-partial' };
-let revealed = 0;
-const totalReveals = checklistData.length * 3;
 
-function buildChecklist() {
-    const tb = document.getElementById('checklistBody');
-    tb.innerHTML = checklistData.map((row, i) => `
-      <tr>
-        <td>${row.label}</td>
-        <td><button class="check-btn" onclick="revealCell(this,'${row.summer}')">Paljasta</button></td>
-        <td><button class="check-btn" onclick="revealCell(this,'${row.freelance}')">Paljasta</button></td>
-        <td><button class="check-btn" onclick="revealCell(this,'${row.tes}')">Paljasta</button></td>
-      </tr>`).join('');
+// ── State ──────────────────────────────────────────────────────────────────
+const state = {
+  currentScreen: 1,
+  scores: [0, 0, 0],         // per screen
+  currentQ: [0, 0, 0],       // current question index per screen
+  answered: [[], [], []],    // answered flags per screen: true/false
+};
+
+// ── Init questions ─────────────────────────────────────────────────────────
+function initScreen(screenIdx) {
+  const si = screenIdx - 1;
+  renderQuestion(screenIdx, si, state.currentQ[si]);
 }
 
-function revealCell(btn, val) {
-    if (btn.classList.contains('revealed-yes') || btn.classList.contains('revealed-no') || btn.classList.contains('revealed-partial')) return;
-    btn.textContent = labelMap[val];
-    btn.className = 'check-btn ' + classMap[val];
-    revealed++;
-    document.getElementById('progressFill').style.width = Math.min(100, 10 + (revealed / totalReveals) * 90) + '%';
-    if (revealed >= totalReveals) document.getElementById('completeBtn').disabled = false;
+function renderQuestion(screenNum, si, qi) {
+  const data = quizData[si][qi];
+  const pfx = 's' + screenNum;
+
+  document.getElementById(pfx + 'qNum').textContent = 'Kysymys ' + (qi + 1);
+  document.getElementById(pfx + 'qLabel').textContent = 'Kysymys ' + (qi + 1) + ' / 3';
+  document.getElementById(pfx + 'qText').textContent = data.q;
+  document.getElementById(pfx + 'fb').className = 'feedback-box';
+  document.getElementById(pfx + 'fb').innerHTML = '';
+
+  // dots
+  for (let i = 0; i < 3; i++) {
+    const d = document.getElementById(pfx + 'd' + i);
+    d.className = 'q-dot';
+    if (i < state.answered[si].length) {
+      d.classList.add(state.answered[si][i] ? 'answered-ok' : 'answered-err');
+    } else if (i === qi) {
+      d.classList.add('current-q');
+    }
+  }
+
+  // choices
+  const choicesEl = document.getElementById(pfx + 'choices');
+  choicesEl.innerHTML = '';
+  data.choices.forEach((c, ci) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => handleAnswer(screenNum, si, qi, ci, btn);
+    choicesEl.appendChild(btn);
+  });
 }
 
-function showTab(id, btn) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    btn.classList.add('active');
+function handleAnswer(screenNum, si, qi, chosen, btn) {
+  const data = quizData[si][qi];
+  const pfx = 's' + screenNum;
+  const correct = chosen === data.correct;
+
+  // Disable all choices
+  document.querySelectorAll('#' + pfx + 'choices .choice-btn').forEach((b, ci) => {
+    b.disabled = true;
+    if (ci === data.correct) b.classList.add('correct');
+    else if (ci === chosen && !correct) b.classList.add('wrong');
+  });
+
+  // Feedback
+  const fb = document.getElementById(pfx + 'fb');
+  fb.className = 'feedback-box show ' + (correct ? 'ok' : 'err');
+  fb.innerHTML = (correct ? '✓ Oikein!' : '✗ Väärin.') +
+    '<div class="expl">' + data.expl + '</div>';
+
+  // Track
+  if (correct) state.scores[si]++;
+  state.answered[si].push(correct);
+
+  // Update dots
+  for (let i = 0; i < 3; i++) {
+    const d = document.getElementById(pfx + 'd' + i);
+    d.className = 'q-dot';
+    if (i < state.answered[si].length) {
+      d.classList.add(state.answered[si][i] ? 'answered-ok' : 'answered-err');
+    } else if (i === qi + 1) {
+      d.classList.add('current-q');
+    }
+  }
+
+  // Score badge
+  document.getElementById(pfx + 'score').textContent = state.scores[si] + ' / 3';
+
+  // Next question or enable next screen
+  const nextQ = qi + 1;
+  if (nextQ < 3) {
+    setTimeout(() => {
+      state.currentQ[si] = nextQ;
+      renderQuestion(screenNum, si, nextQ);
+    }, 900);
+  } else {
+    setTimeout(() => {
+      document.getElementById('s' + screenNum + 'next').disabled = false;
+      updateProgress();
+    }, 900);
+  }
 }
 
-function toggleClause(el) { el.classList.toggle('highlighted'); }
+// ── Screen navigation ──────────────────────────────────────────────────────
+function goToScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen' + n).classList.add('active');
+  state.currentScreen = n;
+  updateStepIndicator(n);
+  updateProgress();
+  window.scrollTo({top: 0, behavior: 'smooth'});
 
-function showCompletion() {
-    document.getElementById('mainContent').classList.add('hidden');
-    document.getElementById('completionScreen').classList.remove('hidden');
-    SCORM.completePassFail(true);
-    window.scrollTo({ top:0, behavior:'smooth' });
+  if (n === 4) showFinalScreen();
 }
 
-buildChecklist();
+function updateStepIndicator(n) {
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('dot' + i);
+    if (!dot) continue;
+    dot.className = 'step-dot';
+    if (i < n) dot.classList.add('done');
+    else if (i === n) dot.classList.add('current');
+  }
+  for (let i = 1; i <= 3; i++) {
+    const line = document.getElementById('line' + i);
+    if (!line) continue;
+    line.className = 'step-line';
+    if (i < n) line.classList.add('done');
+  }
+}
+
+function updateProgress() {
+  const total = state.scores[0] + state.scores[1] + state.scores[2];
+  const answered = state.answered[0].length + state.answered[1].length + state.answered[2].length;
+  const pct = Math.round((answered / 9) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function showFinalScreen() {
+  const total = state.scores[0] + state.scores[1] + state.scores[2];
+  document.getElementById('finalScoreBig').textContent = total + ' / 9';
+  document.getElementById('fs1').textContent = state.scores[0] + '/3';
+  document.getElementById('fs2').textContent = state.scores[1] + '/3';
+  document.getElementById('fs3').textContent = state.scores[2] + '/3';
+
+  let msg = '';
+  if (total >= 8) msg = '🏆 Erinomainen tulos! Tunnet sopimukset hyvin.';
+  else if (total >= 6) msg = '👍 Hyvä tulos! Käy läpi virheelliset vastaukset.';
+  else if (total >= 4) msg = '📚 Kohtuullinen tulos. Lue sopimusten ehdot uudelleen.';
+  else msg = '🔄 Harjoittele lisää — sopimustuntemus on tärkeä taito!';
+  document.getElementById('finalScoreMsg').textContent = msg;
+
+  SCORM.complete(total, 9);
+  document.getElementById('progressFill').style.width = '100%';
+}
+
+// ── Risk highlight toggle ──────────────────────────────────────────────────
+function toggleRisk(clauseId, tipId) {
+  const clause = document.getElementById(clauseId);
+  const tip = document.getElementById(tipId);
+  const shown = tip.classList.contains('show');
+  if (shown) {
+    tip.classList.remove('show');
+    clause.classList.remove('risk-shown');
+    clause.classList.add('risk-hidden');
+  } else {
+    tip.classList.add('show');
+    clause.classList.remove('risk-hidden');
+    clause.classList.add('risk-shown');
+  }
+}
+
+// ── Startup ────────────────────────────────────────────────────────────────
+initScreen(1);
+initScreen(2);
+initScreen(3);
+updateStepIndicator(1);
 </script>
 </body>
 </html>
