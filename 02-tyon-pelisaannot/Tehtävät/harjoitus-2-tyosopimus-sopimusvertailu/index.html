@@ -250,18 +250,20 @@ a{color:inherit;text-decoration:none}
   ══════════════════════════════════════════════════════════════ -->
   <div class="screen active" id="screen1">
     <div class="section-label">Sopimus 1 / 3</div>
-    <div class="section-title">Kesätyösopimus – K-Supermarket</div>
-    <div class="section-desc">Lue alla oleva työsopimus huolellisesti ja vastaa kolmeen kysymykseen.</div>
+    <div class="section-title">Kesätyösopimus – Saariston Ruokatori</div>
+    <div class="section-desc">Lue alla oleva työsopimus huolellisesti ja vastaa viiteen kysymykseen.</div>
 
     <!-- Q-card -->
     <div class="q-card" id="qcard1">
-      <div class="q-progress">
-        <div class="q-dot current-q" id="s1d0"></div>
-        <div class="q-dot" id="s1d1"></div>
-        <div class="q-dot" id="s1d2"></div>
-        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s1qLabel">Kysymys 1 / 3</span>
-        <span class="score-badge" id="s1score">0 / 3</span>
-      </div>
+        <div class="q-progress">
+          <div class="q-dot current-q" id="s1d0"></div>
+          <div class="q-dot" id="s1d1"></div>
+          <div class="q-dot" id="s1d2"></div>
+          <div class="q-dot" id="s1d3"></div>
+          <div class="q-dot" id="s1d4"></div>
+          <span style="margin-left:6px;font-size:.78rem;color:#888" id="s1qLabel">Kysymys 1 / 5</span>
+          <span class="score-badge" id="s1score">0 / 5</span>
+        </div>
       <div class="q-num" id="s1qNum">Kysymys 1</div>
       <div class="q-text" id="s1qText">Milloin palkka maksetaan?</div>
       <div class="choices" id="s1choices"></div>
@@ -272,7 +274,7 @@ a{color:inherit;text-decoration:none}
     <div class="contract-wrap">
       <div class="contract-paper">
         <div class="contract-header-row">
-          <div class="company-logo-box">K-Supermarket<br>Merituuli Oy</div>
+          <div class="company-logo-box">Saariston<br>Ruokatori Oy</div>
           <div class="contract-title-block">
             <div class="contract-main-title">Määräaikainen työsopimus</div>
             <div class="contract-subtitle">Kesätyöntekijä · Sesonkityö 2025</div>
@@ -282,7 +284,7 @@ a{color:inherit;text-decoration:none}
 
         <div class="parties-box">
           <table>
-            <tr><td>Työnantaja:</td><td><strong>K-Supermarket Merituuli Oy</strong> (Y-tunnus 1234567-8)<br>Meritullinkatu 12, 00170 Helsinki</td></tr>
+            <tr><td>Työnantaja:</td><td><strong>Saariston Ruokatori Oy</strong> (Y-tunnus 1234567-8)<br>Merituulenkatu 12, 00170 Helsinki</td></tr>
             <tr><td>Työntekijä:</td><td><strong>[Opiskelija]</strong><br>Syntymäaika: pp.kk.vvvv</td></tr>
           </table>
         </div>
@@ -362,8 +364,10 @@ a{color:inherit;text-decoration:none}
         <div class="q-dot current-q" id="s2d0"></div>
         <div class="q-dot" id="s2d1"></div>
         <div class="q-dot" id="s2d2"></div>
-        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s2qLabel">Kysymys 1 / 3</span>
-        <span class="score-badge" style="background:linear-gradient(135deg,#f0b429,#f7d070);color:#7a4f00" id="s2score">0 / 3</span>
+        <div class="q-dot" id="s2d3"></div>
+        <div class="q-dot" id="s2d4"></div>
+        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s2qLabel">Kysymys 1 / 5</span>
+        <span class="score-badge" style="background:linear-gradient(135deg,#f0b429,#f7d070);color:#7a4f00" id="s2score">0 / 5</span>
       </div>
       <div class="q-num" id="s2qNum" style="color:#c89010">Kysymys 1</div>
       <div class="q-text" id="s2qText"></div>
@@ -393,14 +397,14 @@ a{color:inherit;text-decoration:none}
         <div class="contract-clause">
           <div class="clause-title">§ 1 &nbsp;Sopimuksen luonne</div>
           <div class="clause-body">
-            <span class="risk-clause risk-hidden" id="r1" onclick="toggleRisk('r1','tip1')">Toimeksisaaja toimii <strong>itsenäisenä yrittäjänä</strong> kevytyrittäjyyspalvelun kautta (esim. Ukko.fi). <strong>TÄMÄ SOPIMUS EI MUODOSTA TYÖSUHDETTA.</strong> Kummallakaan osapuolella ei ole työsuhteeseen liittyviä lakisääteisiä velvollisuuksia.</span>
+            <span class="risk-clause risk-hidden" id="r1" onclick="toggleRisk('r1','tip1')">Toimeksisaaja toimii <strong>itsenäisenä yrittäjänä</strong> kevytyrittäjyyspalvelun kautta. <strong>Tämä sopimus ei muodosta työsuhdetta.</strong> Kummallakaan osapuolella ei ole työsuhteeseen liittyviä lakisääteisiä velvollisuuksia.</span>
             <div class="risk-tip" id="tip1">⚠️ <strong>Huomio:</strong> Koska sopimus ei ole työsopimus, siihen ei sovelleta työlainsäädäntöä. Et saa TES-suojaa, työterveyshuoltoa työnantajalta eikä vuosilomapalkkaa samalla tavalla. Kevytyrittäjyys on laillinen tapa tehdä töitä, mutta muista mitä oikeuksia menetät.</div>
           </div>
         </div>
 
         <div class="contract-clause">
           <div class="clause-title">§ 2 &nbsp;Toimeksiannon sisältö</div>
-          <div class="clause-body">Puhelinmyynti yritysasiakkaille (B2B-myynti). Tavoite: <strong>vähintään 15 myyntiä/viikko.</strong> Toimeksisaaja vastaa itse välineistä, työtilasta ja työajoistaan.</div>
+          <div class="clause-body">Puhelinmyynti yritysasiakkaille (B2B-myynti). Tavoite: <strong>vähintään 15 myyntiä/viikko.</strong> <span class="risk-clause risk-hidden" id="r7" onclick="toggleRisk('r7','tip7')">Toimeksisaaja tekee työtä toimeksiantajan tiloissa ja toimeksiantajan määrittäminä työaikoina. Työ tehdään toimeksiantajan tiloissa.</span><div class="risk-tip" id="tip7">⚠️ <strong>Huomio:</strong> Kun toimeksiantaja määrittää työajan, työpaikan ja käytännössä työn tekemisen tavan, tilanne voi muistuttaa työsuhdetta. Tämä voi olla merkki naamioidusta työsuhteesta.</div></div>
         </div>
 
         <div class="contract-clause">
@@ -470,18 +474,20 @@ a{color:inherit;text-decoration:none}
   ══════════════════════════════════════════════════════════════ -->
   <div class="screen" id="screen3">
     <div class="section-label">Sopimus 3 / 3</div>
-    <div class="section-title">Osa-aikainen työsopimus – Lidl</div>
+    <div class="section-title">Osa-aikainen työsopimus – Pohjola Market</div>
     <div class="section-desc">Toistaiseksi voimassa oleva osa-aikainen työsopimus. Lue ja vastaa kysymyksiin.</div>
 
     <!-- Q-card -->
     <div class="q-card" id="qcard3" style="border-left-color:#5c7cfa">
-      <div class="q-progress">
-        <div class="q-dot current-q" id="s3d0"></div>
-        <div class="q-dot" id="s3d1"></div>
-        <div class="q-dot" id="s3d2"></div>
-        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s3qLabel">Kysymys 1 / 3</span>
-        <span class="score-badge" style="background:linear-gradient(135deg,#5c7cfa,#a8bff7);color:#fff" id="s3score">0 / 3</span>
-      </div>
+        <div class="q-progress">
+          <div class="q-dot current-q" id="s3d0"></div>
+          <div class="q-dot" id="s3d1"></div>
+          <div class="q-dot" id="s3d2"></div>
+          <div class="q-dot" id="s3d3"></div>
+          <div class="q-dot" id="s3d4"></div>
+          <span style="margin-left:6px;font-size:.78rem;color:#888" id="s3qLabel">Kysymys 1 / 5</span>
+          <span class="score-badge" style="background:linear-gradient(135deg,#5c7cfa,#a8bff7);color:#fff" id="s3score">0 / 5</span>
+        </div>
       <div class="q-num" id="s3qNum" style="color:#5c7cfa">Kysymys 1</div>
       <div class="q-text" id="s3qText"></div>
       <div class="choices" id="s3choices"></div>
@@ -492,17 +498,17 @@ a{color:inherit;text-decoration:none}
     <div class="contract-wrap">
       <div class="contract-paper">
         <div class="contract-header-row">
-          <div class="company-logo-box" style="border-color:#003087;color:#003087">Lidl<br>Suomi Ky</div>
+          <div class="company-logo-box" style="border-color:#003087;color:#003087">Pohjola<br>Market Oy</div>
           <div class="contract-title-block">
             <div class="contract-main-title">Työsopimus</div>
             <div class="contract-subtitle">Osa-aikainen työsuhde · Toistaiseksi voimassa</div>
           </div>
-          <div class="doc-num">Nro: LIDL-25-3341<br>Pvm: 20.4.2025</div>
+          <div class="doc-num">Nro: PM-25-3341<br>Pvm: 20.4.2025</div>
         </div>
 
         <div class="parties-box">
           <table>
-            <tr><td>Työnantaja:</td><td><strong>Lidl Suomi Ky</strong> (Y-tunnus 2020928-2)<br>Vantaankoski, 01730 Vantaa</td></tr>
+            <tr><td>Työnantaja:</td><td><strong>Pohjola Market Oy</strong> (Y-tunnus 2020928-2)<br>Aallokkokatu 4, 01730 Vantaa</td></tr>
             <tr><td>Työntekijä:</td><td><strong>[Opiskelija]</strong><br>Syntymäaika: pp.kk.vvvv</td></tr>
           </table>
         </div>
@@ -583,21 +589,21 @@ a{color:inherit;text-decoration:none}
   <div class="screen" id="screen4">
 
     <div class="finish-score">
-      <div class="big" id="finalScoreBig">0 / 9</div>
+      <div class="big" id="finalScoreBig">0 / 15</div>
       <p id="finalScoreMsg">Oikeat vastaukset</p>
     </div>
 
     <div class="score-summary">
       <div class="score-item c1">
-        <div class="score-num" id="fs1">0/3</div>
+        <div class="score-num" id="fs1">0/5</div>
         <div class="score-lbl">Sopimus 1<br>Kesätyö</div>
       </div>
       <div class="score-item c2">
-        <div class="score-num" id="fs2">0/3</div>
+        <div class="score-num" id="fs2">0/5</div>
         <div class="score-lbl">Sopimus 2<br>Toimeksianto</div>
       </div>
       <div class="score-item c3">
-        <div class="score-num" id="fs3">0/3</div>
+        <div class="score-num" id="fs3">0/5</div>
         <div class="score-lbl">Sopimus 3<br>Osa-aikainen</div>
       </div>
     </div>
@@ -743,6 +749,18 @@ const quizData = [
       choices:['Työnantaja voi irtisanoa heti ilman perusteluja','Molemmat osapuolet voivat irtisanoa sopimuksen','Palkka on alempi koeajalla'],
       correct:1,
       expl:'§5 mukaan koeajalla molemmat osapuolet voivat irtisanoa sopimuksen. Irtisanominen ei kuitenkaan saa tapahtua syrjivin perustein.'
+    },
+    {
+      q:'Miten määräaikainen sopimus päättyy tässä tapauksessa?',
+      choices:['Päättyy automaattisesti 31.8.2025','Jatkuu automaattisesti vakituiseksi','Päättyy vain työnantajan irtisanomisella'],
+      correct:0,
+      expl:'§8 mukaan määräaikainen sopimus päättyy automaattisesti 31.8.2025 ilman erillistä irtisanomista.'
+    },
+    {
+      q:'Mitä vuosilomalle tapahtuu työsuhteen päättyessä kesän jälkeen?',
+      choices:['Loma menetetään kokonaan','Kertynyt loma maksetaan lomakorvauksena','Loma on pakko pitää ennen työsuhteen loppua'],
+      correct:1,
+      expl:'§7 mukaan kertynyt vuosiloma maksetaan lomakorvauksena työsuhteen päättyessä.'
     }
   ],
   // Screen 2 — Toimeksiantosopimus
@@ -763,7 +781,19 @@ const quizData = [
       q:'Onko tässä sopimuksessa kyse työsuhteesta?',
       choices:['Kyllä — kevytyrittäjyys on työsuhde','Ei — sopimus ei muodosta työsuhdetta','Riippuu työtuntien määrästä'],
       correct:1,
-      expl:'§1 sanoo selkeästi: "TÄMÄ SOPIMUS EI MUODOSTA TYÖSUHDETTA." Kevytyrittäjyys on yrittäjyyden muoto, ei työsuhde.'
+      expl:'§1 mukaan tämä sopimus ei muodosta työsuhdetta. Kevytyrittäjyys on yrittäjyyden muoto, ei automaattisesti työsuhde.'
+    },
+    {
+      q:'Mikä kohta voi viitata naamioituun työsuhteeseen?',
+      choices:['Toimeksisaaja laskuttaa työn itse','Toimeksiantaja määrittää työpaikan ja työajat','Erimielisyydet ratkaistaan käräjäoikeudessa'],
+      correct:1,
+      expl:'§2 mukaan työ tehdään toimeksiantajan tiloissa ja toimeksiantajan määrittäminä työaikoina. Tämä muistuttaa työsuhteen tunnusmerkkejä.'
+    },
+    {
+      q:'Kuka vastaa veroista, YEL-maksuista ja sosiaalivakuutuksista?',
+      choices:['Toimeksiantaja','Toimeksisaaja itse','Valtio maksaa ne automaattisesti'],
+      correct:1,
+      expl:'§3 mukaan toimeksisaaja vastaa itse veroista, YEL-maksuista ja sosiaalivakuutusmaksuista.'
     }
   ],
   // Screen 3 — Osa-aikainen työsopimus
@@ -785,9 +815,25 @@ const quizData = [
       choices:['Ei lainkaan — tarvitsee aina perustelun','Vain koeajan aikana','Heti ilman perusteluja milloin tahansa'],
       correct:1,
       expl:'§5 ja §6 mukaan koeajan aikana irtisanominen ei vaadi erityistä perustetta. Koeajan jälkeen työnantaja tarvitsee aina laillisen syyn (henkilökohtainen tai tuotannollinen).'
+    },
+    {
+      q:'Mikä on sopimuksen säännöllinen viikkotyöaika?',
+      choices:['10 h/viikko','20 h/viikko','37,5 h/viikko'],
+      correct:1,
+      expl:'§1 mukaan säännöllinen viikkotyöaika on 20 h/viikko.'
+    },
+    {
+      q:'Kuinka aikaisin työvuorot on annettava työntekijälle?',
+      choices:['Viimeistään samana aamuna','Vähintään 2 viikkoa etukäteen','Vain kerran kuukaudessa'],
+      correct:1,
+      expl:'§4 mukaan työvuorot sovitaan työvuorolistalla vähintään 2 viikkoa etukäteen.'
     }
   ]
 ];
+
+const QUESTIONS_PER_SCREEN = quizData.map((screen) => screen.length);
+const TOTAL_QUESTIONS = QUESTIONS_PER_SCREEN.reduce((sum, count) => sum + count, 0);
+const FEEDBACK_DISPLAY_MS = 2600;
 
 // ── State ──────────────────────────────────────────────────────────────────
 const state = {
@@ -806,15 +852,16 @@ function initScreen(screenIdx) {
 function renderQuestion(screenNum, si, qi) {
   const data = quizData[si][qi];
   const pfx = 's' + screenNum;
+  const questionCount = QUESTIONS_PER_SCREEN[si];
 
   document.getElementById(pfx + 'qNum').textContent = 'Kysymys ' + (qi + 1);
-  document.getElementById(pfx + 'qLabel').textContent = 'Kysymys ' + (qi + 1) + ' / 3';
+  document.getElementById(pfx + 'qLabel').textContent = 'Kysymys ' + (qi + 1) + ' / ' + questionCount;
   document.getElementById(pfx + 'qText').textContent = data.q;
   document.getElementById(pfx + 'fb').className = 'feedback-box';
   document.getElementById(pfx + 'fb').innerHTML = '';
 
   // dots
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < questionCount; i++) {
     const d = document.getElementById(pfx + 'd' + i);
     d.className = 'q-dot';
     if (i < state.answered[si].length) {
@@ -859,7 +906,8 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
   state.answered[si].push(correct);
 
   // Update dots
-  for (let i = 0; i < 3; i++) {
+  const questionCount = QUESTIONS_PER_SCREEN[si];
+  for (let i = 0; i < questionCount; i++) {
     const d = document.getElementById(pfx + 'd' + i);
     d.className = 'q-dot';
     if (i < state.answered[si].length) {
@@ -870,20 +918,20 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
   }
 
   // Score badge
-  document.getElementById(pfx + 'score').textContent = state.scores[si] + ' / 3';
+  document.getElementById(pfx + 'score').textContent = state.scores[si] + ' / ' + questionCount;
 
   // Next question or enable next screen
   const nextQ = qi + 1;
-  if (nextQ < 3) {
+  if (nextQ < questionCount) {
     setTimeout(() => {
       state.currentQ[si] = nextQ;
       renderQuestion(screenNum, si, nextQ);
-    }, 900);
+    }, FEEDBACK_DISPLAY_MS);
   } else {
     setTimeout(() => {
       document.getElementById('s' + screenNum + 'next').disabled = false;
       updateProgress();
-    }, 900);
+    }, FEEDBACK_DISPLAY_MS);
   }
 }
 
@@ -918,25 +966,25 @@ function updateStepIndicator(n) {
 function updateProgress() {
   const total = state.scores[0] + state.scores[1] + state.scores[2];
   const answered = state.answered[0].length + state.answered[1].length + state.answered[2].length;
-  const pct = Math.round((answered / 9) * 100);
+  const pct = Math.round((answered / TOTAL_QUESTIONS) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
 }
 
 function showFinalScreen() {
   const total = state.scores[0] + state.scores[1] + state.scores[2];
-  document.getElementById('finalScoreBig').textContent = total + ' / 9';
-  document.getElementById('fs1').textContent = state.scores[0] + '/3';
-  document.getElementById('fs2').textContent = state.scores[1] + '/3';
-  document.getElementById('fs3').textContent = state.scores[2] + '/3';
+  document.getElementById('finalScoreBig').textContent = total + ' / ' + TOTAL_QUESTIONS;
+  document.getElementById('fs1').textContent = state.scores[0] + '/' + QUESTIONS_PER_SCREEN[0];
+  document.getElementById('fs2').textContent = state.scores[1] + '/' + QUESTIONS_PER_SCREEN[1];
+  document.getElementById('fs3').textContent = state.scores[2] + '/' + QUESTIONS_PER_SCREEN[2];
 
   let msg = '';
-  if (total >= 8) msg = '🏆 Erinomainen tulos! Tunnet sopimukset hyvin.';
-  else if (total >= 6) msg = '👍 Hyvä tulos! Käy läpi virheelliset vastaukset.';
-  else if (total >= 4) msg = '📚 Kohtuullinen tulos. Lue sopimusten ehdot uudelleen.';
+  if (total >= 13) msg = '🏆 Erinomainen tulos! Tunnet sopimukset hyvin.';
+  else if (total >= 10) msg = '👍 Hyvä tulos! Käy läpi virheelliset vastaukset.';
+  else if (total >= 7) msg = '📚 Kohtuullinen tulos. Lue sopimusten ehdot uudelleen.';
   else msg = '🔄 Harjoittele lisää — sopimustuntemus on tärkeä taito!';
   document.getElementById('finalScoreMsg').textContent = msg;
 
-  SCORM.complete(total, 9);
+  SCORM.complete(total, TOTAL_QUESTIONS);
   document.getElementById('progressFill').style.width = '100%';
 }
 
