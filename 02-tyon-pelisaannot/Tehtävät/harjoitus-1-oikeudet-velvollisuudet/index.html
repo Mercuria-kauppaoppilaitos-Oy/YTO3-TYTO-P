@@ -106,7 +106,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 
     <div class="zones-grid">
       <div class="drop-zone employer" id="zone-employer"
-           ondragover="ev.preventDefault();this.classList.add('drag-over')"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
            ondragleave="this.classList.remove('drag-over')"
            ondrop="dropCard(event,'employer')"
            onclick="placeSelectedMobile('employer')">
@@ -118,7 +118,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
         <div class="zone-cards" id="zcards-employer"></div>
       </div>
       <div class="drop-zone employee" id="zone-employee"
-           ondragover="ev.preventDefault();this.classList.add('drag-over')"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
            ondragleave="this.classList.remove('drag-over')"
            ondrop="dropCard(event,'employee')"
            onclick="placeSelectedMobile('employee')">
@@ -130,7 +130,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
         <div class="zone-cards" id="zcards-employee"></div>
       </div>
       <div class="drop-zone both" id="zone-both"
-           ondragover="ev.preventDefault();this.classList.add('drag-over')"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
            ondragleave="this.classList.remove('drag-over')"
            ondrop="dropCard(event,'both')"
            onclick="placeSelectedMobile('both')">
