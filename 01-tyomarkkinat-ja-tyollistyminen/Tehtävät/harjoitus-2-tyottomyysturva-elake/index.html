@@ -1,376 +1,802 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Työttömyysturva ja eläke – Tiina</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
-.container{max-width:960px;margin:0 auto;padding:20px}
-.exercise-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
-.exercise-header::after{content:'🛡️';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
-.exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
-.exercise-header p{opacity:.9;font-size:.95rem}
-.progress-container{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.progress-bar{flex:1;height:8px;background:#e8e8f0;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:4px;transition:width .5s ease}
-.step-label{font-size:.9rem;font-weight:700;color:#667eea;white-space:nowrap}
-.card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-.card h2{font-size:1.2rem;font-weight:700;margin-bottom:10px;color:#1a1a2e}
-/* Tiina character card */
-.tiina-card{display:flex;gap:20px;align-items:flex-start;background:linear-gradient(135deg,#667eea15,#764ba215);border:1px solid #c5cbf5;border-radius:14px;padding:20px;margin-bottom:20px}
-.tiina-avatar{font-size:3.5rem;flex-shrink:0}
-.tiina-info h3{font-weight:700;font-size:1.05rem;margin-bottom:6px}
-.tiina-info p{font-size:.9rem;color:#555;line-height:1.5}
-.tiina-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.ttag{background:#fff;border:1px solid #c5cbf5;border-radius:20px;padding:3px 12px;font-size:.8rem;color:#667eea;font-weight:600}
-/* Timeline interactive */
-.info-timeline{display:flex;flex-direction:column;gap:12px;margin-top:16px}
-.tl-item{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:12px;padding:16px;cursor:pointer;transition:all .25s;position:relative}
-.tl-item:hover{border-color:#667eea;box-shadow:0 4px 16px rgba(102,126,234,.15)}
-.tl-item.opened{border-color:#667eea;background:#fff}
-.tl-item-header{display:flex;align-items:center;gap:12px}
-.tl-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
-.tl-item-title{font-weight:700;font-size:.95rem;flex:1}
-.tl-expand{color:#667eea;font-size:1.2rem;transition:transform .3s}
-.tl-item.opened .tl-expand{transform:rotate(180deg)}
-.tl-body{margin-top:12px;padding-top:12px;border-top:1px solid #e8e8f5;display:none}
-.tl-item.opened .tl-body{display:block}
-.tl-body p{font-size:.88rem;color:#444;line-height:1.6;margin-bottom:8px}
-.highlight-box{background:linear-gradient(135deg,#667eea15,#764ba215);border-left:4px solid #667eea;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.85rem;color:#333}
-/* Decision scenarios */
-.scenario-box{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:14px;padding:20px;margin-bottom:16px}
-.scenario-box .s-label{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#667eea;margin-bottom:8px}
-.scenario-box .s-text{font-size:.95rem;line-height:1.6;margin-bottom:16px;color:#333}
-.action-btns{display:flex;flex-direction:column;gap:8px}
-.action-btn{background:#fff;border:2px solid #e0e4ff;border-radius:10px;padding:12px 16px;font-size:.9rem;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit;color:#333}
-.action-btn:hover{border-color:#667eea;background:#f0f2ff}
-.action-btn.correct{border-color:#22c55e;background:#f0fdf4;color:#166534;pointer-events:none}
-.action-btn.wrong{border-color:#ef4444;background:#fef2f2;color:#991b1b;pointer-events:none}
-.action-btn.partial{border-color:#f59e0b;background:#fffbeb;color:#92400e;pointer-events:none}
-.feedback-box{margin-top:12px;border-radius:10px;padding:14px;font-size:.88rem;line-height:1.5;display:none}
-.feedback-box.show{display:block}
-.feedback-correct{background:#f0fdf4;border:1px solid #86efac;color:#166534}
-.feedback-wrong{background:#fef2f2;border:1px solid #fca5a5;color:#991b1b}
-.feedback-partial{background:#fffbeb;border:1px solid #fcd34d;color:#92400e}
-/* Pension calculator */
-.pension-calc{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:14px;padding:20px}
-.slider-row{margin-bottom:16px}
-.slider-row label{font-size:.9rem;font-weight:600;color:#333;display:block;margin-bottom:8px}
-.slider-row input[type=range]{width:100%;accent-color:#667eea;cursor:pointer}
-.slider-val{display:inline-block;background:#667eea;color:#fff;border-radius:8px;padding:3px 12px;font-size:.9rem;font-weight:700;margin-left:8px}
-.pension-bar-container{background:#e8e8f5;border-radius:8px;height:32px;margin:12px 0;overflow:hidden;position:relative}
-.pension-bar{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:8px;transition:width .5s ease;display:flex;align-items:center;padding-left:10px;color:#fff;font-size:.85rem;font-weight:700;min-width:60px}
-.pension-result{font-size:1.1rem;font-weight:700;color:#667eea;text-align:center;padding:12px;background:#fff;border-radius:10px;border:2px solid #e0e4ff;margin-top:8px}
-/* Score/completion */
-.score-tally{background:linear-gradient(135deg,#667eea15,#764ba215);border-radius:12px;padding:16px 20px;margin:16px 0;display:flex;align-items:center;gap:16px}
-.score-tally .s-icon{font-size:2rem}
-.score-tally h4{font-size:1rem;font-weight:700;color:#667eea;margin-bottom:4px}
-.score-tally p{font-size:.88rem;color:#555}
-.score-pts{font-size:1.8rem;font-weight:800;color:#764ba2;margin-left:auto}
-.completion-screen{text-align:center;padding:40px 20px;animation:fadeIn .6s ease}
-.completion-badge{font-size:5rem;margin-bottom:16px;animation:bounce .8s ease}
-.completion-screen h2{font-size:1.8rem;font-weight:800;margin-bottom:8px}
-.score-display{font-size:2.5rem;font-weight:800;color:#667eea;margin:16px 0}
-.score-display .s-max{font-size:1.5rem;color:#aaa}
-.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
-.btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 4px 16px rgba(102,126,234,.35)}
-.btn-primary:hover{transform:translateY(-2px)}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn-secondary{background:#fff;color:#667eea;border:2px solid #667eea}
-.btn-row{margin-top:20px;display:flex;justify-content:flex-end;gap:10px}
-.nav-footer{background:#fff;border-radius:16px;padding:20px 24px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-.btn-back{color:#667eea;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
-.btn-back:hover{text-decoration:underline}
-.hidden{display:none!important}
-@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.phase-panel{animation:fadeUp .4s ease}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ura- ja turvasimulaattori – Työttömyysturva &amp; Eläke</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-900: #1e3a5f;
+      --blue-700: #1d4ed8;
+      --blue-600: #2563eb;
+      --blue-500: #3b82f6;
+      --blue-100: #dbeafe;
+      --blue-50:  #eff6ff;
+      --gray-900: #0f172a;
+      --gray-700: #334155;
+      --gray-600: #475569;
+      --gray-400: #94a3b8;
+      --gray-200: #e2e8f0;
+      --gray-100: #f1f5f9;
+      --gray-50:  #f8fafc;
+      --green-600: #16a34a;
+      --green-100: #dcfce7;
+      --amber-500: #f59e0b;
+      --amber-100: #fef3c7;
+      --red-600: #dc2626;
+      --red-100: #fee2e2;
+      --shadow: 0 4px 24px rgba(30,58,95,0.10);
+      --radius: 14px;
+      --transition: 0.35s cubic-bezier(.4,0,.2,1);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ─────────────────────────────── */
+    header {
+      background: var(--blue-900);
+      color: #fff;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    header a {
+      color: var(--blue-100);
+      text-decoration: none;
+      font-size: .9rem;
+      opacity: .85;
+      transition: opacity .2s;
+      white-space: nowrap;
+    }
+    header a:hover { opacity: 1; }
+    header h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+    header .badge {
+      margin-left: auto;
+      background: var(--blue-600);
+      color: #fff;
+      font-size: .75rem;
+      padding: .25rem .7rem;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    /* ── WRAPPER ─────────────────────────────── */
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    .intro-strip {
+      background: var(--blue-900);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .intro-strip .emoji { font-size: 2.2rem; flex-shrink: 0; }
+    .intro-strip p { font-size: .95rem; line-height: 1.55; color: var(--blue-100); }
+    .intro-strip strong { color: #fff; }
+
+    /* ── DASHBOARD GRID ──────────────────────── */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .dashboard { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARDS ───────────────────────────────── */
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 1rem 1.4rem .85rem;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .card-header .icon { font-size: 1.25rem; }
+    .card-header h2 { font-size: 1rem; font-weight: 700; color: var(--blue-900); }
+    .card-body { padding: 1.25rem 1.4rem; display: flex; flex-direction: column; gap: 1.25rem; }
+
+    /* ── SALARY SLIDER ───────────────────────── */
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: .45rem;
+    }
+    .slider-label span { font-size: .85rem; font-weight: 600; color: var(--gray-700); }
+    .salary-display {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue-700);
+      letter-spacing: -.03em;
+      line-height: 1;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--blue-600);
+      height: 6px;
+      cursor: pointer;
+      margin-top: .5rem;
+    }
+    .slider-note {
+      font-size: .76rem;
+      color: var(--gray-400);
+      margin-top: .4rem;
+      line-height: 1.4;
+    }
+
+    /* ── TOGGLE SWITCH ───────────────────────── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+    }
+    .toggle-row label { font-size: .88rem; font-weight: 600; color: var(--gray-700); cursor: pointer; }
+    .toggle-wrap { position: relative; width: 52px; height: 28px; flex-shrink: 0; }
+    .toggle-wrap input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-track {
+      position: absolute; inset: 0;
+      background: var(--gray-400);
+      border-radius: 99px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 22px; height: 22px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform var(--transition);
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    }
+    .toggle-wrap input:checked + .toggle-track { background: var(--blue-600); }
+    .toggle-wrap input:checked + .toggle-track::after { transform: translateX(24px); }
+    .toggle-state {
+      font-size: .8rem;
+      font-weight: 700;
+      padding: .2rem .55rem;
+      border-radius: 6px;
+      transition: background var(--transition), color var(--transition);
+    }
+    .toggle-state.on  { background: var(--blue-100); color: var(--blue-700); }
+    .toggle-state.off { background: var(--red-100);  color: var(--red-600); }
+
+    /* ── STATUS BUTTONS ──────────────────────── */
+    .status-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .status-btn {
+      padding: .75rem .5rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 10px;
+      background: var(--gray-50);
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      color: var(--gray-600);
+      text-align: center;
+      line-height: 1.3;
+    }
+    .status-btn:hover { border-color: var(--blue-500); color: var(--blue-700); }
+    .status-btn.active-employed {
+      background: var(--green-100);
+      border-color: var(--green-600);
+      color: var(--green-600);
+    }
+    .status-btn.active-unemployed {
+      background: #fff3e0;
+      border-color: #e65100;
+      color: #bf360c;
+    }
+
+    /* ── STORY BOX ───────────────────────────── */
+    .story-box {
+      background: var(--blue-50);
+      border-left: 4px solid var(--blue-500);
+      border-radius: 0 8px 8px 0;
+      padding: .75rem 1rem;
+      font-size: .82rem;
+      color: var(--blue-900);
+      line-height: 1.5;
+    }
+    .story-box strong { color: var(--blue-700); }
+
+    .reg-note {
+      background: var(--gray-100);
+      border-radius: 8px;
+      padding: .65rem .9rem;
+      font-size: .77rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* ── RIGHT PANEL ─────────────────────────── */
+    .right-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    /* ── METER CARDS ─────────────────────────── */
+    .meter-card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .meter-header {
+      padding: .85rem 1.4rem;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .meter-header h3 { font-size: .95rem; font-weight: 700; color: var(--blue-900); }
+    .meter-body { padding: 1.25rem 1.4rem; }
+
+    .big-number {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      line-height: 1;
+      transition: color var(--transition);
+    }
+    .big-number-unit { font-size: 1.1rem; font-weight: 600; color: var(--gray-400); margin-left: .15rem; }
+
+    .bar-track {
+      width: 100%;
+      height: 18px;
+      background: var(--gray-200);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: .85rem 0 .5rem;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width var(--transition), background var(--transition);
+      min-width: 2px;
+    }
+
+    .pension-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin-top: .9rem;
+    }
+    .pension-stat {
+      background: var(--gray-50);
+      border-radius: 10px;
+      padding: .7rem .9rem;
+      text-align: center;
+    }
+    .pension-stat .p-val { font-size: 1.35rem; font-weight: 800; color: var(--blue-700); line-height: 1; }
+    .pension-stat .p-lbl { font-size: .71rem; color: var(--gray-600); margin-top: .25rem; line-height: 1.3; }
+
+    .safety-details {
+      margin-top: .9rem;
+      font-size: .82rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+    .safety-details .calc-row {
+      display: flex; justify-content: space-between;
+      border-top: 1px dashed var(--gray-200);
+      padding: .2rem 0;
+    }
+    .safety-details .calc-row:first-child { border-top: none; }
+    .safety-details .calc-total {
+      display: flex; justify-content: space-between;
+      font-weight: 700;
+      border-top: 2px solid var(--gray-400);
+      padding-top: .3rem;
+      margin-top: .1rem;
+      color: var(--gray-900);
+    }
+
+    .alarm-box {
+      margin-top: .9rem;
+      padding: .75rem 1rem;
+      border-radius: 10px;
+      font-size: .85rem;
+      font-weight: 600;
+      line-height: 1.5;
+      display: none;
+      transition: all var(--transition);
+    }
+    .alarm-box.show { display: block; }
+    .alarm-box.red  { background: var(--red-100); color: var(--red-600); border: 1px solid #fca5a5; }
+    .alarm-box.amber{ background: var(--amber-100); color: #92400e; border: 1px solid #fcd34d; }
+    .alarm-box.green{ background: var(--green-100); color: #166534; border: 1px solid #86efac; }
+
+    /* ── SCENARIOS ───────────────────────────── */
+    .scenarios-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--blue-900);
+      margin: 2rem 0 1rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .scenarios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.1rem;
+    }
+    .scenario-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      border-top: 4px solid var(--blue-500);
+    }
+    .scenario-card:nth-child(2) { border-top-color: var(--amber-500); }
+    .scenario-card:nth-child(3) { border-top-color: var(--green-600); }
+    .scenario-card h4 { font-size: .95rem; font-weight: 800; color: var(--blue-900); }
+    .scenario-card p  { font-size: .82rem; color: var(--gray-600); line-height: 1.5; flex: 1; }
+    .scenario-params {
+      font-size: .77rem;
+      font-family: 'Consolas', monospace;
+      background: var(--gray-100);
+      border-radius: 6px;
+      padding: .4rem .7rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+    .btn-scenario {
+      padding: .6rem 1rem;
+      background: var(--blue-600);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      align-self: flex-start;
+    }
+    .btn-scenario:hover  { background: var(--blue-700); }
+    .btn-scenario:active { transform: scale(.97); }
+    .scenario-card:nth-child(2) .btn-scenario { background: var(--amber-500); }
+    .scenario-card:nth-child(2) .btn-scenario:hover { background: #d97706; }
+    .scenario-card:nth-child(3) .btn-scenario { background: var(--green-600); }
+    .scenario-card:nth-child(3) .btn-scenario:hover { background: #15803d; }
+
+    /* ── PROGRESS INDICATOR ──────────────────── */
+    #progress-bar-wrap {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: var(--blue-900);
+      color: #fff;
+      border-radius: 12px;
+      padding: .65rem 1.1rem;
+      font-size: .8rem;
+      box-shadow: 0 4px 18px rgba(0,0,0,.3);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      z-index: 999;
+      transition: background .4s;
+    }
+    #progress-bar-wrap.done { background: var(--green-600); }
+    #prog-pips { display: flex; gap: 4px; }
+    .pip {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.3);
+      transition: background .3s;
+    }
+    .pip.filled { background: #fff; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: .95rem; }
+      .salary-display { font-size: 1.6rem; }
+      .big-number { font-size: 2rem; }
+      .pension-grid { grid-template-columns: 1fr 1fr; }
+      #progress-bar-wrap { bottom: .75rem; right: .75rem; font-size: .75rem; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="exercise-header">
-    <h1>🛡️ Työttömyysturva ja eläke</h1>
-    <p>Tiina saa lomautusilmoituksen — auta häntä ymmärtämään oikeutensa</p>
+
+<header>
+  <a href="../index.html">← Takaisin osion tehtäviin</a>
+  <h1>🏦 Ura- ja turvasimulaattori</h1>
+  <span class="badge">Harjoitus 2</span>
+</header>
+
+<main>
+
+  <!-- INTRO -->
+  <div class="intro-strip">
+    <div class="emoji">💡</div>
+    <p><strong>Tutki ja opi interaktiivisesti:</strong> Säädä palkkaa, vaihda työtilannetta ja katso, miten päätöksesi vaikuttavat <em>turvaverkkosi tasoon</em> ja <em>tulevaan eläkkeeseesi</em>. Kokeile erilaisia skenaarioita alla!</p>
   </div>
 
-  <div class="progress-container">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:33%"></div></div>
-    <div class="step-label">Vaihe <span id="currentStep">1</span>/3</div>
-  </div>
+  <!-- MAIN DASHBOARD -->
+  <div class="dashboard">
 
-  <!-- Phase 1: Info Timeline -->
-  <div id="phase1" class="phase-panel">
+    <!-- ── LEFT: CONTROLS ───────────────────── -->
     <div class="card">
-      <h2>📖 Tiina saa lomautuksen</h2>
-      <div class="tiina-card">
-        <div class="tiina-avatar">👩</div>
-        <div class="tiina-info">
-          <h3>Tiina, 23 vuotta</h3>
-          <p>Tiina on työskennellyt osa-aikaisena myyjänä kaupan alalla 2 vuotta. Hän saa yllättäen lomautusilmoituksen — työnantajalla on taloudelliset vaikeudet.</p>
-          <div class="tiina-tags">
-            <span class="ttag">📍 Helsinki</span>
-            <span class="ttag">🛒 Kaupan ala</span>
-            <span class="ttag">⏱️ Osa-aikainen</span>
-            <span class="ttag">📅 2 vuotta töissä</span>
-          </div>
-        </div>
+      <div class="card-header">
+        <span class="icon">🎛️</span>
+        <h2>Säädä tilannettasi</h2>
       </div>
-      <p style="font-size:.9rem;color:#555;margin-bottom:16px">Klikkaa jokaista korttia oppiaksesi, mitä Tiina voi tehdä ja mihin hän on oikeutettu:</p>
-      <div class="info-timeline">
-        <div class="tl-item" onclick="toggleTL(this)">
-          <div class="tl-item-header">
-            <div class="tl-num">1</div>
-            <div class="tl-item-title">🏢 TE-palveluihin ilmoittautuminen</div>
-            <span class="tl-expand">▼</span>
+      <div class="card-body">
+
+        <!-- SALARY SLIDER -->
+        <div>
+          <div class="slider-label">
+            <span>Kuukausipalkka (brutto)</span>
           </div>
-          <div class="tl-body">
-            <p><strong>Tiina tulee ilmoittautua TE-toimistoon (Työvoimapalvelut) viimeistään ensimmäisenä työttömyyspäivänä.</strong></p>
-            <p>Ilmoittautuminen tapahtuu verkossa osoitteessa te-palvelut.fi. Tiinan tulee pitää työnhaku aktiivisena — se on edellytys päivärahalle.</p>
-            <div class="highlight-box">⚠️ Jos ilmoittautuminen viivästyy, päivärahan maksu voi alkaa vasta ilmoittautumispäivästä alkaen.</div>
+          <div class="salary-display" id="salary-display">2 400 €<span style="font-size:1rem;font-weight:600;color:var(--gray-400)">/kk</span></div>
+          <input type="range" id="salary-slider" min="0" max="5000" step="50" value="2400" aria-label="Kuukausipalkka" />
+          <p class="slider-note">Kaupan alan aloituspalkka n. 2 138–2 350 €/kk (TES 2025)</p>
+        </div>
+
+        <!-- KASSA TOGGLE -->
+        <div>
+          <div class="toggle-row">
+            <label for="kassa-toggle">💼 Olen jäsenenä työttömyyskassassa</label>
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <span class="toggle-state on" id="kassa-state">Kassa: Kyllä ✓</span>
+              <label class="toggle-wrap">
+                <input type="checkbox" id="kassa-toggle" checked aria-label="Työttömyyskassan jäsenyys" />
+                <span class="toggle-track"></span>
+              </label>
+            </div>
           </div>
         </div>
-        <div class="tl-item" onclick="toggleTL(this)">
-          <div class="tl-item-header">
-            <div class="tl-num">2</div>
-            <div class="tl-item-title">💰 Ansiosidonnainen vs. peruspäiväraha</div>
-            <span class="tl-expand">▼</span>
+
+        <!-- STATUS BUTTONS -->
+        <div>
+          <div class="slider-label">
+            <span>Työtilanne</span>
           </div>
-          <div class="tl-body">
-            <p><strong>Ansiosidonnainen päiväraha:</strong> Maksetaan työttömyyskassan jäsenille. Korvaa n. 50–70 % aiemmasta palkasta.</p>
-            <p><strong>Peruspäiväraha (Kela):</strong> Jos ei ole kassanjäsen, Kela maksaa peruspäivärahan (~37,21 €/pv vuonna 2025).</p>
-            <div class="highlight-box">💡 Tiina kuuluu Kaupan liiton kassaan — hän saa ansiosidonnaista! Hänen tulee kuitenkin olla ollut kassan jäsen 26 viikkoa.</div>
-          </div>
-        </div>
-        <div class="tl-item" onclick="toggleTL(this)">
-          <div class="tl-item-header">
-            <div class="tl-num">3</div>
-            <div class="tl-item-title">📋 Työssäoloehto</div>
-            <span class="tl-expand">▼</span>
-          </div>
-          <div class="tl-body">
-            <p>Ansiosidonnaisen saaminen edellyttää, että on ollut töissä <strong>vähintään 26 viikkoa</strong> viimeisten 28 kuukauden aikana.</p>
-            <p>Tiina on ollut töissä 2 vuotta (osa-aikaisena) — hänellä täyttyy työssäoloehto. ✅</p>
-            <div class="highlight-box">📌 Osa-aikaisessa työssä viikkotyöajan tulee olla vähintään 18h/vk, jotta viikko kerryttää työssäoloehtoa.</div>
+          <div class="status-buttons">
+            <button class="status-btn active-employed" id="btn-employed" onclick="setStatus('employed')">✅ Työssä</button>
+            <button class="status-btn" id="btn-unemployed" onclick="setStatus('unemployed')">⚠️ Työtön /<br>Lomautettu</button>
           </div>
         </div>
-        <div class="tl-item" onclick="toggleTL(this)">
-          <div class="tl-item-header">
-            <div class="tl-num">4</div>
-            <div class="tl-item-title">⏳ Omavastuuaika (karenssi)</div>
-            <span class="tl-expand">▼</span>
+
+        <!-- STORY BOX -->
+        <div class="story-box">
+          <strong>📖 Tiinan tarina:</strong> Tiina sai lomautusilmoituksen varastosta, jossa hän oli töissä. Tiina ei ollut liittynyt työttömyyskassaan, koska se tuntui turhalta kululta. Miten käy ilman kassaa? <em>Kokeile simulaattorilla!</em>
+        </div>
+
+        <!-- REG NOTE -->
+        <div class="reg-note">
+          ℹ️ <strong>Muista:</strong> Työttömäksi jäädessä ilmoittaudu <em>välittömästi</em> oman alueesi työllisyyspalveluihin (<a href="https://www.tyollisyyspalvelut.fi" target="_blank" rel="noopener" style="color:var(--blue-600)">tyollisyyspalvelut.fi</a> tai TE-palvelut). Hakeminen myöhemmin siirtää päivärahat alkamaan myöhemmin.
+        </div>
+
+      </div><!-- /card-body -->
+    </div><!-- /left card -->
+
+    <!-- ── RIGHT: METERS ────────────────────── -->
+    <div class="right-col">
+
+      <!-- PENSION METER -->
+      <div class="meter-card">
+        <div class="meter-header">
+          <span style="font-size:1.2rem">💰</span>
+          <h3>Tuleva eläkkeesi</h3>
+        </div>
+        <div class="meter-body">
+          <div style="font-size:.82rem;color:var(--gray-500);margin-bottom:.5rem">Kuukausittainen eläkekertymä</div>
+          <div>
+            <span class="big-number" id="pension-monthly" style="color:var(--blue-700)">3,00</span>
+            <span class="big-number-unit">€/kk</span>
           </div>
-          <div class="tl-body">
-            <p><strong>Omavastuuaika on 5 päivää</strong> — nämä ovat ns. odotuspäiviä, joilta ei makseta päivärahaa. Ne kuluvat täysille päiville.</p>
-            <p>Tiina ei voi tehdä mitään nopeuttaakseen tätä — se on automaattinen odotusjakso.</p>
-            <div class="highlight-box">⚠️ Huom! Karenssi (laiminlyönnistä johtuva) on eri asia. Se voi olla 30–90 päivää, jos kieltäytyy sopivasta työstä.</div>
+          <div class="bar-track">
+            <div class="bar-fill" id="pension-bar" style="background:var(--blue-500);width:48%"></div>
+          </div>
+          <p style="font-size:.8rem;color:var(--gray-500);margin-bottom:.9rem">Jokainen työpäiväsi kerryttää tätä summaa loppuelämäksesi. (1,5 % × vuosipalkka ÷ 12)</p>
+
+          <div class="pension-grid">
+            <div class="pension-stat">
+              <div class="p-val" id="pension-annual">36 €</div>
+              <div class="p-lbl">Vuotuinen kertymä</div>
+            </div>
+            <div class="pension-stat">
+              <div class="p-val" id="pension-30y">1 080 €</div>
+              <div class="p-lbl">30 v. kertymä (arvio)</div>
+            </div>
+            <div class="pension-stat">
+              <div class="p-val" id="pension-monthly-est">~72 €</div>
+              <div class="p-lbl">Eläke/kk<br>(30 v. → 20 v.)</div>
+            </div>
+          </div>
+
+          <div class="alarm-box green show" id="pension-note" style="display:block">
+            📌 Eläkekertymä lasketaan <em>bruttopalkasta</em>. Mitä korkeampi palkka ja pidempi ura, sitä parempi eläke.
           </div>
         </div>
-      </div>
-      <div class="btn-row"><button class="btn btn-primary" onclick="goToPhase(2)">Seuraava: Tiina päättää →</button></div>
+      </div><!-- /pension meter -->
+
+      <!-- SAFETY NET METER -->
+      <div class="meter-card">
+        <div class="meter-header">
+          <span style="font-size:1.2rem">🛡️</span>
+          <h3>Turvaverkkosi taso / kk</h3>
+        </div>
+        <div class="meter-body">
+          <div style="font-size:.82rem;color:var(--gray-500);margin-bottom:.5rem" id="safety-label">Nettotulosi tällä hetkellä</div>
+          <div>
+            <span class="big-number" id="safety-amount" style="color:var(--green-600)">2 400</span>
+            <span class="big-number-unit">€/kk</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" id="safety-bar" style="background:var(--green-600);width:48%"></div>
+          </div>
+
+          <!-- CALC BREAKDOWN -->
+          <div class="safety-details" id="safety-details">
+            <div class="calc-row"><span>Nykyinen kuukausipalkka</span><span id="det-salary">2 400 €</span></div>
+          </div>
+
+          <!-- ALARM -->
+          <div class="alarm-box" id="alarm-box"></div>
+
+        </div>
+      </div><!-- /safety meter -->
+
+    </div><!-- /right-col -->
+  </div><!-- /dashboard -->
+
+  <!-- ── SCENARIOS ───────────────────────────── -->
+  <div class="scenarios-title">🔬 Kokeile skenaarioita</div>
+  <div class="scenarios-grid">
+
+    <div class="scenario-card">
+      <h4>💸 Säästetty jäsenmaksu</h4>
+      <p>Laske, kuinka paljon menetät kuukausittain verrattuna siihen, että olisit kassan jäsen. Ansiosidonnaisen ja peruspäivärahan ero voi olla suuri!</p>
+      <div class="scenario-params">Palkka: 2 350 €<br>Kassa: Ei<br>Tila: Työtön</div>
+      <button class="btn-scenario" onclick="applyScenario(2350, false, 'unemployed')">▶ Kokeile tätä</button>
     </div>
-  </div>
 
-  <!-- Phase 2: Scenario decisions -->
-  <div id="phase2" class="phase-panel hidden">
-    <div class="card">
-      <h2>🤔 Tiina päättää — oletko samaa mieltä?</h2>
-      <p style="font-size:.9rem;color:#555;margin-bottom:20px">Kolme päätöstilannetta. Valitse oikea toimintatapa jokaisessa.</p>
-
-      <div class="scenario-box" id="s1">
-        <div class="s-label">Tilanne 1 / 3</div>
-        <div class="s-text">🗂️ <strong>Työtarjous eri alalta.</strong> Tiina saa työtarjouksen toimistoassistentiksi. Se ei ole hänen alansa, mutta palkka on sama. Mitä Tiina tekee?</div>
-        <div class="action-btns">
-          <button class="action-btn" onclick="answerScenario(1,'a',this)">✅ Ottaa työn vastaan — on velvollisuus ottaa sopiva työ</button>
-          <button class="action-btn" onclick="answerScenario(1,'b',this)">❌ Kieltäytyy — se ei ole hänen alansa</button>
-          <button class="action-btn" onclick="answerScenario(1,'c',this)">🤔 Pyytää lisäaikaa harkita 2 kuukautta</button>
-        </div>
-        <div id="fb1" class="feedback-box"></div>
-      </div>
-
-      <div class="scenario-box" id="s2">
-        <div class="s-label">Tilanne 2 / 3</div>
-        <div class="s-text">💡 <strong>Starttiraha yrittäjyydelle.</strong> Tiina haaveilee oman kukkakaupan perustamisesta. Voiko hän saada tukea?</div>
-        <div class="action-btns">
-          <button class="action-btn" onclick="answerScenario(2,'a',this)">✅ Kyllä — TE-toimistosta voi hakea starttirahaa</button>
-          <button class="action-btn" onclick="answerScenario(2,'b',this)">❌ Ei — starttirahaa saa vain jo yrittäjänä oleva</button>
-          <button class="action-btn" onclick="answerScenario(2,'c',this)">🤔 Vain, jos Tiinalla on jo valmis liiketoimintasuunnitelma ja 10 000 € omaa pääomaa</button>
-        </div>
-        <div id="fb2" class="feedback-box"></div>
-      </div>
-
-      <div class="scenario-box" id="s3">
-        <div class="s-label">Tilanne 3 / 3</div>
-        <div class="s-text">🎂 <strong>Eläkekertymä.</strong> Tiina on 23. Milloin hänen eläkkeensä on alkanut kertyä?</div>
-        <div class="action-btns">
-          <button class="action-btn" onclick="answerScenario(3,'a',this)">✅ 17-vuotiaasta lähtien, jokaisesta työskentelykuukaudesta</button>
-          <button class="action-btn" onclick="answerScenario(3,'b',this)">❌ 18-vuotiaasta, mutta vain kokoaikaisesta työstä</button>
-          <button class="action-btn" onclick="answerScenario(3,'c',this)">❌ Eläke alkaa kertyä vasta 25 vuoden iässä</button>
-        </div>
-        <div id="fb3" class="feedback-box"></div>
-      </div>
-
-      <div class="score-tally" id="phase2Score" style="display:none">
-        <span class="s-icon">🏅</span>
-        <div><h4>Skenaarioiden pisteet</h4><p>Katso tulos ennen kuin jatkat</p></div>
-        <span class="score-pts" id="s2pts">0/3</span>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goToPhase(1)">← Takaisin</button>
-        <button class="btn btn-primary" id="nextToPhase3" onclick="goToPhase(3)" disabled>Seuraava: Eläkelaskuri →</button>
-      </div>
+    <div class="scenario-card">
+      <h4>📈 Ylityöt vs. Eläke</h4>
+      <p>Miten 500 €:n palkkaero vaikuttaa eläkkeeseesi 30 vuoden aikana? Paina nappia kahdesti ja vertaile lukuja itse!</p>
+      <div class="scenario-params" id="sc2-params">Palkka: 2 138 € → 2 650 €<br>Kassa: Kyllä<br>Tila: Työssä</div>
+      <button class="btn-scenario" id="btn-sc2" onclick="toggleScenario2()">▶ Kokeile tätä</button>
     </div>
-  </div>
 
-  <!-- Phase 3: Pension calculator -->
-  <div id="phase3" class="phase-panel hidden">
-    <div class="card">
-      <h2>📊 Eläkkeen kertyminen — kokeile laskuria</h2>
-      <p style="font-size:.9rem;color:#555;margin-bottom:20px">Eläke kertyy 1,5 % vuodessa ansioista aina 53 ikävuoteen asti (sen jälkeen 1,7 %). Kokeile liukusäätimillä!</p>
-      <div class="pension-calc">
-        <div class="slider-row">
-          <label>💼 Työvuosia: <span class="slider-val" id="yearsVal">10</span></label>
-          <input type="range" min="1" max="40" value="10" id="yearsSlider" oninput="updatePension()">
-        </div>
-        <div class="slider-row">
-          <label>💰 Kuukausipalkka (brutto): <span class="slider-val" id="salaryVal">1 800 €</span></label>
-          <input type="range" min="800" max="5000" step="50" value="1800" id="salarySlider" oninput="updatePension()">
-        </div>
-        <div id="pensionBarContainer" class="pension-bar-container">
-          <div id="pensionBar" class="pension-bar">...</div>
-        </div>
-        <div class="pension-result" id="pensionResult">Lasketaan...</div>
-        <div style="margin-top:12px;font-size:.82rem;color:#888">
-          ℹ️ Luku on arvio ennen veroja (TyEL-karttuma n. 1,5 %/v). Eläke maksetaan vanhuuseläkkeenä alkaen noin 65–68 v iästä.
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:20px;background:#fffbeb;border:1px solid #fcd34d;box-shadow:none">
-        <h2 style="color:#92400e">🧮 Esimerkki: Tiina</h2>
-        <p style="font-size:.9rem;color:#555;line-height:1.6">Tiina on 23. Hän on työskennellyt 2 vuotta palkalla n. 1 200 €/kk (osa-aikainen).</p>
-        <ul style="font-size:.88rem;color:#555;margin:10px 0 0 16px;line-height:1.8">
-          <li>Eläkekertymä 2 vuodelta: 2 × 1 200 × 12 × 1,5 % = <strong>432 €/vuosi</strong></li>
-          <li>Jos hän jatkaa 40 v töissä kokoaikaisena (palkka kasvaa), eläke voi olla <strong>1 800–2 400 €/kk</strong></li>
-          <li>Lisäksi kertyvät kansaneläke ja mahdollinen lisäeläke</li>
-        </ul>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goToPhase(2)">← Takaisin</button>
-        <button class="btn btn-primary" onclick="showCompletion()">Valmis — katso tulokset 🏆</button>
-      </div>
+    <div class="scenario-card">
+      <h4>🎓 Osa-aikatyö opintojen ohella</h4>
+      <p>Miten osa-aikatyö opintojen ohella vaikuttaa eläkekertymääsi pitkällä aikavälillä? Jokainen euro kerryttää!</p>
+      <div class="scenario-params">Palkka: 800 €<br>Kassa: Kyllä<br>Tila: Työssä</div>
+      <button class="btn-scenario" onclick="applyScenario(800, true, 'employed')">▶ Kokeile tätä</button>
     </div>
-  </div>
 
-  <!-- Completion -->
-  <div id="completionScreen" class="phase-panel hidden">
-    <div class="card completion-screen">
-      <div class="completion-badge">🏆</div>
-      <h2>Harjoitus suoritettu!</h2>
-      <div class="score-display" id="finalScore">0 <span class="s-max">/ 3</span></div>
-      <p id="finalFeedback">Hienoa työtä!</p>
-      <div class="nav-footer" style="margin-top:24px">
-        <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
-      </div>
-    </div>
+  </div><!-- /scenarios-grid -->
+
+</main>
+
+<!-- PROGRESS WIDGET -->
+<div id="progress-bar-wrap">
+  <span id="prog-text">Interaktiot:</span>
+  <div id="prog-pips">
+    <div class="pip" id="pip-0"></div>
+    <div class="pip" id="pip-1"></div>
+    <div class="pip" id="pip-2"></div>
   </div>
+  <span id="prog-done" style="display:none">✅ Suoritettu!</span>
 </div>
 
 <script>
+// ── SCORM ──────────────────────────────────────
 const SCORM = (() => {
-    let api = null, connected = false;
-    function findAPI(win) {
-        let a = 0;
-        while (win && !win.API && a < 10) {
-            if (win.parent && win.parent !== win) win = win.parent;
-            else if (win.opener) win = win.opener;
-            else break;
-            a++;
-        }
-        return win && win.API ? win.API : null;
+  let api = null, connected = false;
+  function findAPI(win) {
+    let a = 0;
+    while (win && !win.API && a < 10) {
+      if (win.parent && win.parent !== win) win = win.parent;
+      else if (win.opener) win = win.opener;
+      else break;
+      a++;
     }
-    function init() { api = findAPI(window); if (api) { const r = api.LMSInitialize(''); connected = r === 'true' || r === true; } }
-    function setValue(k, v) { if (!connected || !api) return; api.LMSSetValue(k, String(v)); }
-    function commit() { if (!connected || !api) return; api.LMSCommit(''); }
-    function complete(score, max) { setValue('cmi.core.score.raw', score); setValue('cmi.core.score.max', max); setValue('cmi.core.score.min', 0); setValue('cmi.core.lesson_status', (score/max)>=0.5?'passed':'failed'); commit(); }
-    return { init, complete };
+    return win && win.API ? win.API : null;
+  }
+  function init() { api = findAPI(window); if (api) { const r = api.LMSInitialize(''); connected = r === 'true' || r === true; } }
+  function setValue(k, v) { if (!connected || !api) return; api.LMSSetValue(k, String(v)); }
+  function commit() { if (!connected || !api) return; api.LMSCommit(''); }
+  function completePassFail(passed) {
+    setValue('cmi.core.lesson_status', passed ? 'passed' : 'failed');
+    setValue('cmi.core.score.raw', passed ? 100 : 0);
+    setValue('cmi.core.score.max', 100);
+    commit();
+  }
+  return { init, completePassFail };
 })();
 window.addEventListener('load', SCORM.init);
 
-const scenarioAnswers = { 1: 'a', 2: 'a', 3: 'a' };
-const scenarioFeedback = {
-    1: { a: { type:'correct', text:'✅ Oikein! Työttömällä on velvollisuus ottaa vastaan <em>sopiva työ</em>. Kieltäytyminen ilman perusteltua syytä johtaa karenssiaikaan (30–90 pv).' }, b: { type:'wrong', text:'❌ Väärin. Eri ala ei riitä perusteeksi kieltäytyä. Palkka on sama, työ on sopivaa.' }, c: { type:'wrong', text:'❌ Väärin. Lisäaikaa ei myönnetä näin pitkäksi. Tarjous tulee ottaa vastaan tai kieltäytyminen tulee perustella heti.' } },
-    2: { a: { type:'correct', text:'✅ Oikein! Starttiraha on TE-toimiston myöntämä tuki uusille yrittäjille. Se on ~100 % peruspäivärahasta (n. 37 €/pv) ja voidaan myöntää 6–12 kuukaudeksi. Tarvitaan liiketoimintasuunnitelma, mutta ei omaa pääomaa.' }, b: { type:'wrong', text:'❌ Väärin. Starttirahaa haetaan juuri ennen yrittäjäksi ryhtymistä — ei sen jälkeen.' }, c: { type:'wrong', text:'❌ Väärin. Liiketoimintasuunnitelma tarvitaan, mutta 10 000 € vaatimusta ei ole.' } },
-    3: { a: { type:'correct', text:'✅ Oikein! Suomessa eläke alkaa kertyä 17 vuoden iästä jokaisesta työskentelykuukaudesta — myös osa-aikaisesta ja lyhytkestoisesta työstä.' }, b: { type:'wrong', text:'❌ Väärin. Eläkeikäraja on 17 vuotta (ei 18), ja osa-aikatyö kerryttää eläkettä.' }, c: { type:'wrong', text:'❌ Väärin. Ikäraja on 17 vuotta.' } }
-};
-let scenarioScores = { 1: 0, 2: 0, 3: 0 };
-let answeredScenarios = {};
+// ── STATE ──────────────────────────────────────
+let salary   = 2400;
+let kassaOn  = true;
+let status   = 'employed'; // 'employed' | 'unemployed'
+let interactions = 0;
+let completed    = false;
+let sc2Toggle    = false;
 
-function toggleTL(el) { el.classList.toggle('opened'); }
+// ── HELPERS ───────────────────────────────────
+function fmt(n, decimals = 0) {
+  return new Intl.NumberFormat('fi-FI', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(n);
+}
+function fmtE(n) { return fmt(n, 2).replace('.', ',') + ' €'; }
 
-function goToPhase(n) {
-    document.querySelectorAll('.phase-panel').forEach(p => p.classList.add('hidden'));
-    document.getElementById('phase' + n).classList.remove('hidden');
-    const pcts = { 1: 33, 2: 66, 3: 100 };
-    document.getElementById('progressFill').style.width = (pcts[n] || 33) + '%';
-    document.getElementById('currentStep').textContent = n;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+function recordInteraction() {
+  if (completed) return;
+  interactions = Math.min(interactions + 1, 3);
+  for (let i = 0; i < 3; i++) {
+    document.getElementById('pip-' + i).classList.toggle('filled', i < interactions);
+  }
+  if (interactions >= 3 && !completed) {
+    completed = true;
+    document.getElementById('progress-bar-wrap').classList.add('done');
+    document.getElementById('prog-text').textContent = '';
+    document.getElementById('prog-pips').style.display = 'none';
+    document.getElementById('prog-done').style.display = 'inline';
+    SCORM.completePassFail(true);
+  }
 }
 
-function answerScenario(num, choice, btn) {
-    if (answeredScenarios[num]) return;
-    answeredScenarios[num] = true;
-    const correct = scenarioAnswers[num];
-    const fb = scenarioFeedback[num][choice];
-    const btns = btn.parentElement.querySelectorAll('.action-btn');
-    btns.forEach(b => b.disabled = true);
-    const isCorrect = (choice === correct);
-    btn.classList.add(isCorrect ? 'correct' : 'wrong');
-    if (!isCorrect) btns[['a','b','c'].indexOf(correct)].classList.add('correct');
-    scenarioScores[num] = isCorrect ? 1 : 0;
-    const fbEl = document.getElementById('fb' + num);
-    fbEl.className = 'feedback-box show feedback-' + fb.type;
-    fbEl.innerHTML = fb.text;
-    if (Object.keys(answeredScenarios).length === 3) {
-        const total = scenarioScores[1] + scenarioScores[2] + scenarioScores[3];
-        document.getElementById('phase2Score').style.display = 'flex';
-        document.getElementById('s2pts').textContent = total + '/3';
-        document.getElementById('nextToPhase3').disabled = false;
-    }
+// ── PENSION CALC ───────────────────────────────
+function calcPension() {
+  const monthly = salary * 0.015 / 12;
+  const annual  = salary * 0.015;
+  const pot30   = annual * 30;
+  const est     = pot30 / (20 * 12); // spread over 20 yrs retirement
+  const pct     = Math.min((salary / 5000) * 100, 100);
+
+  document.getElementById('pension-monthly').textContent = fmt(monthly, 2).replace('.', ',');
+  document.getElementById('pension-annual').textContent  = fmt(annual, 0) + ' €';
+  document.getElementById('pension-30y').textContent     = fmt(pot30, 0) + ' €';
+  document.getElementById('pension-monthly-est').textContent = '~' + fmt(est, 0) + ' €';
+  document.getElementById('pension-bar').style.width = pct + '%';
 }
 
-function updatePension() {
-    const years = parseInt(document.getElementById('yearsSlider').value);
-    const salary = parseInt(document.getElementById('salarySlider').value);
-    document.getElementById('yearsVal').textContent = years;
-    document.getElementById('salaryVal').textContent = salary.toLocaleString('fi-FI') + ' €';
-    const annualSalary = salary * 12;
-    const accumulationRate = 0.015;
-    const annualPension = annualSalary * accumulationRate;
-    const totalMonthlyPension = (annualPension * years) / 12;
-    const maxPensionForBar = 3000;
-    const pct = Math.min(100, (totalMonthlyPension / maxPensionForBar) * 100);
-    document.getElementById('pensionBar').style.width = Math.max(5, pct) + '%';
-    document.getElementById('pensionBar').textContent = Math.round(totalMonthlyPension) + ' €/kk';
-    document.getElementById('pensionResult').textContent = `📊 Kertynyt eläke: ${Math.round(totalMonthlyPension).toLocaleString('fi-FI')} €/kk (${years} vuoden jälkeen)`;
-}
-updatePension();
+// ── SAFETY NET CALC ────────────────────────────
+function calcSafety() {
+  let amount, color, pct, labelText;
+  const detEl   = document.getElementById('safety-details');
+  const alarmEl = document.getElementById('alarm-box');
 
-function showCompletion() {
-    const total = scenarioScores[1] + scenarioScores[2] + scenarioScores[3];
-    goToPhase(0);
-    document.getElementById('completionScreen').classList.remove('hidden');
-    document.getElementById('progressFill').style.width = '100%';
-    document.getElementById('finalScore').innerHTML = total + ' <span class="s-max">/ 3</span>';
-    const msgs = ['Harjoittelemalla oppii! 💪 Kertaa materiaalit ja yritä uudelleen.', 'Hyvä alku! Jotain meni vielä pieleen — lue selitykset huolella.', 'Melkein täysin! Hyvä suoritus! 🌟', 'Täydellistä! Tiina on hyvissä käsissä! 🏆'];
-    document.getElementById('finalFeedback').textContent = msgs[Math.min(total, 3)];
-    SCORM.complete(Math.round((total / 3) * 100), 100);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (status === 'employed') {
+    amount    = salary;
+    color     = 'var(--green-600)';
+    pct       = Math.min((salary / 5000) * 100, 100);
+    labelText = 'Nykyinen kuukausipalkka';
+    detEl.innerHTML = `<div class="calc-row"><span>Kuukausipalkka</span><span>${fmt(salary)} €</span></div>`;
+    alarmEl.className = 'alarm-box green show';
+    alarmEl.innerHTML = '✅ Olet töissä — kuukausitulosi on täysi palkka. Hyvä tilanne!';
+  } else if (kassaOn) {
+    // Ansiosidonnainen: 800 + 45% × (palkka - 800), max 90% of salary
+    const base   = 800;
+    const over   = Math.max(salary - base, 0);
+    const raw    = base + 0.45 * over;
+    const capped = Math.min(raw, salary * 0.90);
+    amount = Math.round(capped);
+    color  = 'var(--amber-500)';
+    pct    = Math.min((amount / 5000) * 100, 100);
+    labelText = 'Ansiosidonnainen päiväraha / kk (arvio)';
+
+    let rows = `<div class="calc-row"><span>Perustaso</span><span>${base} €</span></div>`;
+    if (over > 0) rows += `<div class="calc-row"><span>45 % × (${fmt(salary)} − ${base})</span><span>+${fmt(0.45 * over, 0)} €</span></div>`;
+    if (raw > salary * 0.90) rows += `<div class="calc-row"><span>Katto (90 % palkasta)</span><span>−${fmt(raw - salary * 0.90, 0)} €</span></div>`;
+    rows += `<div class="calc-total"><span>Yhteensä (brutto-arvio)</span><span>${fmt(amount)} €</span></div>`;
+    detEl.innerHTML = rows;
+
+    const ratio = salary > 0 ? Math.round((amount / salary) * 100) : 0;
+    alarmEl.className = 'alarm-box amber show';
+    alarmEl.innerHTML = `⚠️ Ansiosidonnainen kattaa n. <strong>${ratio} %</strong> palkastasi. Kassanjäsenyys auttaa merkittävästi!`;
+  } else {
+    // Kelan peruspäiväraha ~37,21 €/pv × 21,5 pv/kk ≈ 800 €/kk
+    const kela = Math.round(37.21 * 21.5);
+    amount = kela;
+    color  = 'var(--red-600)';
+    pct    = Math.min((amount / 5000) * 100, 100);
+    labelText = 'Kelan peruspäiväraha / kk (arvio)';
+
+    detEl.innerHTML = `
+      <div class="calc-row"><span>Kelan peruspäiväraha</span><span>37,21 €/pv</span></div>
+      <div class="calc-row"><span>× 21,5 pv/kk</span><span></span></div>
+      <div class="calc-total"><span>Yhteensä (brutto-arvio)</span><span>${fmt(kela)} €</span></div>`;
+
+    // Calculate what they'd get with kassa
+    const withKassa = Math.min(800 + 0.45 * Math.max(salary - 800, 0), salary * 0.90);
+    const diff      = Math.round(withKassa - kela);
+    alarmEl.className = 'alarm-box red show';
+    alarmEl.innerHTML = `⚠️ <strong>Huomio:</strong> Ilman kassaa menetät jopa <strong>${fmt(diff)} € kuukaudessa</strong> verrattuna ansiosidonnaiseen! Kassanjäsenmaksu on tyypillisesti vain n. 5–10 €/kk.`;
+  }
+
+  document.getElementById('safety-label').textContent = labelText;
+  document.getElementById('safety-amount').textContent = fmt(amount);
+  document.getElementById('safety-amount').style.color = color;
+  document.getElementById('safety-bar').style.width      = pct + '%';
+  document.getElementById('safety-bar').style.background = color;
 }
+
+// ── UPDATE ALL ─────────────────────────────────
+function update() {
+  calcPension();
+  calcSafety();
+  // Salary display
+  document.getElementById('salary-display').innerHTML =
+    fmt(salary) + ' €<span style="font-size:1rem;font-weight:600;color:var(--gray-400)">/kk</span>';
+  // Kassa state badge
+  const ks = document.getElementById('kassa-state');
+  if (kassaOn) { ks.textContent = 'Kassa: Kyllä ✓'; ks.className = 'toggle-state on'; }
+  else         { ks.textContent = 'Kassa: Ei ✗';   ks.className = 'toggle-state off'; }
+  // Status buttons
+  document.getElementById('btn-employed').className   = 'status-btn' + (status === 'employed'   ? ' active-employed'   : '');
+  document.getElementById('btn-unemployed').className = 'status-btn' + (status === 'unemployed' ? ' active-unemployed' : '');
+}
+
+// ── EVENT LISTENERS ────────────────────────────
+document.getElementById('salary-slider').addEventListener('input', e => {
+  salary = parseInt(e.target.value, 10);
+  update();
+  recordInteraction();
+});
+
+document.getElementById('kassa-toggle').addEventListener('change', e => {
+  kassaOn = e.target.checked;
+  update();
+  recordInteraction();
+});
+
+function setStatus(s) {
+  status = s;
+  update();
+  recordInteraction();
+}
+
+// ── SCENARIOS ─────────────────────────────────
+function applyScenario(sal, kassa, stat) {
+  salary  = sal;
+  kassaOn = kassa;
+  status  = stat;
+  document.getElementById('salary-slider').value  = sal;
+  document.getElementById('kassa-toggle').checked = kassa;
+  update();
+  recordInteraction();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleScenario2() {
+  sc2Toggle = !sc2Toggle;
+  const sal = sc2Toggle ? 2650 : 2138;
+  document.getElementById('sc2-params').innerHTML =
+    `Palkka: <strong>${sc2Toggle ? '2 650 €' : '2 138 €'}</strong> (${sc2Toggle ? 'vaihda → 2 138 €' : 'vaihda → 2 650 €'})<br>Kassa: Kyllä<br>Tila: Työssä`;
+  document.getElementById('btn-sc2').textContent = sc2Toggle ? '▶ Näytä 2 138 €' : '▶ Näytä 2 650 €';
+  applyScenario(sal, true, 'employed');
+}
+
+// ── INIT ───────────────────────────────────────
+update();
 </script>
+
 </body>
 </html>
