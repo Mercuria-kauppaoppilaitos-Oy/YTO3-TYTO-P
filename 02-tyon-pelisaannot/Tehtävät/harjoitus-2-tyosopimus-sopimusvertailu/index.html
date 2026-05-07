@@ -833,7 +833,7 @@ const quizData = [
 
 const QUESTIONS_PER_SCREEN = quizData.map((screen) => screen.length);
 const TOTAL_QUESTIONS = QUESTIONS_PER_SCREEN.reduce((sum, count) => sum + count, 0);
-const FEEDBACK_DISPLAY_MS = 2600;
+const FEEDBACK_DISPLAY_DURATION_MS = 2600;
 
 // ── State ──────────────────────────────────────────────────────────────────
 const state = {
@@ -926,12 +926,12 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
     setTimeout(() => {
       state.currentQ[si] = nextQ;
       renderQuestion(screenNum, si, nextQ);
-    }, FEEDBACK_DISPLAY_MS);
+    }, FEEDBACK_DISPLAY_DURATION_MS);
   } else {
     setTimeout(() => {
       document.getElementById('s' + screenNum + 'next').disabled = false;
       updateProgress();
-    }, FEEDBACK_DISPLAY_MS);
+    }, FEEDBACK_DISPLAY_DURATION_MS);
   }
 }
 
