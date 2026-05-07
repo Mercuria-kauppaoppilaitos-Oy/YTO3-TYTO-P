@@ -7,352 +7,529 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+
+/* ── Stats Bar (sticky) ─────────────────────────────────────────── */
+#stats-bar{
+  position:sticky;top:0;z-index:100;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  color:#fff;padding:10px 20px;
+  box-shadow:0 4px 16px rgba(102,126,234,.4);
+  display:none;
+}
+#stats-bar .sb-inner{
+  max-width:960px;margin:0 auto;
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;
+}
+#stats-bar .sb-name{font-weight:800;font-size:1rem;margin-right:4px}
+.badge{
+  background:rgba(255,255,255,.22);border-radius:20px;
+  padding:4px 12px;font-size:.82rem;font-weight:700;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.badge.salary{background:rgba(255,215,0,.25)}
+.badge.age{background:rgba(255,255,255,.18)}
+.badge.exp{background:rgba(144,238,144,.22)}
+
+/* ── Layout ─────────────────────────────────────────────────────── */
 .container{max-width:960px;margin:0 auto;padding:20px}
-.exercise-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
-.exercise-header::after{content:'🗺️';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+.exercise-header{
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  color:#fff;padding:32px;border-radius:16px;
+  margin-bottom:20px;position:relative;overflow:hidden;
+}
+.exercise-header::after{
+  content:'🗺️';position:absolute;right:20px;top:50%;
+  transform:translateY(-50%);font-size:70px;opacity:.15;
+}
 .exercise-header h1{font-size:clamp(1.3rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
 .exercise-header p{opacity:.9;font-size:.95rem}
-.progress-container{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+
+/* ── Progress ───────────────────────────────────────────────────── */
+.progress-container{
+  background:#fff;border-radius:12px;padding:14px 20px;
+  margin-bottom:18px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
 .progress-bar{flex:1;height:8px;background:#e8e8f0;border-radius:4px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:4px;transition:width .5s ease}
-.step-label{font-size:.9rem;font-weight:700;color:#667eea;white-space:nowrap}
+.step-label{font-size:.88rem;font-weight:700;color:#667eea;white-space:nowrap}
 .step-dots{display:flex;gap:6px}
 .dot{width:10px;height:10px;border-radius:50%;background:#e0e0f0;transition:all .3s}
 .dot.active{background:#667eea;transform:scale(1.3)}
 .dot.done{background:#764ba2}
-.section-card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-.section-card h2{font-size:1.2rem;font-weight:700;margin-bottom:6px;color:#1a1a2e}
-.section-card .hint{font-size:.9rem;color:#666;margin-bottom:20px}
+
+/* ── Phase card ─────────────────────────────────────────────────── */
+.section-card{
+  background:#fff;border-radius:16px;padding:28px;
+  margin-bottom:18px;box-shadow:0 2px 12px rgba(0,0,0,.07);
+}
+.section-card .narrative{
+  font-size:.97rem;line-height:1.6;color:#444;
+  background:linear-gradient(135deg,#f0f2ff,#f7f0ff);
+  border-left:4px solid #667eea;border-radius:8px;
+  padding:14px 18px;margin-bottom:20px;
+}
+.section-card h2{font-size:1.2rem;font-weight:800;margin-bottom:4px;color:#1a1a2e}
+.section-card .hint{font-size:.88rem;color:#666;margin-bottom:18px}
+
+/* ── Choice cards grid ──────────────────────────────────────────── */
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.choice-card{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:14px;padding:20px 16px;cursor:pointer;transition:all .25s ease;text-align:center;position:relative}
+.choice-card{
+  background:#f7f8ff;border:2px solid #e0e4ff;border-radius:14px;
+  padding:20px 16px;cursor:pointer;transition:all .25s ease;
+  text-align:center;position:relative;
+}
 .choice-card:hover{border-color:#667eea;transform:translateY(-4px);box-shadow:0 8px 20px rgba(102,126,234,.2)}
 .choice-card.selected{border-color:#667eea;background:linear-gradient(135deg,#f0f2ff,#e8ecff);box-shadow:0 0 0 3px rgba(102,126,234,.2)}
 .choice-card .c-icon{font-size:2.4rem;margin-bottom:10px;display:block}
-.choice-card .c-title{font-size:.95rem;font-weight:700;color:#1a1a2e;margin-bottom:4px}
-.choice-card .c-subtitle{font-size:.8rem;color:#777}
-.choice-card .c-salary{font-size:.82rem;color:#667eea;font-weight:600;margin-top:8px;background:#eef0ff;border-radius:8px;padding:4px 8px;display:inline-block}
-.choice-card .c-desc{font-size:.8rem;color:#555;margin-top:8px;line-height:1.4}
-.choice-card .check-badge{position:absolute;top:10px;right:10px;background:#667eea;color:#fff;border-radius:50%;width:22px;height:22px;display:none;align-items:center;justify-content:center;font-size:.8rem}
+.choice-card .c-title{font-size:.97rem;font-weight:800;color:#1a1a2e;margin-bottom:3px}
+.choice-card .c-subtitle{font-size:.8rem;color:#777;line-height:1.4}
+.choice-card .c-salary{font-size:.8rem;color:#667eea;font-weight:700;margin-top:8px;background:#eef0ff;border-radius:8px;padding:4px 8px;display:inline-block}
+.choice-card .check-badge{
+  position:absolute;top:10px;right:10px;
+  background:#667eea;color:#fff;border-radius:50%;
+  width:22px;height:22px;display:none;
+  align-items:center;justify-content:center;font-size:.8rem;
+}
 .choice-card.selected .check-badge{display:flex}
+
+/* ── Feedback toast ─────────────────────────────────────────────── */
+.feedback-box{
+  background:linear-gradient(135deg,#e8f5e9,#f0fff4);
+  border:2px solid #81c784;border-radius:12px;
+  padding:14px 18px;margin-top:16px;
+  font-size:.92rem;line-height:1.5;color:#2e7d32;
+  display:none;animation:fadeIn .4s ease;
+}
+.feedback-box .fb-icon{font-size:1.3rem;vertical-align:middle;margin-right:6px}
+
+/* ── Buttons ────────────────────────────────────────────────────── */
 .btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s ease;display:inline-flex;align-items:center;gap:8px}
 .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 4px 16px rgba(102,126,234,.35)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(102,126,234,.45)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .btn-secondary{background:#fff;color:#667eea;border:2px solid #667eea}
 .btn-secondary:hover{background:#f0f2ff}
-.btn-row{margin-top:20px;display:flex;justify-content:flex-end}
-.info-panel{background:linear-gradient(135deg,#667eea15,#764ba215);border:1px solid #c5cbf5;border-radius:12px;padding:16px;margin-top:16px}
-.info-panel h4{font-size:.88rem;font-weight:700;color:#667eea;margin-bottom:6px}
-.info-panel p{font-size:.85rem;color:#444;line-height:1.5}
-.path-display{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:16px 0;padding:16px;background:#f7f8ff;border-radius:12px}
-.path-step{background:#fff;border:2px solid #667eea;border-radius:10px;padding:8px 14px;font-size:.85rem;font-weight:600;color:#667eea;display:flex;align-items:center;gap:6px}
-.path-arrow{color:#764ba2;font-size:1.2rem;font-weight:700}
-.completion-screen{text-align:center;padding:40px 20px;animation:fadeIn .6s ease}
-.completion-badge{font-size:5rem;margin-bottom:16px;animation:bounce .8s ease}
-.completion-screen h2{font-size:1.8rem;font-weight:800;color:#1a1a2e;margin-bottom:8px}
-.completion-screen p{font-size:1rem;color:#555;margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto}
-.timeline{display:flex;flex-direction:column;gap:0;margin:24px 0;text-align:left}
-.timeline-item{display:flex;gap:16px;position:relative;padding-bottom:24px}
-.timeline-item:last-child{padding-bottom:0}
-.timeline-item::before{content:'';position:absolute;left:23px;top:46px;bottom:0;width:2px;background:linear-gradient(180deg,#667eea,#764ba2);opacity:.3}
-.timeline-item:last-child::before{display:none}
-.tl-icon{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;box-shadow:0 4px 12px rgba(102,126,234,.3)}
-.tl-content{background:#fff;border-radius:12px;padding:14px 18px;flex:1;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.tl-content h4{font-size:.95rem;font-weight:700;margin-bottom:4px}
-.tl-content p{font-size:.85rem;color:#666}
-.tl-salary{font-size:.82rem;color:#667eea;font-weight:600;background:#eef0ff;border-radius:6px;padding:2px 8px;margin-top:6px;display:inline-block}
-.nav-footer{background:#fff;border-radius:16px;padding:20px 24px;margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,.07)}
-.btn-back{color:#667eea;text-decoration:none;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:6px}
-.btn-back:hover{text-decoration:underline}
-.next-exercise{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.next-label{font-size:.78rem;color:#888;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-.btn-next{display:inline-flex;flex-direction:column;align-items:flex-start;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:12px 20px;border-radius:14px;text-decoration:none;font-weight:700;font-size:.95rem;transition:all .2s}
-.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,.4)}
-.btn-next small{font-size:.78rem;opacity:.85;font-weight:400;margin-top:2px}
-.hidden{display:none!important}
-@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.step-panel{animation:fadeUp .4s ease}
+.btn-row{margin-top:20px;display:flex;justify-content:flex-end;gap:10px}
+
+/* ── Personal info form ─────────────────────────────────────────── */
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.9rem;font-weight:700;color:#444;margin-bottom:6px}
+.form-group input,.form-group select{
+  width:100%;padding:10px 14px;border:2px solid #e0e4ff;border-radius:10px;
+  font-size:.97rem;font-family:inherit;color:#1a1a2e;background:#f7f8ff;
+  transition:border-color .2s;
+}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#667eea;background:#fff}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── Final summary ──────────────────────────────────────────────── */
+.summary-screen{text-align:center;padding:10px 0 30px;animation:fadeIn .6s ease}
+.summary-screen h2{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:6px}
+.summary-screen .tagline{color:#667eea;font-size:1rem;margin-bottom:28px}
+.timeline{text-align:left;margin:0 auto;max-width:600px}
+.tl-item{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;gap:0}
+.tl-dot{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);flex-shrink:0;margin-top:4px}
+.tl-line{width:2px;flex:1;background:#e0e4ff;min-height:30px}
+.tl-content{background:#f7f8ff;border:1px solid #e0e4ff;border-radius:12px;padding:12px 16px;flex:1}
+.tl-content .tl-title{font-weight:800;font-size:.95rem;color:#1a1a2e}
+.tl-content .tl-detail{font-size:.83rem;color:#666;margin-top:3px}
+.tl-content .tl-salary{font-size:.82rem;color:#667eea;font-weight:700;margin-top:5px}
+.tl-content .tl-age{font-size:.78rem;color:#999;float:right;margin-top:2px}
+.summary-stats{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:28px 0;
+}
+.stat-card{
+  background:#fff;border-radius:14px;padding:18px 22px;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);min-width:140px;text-align:center;
+}
+.stat-card .sc-val{font-size:1.6rem;font-weight:900;color:#667eea}
+.stat-card .sc-label{font-size:.8rem;color:#888;margin-top:3px}
+.nav-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+
+/* ── Animations ─────────────────────────────────────────────────── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.phase-enter{animation:fadeIn .4s ease}
+
+/* ── Nav bar ────────────────────────────────────────────────────── */
+.nav-bar{background:#fff;border-radius:12px;padding:12px 20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:10px;flex-wrap:wrap}
+.nav-bar a{font-size:.85rem;color:#667eea;text-decoration:none;font-weight:600}
+.nav-bar a:hover{text-decoration:underline}
+.nav-bar span{color:#aaa}
+
+@media(max-width:520px){
+  .form-row{grid-template-columns:1fr}
+  .cards-grid{grid-template-columns:1fr}
+  #stats-bar .sb-inner{gap:6px 10px}
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="exercise-header">
-    <h1>🗺️ Kaupan alan urapolku -simulaattori</h1>
-    <p>Rakenna oma urapolkusi kaupan alalla — vaihe vaiheelta</p>
-  </div>
 
-  <div class="progress-container">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
-    <div class="step-label">Vaihe <span id="currentStep">1</span>/4</div>
-    <div class="step-dots">
-      <div class="dot active" id="dot1"></div>
-      <div class="dot" id="dot2"></div>
-      <div class="dot" id="dot3"></div>
-      <div class="dot" id="dot4"></div>
-    </div>
-  </div>
-
-  <!-- Step 1: Choose sector -->
-  <div id="step1" class="section-card step-panel">
-    <h2>🏭 Vaihe 1: Valitse toimiala</h2>
-    <p class="hint">Kaupan ala on monipuolinen — mihin suuntaat? Klikkaa korttia valitaksesi.</p>
-    <div class="cards-grid">
-      <div class="choice-card" onclick="selectChoice('sector','grocery',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">🛒</span>
-        <div class="c-title">Päivittäistavara</div>
-        <div class="c-subtitle">K-ryhmä · S-ryhmä · Lidl</div>
-        <div class="c-desc">Ruoka, kodintuotteet ja arkipäivän tarvikkeet. Suomen suurin kaupan sektori.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('sector','specialty',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">👗</span>
-        <div class="c-title">Erikoistavarakauppa</div>
-        <div class="c-subtitle">Sokos · Intersport · Lindex</div>
-        <div class="c-desc">Vaatteet, urheilu, elektroniikka. Tuoteosaaminen korostuu.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('sector','tech',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">💻</span>
-        <div class="c-title">Tekninen kauppa</div>
-        <div class="c-subtitle">Gigantti · Verkkokauppa.com</div>
-        <div class="c-desc">Kodinkoneet, tietotekniikka. Tekninen tietämys antaa etua.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('sector','logistics',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">🏢</span>
-        <div class="c-title">Tukku- ja logistiikka</div>
-        <div class="c-subtitle">Kesko · Inex · Tuko</div>
-        <div class="c-desc">Varastointi, jakelu ja B2B-myynti. Fyysinen työ, hyvät lisät.</div>
-      </div>
-    </div>
-    <div class="btn-row"><button class="btn btn-primary" id="nextBtn1" onclick="nextStep(2)" disabled>Seuraava vaihe →</button></div>
-  </div>
-
-  <!-- Step 2: Starting role -->
-  <div id="step2" class="section-card step-panel hidden">
-    <h2>🚀 Vaihe 2: Aloitusrooli</h2>
-    <p class="hint">Mistä sinun urasi alkaa? Kaikki roolit ovat arvokkaita lähtökohtia.</p>
-    <div class="cards-grid">
-      <div class="choice-card" onclick="selectChoice('start','cashier',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">🏷️</span>
-        <div class="c-title">Kassamyyjä / Myyjä</div>
-        <div class="c-subtitle">Aloitustaso</div>
-        <span class="c-salary">~13,50–14,20 €/h</span>
-        <div class="c-desc">Asiakaspalvelu, kassatyö, hyllyttäminen. Yleisin polun aloitus.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('start','warehouse',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">📦</span>
-        <div class="c-title">Varastotyöntekijä</div>
-        <div class="c-subtitle">Aloitustaso</div>
-        <span class="c-salary">~13,50–14,50 €/h</span>
-        <div class="c-desc">Vastaanotto, hyllytys, keräily. Fyysinen työ, usein vuorotyö.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('start','specialist',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">🎯</span>
-        <div class="c-title">Osastomyyjä / Erikoismyyjä</div>
-        <div class="c-subtitle">Aloitustaso</div>
-        <span class="c-salary">~14,00–15,50 €/h</span>
-        <div class="c-desc">Tuotealueen asiantuntija. Vaatii enemmän tuotetuntemusta.</div>
-      </div>
-    </div>
-    <div id="roleInfo" class="info-panel hidden"></div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevStep(1)">← Takaisin</button>
-      &nbsp;
-      <button class="btn btn-primary" id="nextBtn2" onclick="nextStep(3)" disabled>Seuraava vaihe →</button>
-    </div>
-  </div>
-
-  <!-- Step 3: After 1-2 years -->
-  <div id="step3" class="section-card step-panel hidden">
-    <h2>📈 Vaihe 3: 1–2 vuotta myöhemmin</h2>
-    <p class="hint">Olet saanut kokemusta. Mitä teet seuraavaksi?</p>
-    <div class="cards-grid">
-      <div class="choice-card" onclick="selectChoice('mid','stay',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">💪</span>
-        <div class="c-title">Jatka nykyisessä roolissa</div>
-        <div class="c-subtitle">Syventyminen</div>
-        <span class="c-salary">~14,00–15,00 €/h</span>
-        <div class="c-desc">Kehität asiantuntemusta ja saat palkankorotuksia kokemuksen myötä.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('mid','supervisor',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">👑</span>
-        <div class="c-title">Vuorovastaava / Tiiminvetäjä</div>
-        <div class="c-subtitle">Esihenkilöpolku</div>
-        <span class="c-salary">~14,50–16,00 €/h</span>
-        <div class="c-desc">Vastaat vuoron sujumisesta, ohjaat kollegoita. Vastuulisä palkkaan.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('mid','study',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">📚</span>
-        <div class="c-title">Lisäkoulutus</div>
-        <div class="c-subtitle">Ammattitutkintopolku</div>
-        <span class="c-salary">~13,50–15,00 €/h + tulevaisuus</span>
-        <div class="c-desc">Kaupan ammattitutkinto tai lähiesihenkilötyön AT. Avaa uusia ovia.</div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevStep(2)">← Takaisin</button>
-      &nbsp;
-      <button class="btn btn-primary" id="nextBtn3" onclick="nextStep(4)" disabled>Seuraava vaihe →</button>
-    </div>
-  </div>
-
-  <!-- Step 4: Future progression -->
-  <div id="step4" class="section-card step-panel hidden">
-    <h2>🏆 Vaihe 4: Uran huippu</h2>
-    <p class="hint">Minne urasi vie pidemmällä aikavälillä?</p>
-    <div class="cards-grid">
-      <div class="choice-card" onclick="selectChoice('future','manager',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">🏪</span>
-        <div class="c-title">Osasto- tai myymäläpäällikkö</div>
-        <div class="c-subtitle">Johtamispolku</div>
-        <span class="c-salary">~2 800–3 800 €/kk</span>
-        <div class="c-desc">Tulosvastuullinen johtaja. Rekrytointi, budjetointi, tilaukset.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('future','leadexam',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">🎓</span>
-        <div class="c-title">Lähiesihenkilötyön ammattitutkinto</div>
-        <div class="c-subtitle">Ammattitutkintopolku</div>
-        <span class="c-salary">~2 600–3 500 €/kk</span>
-        <div class="c-desc">Tunnustettu johtamisosaaminen. Kelpoinen esihenkilötehtäviin.</div>
-      </div>
-      <div class="choice-card" onclick="selectChoice('future','tradenom',this)">
-        <div class="check-badge">✓</div>
-        <span class="c-icon">💼</span>
-        <div class="c-title">Tradenomi → Toimistotehtävät</div>
-        <div class="c-subtitle">Korkeakoulupolku</div>
-        <span class="c-salary">~2 800–4 500 €/kk</span>
-        <div class="c-desc">Opiskelet työn ohessa. Siirtymä HR:ään, markkinointiin tai taloushallintoon.</div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" onclick="prevStep(3)">← Takaisin</button>
-      &nbsp;
-      <button class="btn btn-primary" id="nextBtn4" onclick="showCompletion()" disabled>Katso urapolkusi 🗺️</button>
-    </div>
-  </div>
-
-  <!-- Completion -->
-  <div id="completionScreen" class="section-card completion-screen hidden">
-    <div class="completion-badge">🏆</div>
-    <h2>Urapolkusi on valmis!</h2>
-    <p>Hienoa! Olet rakentanut oman kaupan alan urapolkusi. Tässä on matka, jonka valitsit:</p>
-
-    <div class="timeline" id="careerTimeline"></div>
-
-    <div class="info-panel" style="text-align:left;margin-top:20px">
-      <h4>💡 Muista</h4>
-      <p>Urapolut eivät ole yksisuuntaisia — voit aina muuttaa suuntaa, palata kouluun tai vaihtaa toimialaa. Kaupan ala tarjoaa laajan verkoston ja monipuolisen osaamispohjan kaikille elämäntilanteille.</p>
-    </div>
-
-    <div class="nav-footer" style="margin-top:24px">
-      <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
-      <div class="next-exercise">
-        <span class="next-label">Seuraava harjoitus:</span>
-        <a href="../harjoitus-2-tyottomyysturva-elake/index.html" class="btn-next">
-          🛡️ Työttömyysturva ja eläke →
-          <small>Tiina saa lomautusilmoituksen...</small>
-        </a>
-      </div>
-    </div>
+<!-- ── Sticky stats bar ──────────────────────────────────────────── -->
+<div id="stats-bar">
+  <div class="sb-inner">
+    <span class="sb-name" id="sb-name">👤 —</span>
+    <span class="badge" id="sb-job">💼 —</span>
+    <span class="badge salary" id="sb-salary">💶 0 €/kk</span>
+    <span class="badge exp" id="sb-exp">🕐 0 v työkokemusta</span>
+    <span class="badge age" id="sb-age">🎂 — v</span>
   </div>
 </div>
 
+<div class="container">
+
+  <!-- ── Nav links ──────────────────────────────────────────────── -->
+  <div class="nav-bar">
+    <a href="../../../index.html">← Takaisin osioon</a>
+    <span>|</span>
+    <a href="../../index.html">📚 Tehtävälistaus</a>
+    <span>|</span>
+    <a href="../harjoitus-2-tyosopimus/index.html">Harjoitus 2: Työsopimus →</a>
+  </div>
+
+  <!-- ── Header ─────────────────────────────────────────────────── -->
+  <div class="exercise-header">
+    <h1>🗺️ Kaupan alan urapolku -simulaattori</h1>
+    <p>Merkonomiopinnoista työelämään — tee valintoja ja seuraa, miten urasi kehittyy!</p>
+  </div>
+
+  <!-- ── Progress bar ──────────────────────────────────────────── -->
+  <div class="progress-container">
+    <span class="step-label" id="progress-label">Vaihe 0 / 4</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="step-dots" id="step-dots">
+      <div class="dot active" id="dot-0"></div>
+      <div class="dot" id="dot-1"></div>
+      <div class="dot" id="dot-2"></div>
+      <div class="dot" id="dot-3"></div>
+      <div class="dot" id="dot-4"></div>
+    </div>
+  </div>
+
+  <!-- ── Main content ──────────────────────────────────────────── -->
+  <div id="app"></div>
+
+</div>
+
 <script>
+// ── SCORM ────────────────────────────────────────────────────────
 const SCORM = (() => {
-    let api = null, connected = false;
-    function findAPI(win) {
-        let attempts = 0;
-        while (win && !win.API && attempts < 10) {
-            if (win.parent && win.parent !== win) win = win.parent;
-            else if (win.opener) win = win.opener;
-            else break;
-            attempts++;
-        }
-        return win && win.API ? win.API : null;
-    }
-    function init() { api = findAPI(window); if (api) { const r = api.LMSInitialize(''); connected = r === 'true' || r === true; } }
-    function setValue(k, v) { if (!connected || !api) return; api.LMSSetValue(k, String(v)); }
-    function commit() { if (!connected || !api) return; api.LMSCommit(''); }
-    function complete(score, max) { setValue('cmi.core.score.raw', score); setValue('cmi.core.score.max', max); setValue('cmi.core.score.min', 0); setValue('cmi.core.lesson_status', (score/max)>=0.5?'passed':'failed'); commit(); }
-    function completePassFail(passed) { setValue('cmi.core.lesson_status', passed ? 'passed' : 'failed'); setValue('cmi.core.score.raw', passed ? 100 : 0); setValue('cmi.core.score.max', 100); commit(); }
-    return { init, complete, completePassFail };
+  let api = null, connected = false;
+  function findAPI(win) { let a=0; while(win&&!win.API&&a<10){if(win.parent&&win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;} return win&&win.API?win.API:null; }
+  function init() { api=findAPI(window); if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;} }
+  function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
+  function commit(){if(!connected||!api)return;api.LMSCommit('');}
+  function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
+  return{init,complete};
 })();
-window.addEventListener('load', SCORM.init);
+window.addEventListener('load',SCORM.init);
 
-const choices = {};
-const sectorLabels = { grocery: { icon:'🛒', title:'Päivittäistavara', sub:'K-ryhmä / S-ryhmä / Lidl', salary:'Aloituspalkka ~13,50–14,20 €/h' }, specialty: { icon:'👗', title:'Erikoistavarakauppa', sub:'Sokos / Intersport / Lindex', salary:'Aloituspalkka ~13,50–15,00 €/h' }, tech: { icon:'💻', title:'Tekninen kauppa', sub:'Gigantti / Verkkokauppa.com', salary:'Aloituspalkka ~14,00–15,50 €/h' }, logistics: { icon:'🏢', title:'Tukku- ja logistiikka', sub:'Kesko / Inex', salary:'Aloituspalkka ~13,50–14,50 €/h' } };
-const startLabels = { cashier: { icon:'🏷️', title:'Kassamyyjä / Myyjä', sub:'Aloitusrooli', salary:'~13,50–14,20 €/h', desc:'Asiakaspalvelu, kassa, hyllyttäminen.' }, warehouse: { icon:'📦', title:'Varastotyöntekijä', sub:'Aloitusrooli', salary:'~13,50–14,50 €/h', desc:'Vastaanotto, hyllytys, keräily.' }, specialist: { icon:'🎯', title:'Osastomyyjä / Erikoismyyjä', sub:'Aloitusrooli', salary:'~14,00–15,50 €/h', desc:'Tuoteasiantuntija, neuvontamyynti.' } };
-const midLabels = { stay: { icon:'💪', title:'Jatku nykyisessä roolissa', sub:'1–2 vuotta myöhemmin', salary:'~14,00–15,00 €/h' }, supervisor: { icon:'👑', title:'Vuorovastaava / Tiiminvetäjä', sub:'1–2 vuotta myöhemmin', salary:'~14,50–16,00 €/h' }, study: { icon:'📚', title:'Lisäkoulutus — ammattitutkinto', sub:'1–2 vuotta myöhemmin', salary:'~13,50–15,00 €/h + kasvu' } };
-const futureLabels = { manager: { icon:'🏪', title:'Osasto- tai myymäläpäällikkö', sub:'Uran huippu', salary:'~2 800–3 800 €/kk' }, leadexam: { icon:'🎓', title:'Lähiesihenkilötyön ammattitutkinto', sub:'Uran huippu', salary:'~2 600–3 500 €/kk' }, tradenom: { icon:'💼', title:'Tradenomi → Toimistotehtävät', sub:'Uran huippu', salary:'~2 800–4 500 €/kk' } };
+// ── State ────────────────────────────────────────────────────────
+const state = {
+  phase: 0,
+  name: '',
+  age: 18,
+  experience: 'Ei kokemusta',
+  currentAge: 18,
+  currentJob: '—',
+  currentSalary: 0,
+  workYears: 0,
+  choices: [],   // {phase, label, salaryAfter, ageAfter}
+};
 
-function selectChoice(step, value, el) {
-    choices[step] = value;
-    const parent = el.parentElement;
-    parent.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    const nextBtns = { sector: 'nextBtn1', start: 'nextBtn2', mid: 'nextBtn3', future: 'nextBtn4' };
-    const btn = document.getElementById(nextBtns[step]);
-    if (btn) btn.disabled = false;
+// ── Phase definitions ────────────────────────────────────────────
+const phases = [
+  null, // phase 0 = personal info form (handled separately)
+  {
+    title: 'Harjoittelun valinta',
+    hint: 'Valitse harjoittelupaikkasi merkonomiopintojen aikana.',
+    narrative: name => `Hienoa, ${name}! Olet aloittanut merkonomiopinnot. Ensimmäinen iso valinta on edessäsi: minne haet harjoitteluun? Harjoittelu antaa sinulle arvokasta käytännön kokemusta ja saattaa avata oven ensimmäiseen palkkatyöhön.`,
+    options: [
+      { id:'ptk', icon:'🛒', title:'Päivittäistavarakauppa', subtitle:'S-ryhmä / K-ryhmä / Lidl', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Mahtava valinta! Päivittäistavarakaupassa saat laajan asiakaspalvelukokemuksen ja opit kaupan perustoiminnot alusta asti.' },
+      { id:'eri', icon:'👗', title:'Erikoiskauppa', subtitle:'Vaatetus / elektroniikka / urheilu', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Loistava idea! Erikoiskaupassa kehität tuoteasiantuntemustasi ja opit palvelemaan vaativia asiakkaita.' },
+      { id:'tav', icon:'🏬', title:'Tavaratalo', subtitle:'Prisma / Citymarket / Stockmann', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Erinomainen valinta! Tavaratalossa näet kaupan kaikki osa-alueet yhdessä paikassa — todellinen oppimisympäristö.' },
+    ],
+    ageAdd: 0.5,
+    jobAfter: opt => ({ ptk:'Harjoittelija, päivittäistavarakauppa', eri:'Harjoittelija, erikoiskauppa', tav:'Harjoittelija, tavaratalo' }[opt.id] || 'Harjoittelija'),
+  },
+  {
+    title: 'Osa-aikatyö opiskelun ohella',
+    hint: 'Harjoittelu meni hienosti — työnantaja tarjoaa sinulle osa-aikatyötä!',
+    narrative: name => `Hienoa työtä, ${name}! Harjoittelusi sujui niin hyvin, että sait työtarjouksen. Voit jatkaa opintoja ja tehdä töitä samanaikaisesti. Mikä tehtävä sopii sinulle parhaiten?`,
+    options: [
+      { id:'kas', icon:'🖥️', title:'Kassatyö', subtitle:'20 h / vko — monipuolinen asiakaspalvelu', salary:'~500–700 €/kk', salaryVal:600, feedback:'Hyvä valinta! Kassatyössä kohtaat satoja asiakkaita päivittäin ja asiakaspalvelutaitosi kehittyvät huimaa vauhtia.' },
+      { id:'hyl', icon:'📦', title:'Hyllytys & varastotyö', subtitle:'15 h / vko — logistiikka ja järjestys', salary:'~450–600 €/kk', salaryVal:525, feedback:'Taitava valinta! Hyllytystyössä opit tilausjärjestelmät, varastohallinnan ja kaupan taustatoiminnot — arvokas taito.' },
+      { id:'asi', icon:'💬', title:'Asiakaspalvelu & info', subtitle:'20 h / vko — neuvonta ja myynti', salary:'~500–700 €/kk', salaryVal:600, feedback:'Upea valinta! Asiakaspalvelutyössä kehität viestintätaitojasi ja opit ratkaisemaan haasteita ammattimaisesti.' },
+    ],
+    ageAdd: 1.5,
+    jobAfter: opt => ({ kas:'Osa-aikainen kassatyöntekijä', hyl:'Osa-aikainen hyllytysmies/-nainen', asi:'Osa-aikainen asiakaspalvelija' }[opt.id] || 'Osa-aikainen myyjä'),
+  },
+  {
+    title: 'Valmistuminen — suuntauksen valinta',
+    hint: '2 vuotta myöhemmin — olet valmistunut merkonomiksi! Valitse suuntauksesi.',
+    narrative: name => `Onnittelut, ${name}! 🎓 Kaksi vuotta on kulunut ja olet nyt valmistunut merkonomiksi. Sinulla on tutkinto kädessä ja työkokemusta opiskelun ajalta. Nyt on aika valita, mihin suuntaan haluat kehittyä kokoaikaisena työntekijänä.`,
+    options: [
+      { id:'myo', icon:'🤝', title:'Myynti ja asiakaspalvelu', subtitle:'Myyjä kokoaikaisena, asiakaslähtöinen työ', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Loistava suunta! Myynnissä ja asiakaspalvelussa urasi voi edetä tiimivastaavaksi ja edelleen esihenkilöksi.' },
+      { id:'log', icon:'🚛', title:'Logistiikka ja varastointi', subtitle:'Myymälä- / varastovastaava, tilaukset', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Fiksu valinta! Logistiikkaosaajia tarvitaan kipeästi, ja alan palkkakin kehittyy hienosti vastuun kasvaessa.' },
+      { id:'vis', icon:'🎨', title:'Visuaalinen markkinointi', subtitle:'Somistus, esillepano, brändi-ilme', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Luova valinta! Visuaalinen markkinointi yhdistää kaupallisen ajattelun ja esteettisen silmän — kysytty taito.' },
+    ],
+    ageAdd: 2,
+    jobAfter: opt => ({ myo:'Myyjä (kokoaikainen)', log:'Myymälälogistikko (kokoaikainen)', vis:'Visuaalinen somistaja (kokoaikainen)' }[opt.id] || 'Myyjä (kokoaikainen)'),
+  },
+  {
+    title: 'Lisävastuut tai lisäkoulutus',
+    hint: '2 vuotta valmistumisen jälkeen — esihenkilösi tarjoaa etenemismahdollisuuksia.',
+    narrative: name => `Hienoa, ${name}! Kaksi vuotta töitä valmistumisen jälkeen on kartuttanut osaamistasi merkittävästi. Esihenkilösi kutsuu sinut kahville ja esittää neljä eri urapolkua. Mikä kuulostaa sinulle sopivimmalta seuraavalta askeleelta?`,
+    options: [
+      { id:'vuo', icon:'👑', title:'Vuorovastaava / tiiminvetäjä', subtitle:'Lisävastuut nykyisessä työpaikassa heti', salary:'~2 350–2 550 €/kk', salaryVal:2450, feedback:'Rohkea askel! Vuorovastaavana kehität johtamistaitojasi käytännössä ja palkkasi nousee merkittävästi.' },
+      { id:'lah', icon:'📋', title:'Lähiesihenkilötyön ammattitutkinto', subtitle:'Työn ohessa suoritettava ammattitutkinto', salary:'~2 550–2 750 €/kk tutkinnon jälkeen', salaryVal:2650, feedback:'Viisas investointi! Ammattitutkinto vahvistaa johtamisosaamistasi ja avaa oven esihenkilötehtäviin.' },
+      { id:'lii', icon:'📊', title:'Liiketoiminnan ammattitutkinto', subtitle:'Työn ohessa, laaja liike-elämän osaaminen', salary:'~2 550–2 800 €/kk tutkinnon jälkeen', salaryVal:2675, feedback:'Mahtava valinta! Liiketoiminnan tutkinto antaa sinulle kokonaiskuvan kaupan liiketoiminnasta ja laajentaa mahdollisuuksiasi.' },
+      { id:'tra', icon:'🎓', title:'Tradenomi AMK', subtitle:'Kokopäiväopiskelu tai monimuoto-opinnot', salary:'~2 800–3 200 €/kk valmistumisen jälkeen', salaryVal:3000, feedback:'Kunnianhimoinen tavoite! Tradenomitutkinto avaa oven korkeampiin tehtäviin, markkinointiin ja johtoon.' },
+    ],
+    ageAdd: 2,
+    jobAfter: opt => ({ vuo:'Vuorovastaava', lah:'Lähiesihenkilö (at-tutkinto)', lii:'Myymäläpäällikön apulainen', tra:'Tradenomi (kaupan ala)' }[opt.id] || 'Esihenkilö'),
+  },
+];
+
+// ── Helpers ──────────────────────────────────────────────────────
+function fmt(n){ return n > 0 ? n.toLocaleString('fi-FI') + ' €/kk' : '0 €/kk (harjoittelu)'; }
+function fmtAge(a){ return Math.round(a * 10) / 10; }
+function updateProgress(){
+  const pct = (state.phase / 4) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = state.phase === 0 ? 'Aloitus' : `Vaihe ${state.phase} / 4`;
+  for(let i=0;i<=4;i++){
+    const d = document.getElementById('dot-'+i);
+    if(!d) continue;
+    d.className = 'dot' + (i < state.phase ? ' done' : i === state.phase ? ' active' : '');
+  }
+}
+function updateStatsBar(){
+  const bar = document.getElementById('stats-bar');
+  if(state.phase === 0){ bar.style.display='none'; return; }
+  bar.style.display='block';
+  document.getElementById('sb-name').textContent = '👤 ' + (state.name || '—');
+  document.getElementById('sb-job').textContent = '💼 ' + state.currentJob;
+  document.getElementById('sb-salary').textContent = '💶 ' + fmt(state.currentSalary);
+  document.getElementById('sb-exp').textContent = '🕐 ' + (state.workYears > 0 ? fmtAge(state.workYears) + ' v työkokemusta' : 'Ei vielä');
+  document.getElementById('sb-age').textContent = '🎂 ' + fmtAge(state.currentAge) + ' v';
+}
+function renderApp(html){
+  const el = document.getElementById('app');
+  el.innerHTML = html;
+  el.querySelector('.phase-enter') && void el.querySelector('.phase-enter').offsetWidth;
 }
 
-function nextStep(n) {
-    document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
-    document.getElementById('step' + n).classList.remove('hidden');
-    updateProgress(n);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// ── Phase 0: Personal info ───────────────────────────────────────
+function renderPhase0(){
+  renderApp(`
+  <div class="section-card phase-enter">
+    <div class="narrative">
+      📖 <strong>Aloitetaan merkonomiopinnoistasi...</strong><br>
+      Tässä simulaattorissa seuraat omaa urapolkuasi kaupan alalla — harjoittelusta kohti ammattitaitoa. Jokainen valintasi vaikuttaa palkkaasi, asemaasi ja kokemukseesi. Aloitetaan tutustumalla sinuun!
+    </div>
+    <h2>🙋 Kerro itsestäsi</h2>
+    <p class="hint">Täytä tietosi ennen simulaation aloittamista.</p>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="inp-name">Nimesi</label>
+        <input type="text" id="inp-name" placeholder="Esim. Matti Meikäläinen" maxlength="40">
+      </div>
+      <div class="form-group">
+        <label for="inp-age">Ikäsi (vuosissa)</label>
+        <input type="number" id="inp-age" min="16" max="30" value="18" placeholder="16–30">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inp-exp">Kokemusvuosia kaupan alalta</label>
+      <select id="inp-exp">
+        <option value="Ei kokemusta">Ei kokemusta</option>
+        <option value="Alle 1 vuosi">Alle 1 vuosi</option>
+        <option value="1–3 vuotta">1–3 vuotta</option>
+        <option value="Yli 3 vuotta">Yli 3 vuotta</option>
+      </select>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startSim()">Aloita simulaatio ▶</button>
+    </div>
+  </div>`);
 }
-function prevStep(n) { nextStep(n); }
 
-function updateProgress(step) {
-    const pct = (step / 4) * 100;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('currentStep').textContent = step;
-    for (let i = 1; i <= 4; i++) {
-        const dot = document.getElementById('dot' + i);
-        dot.className = 'dot' + (i < step ? ' done' : i === step ? ' active' : '');
-    }
+function startSim(){
+  const nameEl = document.getElementById('inp-name');
+  const ageEl  = document.getElementById('inp-age');
+  const expEl  = document.getElementById('inp-exp');
+  const name = nameEl.value.trim();
+  const age  = parseInt(ageEl.value, 10);
+  if(!name){ nameEl.focus(); nameEl.style.borderColor='#e53935'; return; }
+  if(!age || age < 16 || age > 30){ ageEl.focus(); ageEl.style.borderColor='#e53935'; return; }
+  state.name = name;
+  state.age  = age;
+  state.currentAge = age;
+  state.experience = expEl.value;
+  state.currentJob = 'Merkonomiopiskelijia';
+  // Apply bonus work years from prior experience
+  const expMap = {'Ei kokemusta':0,'Alle 1 vuosi':0.5,'1–3 vuotta':2,'Yli 3 vuotta':3.5};
+  state.workYears = expMap[state.experience] || 0;
+  state.phase = 1;
+  updateProgress();
+  updateStatsBar();
+  renderPhase(1);
 }
 
-function showCompletion() {
-    document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
-    document.getElementById('completionScreen').classList.remove('hidden');
-    updateProgress(4);
-    buildTimeline();
-    SCORM.completePassFail(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// ── Render a choice phase ────────────────────────────────────────
+function renderPhase(n){
+  const p = phases[n];
+  if(!p) return;
+  const optCards = p.options.map(o => `
+    <div class="choice-card" id="opt-${o.id}" onclick="selectOpt('${o.id}', ${n})">
+      <div class="check-badge">✓</div>
+      <span class="c-icon">${o.icon}</span>
+      <div class="c-title">${o.title}</div>
+      <div class="c-subtitle">${o.subtitle}</div>
+      <div class="c-salary">${o.salary}</div>
+    </div>`).join('');
+
+  renderApp(`
+  <div class="section-card phase-enter">
+    <div class="narrative">📖 ${p.narrative(state.name)}</div>
+    <h2>${p.title}</h2>
+    <p class="hint">${p.hint}</p>
+    <div class="cards-grid">${optCards}</div>
+    <div class="feedback-box" id="feedback-box"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-next" disabled onclick="nextPhase(${n})">Jatka ▶</button>
+    </div>
+  </div>`);
+  state._selectedOpt = null;
 }
 
-function buildTimeline() {
-    const tl = document.getElementById('careerTimeline');
-    const steps = [
-        { ...sectorLabels[choices.sector], time: 'Toimiala' },
-        { ...startLabels[choices.start], time: 'Aloitus' },
-        { ...midLabels[choices.mid], time: '1–2 vuotta' },
-        { ...futureLabels[choices.future], time: 'Tavoite' }
-    ];
-    tl.innerHTML = steps.map(s => `
-      <div class="timeline-item">
-        <div class="tl-icon">${s.icon}</div>
-        <div class="tl-content">
-          <div style="font-size:.75rem;color:#999;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px">${s.time}</div>
-          <h4>${s.title}</h4>
-          <p>${s.sub || ''}</p>
-          <span class="tl-salary">${s.salary}</span>
-        </div>
-      </div>`).join('');
+// ── Select an option ─────────────────────────────────────────────
+function selectOpt(id, phaseNum){
+  const p = phases[phaseNum];
+  const opt = p.options.find(o => o.id === id);
+  if(!opt) return;
+  // deselect others
+  p.options.forEach(o => {
+    const el = document.getElementById('opt-'+o.id);
+    if(el) el.classList.remove('selected');
+  });
+  document.getElementById('opt-'+id).classList.add('selected');
+  state._selectedOpt = opt;
+  // show feedback
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'block';
+  fb.innerHTML = `<span class="fb-icon">🌟</span> ${opt.feedback}`;
+  document.getElementById('btn-next').disabled = false;
 }
+
+// ── Advance to next phase ────────────────────────────────────────
+function nextPhase(fromPhase){
+  const opt = state._selectedOpt;
+  if(!opt) return;
+  const p = phases[fromPhase];
+  // Update state
+  state.currentSalary = opt.salaryVal;
+  state.currentAge   += p.ageAdd;
+  state.currentJob    = p.jobAfter(opt);
+  if(opt.salaryVal > 0) state.workYears += p.ageAdd;
+  state.choices.push({
+    phase: fromPhase,
+    phaseTitle: p.title,
+    label: opt.title,
+    icon: opt.icon,
+    salaryAfter: opt.salaryVal,
+    ageAfter: state.currentAge,
+    jobAfter: state.currentJob,
+    salary: opt.salary,
+  });
+  state.phase = fromPhase + 1;
+  updateProgress();
+  updateStatsBar();
+  if(state.phase <= 4) renderPhase(state.phase);
+  else renderSummary();
+}
+
+// ── Final summary ────────────────────────────────────────────────
+function renderSummary(){
+  SCORM.complete(4, 4);
+  const totalExpYears = state.workYears;
+  const tl = state.choices.map((c, i) => {
+    const isLast = i === state.choices.length - 1;
+    return `
+    <div class="tl-item">
+      <div class="tl-dot-col">
+        <div class="tl-dot"></div>
+        ${!isLast ? '<div class="tl-line"></div>' : ''}
+      </div>
+      <div class="tl-content">
+        <span class="tl-age">${fmtAge(c.ageAfter)} v</span>
+        <div class="tl-title">${c.icon} ${c.label}</div>
+        <div class="tl-detail">${c.phaseTitle} → ${c.jobAfter}</div>
+        <div class="tl-salary">${c.salaryAfter > 0 ? fmt(c.salaryAfter) : '0 €/kk (harjoittelu)'}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  renderApp(`
+  <div class="summary-screen phase-enter">
+    <div style="font-size:3rem;margin-bottom:10px">🏅</div>
+    <h2>Etenemisesi tähän mennessä</h2>
+    <p class="tagline">Tähänastinen urapolkusi, ${state.name} — hienoa työtä!</p>
+    <div class="summary-stats">
+      <div class="stat-card">
+        <div class="sc-val">${fmtAge(state.currentAge)}</div>
+        <div class="sc-label">Ikäsi nyt</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-val">${fmt(state.currentSalary).replace(' €/kk','')}</div>
+        <div class="sc-label">Kuukausipalkka (€)</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-val">${fmtAge(totalExpYears)}</div>
+        <div class="sc-label">Työkokemusta (vuotta)</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-val">${state.currentJob.split(' ')[0]}</div>
+        <div class="sc-label">Nykyinen tehtävä</div>
+      </div>
+    </div>
+    <div class="timeline">${tl}</div>
+    <div style="background:linear-gradient(135deg,#f0f2ff,#f7f0ff);border-radius:14px;padding:18px 22px;margin:24px 0;text-align:left;font-size:.9rem;line-height:1.7;color:#444">
+      <strong>📌 Muista:</strong> Tämä simulaattori perustuu kaupan alan TES 2025–2028 palkkataulukoihin ja tyypillisiin urapolkuihin. 
+      Todelliset palkat vaihtelevat työnantajan, paikkakunnan ja henkilökohtaisen lisän mukaan. 
+      Kaupan alan ura tarjoaa loistavia etenemismahdollisuuksia — tärkeintä on aloittaa ja oppia jokaisesta tehtävästä!
+    </div>
+    <div class="nav-links">
+      <button class="btn btn-secondary" onclick="restartSim()">🔄 Kokeile uudelleen</button>
+      <a class="btn btn-primary" href="../harjoitus-2-tyosopimus/index.html">Harjoitus 2: Työsopimus →</a>
+    </div>
+  </div>`);
+}
+
+function restartSim(){
+  state.phase = 0;
+  state.name = '';
+  state.age = 18;
+  state.currentAge = 18;
+  state.currentJob = '—';
+  state.currentSalary = 0;
+  state.workYears = 0;
+  state.choices = [];
+  state._selectedOpt = null;
+  updateProgress();
+  updateStatsBar();
+  renderPhase0();
+}
+
+// ── Boot ─────────────────────────────────────────────────────────
+updateProgress();
+updateStatsBar();
+renderPhase0();
 </script>
 </body>
 </html>
