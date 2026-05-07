@@ -371,7 +371,7 @@ function startSim(){
   state.age  = age;
   state.currentAge = age;
   state.experience = expEl.value;
-  state.currentJob = 'Merkonomiopiskelijia';
+  state.currentJob = 'Merkonomiopiskelia';
   // Apply bonus work years from prior experience
   const expMap = {'Ei kokemusta':0,'Alle 1 vuosi':0.5,'1–3 vuotta':2,'Yli 3 vuotta':3.5};
   state.workYears = expMap[state.experience] || 0;
