@@ -25,6 +25,57 @@
 
 ---
 
+## Ehdotettu opetuksen etenemisrunko arkeen (selkeä toteutusjärjestys)
+
+Tämä runko täydentää alla olevia sisältöjä muuttamatta niiden sisältöä. Tarkoitus on helpottaa osio 1:n käytännön etenemistä oppitunneilla.
+
+### Materiaalit ja niiden käyttöjärjestys osio 1:ssä
+
+1. **Opettajan materiaali (tämä dokumentti):** avaukset, esitykset, ohjatut keskustelut, ryhmä- ja paritehtävät, yhteiset purut  
+2. **Interaktiiviset harjoitteet (Tehtävät-kansio):**
+   - Harjoitus 1: **Kaupan alan urapolku -simulaattori (SCORM)**
+   - Harjoitus 2: **Työttömyysturva ja eläke (SCORM)**
+3. **Arvioitavat lopputehtävät:**
+   - Tehtävä 1.3 **Kaupan alan yritys organisaationa** (pari/ryhmä)
+   - Tehtävä 1.5 **Työttömyysturva ja eläke**
+4. **Keskeiset tukimateriaalit:** opettajan linkkipankki, kaupan alan TES, PAM/Kaupan liitto, Kela, JATTK, ETK
+
+### Lähiopetus nuoret (~13 h): looginen eteneminen
+
+| Opetuskerta / vaihe | Tavoite | Opettajan rooli | Opiskelijoiden työskentely | Materiaalit |
+|---|---|---|---|---|
+| **1. Aloitus + TM1 (noin 3 h)** | Käynnistetään osio, luodaan kokonaiskuva työmarkkinoista | Aloitus, johdanto, lyhytesitys, keskustelun ohjaus | Pienryhmäanalyysi + yhteinen purku | Tämän dokumentin TM1-osuus |
+| **2. TM2 (noin 3 h)** | Tunnistetaan urapolkuja ja alan työnkuvia | Esitys urapoluista, tutkimustehtävän ohjeistus | Ohjattu tiedonhaku yksin/parina + purku | Tämän dokumentin TM2-osuus |
+| **3. TM3 (noin 4 h)** | Ymmärretään työmarkkinajärjestelmä ja TES:n käyttö | Esitys, tunnistusharjoituksen vetäminen, TES-ohjaus | Tunnistusharjoitus + TES-parityö + purku | Tämän dokumentin TM3-osuus + TES |
+| **4. TM4 (noin 3 h)** | Vahvistetaan työttömyysturvan ja eläkkeen perusteet | Johdanto, esitys, case-tehtävän fasilitointi | Case pienryhmissä + loppukeskustelu | Tämän dokumentin TM4-osuus |
+| **5. Osion päätös** | Varmistetaan osaaminen ja siirtymä seuraavaan osioon | Yhteenveto ja jatko-ohjeet | Lopputehtävien viimeistely | Osion yhteenveto + tehtäväohjeet |
+
+### Aikuisten iltakurssi (~6 h): tiivistetty eteneminen
+
+| Vaihe | Toteutus | Painotus |
+|---|---|---|
+| **1. Yhteinen aloitus (n. 45–60 min)** | Opettajan tiivis avaus: TM1+TM2 ydinkohdat | Työelämäkokemusten aktivointi |
+| **2. TM3 ydin (n. 2 h)** | TES ja työmarkkinajärjestelmä käytännön esimerkeillä | Oikeudet, velvollisuudet, palkka ja ehdot |
+| **3. TM4 ydin (n. 1,5–2 h)** | Työttömyysturva + eläke + case-purku | Oman tilanteen soveltaminen |
+| **4. Harjoitteet ja lopputehtävät (n. 1–1,5 h)** | SCORM-harjoitteet itsenäisesti + ohjattu tehtäväkäynnistys | Soveltaminen ja arvioitavat tuotokset |
+
+### Käytännön tuntirakenne yksittäiselle opetuskerralle
+
+1. **Opettajan avaus/esitys** (teeman tavoitteet ja ydinsisältö)  
+2. **Ohjattu selvitystehtävä pienryhmissä/pareittain** (teeman soveltaminen)  
+3. **Yhteinen purku** (havainnot, käsitteiden tarkennus, virhekäsitysten korjaus)  
+4. **Itsenäinen työskentely loppuajalla** (SCORM-harjoite tai lopputehtävän edistäminen)  
+5. **Lopetus ja seuraavan kerran ennakointi** (mitä tehdään seuraavaksi, mitä valmistellaan)
+
+### SCORM-harjoitteiden sijoittaminen opetuksen kulkuun
+
+- **Harjoitus 1 (Urapolku-simulaattori):** TM2-käsittelyn jälkeen, kun urapolut ja nimikkeet on ensin avattu opettajajohtoisesti  
+- **Harjoitus 2 (Työttömyysturva ja eläke):** TM4-käsittelyn jälkeen, kun peruskäsitteet ja case on käyty yhdessä  
+- **Jos aikaa jää opetuskerralla:** opiskelijat tekevät harjoitteita itsenäisesti saman tunnin loppuosassa  
+- **Jos aika ei riitä:** harjoite annetaan ohjatuksi välitehtäväksi ennen seuraavaa purkua
+
+---
+
 ## 1. Suomen työmarkkinat nyt ja tulevaisuudessa (TM1)
 
 *Sopiva muoto: Opettajan johdantokeskustelu → lyhytesitys → pienryhmäanalyysi*  
