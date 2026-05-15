@@ -1067,9 +1067,10 @@ function showFinalScreen() {
   document.getElementById('fs3').textContent = state.scores[2] + '/' + QUESTIONS_PER_SCREEN[2];
 
   let msg = '';
-  if (total >= 18) msg = '🏆 Erinomainen tulos! Tunnet sopimukset hyvin.';
-  else if (total >= 14) msg = '👍 Hyvä tulos! Käy läpi virheelliset vastaukset.';
-  else if (total >= 10) msg = '📚 Kohtuullinen tulos. Lue sopimusten ehdot uudelleen.';
+  const pct = total / TOTAL_QUESTIONS;
+  if (pct >= 0.85) msg = '🏆 Erinomainen tulos! Tunnet sopimukset hyvin.';
+  else if (pct >= 0.67) msg = '👍 Hyvä tulos! Käy läpi virheelliset vastaukset.';
+  else if (pct >= 0.48) msg = '📚 Kohtuullinen tulos. Lue sopimusten ehdot uudelleen.';
   else msg = '🔄 Harjoittele lisää — sopimustuntemus on tärkeä taito!';
   document.getElementById('finalScoreMsg').textContent = msg;
 
