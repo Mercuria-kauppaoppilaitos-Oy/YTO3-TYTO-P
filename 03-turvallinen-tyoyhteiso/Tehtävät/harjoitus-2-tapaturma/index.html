@@ -180,7 +180,7 @@ const scenariosData = {
     badge:'📦 💥 🤕 → ❓',
     subtitle:'"Kovaan ääneen kaatuminen varastossa..."',
     story:'Kuulet kovaan ääneen kaatumisen varastossa. Menet katsomaan — työkaveri Joonas makaa lattialla. Hän on tajuissaan, mutta ei pääse ylös.',
-    hintAnchor:'Aloita ympäristön turvallistamisesta ennen muuta toimintaa.',
+    hintText:'Aloita ympäristön turvallistamisesta ennen muuta toimintaa.',
     steps:[
       {id:'s1a',text:'Varmista, ettei lisävaaraa ole — poista kaatuneet esineet ympäriltä',acceptedGroups:['immediate'],critical:true,why:'Turvallinen työympäristö estää lisävammat.'},
       {id:'s1b',text:'Kysy Joonakselta voinnista ja arvioi tilanne rauhallisesti',acceptedGroups:['immediate','next'],critical:true,why:'Tilanteen arviointi ohjaa oikeaa ensiapua.'},
@@ -205,7 +205,7 @@ const scenariosData = {
     badge:'👩‍🦳 😵 → 💫 → 🧎',
     subtitle:'"Kassajonossa asiakas menettää tajuntansa..."',
     story:'Olet kassalla. Asiakas menettää tajuntansa ja vajuu lattialle. Muut asiakkaat katsovat hämmentyneenä.',
-    hintAnchor:'Tajuttoman kohdalla hengitys tarkistetaan nopeasti ja apu hälytetään heti.',
+    hintText:'Tajuttoman kohdalla hengitys tarkistetaan nopeasti ja apu hälytetään heti.',
     steps:[
       {id:'s2a',text:'Hälytä kollega avuksi heti',acceptedGroups:['immediate'],critical:true,why:'Yksin toimiminen hidastaa ensiapua.'},
       {id:'s2c',text:'Tarkista hengittääkö asiakas',acceptedGroups:['immediate'],critical:true,why:'Hengityksen tila ratkaisee seuraavan toimenpiteen.'},
@@ -240,7 +240,7 @@ const scenariosData = {
     badge:'😡 🔊 ⚠️ → ❓',
     subtitle:'"Tilanne kärjistyy myymälässä..."',
     story:'Asiakas alkaa uhkailla henkilökuntaa ääneen. Hän ei rauhoitu puheella ja lähistöllä on muita asiakkaita.',
-    hintAnchor:'Uhkaavassa tilanteessa turvaa ensin ihmiset ja pyydä apua nopeasti.',
+    hintText:'Uhkaavassa tilanteessa turvaa ensin ihmiset ja pyydä apua nopeasti.',
     steps:[
       {id:'s3a',text:'Pysy rauhallisena — älä provosoi tai uhkaile takaisin',acceptedGroups:['immediate'],critical:true,why:'Rauhallisuus ehkäisee tilanteen eskaloitumista.'},
       {id:'s3b',text:'Hälytä apua hätäpainikkeella tai kollegalle',acceptedGroups:['immediate'],critical:true,why:'Uhkaavaa tilannetta ei tule hoitaa yksin.'},
@@ -284,7 +284,7 @@ function initGame(n) {
     pool:shuffle([...data.steps.map(s=>s.id)]),
     checks:{},
     feedbackByCard:{},
-    explanation:data.steps[0].why,
+    explanation:data.steps[0]?.why || 'Valitse toimintakortti nähdäksesi perustelun.',
     showHint:false
   };
   data.criticalChecks.forEach(c=>gameState[n].checks[c.id]='');
@@ -377,6 +377,24 @@ function feedbackClass(status){
   return status==='oikein'?'ok':status==='myöhässä'?'late':status==='puuttuu kriittinen toimi'?'missing':'wrong';
 }
 
+function aggregateFeedbackLists(feedbackEntries){
+  const strengths=[];
+  const practice=[];
+  feedbackEntries.forEach(v=>{
+    if(v.status==='oikein'){
+      strengths.push(v.reason);
+    } else if(v.status==='myöhässä'){
+      strengths.push('Tunnistit oikean toimenpiteen, mutta ajoitus myöhästyi.');
+      practice.push(v.reason);
+    } else if(v.status==='puuttuu kriittinen toimi'){
+      practice.push('Kriittinen turvallisuustoimi puuttuu: ' + v.reason);
+    } else {
+      practice.push(v.reason);
+    }
+  });
+  return {strengths, practice};
+}
+
 function renderCard(n,id,zoneId=''){
   const st=gameState[n], step=getStep(n,id), selected=st.selected===id;
   const zoneClass=zoneId?` in-zone ${zoneId}`:'';
@@ -423,7 +441,7 @@ function renderGame(n){
       <h4>Tilannekuva</h4>
       <div class="scene-visual">${data.badge}<p>${data.subtitle}</p></div>
       <div class="scenario-text">${data.story}</div>
-      ${st.showHint?`<div class="hint">💡 ${data.hintAnchor}</div>`:''}
+      ${st.showHint?`<div class="hint">💡 ${data.hintText}</div>`:''}
       <div class="cards-pool">
         <h5>📋 Toimintakortit (valitse, vedä tai käytä näppäimiä 1/2/3)</h5>
         ${poolHtml}
@@ -489,12 +507,9 @@ function checkScenario(n){
   document.getElementById('nav'+n).classList.add('completed');
   updateProgress();
 
-  const strengths=[];
-  const practice=[];
-  Object.values(fb).forEach(v=>{
-    if(v.status==='oikein') strengths.push(v.reason);
-    else practice.push(v.reason);
-  });
+  const summary = aggregateFeedbackLists(Object.values(fb));
+  const strengths=[...summary.strengths];
+  const practice=[...summary.practice];
   if(correctChecks===data.criticalChecks.length) strengths.push('Kriittiset päätöspisteet menivät oikein.');
   else practice.push('Harjoittele kriittisiä päätöspisteitä erityisesti.');
 
@@ -544,14 +559,13 @@ function showCompletion(){
   document.getElementById('progressFill').style.width='100%';
   document.getElementById('finalScore').innerHTML=score+' <span class="s-max">/ '+maxScore+'</span>';
 
-  const strengths=[];
-  const practice=[];
+  const allFeedback = [];
   Object.entries(gameState).forEach(([,st])=>{
-    Object.values(st.feedbackByCard||{}).forEach(f=>{
-      if(f.status==='oikein') strengths.push(f.reason);
-      else practice.push(f.reason);
-    });
+    Object.values(st.feedbackByCard||{}).forEach(f=>allFeedback.push(f));
   });
+  const summary = aggregateFeedbackLists(allFeedback);
+  const strengths = summary.strengths;
+  const practice = summary.practice;
 
   const msg = score>=3?'Erinomainen suoritus! Toimit turvallisesti ja johdonmukaisesti.':score>=2?'Hyvä suoritus! Tunnistat keskeiset vaiheet, hio ajoitusta vielä.':'Jatka harjoittelua — keskity ensin turvallistamiseen ja avun hälyttämiseen.';
   document.getElementById('finalFeedback').textContent=msg;
