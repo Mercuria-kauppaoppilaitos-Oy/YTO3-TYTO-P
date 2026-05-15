@@ -119,8 +119,16 @@ input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
       </div>
 
       <div class="slider-group">
-        <div class="slider-label"><span>🧾 Veroprosentti %</span><span class="slider-val" id="taxVal">20%</span></div>
-        <input type="range" min="5" max="50" step="1" value="20" id="taxSlider" oninput="calc()">
+        <div class="slider-label">
+          <span>🧾 Veroprosentti</span>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="number" id="taxInput" min="5" max="50" value="18"
+              style="width:64px;border:2px solid #11998e;border-radius:8px;padding:3px 8px;font-size:.9rem;font-weight:700;color:#11998e;text-align:center;background:#f0fff8;font-family:inherit"
+              oninput="syncTaxInput(this)" onchange="syncTaxInput(this)">
+            <span style="font-size:.85rem;font-weight:700;color:#11998e">%</span>
+          </div>
+        </div>
+        <input type="range" min="5" max="50" step="1" value="18" id="taxSlider" oninput="syncTaxSlider(this)">
       </div>
     </div>
 
@@ -182,6 +190,18 @@ input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
     </div>
   </div>
 
+  <!-- Mini-task: Vero.fi -->
+  <div id="taxMiniTask" style="background:#eff6ff;border:2px solid #93c5fd;border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07)">
+    <h3 style="font-size:1rem;font-weight:800;margin-bottom:10px;color:#1e40af;display:flex;align-items:center;gap:8px">📋 Tehtävä: Laske veroprosentti tulotiedoilla</h3>
+    <p style="font-size:.9rem;color:#1e3a8a;margin-bottom:14px;line-height:1.55">Käy laskemassa veroprosenttisi Vero.fi:n ilmaisella veroprosenttilaskurilla alla olevilla ohjeilla:</p>
+    <ol style="font-size:.9rem;color:#1e3a8a;margin-left:20px;line-height:2.1">
+      <li>Avaa laskuri: <a href="https://avoinomavero.vero.fi/_/" target="_blank" rel="noopener" style="color:#2563eb;font-weight:700;text-decoration:underline">avoinomavero.vero.fi/_/</a></li>
+      <li>Syötä kohtaan <strong>"Arvio palkan määrästä koko vuonna"</strong>: <strong id="annualGrossDisplay" style="color:#1e40af">–</strong></li>
+      <li>Muita vähennyksiä tai lisätietoja ei tarvitse täyttää tässä tehtävässä</li>
+      <li>Katso laskurin antama veroprosentti ja syötä se yllä olevan laskurin <strong>Veroprosentti</strong>-kenttään</li>
+    </ol>
+  </div>
+
   <!-- Info panels -->
   <div class="info-grid">
     <div class="info-tile">
@@ -236,6 +256,7 @@ window.addEventListener('load',SCORM.init);
 
 let calcCount = 0;
 let completed = false;
+let taxManuallyEntered = false;
 let workType = 'part';
 
 function setType(type, btn) {
@@ -249,6 +270,26 @@ function setType(type, btn) {
     calc();
 }
 
+function syncTaxSlider(el) {
+    const val = parseInt(el.value);
+    document.getElementById('taxInput').value = val;
+    calc();
+}
+
+function syncTaxInput(el) {
+    let val = parseInt(el.value);
+    if (isNaN(val)) return;
+    val = Math.max(5, Math.min(50, val));
+    el.value = val;
+    document.getElementById('taxSlider').value = val;
+    taxManuallyEntered = true;
+    calc();
+    if (!completed) {
+        completed = true;
+        SCORM.completePassFail(true);
+    }
+}
+
 function fmt(n) { return n.toLocaleString('fi-FI', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' €'; }
 function fmtInt(n) { return n.toLocaleString('fi-FI', { maximumFractionDigits:2 }) + ' €'; }
 
@@ -258,14 +299,13 @@ function calc() {
     const eveningH = parseInt(document.getElementById('eveningSlider').value);
     const satH = parseInt(document.getElementById('satSlider').value);
     const sunH = parseInt(document.getElementById('sunSlider').value);
-    const taxPct = parseInt(document.getElementById('taxSlider').value);
+    const taxPct = parseInt(document.getElementById('taxSlider').value) || 18;
 
     document.getElementById('hoursVal').textContent = hours + ' h/vk';
     document.getElementById('rateVal').textContent = rate.toFixed(2).replace('.', ',') + ' €/h';
     document.getElementById('eveningVal').textContent = eveningH + ' h';
     document.getElementById('satVal').textContent = satH + ' h';
     document.getElementById('sunVal').textContent = sunH + ' h';
-    document.getElementById('taxVal').textContent = taxPct + '%';
 
     // Monthly hours: hours/week * 52/12
     const monthlyHours = hours * (52 / 12);
@@ -291,12 +331,9 @@ function calc() {
     document.getElementById('rSickIns').textContent = '-' + fmt(sickAmount);
     document.getElementById('rNet').textContent = fmt(net);
 
-    calcCount++;
-    if (calcCount >= 3 && !completed) {
-        completed = true;
-        document.getElementById('completedBanner').style.display = 'block';
-        SCORM.completePassFail(true);
-    }
+    // Update annual gross for mini-task
+    const annualGross = Math.round(gross * 12);
+    document.getElementById('annualGrossDisplay').textContent = annualGross.toLocaleString('fi-FI') + ' €';
 }
 
 function setTiina() {
@@ -306,6 +343,7 @@ function setTiina() {
     document.getElementById('satSlider').value = 0;
     document.getElementById('sunSlider').value = 0;
     document.getElementById('taxSlider').value = 18;
+    document.getElementById('taxInput').value = 18;
     setType('part', document.getElementById('btn-part'));
     calc();
     const hours = 20 * (52/12);
