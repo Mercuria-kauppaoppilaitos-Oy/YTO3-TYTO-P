@@ -267,6 +267,10 @@ const scenariosData = {
 const gameState = {};
 const scoresData = {1:0,2:0,3:0};
 const completedScenarios = new Set();
+const DEFAULT_EXPLANATION = 'Valitse toimintakortti nähdäksesi perustelun.';
+const CRITICAL_CHECK_POINTS = 2;
+const MAX_SCENARIO_FEEDBACK_ITEMS = 4;
+const MAX_FINAL_FEEDBACK_ITEMS = 6;
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -284,7 +288,7 @@ function initGame(n) {
     pool:shuffle([...data.steps.map(s=>s.id)]),
     checks:{},
     feedbackByCard:{},
-    explanation:data.steps[0]?.why || 'Valitse toimintakortti nähdäksesi perustelun.',
+    explanation:data.steps[0]?.why || DEFAULT_EXPLANATION,
     showHint:false
   };
   data.criticalChecks.forEach(c=>gameState[n].checks[c.id]='');
@@ -333,7 +337,7 @@ function returnToPool(n,id){
 }
 
 function onCardKeyDown(e,n,id){
-  if(e.key==='Enter'||e.key===' '){e.preventDefault();selectStep(n,id);}
+  if(e.key==='Enter'){e.preventDefault();selectStep(n,id);}
   if(['1','2','3'].includes(e.key)){
     const m={1:'immediate',2:'next',3:'after'};
     e.preventDefault();
@@ -343,7 +347,7 @@ function onCardKeyDown(e,n,id){
 }
 
 function onZoneKeyDown(e,n,zoneId){
-  if(e.key==='Enter'||e.key===' '){e.preventDefault();placeSelected(n,zoneId);}
+  if(e.key==='Enter'){e.preventDefault();placeSelected(n,zoneId);}
 }
 
 function handleDragStart(e,n,id){
@@ -398,7 +402,8 @@ function aggregateFeedbackLists(feedbackEntries){
 function renderCard(n,id,zoneId=''){
   const st=gameState[n], step=getStep(n,id), selected=st.selected===id;
   const zoneClass=zoneId?` in-zone ${zoneId}`:'';
-  const placeTxt = zoneId ? ` [${zones.find(z=>z.id===zoneId).label}]` : '';
+  const zoneMeta = zoneId ? zones.find(z=>z.id===zoneId) : null;
+  const placeTxt = zoneMeta ? ` [${zoneMeta.label}]` : '';
   return `<div class="step-chip${selected?' selected':''}${zoneClass}" draggable="true" tabindex="0" role="button" aria-label="${step.text}${placeTxt}" ondragstart="handleDragStart(event,${n},'${id}')" onkeydown="onCardKeyDown(event,${n},'${id}')" onclick="selectStep(${n},'${id}')">
     <div class="chip-num">${step.critical?'!':'•'}</div>
     <div><div>${step.text}</div><div class="chip-tags">${step.critical?'Kriittinen toimi':'Tukitoimi'}${zoneId?` • ${zones.find(z=>z.id===zoneId).label}`:''}</div></div>
@@ -462,10 +467,17 @@ function renderGame(n){
   </div>`;
 }
 
+function renderFeedbackLists(strengths, practice, maxItems){
+  return `<div class="result-grid">
+    <div><strong>Vahvuudet</strong><ul>${(strengths.slice(0,maxItems).map(s=>`<li>${s}</li>`).join('')||'<li>Tunnistit joitakin oikeita toimintaperiaatteita.</li>')}</ul></div>
+    <div><strong>Harjoittele tätä</strong><ul>${(practice.slice(0,maxItems).map(s=>`<li>${s}</li>`).join('')||'<li>Toimintamalli oli tasapainoinen.</li>')}</ul></div>
+  </div>`;
+}
+
 function checkScenario(n){
   const data=scenariosData[n], st=gameState[n];
   let points=0;
-  let max=data.steps.length + (data.criticalChecks.length*2);
+  let max=data.steps.length + (data.criticalChecks.length*CRITICAL_CHECK_POINTS);
   const fb={};
 
   data.steps.forEach(step=>{
@@ -494,7 +506,7 @@ function checkScenario(n){
     const opt=c.options.find(o=>o.id===selected);
     if(opt&&opt.correct){
       correctChecks++;
-      points += 2;
+      points += CRITICAL_CHECK_POINTS;
     }
   });
 
@@ -517,10 +529,7 @@ function checkScenario(n){
   crEl.className='check-result show '+(pct>=0.8?'success':pct>=0.5?'partial':'fail');
   crEl.innerHTML=`<h4>${pct>=0.8?'🎯 Toimintamalli on vahva!':pct>=0.5?'⚠️ Hyvä perusta, kehitä vielä!':'❌ Harjoittele toimintamallia lisää'}</h4>
     <p>Pisteet: <strong>${points}/${max}</strong> • Vyöhykkeet + päätöspisteet arvioitu.</p>
-    <div class="result-grid">
-      <div><strong>Vahvuudet</strong><ul>${(strengths.slice(0,4).map(s=>`<li>${s}</li>`).join('')||'<li>Aloita ympäristön turvaamisesta ja avun hälyttämisestä.</li>')}</ul></div>
-      <div><strong>Harjoittele tätä</strong><ul>${(practice.slice(0,4).map(s=>`<li>${s}</li>`).join('')||'<li>Toimintamalli oli tasapainoinen.</li>')}</ul></div>
-    </div>`;
+    ${renderFeedbackLists(strengths, practice, MAX_SCENARIO_FEEDBACK_ITEMS)}`;
 
   if(completedScenarios.size===3) document.getElementById('finishBtn').style.display='inline-flex';
 }
@@ -569,10 +578,7 @@ function showCompletion(){
 
   const msg = score>=3?'Erinomainen suoritus! Toimit turvallisesti ja johdonmukaisesti.':score>=2?'Hyvä suoritus! Tunnistat keskeiset vaiheet, hio ajoitusta vielä.':'Jatka harjoittelua — keskity ensin turvallistamiseen ja avun hälyttämiseen.';
   document.getElementById('finalFeedback').textContent=msg;
-  document.getElementById('finalHighlights').innerHTML=`<div class="result-grid">
-    <div><strong>Vahvuudet</strong><ul>${(strengths.slice(0,6).map(s=>`<li>${s}</li>`).join('')||'<li>Tunnistit joitakin oikeita toimintaperiaatteita.</li>')}</ul></div>
-    <div><strong>Harjoittele tätä</strong><ul>${(practice.slice(0,6).map(s=>`<li>${s}</li>`).join('')||'<li>Toimintamallisi oli tasapainoinen.</li>')}</ul></div>
-  </div>`;
+  document.getElementById('finalHighlights').innerHTML=renderFeedbackLists(strengths, practice, MAX_FINAL_FEEDBACK_ITEMS);
 
   SCORM.complete(Math.round((total/maxScore)*100),100);
   window.scrollTo({top:0,behavior:'smooth'});
