@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ura- ja turvasimulaattori – Työttömyysturva &amp; Eläke</title>
+  <title>Työttömyysturva ja työeläkesimulaattori</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -423,7 +423,7 @@
 
 <header>
   <a href="../index.html">← Takaisin osion tehtäviin</a>
-  <h1>🏦 Ura- ja turvasimulaattori</h1>
+  <h1>🏦 Työttömyysturva ja työeläkesimulaattori</h1>
   <span class="badge">Harjoitus 2</span>
 </header>
 
@@ -432,7 +432,7 @@
   <!-- INTRO -->
   <div class="intro-strip">
     <div class="emoji">💡</div>
-    <p><strong>Tutki ja opi interaktiivisesti:</strong> Säädä palkkaa, vaihda työtilannetta ja katso, miten päätöksesi vaikuttavat <em>turvaverkkosi tasoon</em> ja <em>tulevaan eläkkeeseesi</em>. Kokeile erilaisia skenaarioita alla!</p>
+    <p><strong>Tutki ja opi interaktiivisesti:</strong> Säädä palkkaa, vaihda työtilannetta ja katso, miten päätöksesi vaikuttavat <em>kuukausittaiseen taloudelliseen tilanteeseen</em> ja <em>tulevaan eläkkeeseesi</em>. Kokeile erilaisia skenaarioita alla!</p>
   </div>
 
   <!-- MAIN DASHBOARD -->
@@ -486,10 +486,6 @@
           <strong>📖 Tiinan tarina:</strong> Tiina sai lomautusilmoituksen varastosta, jossa hän oli töissä. Tiina ei ollut liittynyt työttömyyskassaan, koska se tuntui turhalta kululta. Miten käy ilman kassaa? <em>Kokeile simulaattorilla!</em>
         </div>
 
-        <!-- REG NOTE -->
-        <div class="reg-note">
-          ℹ️ <strong>Muista:</strong> Työttömäksi jäädessä ilmoittaudu <em>välittömästi</em> oman alueesi työllisyyspalveluihin (<a href="https://www.tyollisyyspalvelut.fi" target="_blank" rel="noopener" style="color:var(--blue-600)">tyollisyyspalvelut.fi</a> tai TE-palvelut). Hakeminen myöhemmin siirtää päivärahat alkamaan myöhemmin.
-        </div>
 
       </div><!-- /card-body -->
     </div><!-- /left card -->
@@ -512,7 +508,7 @@
           <div class="bar-track">
             <div class="bar-fill" id="pension-bar" style="background:var(--blue-500);width:48%"></div>
           </div>
-          <p style="font-size:.8rem;color:var(--gray-500);margin-bottom:.9rem">Jokainen työpäiväsi kerryttää tätä summaa loppuelämäksesi. (1,5 % × vuosipalkka ÷ 12)</p>
+          <p style="font-size:.8rem;color:var(--gray-500);margin-bottom:.9rem">Jokainen työpäiväsi kerryttää tätä summaa loppuelämäksesi. (1,5 % × vuosipalkka ÷ 12) — mitä enemmän tienaat, sitä suurempi eläke.</p>
 
           <div class="pension-grid">
             <div class="pension-stat">
@@ -520,17 +516,17 @@
               <div class="p-lbl">Vuotuinen kertymä</div>
             </div>
             <div class="pension-stat">
-              <div class="p-val" id="pension-30y">1 080 €</div>
-              <div class="p-lbl">30 v. kertymä (arvio)</div>
+              <div class="p-val" id="pension-career">1 908 €</div>
+              <div class="p-lbl">Arvioitu eläke/kk<br>(koko ura, 53 v.)</div>
             </div>
             <div class="pension-stat">
-              <div class="p-val" id="pension-monthly-est">~72 €</div>
-              <div class="p-lbl">Eläke/kk<br>(30 v. → 20 v.)</div>
+              <div class="p-val" id="pension-year">2079</div>
+              <div class="p-lbl">Eläke voi alkaa<br>aikaisintaan</div>
             </div>
           </div>
 
           <div class="alarm-box green show" id="pension-note" style="display:block">
-            📌 Eläkekertymä lasketaan <em>bruttopalkasta</em>. Mitä korkeampi palkka ja pidempi ura, sitä parempi eläke.
+            📌 Eläkekertymä lasketaan <em>bruttopalkasta</em>. Mitä korkeampi palkka ja pidempi ura, sitä parempi eläke. Opiskelija on 16-vuotias — eläkeikä 69 v.
           </div>
         </div>
       </div><!-- /pension meter -->
@@ -539,7 +535,7 @@
       <div class="meter-card">
         <div class="meter-header">
           <span style="font-size:1.2rem">🛡️</span>
-          <h3>Turvaverkkosi taso / kk</h3>
+          <h3>Kuukausittainen taloudellinen tilanne</h3>
         </div>
         <div class="meter-body">
           <div style="font-size:.82rem;color:var(--gray-500);margin-bottom:.5rem" id="safety-label">Nettotulosi tällä hetkellä</div>
@@ -578,7 +574,7 @@
 
     <div class="scenario-card">
       <h4>📈 Ylityöt vs. Eläke</h4>
-      <p>Miten 500 €:n palkkaero vaikuttaa eläkkeeseesi 30 vuoden aikana? Paina nappia kahdesti ja vertaile lukuja itse!</p>
+      <p>Miten 500 €:n palkkaero vaikuttaa eläkkeeseesi koko uran aikana? Paina nappia kahdesti ja vertaile lukuja itse!</p>
       <div class="scenario-params" id="sc2-params">Palkka: 2 138 € → 2 650 €<br>Kassa: Kyllä<br>Tila: Työssä</div>
       <button class="btn-scenario" id="btn-sc2" onclick="toggleScenario2()">▶ Kokeile tätä</button>
     </div>
@@ -663,17 +659,23 @@ function recordInteraction() {
 }
 
 // ── PENSION CALC ───────────────────────────────
+// Student age 16, retirement age 69 → 53 working years
+const STUDENT_AGE   = 16;
+const RETIRE_AGE    = 69;
+const WORKING_YEARS = RETIRE_AGE - STUDENT_AGE; // 53
+const RETIRE_YEAR   = new Date().getFullYear() + (RETIRE_AGE - STUDENT_AGE);
+
 function calcPension() {
-  const monthly = salary * 0.015 / 12;
-  const annual  = salary * 0.015;
-  const pot30   = annual * 30;
-  const est     = pot30 / (20 * 12); // spread over 20 yrs retirement
-  const pct     = Math.min((salary / 5000) * 100, 100);
+  const monthly  = salary * 0.015 / 12;      // monthly pension accrual (€/month per month worked)
+  const annual   = salary * 0.015;            // annual pension accrual (€/year per year worked)
+  // Full-career monthly pension: 1.5 % × monthly salary × working years
+  const careerPension = salary * 0.015 * WORKING_YEARS;
+  const pct      = Math.min((salary / 5000) * 100, 100);
 
   document.getElementById('pension-monthly').textContent = fmt(monthly, 2).replace('.', ',');
   document.getElementById('pension-annual').textContent  = fmt(annual, 0) + ' €';
-  document.getElementById('pension-30y').textContent     = fmt(pot30, 0) + ' €';
-  document.getElementById('pension-monthly-est').textContent = '~' + fmt(est, 0) + ' €';
+  document.getElementById('pension-career').textContent  = fmt(careerPension, 0) + ' €/kk';
+  document.getElementById('pension-year').textContent    = RETIRE_YEAR;
   document.getElementById('pension-bar').style.width = pct + '%';
 }
 

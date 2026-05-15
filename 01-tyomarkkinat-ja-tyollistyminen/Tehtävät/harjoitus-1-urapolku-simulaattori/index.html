@@ -8,50 +8,23 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
 
-/* ── Stats Bar (sticky) ─────────────────────────────────────────── */
-#stats-bar{
-  position:sticky;top:0;z-index:100;
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  color:#fff;padding:10px 20px;
-  box-shadow:0 4px 16px rgba(102,126,234,.4);
-  display:none;
-}
-#stats-bar .sb-inner{
-  max-width:960px;margin:0 auto;
-  display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;
-}
-#stats-bar .sb-name{font-weight:800;font-size:1rem;margin-right:4px}
-.badge{
-  background:rgba(255,255,255,.22);border-radius:20px;
-  padding:4px 12px;font-size:.82rem;font-weight:700;
-  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
-}
-.badge.salary{background:rgba(255,215,0,.25)}
-.badge.age{background:rgba(255,255,255,.18)}
-.badge.exp{background:rgba(144,238,144,.22)}
+/* ── Layout ────────────────────────── */
+.container{max-width:1100px;margin:0 auto;padding:20px}
 
-/* ── Layout ─────────────────────────────────────────────────────── */
-.container{max-width:960px;margin:0 auto;padding:20px}
+/* ── Nav bar ───────────────────────── */
+.nav-bar{background:#fff;border-radius:12px;padding:12px 20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.nav-bar a{font-size:.85rem;color:#667eea;text-decoration:none;font-weight:600}
+.nav-bar a:hover{text-decoration:underline}
+.nav-bar span{color:#aaa}
 
-/* ── Header ─────────────────────────────────────────────────────── */
-.exercise-header{
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  color:#fff;padding:32px;border-radius:16px;
-  margin-bottom:20px;position:relative;overflow:hidden;
-}
-.exercise-header::after{
-  content:'🗺️';position:absolute;right:20px;top:50%;
-  transform:translateY(-50%);font-size:70px;opacity:.15;
-}
+/* ── Header ────────────────────────── */
+.exercise-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:32px;border-radius:16px;margin-bottom:20px;position:relative;overflow:hidden}
+.exercise-header::after{content:'🗺️';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.13}
 .exercise-header h1{font-size:clamp(1.3rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
 .exercise-header p{opacity:.9;font-size:.95rem}
 
-/* ── Progress ───────────────────────────────────────────────────── */
-.progress-container{
-  background:#fff;border-radius:12px;padding:14px 20px;
-  margin-bottom:18px;display:flex;align-items:center;gap:14px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-}
+/* ── Progress ──────────────────────── */
+.progress-container{background:#fff;border-radius:12px;padding:14px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .progress-bar{flex:1;height:8px;background:#e8e8f0;border-radius:4px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:4px;transition:width .5s ease}
 .step-label{font-size:.88rem;font-weight:700;color:#667eea;white-space:nowrap}
@@ -60,146 +33,133 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 .dot.active{background:#667eea;transform:scale(1.3)}
 .dot.done{background:#764ba2}
 
-/* ── Phase card ─────────────────────────────────────────────────── */
-.section-card{
-  background:#fff;border-radius:16px;padding:28px;
-  margin-bottom:18px;box-shadow:0 2px 12px rgba(0,0,0,.07);
-}
-.section-card .narrative{
-  font-size:.97rem;line-height:1.6;color:#444;
-  background:linear-gradient(135deg,#f0f2ff,#f7f0ff);
-  border-left:4px solid #667eea;border-radius:8px;
-  padding:14px 18px;margin-bottom:20px;
-}
-.section-card h2{font-size:1.2rem;font-weight:800;margin-bottom:4px;color:#1a1a2e}
-.section-card .hint{font-size:.88rem;color:#666;margin-bottom:18px}
+/* ── Career Dashboard ──────────────── */
+.career-dash{background:linear-gradient(135deg,#1e1e3f,#2d2d6e);border-radius:16px;padding:22px 26px;margin-bottom:20px;color:#fff;display:none;animation:fadeIn .5s ease}
+.career-dash.visible{display:block}
+.cd-heading{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.55;margin-bottom:14px}
+.cd-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.cd-card{background:rgba(255,255,255,.1);border-radius:12px;padding:14px 12px;text-align:center}
+.cd-card .cd-icon{font-size:1.6rem;display:block;margin-bottom:6px}
+.cd-card .cd-val{font-size:1.05rem;font-weight:800;line-height:1.15;margin-bottom:3px;word-break:break-word}
+.cd-card .cd-lbl{font-size:.68rem;opacity:.65;text-transform:uppercase;letter-spacing:.05em}
+.cd-progress{margin-top:4px}
+.cd-prog-row{display:flex;justify-content:space-between;font-size:.72rem;opacity:.7;margin-bottom:5px}
+.cd-bar-track{height:9px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden}
+.cd-bar-fill{height:100%;background:linear-gradient(90deg,#ffd700,#ff8c00);border-radius:6px;transition:width .8s ease}
 
-/* ── Choice cards grid ──────────────────────────────────────────── */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.choice-card{
-  background:#f7f8ff;border:2px solid #e0e4ff;border-radius:14px;
-  padding:20px 16px;cursor:pointer;transition:all .25s ease;
-  text-align:center;position:relative;
-}
-.choice-card:hover{border-color:#667eea;transform:translateY(-4px);box-shadow:0 8px 20px rgba(102,126,234,.2)}
-.choice-card.selected{border-color:#667eea;background:linear-gradient(135deg,#f0f2ff,#e8ecff);box-shadow:0 0 0 3px rgba(102,126,234,.2)}
-.choice-card .c-icon{font-size:2.4rem;margin-bottom:10px;display:block}
-.choice-card .c-title{font-size:.97rem;font-weight:800;color:#1a1a2e;margin-bottom:3px}
-.choice-card .c-subtitle{font-size:.8rem;color:#777;line-height:1.4}
-.choice-card .c-salary{font-size:.8rem;color:#667eea;font-weight:700;margin-top:8px;background:#eef0ff;border-radius:8px;padding:4px 8px;display:inline-block}
-.choice-card .check-badge{
-  position:absolute;top:10px;right:10px;
-  background:#667eea;color:#fff;border-radius:50%;
-  width:22px;height:22px;display:none;
-  align-items:center;justify-content:center;font-size:.8rem;
-}
-.choice-card.selected .check-badge{display:flex}
+/* ── Two-column layout ─────────────── */
+.sim-layout{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
 
-/* ── Feedback toast ─────────────────────────────────────────────── */
-.feedback-box{
-  background:linear-gradient(135deg,#e8f5e9,#f0fff4);
-  border:2px solid #81c784;border-radius:12px;
-  padding:14px 18px;margin-top:16px;
-  font-size:.92rem;line-height:1.5;color:#2e7d32;
-  display:none;animation:fadeIn .4s ease;
-}
-.feedback-box .fb-icon{font-size:1.3rem;vertical-align:middle;margin-right:6px}
+/* ── Narrative box ─────────────────── */
+.narrative-box{background:linear-gradient(135deg,#f0f2ff,#f7f0ff);border-left:4px solid #667eea;border-radius:10px;padding:16px 20px;margin-bottom:16px;font-size:.95rem;line-height:1.65;color:#444;animation:fadeIn .4s ease}
 
-/* ── Buttons ────────────────────────────────────────────────────── */
-.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s ease;display:inline-flex;align-items:center;gap:8px}
+/* ── Timeline ──────────────────────── */
+.sim-timeline{margin-top:4px}
+.sim-tl-title{font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#999;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.tl-item{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;animation:fadeIn .4s ease}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin-top:4px}
+.tl-line{width:2px;flex:1;background:#e0e4ff;min-height:24px;margin-top:3px}
+.tl-content{background:#fff;border:1px solid #e8ecff;border-radius:10px;padding:10px 14px;flex:1}
+.tl-content .tl-phase{font-size:.7rem;color:#667eea;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.tl-content .tl-role{font-weight:800;font-size:.9rem;color:#1a1a2e;margin-bottom:4px}
+.tl-content .tl-meta{font-size:.78rem;color:#777;display:flex;gap:10px;flex-wrap:wrap}
+
+/* ── Choices sidebar ───────────────── */
+.choices-sidebar{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 24px rgba(102,126,234,.15);border:2px solid #e8ecff;position:sticky;top:16px}
+.sidebar-phase{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.sidebar-phase .sp-num{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-bottom:3px}
+.sidebar-phase .sp-title{font-size:1rem;font-weight:800;margin-bottom:3px}
+.sidebar-phase .sp-hint{font-size:.8rem;opacity:.82;line-height:1.4}
+.sidebar-choices{display:flex;flex-direction:column;gap:10px}
+.sc-card{border:2px solid #e0e4ff;border-radius:12px;padding:13px 14px;cursor:pointer;transition:all .22s;background:#f7f8ff;display:flex;gap:12px;align-items:flex-start}
+.sc-card:hover{border-color:#667eea;background:#eef0ff;transform:translateX(-3px);box-shadow:0 4px 14px rgba(102,126,234,.18)}
+.sc-card.selected{border-color:#667eea;background:linear-gradient(135deg,#edf0ff,#e8eaff);box-shadow:0 0 0 3px rgba(102,126,234,.2)}
+.sc-card .sc-icon-big{font-size:1.7rem;flex-shrink:0;margin-top:2px}
+.sc-card .sc-body{flex:1;min-width:0}
+.sc-card .sc-title{font-size:.88rem;font-weight:800;color:#1a1a2e;margin-bottom:2px;display:flex;justify-content:space-between;align-items:flex-start;gap:4px}
+.sc-card .sc-check{background:#667eea;color:#fff;border-radius:50%;width:20px;height:20px;display:none;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.sc-card.selected .sc-check{display:flex}
+.sc-card .sc-sub{font-size:.76rem;color:#777;line-height:1.35;margin-bottom:5px}
+.sc-card .sc-wage{font-size:.75rem;color:#667eea;font-weight:700;background:#eef0ff;display:inline-block;padding:2px 8px;border-radius:6px}
+.sidebar-feedback{background:linear-gradient(135deg,#e8f5e9,#f0fff4);border:1px solid #81c784;border-radius:10px;padding:12px 14px;margin-top:14px;font-size:.84rem;line-height:1.5;color:#2e7d32;display:none;animation:fadeIn .3s ease}
+
+/* ── Buttons ───────────────────────── */
+.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .btn-primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 4px 16px rgba(102,126,234,.35)}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(102,126,234,.45)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 .btn-secondary{background:#fff;color:#667eea;border:2px solid #667eea}
 .btn-secondary:hover{background:#f0f2ff}
-.btn-row{margin-top:20px;display:flex;justify-content:flex-end;gap:10px}
+.btn-row{margin-top:16px;display:flex;justify-content:flex-end;gap:10px}
+.btn-full{width:100%;justify-content:center}
 
-/* ── Personal info form ─────────────────────────────────────────── */
+/* ── Phase 0 form ──────────────────── */
+.section-card{background:#fff;border-radius:16px;padding:28px;margin-bottom:18px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.section-card h2{font-size:1.2rem;font-weight:800;margin-bottom:4px;color:#1a1a2e}
+.section-card .hint{font-size:.88rem;color:#666;margin-bottom:18px}
 .form-group{margin-bottom:18px}
 .form-group label{display:block;font-size:.9rem;font-weight:700;color:#444;margin-bottom:6px}
-.form-group input,.form-group select{
-  width:100%;padding:10px 14px;border:2px solid #e0e4ff;border-radius:10px;
-  font-size:.97rem;font-family:inherit;color:#1a1a2e;background:#f7f8ff;
-  transition:border-color .2s;
-}
+.form-group input,.form-group select{width:100%;padding:10px 14px;border:2px solid #e0e4ff;border-radius:10px;font-size:.97rem;font-family:inherit;color:#1a1a2e;background:#f7f8ff;transition:border-color .2s}
 .form-group input:focus,.form-group select:focus{outline:none;border-color:#667eea;background:#fff}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-/* ── Final summary ──────────────────────────────────────────────── */
-.summary-screen{text-align:center;padding:10px 0 30px;animation:fadeIn .6s ease}
-.summary-screen h2{font-size:1.6rem;font-weight:800;color:#1a1a2e;margin-bottom:6px}
-.summary-screen .tagline{color:#667eea;font-size:1rem;margin-bottom:28px}
-.timeline{text-align:left;margin:0 auto;max-width:600px}
-.tl-item{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start}
-.tl-dot-col{display:flex;flex-direction:column;align-items:center;gap:0}
-.tl-dot{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);flex-shrink:0;margin-top:4px}
-.tl-line{width:2px;flex:1;background:#e0e4ff;min-height:30px}
-.tl-content{background:#f7f8ff;border:1px solid #e0e4ff;border-radius:12px;padding:12px 16px;flex:1}
-.tl-content .tl-title{font-weight:800;font-size:.95rem;color:#1a1a2e}
-.tl-content .tl-detail{font-size:.83rem;color:#666;margin-top:3px}
-.tl-content .tl-salary{font-size:.82rem;color:#667eea;font-weight:700;margin-top:5px}
-.tl-content .tl-age{font-size:.78rem;color:#999;float:right;margin-top:2px}
-.summary-stats{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:28px 0;
-}
-.stat-card{
-  background:#fff;border-radius:14px;padding:18px 22px;
-  box-shadow:0 2px 12px rgba(0,0,0,.07);min-width:140px;text-align:center;
-}
-.stat-card .sc-val{font-size:1.6rem;font-weight:900;color:#667eea}
-.stat-card .sc-label{font-size:.8rem;color:#888;margin-top:3px}
+/* ── Summary ───────────────────────── */
+.summary-screen{animation:fadeIn .6s ease}
+.summary-screen h2{font-size:1.5rem;font-weight:800;color:#1a1a2e;margin-bottom:6px;text-align:center}
+.summary-tagline{color:#667eea;font-size:.95rem;margin-bottom:24px;text-align:center}
+.summary-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:20px 0}
+.stat-card{background:#fff;border-radius:14px;padding:18px 22px;box-shadow:0 2px 12px rgba(0,0,0,.07);min-width:130px;text-align:center}
+.stat-card .sc-val{font-size:1.5rem;font-weight:900;color:#667eea}
+.stat-card .sc-lbl{font-size:.78rem;color:#888;margin-top:3px}
+.summary-tl{max-width:640px;margin:0 auto}
+
+/* ── Salary chart ──────────────────── */
+.salary-chart{background:#fff;border-radius:14px;padding:20px 22px;margin:20px 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.salary-chart h4{font-size:.9rem;font-weight:800;color:#555;margin-bottom:16px}
+.sc-bars{display:flex;align-items:flex-end;gap:10px;height:100px}
+.sc-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0}
+.sc-bar-val{font-size:.63rem;color:#667eea;font-weight:700;margin-bottom:3px;text-align:center;white-space:nowrap}
+.sc-bar{border-radius:6px 6px 0 0;background:linear-gradient(180deg,#764ba2,#667eea);width:100%;min-height:4px;transition:height .8s ease}
+.sc-bar-lbl{font-size:.62rem;color:#999;margin-top:4px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%}
+
+/* ── Nav links (summary) ───────────── */
 .nav-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
 
-/* ── Animations ─────────────────────────────────────────────────── */
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.phase-enter{animation:fadeIn .4s ease}
+/* ── Animations ────────────────────── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── Nav bar ────────────────────────────────────────────────────── */
-.nav-bar{background:#fff;border-radius:12px;padding:12px 20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:10px;flex-wrap:wrap}
-.nav-bar a{font-size:.85rem;color:#667eea;text-decoration:none;font-weight:600}
-.nav-bar a:hover{text-decoration:underline}
-.nav-bar span{color:#aaa}
-
+/* ── Responsive ────────────────────── */
+@media(max-width:800px){
+  .sim-layout{grid-template-columns:1fr}
+  .choices-sidebar{position:static}
+  .cd-grid{grid-template-columns:repeat(3,1fr)}
+}
 @media(max-width:520px){
   .form-row{grid-template-columns:1fr}
-  .cards-grid{grid-template-columns:1fr}
-  #stats-bar .sb-inner{gap:6px 10px}
+  .cd-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
-
-<!-- ── Sticky stats bar ──────────────────────────────────────────── -->
-<div id="stats-bar">
-  <div class="sb-inner">
-    <span class="sb-name" id="sb-name">👤 —</span>
-    <span class="badge" id="sb-job">💼 —</span>
-    <span class="badge salary" id="sb-salary">💶 0 €/kk</span>
-    <span class="badge exp" id="sb-exp">🕐 0 v työkokemusta</span>
-    <span class="badge age" id="sb-age">🎂 — v</span>
-  </div>
-</div>
-
 <div class="container">
 
-  <!-- ── Nav links ──────────────────────────────────────────────── -->
+  <!-- ── Nav ──────────────────────────────────────────────────────── -->
   <div class="nav-bar">
-    <a href="../../../index.html">← Takaisin osioon</a>
+    <a href="../index.html">← Takaisin tehtävälistaukseen</a>
     <span>|</span>
-    <a href="../../index.html">📚 Tehtävälistaus</a>
-    <span>|</span>
-    <a href="../harjoitus-2-tyosopimus/index.html">Harjoitus 2: Työsopimus →</a>
+    <a href="../harjoitus-2-tyottomyysturva-elake/index.html">Harjoitus 2: Työttömyysturva ja eläke →</a>
   </div>
 
-  <!-- ── Header ─────────────────────────────────────────────────── -->
+  <!-- ── Header ───────────────────────────────────────────────────── -->
   <div class="exercise-header">
     <h1>🗺️ Kaupan alan urapolku -simulaattori</h1>
     <p>Merkonomiopinnoista työelämään — tee valintoja ja seuraa, miten urasi kehittyy!</p>
   </div>
 
-  <!-- ── Progress bar ──────────────────────────────────────────── -->
+  <!-- ── Progress bar ─────────────────────────────────────────────── -->
   <div class="progress-container">
-    <span class="step-label" id="progress-label">Vaihe 0 / 4</span>
+    <span class="step-label" id="progress-label">Aloitus</span>
     <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     <div class="step-dots" id="step-dots">
       <div class="dot active" id="dot-0"></div>
@@ -207,10 +167,52 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
       <div class="dot" id="dot-2"></div>
       <div class="dot" id="dot-3"></div>
       <div class="dot" id="dot-4"></div>
+      <div class="dot" id="dot-5"></div>
     </div>
   </div>
 
-  <!-- ── Main content ──────────────────────────────────────────── -->
+  <!-- ── Career Dashboard (visible phases 1-5) ────────────────────── -->
+  <div class="career-dash" id="career-dash">
+    <div class="cd-heading">📊 Urapolkusi tila tällä hetkellä</div>
+    <div class="cd-grid">
+      <div class="cd-card">
+        <span class="cd-icon">👤</span>
+        <div class="cd-val" id="cd-name">—</div>
+        <div class="cd-lbl">Nimi</div>
+      </div>
+      <div class="cd-card">
+        <span class="cd-icon">💼</span>
+        <div class="cd-val" id="cd-job" style="font-size:.82rem">—</div>
+        <div class="cd-lbl">Tehtävä</div>
+      </div>
+      <div class="cd-card">
+        <span class="cd-icon">💶</span>
+        <div class="cd-val" id="cd-salary">0 €/kk</div>
+        <div class="cd-lbl">Kuukausipalkka</div>
+      </div>
+      <div class="cd-card">
+        <span class="cd-icon">🎂</span>
+        <div class="cd-val" id="cd-age">— v</div>
+        <div class="cd-lbl">Ikä</div>
+      </div>
+      <div class="cd-card">
+        <span class="cd-icon">🏅</span>
+        <div class="cd-val" id="cd-exp">0 v</div>
+        <div class="cd-lbl">Kokemus</div>
+      </div>
+    </div>
+    <div class="cd-progress">
+      <div class="cd-prog-row">
+        <span>Palkkakehitys</span>
+        <span id="cd-pct-text">0 %</span>
+      </div>
+      <div class="cd-bar-track">
+        <div class="cd-bar-fill" id="cd-bar-fill" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main content ──────────────────────────────────────────────── -->
   <div id="app"></div>
 
 </div>
@@ -219,14 +221,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 // ── SCORM ────────────────────────────────────────────────────────
 const SCORM = (() => {
   let api = null, connected = false;
-  function findAPI(win) { let a=0; while(win&&!win.API&&a<10){if(win.parent&&win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;} return win&&win.API?win.API:null; }
-  function init() { api=findAPI(window); if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;} }
+  function findAPI(w){let n=0;while(w&&!w.API&&n<10){if(w.parent&&w.parent!==w)w=w.parent;else if(w.opener)w=w.opener;else break;n++;}return w&&w.API?w.API:null;}
+  function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;}}
   function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
   function commit(){if(!connected||!api)return;api.LMSCommit('');}
   function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
   return{init,complete};
 })();
-window.addEventListener('load',SCORM.init);
+window.addEventListener('load', SCORM.init);
+
+// ── Constants ────────────────────────────────────────────────────
+const TOTAL_PHASES = 5;
+const TARGET_SALARY = 4200; // used for progress bar
 
 // ── State ────────────────────────────────────────────────────────
 const state = {
@@ -238,99 +244,174 @@ const state = {
   currentJob: '—',
   currentSalary: 0,
   workYears: 0,
-  choices: [],   // {phase, label, salaryAfter, ageAfter}
+  choices: [],
+  _selectedOpt: null,
 };
 
 // ── Phase definitions ────────────────────────────────────────────
 const phases = [
-  null, // phase 0 = personal info form (handled separately)
+  null, // phase 0 = personal info form
   {
     title: 'Harjoittelun valinta',
     hint: 'Valitse harjoittelupaikkasi merkonomiopintojen aikana.',
-    narrative: name => `Hienoa, ${name}! Olet aloittanut merkonomiopinnot. Ensimmäinen iso valinta on edessäsi: minne haet harjoitteluun? Harjoittelu antaa sinulle arvokasta käytännön kokemusta ja saattaa avata oven ensimmäiseen palkkatyöhön.`,
+    narrative: name => `Hei, ${name}! Olet aloittanut merkonomiopinnot. Ensimmäinen iso päätös on edessäsi: minne haet harjoitteluun? Harjoittelu antaa arvokasta käytännön kokemusta ja voi avata oven ensimmäiseen palkkatyöhön.`,
     options: [
-      { id:'ptk', icon:'🛒', title:'Päivittäistavarakauppa', subtitle:'S-ryhmä / K-ryhmä / Lidl', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Mahtava valinta! Päivittäistavarakaupassa saat laajan asiakaspalvelukokemuksen ja opit kaupan perustoiminnot alusta asti.' },
-      { id:'eri', icon:'👗', title:'Erikoiskauppa', subtitle:'Vaatetus / elektroniikka / urheilu', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Loistava idea! Erikoiskaupassa kehität tuoteasiantuntemustasi ja opit palvelemaan vaativia asiakkaita.' },
-      { id:'tav', icon:'🏬', title:'Tavaratalo', subtitle:'Prisma / Citymarket / Stockmann', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Erinomainen valinta! Tavaratalossa näet kaupan kaikki osa-alueet yhdessä paikassa — todellinen oppimisympäristö.' },
+      { id:'ptk', icon:'🛒', title:'Päivittäistavarakauppa', subtitle:'S-ryhmä / K-ryhmä / Lidl', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Mahtava valinta! Päivittäistavarakaupassa saat laajan asiakaspalvelukokemuksen ja opit kaupan perustoiminnot alusta asti. Suuri asiakasmäärä kehittää sinua nopeasti.' },
+      { id:'eri', icon:'👗', title:'Erikoiskauppa', subtitle:'Vaatetus / elektroniikka / urheilu', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Loistava valinta! Erikoiskaupassa rakennat vahvan tuoteasiantuntemuksen ja opit palvelemaan vaativia asiakkaita — taito, josta on hyötyä koko urallasi.' },
+      { id:'tav', icon:'🏬', title:'Tavaratalo', subtitle:'Prisma / Citymarket / Stockmann', salary:'Harjoittelu (0 €/kk)', salaryVal:0, feedback:'Erinomainen valinta! Tavaratalossa näet kaupan kaikki osa-alueet yhdessä paikassa — todellinen oppimisympäristö tulevalle kaupan ammattilaiselle.' },
     ],
     ageAdd: 0.5,
-    jobAfter: opt => ({ ptk:'Harjoittelija, päivittäistavarakauppa', eri:'Harjoittelija, erikoiskauppa', tav:'Harjoittelija, tavaratalo' }[opt.id] || 'Harjoittelija'),
+    jobAfter: o => ({ptk:'Harjoittelija, päivittäistavarakauppa',eri:'Harjoittelija, erikoiskauppa',tav:'Harjoittelija, tavaratalo'}[o.id]||'Harjoittelija'),
   },
   {
     title: 'Osa-aikatyö opiskelun ohella',
     hint: 'Harjoittelu meni hienosti — työnantaja tarjoaa sinulle osa-aikatyötä!',
-    narrative: name => `Hienoa työtä, ${name}! Harjoittelusi sujui niin hyvin, että sait työtarjouksen. Voit jatkaa opintoja ja tehdä töitä samanaikaisesti. Mikä tehtävä sopii sinulle parhaiten?`,
+    narrative: name => `Hienoa työtä, ${name}! Harjoittelusi sujui niin hyvin, että sait työtarjouksen. Voit jatkaa opintoja ja tehdä töitä samanaikaisesti — se kartuttaa sekä kukkaroa että CV:tä. Mikä tehtävä sopii sinulle parhaiten opiskelun ohella?`,
     options: [
-      { id:'kas', icon:'🖥️', title:'Kassatyö', subtitle:'20 h / vko — monipuolinen asiakaspalvelu', salary:'~500–700 €/kk', salaryVal:600, feedback:'Hyvä valinta! Kassatyössä kohtaat satoja asiakkaita päivittäin ja asiakaspalvelutaitosi kehittyvät huimaa vauhtia.' },
-      { id:'hyl', icon:'📦', title:'Hyllytys & varastotyö', subtitle:'15 h / vko — logistiikka ja järjestys', salary:'~450–600 €/kk', salaryVal:525, feedback:'Taitava valinta! Hyllytystyössä opit tilausjärjestelmät, varastohallinnan ja kaupan taustatoiminnot — arvokas taito.' },
-      { id:'asi', icon:'💬', title:'Asiakaspalvelu & info', subtitle:'20 h / vko — neuvonta ja myynti', salary:'~500–700 €/kk', salaryVal:600, feedback:'Upea valinta! Asiakaspalvelutyössä kehität viestintätaitojasi ja opit ratkaisemaan haasteita ammattimaisesti.' },
+      { id:'kas', icon:'🖥️', title:'Kassatyö', subtitle:'~20 h/vko — monipuolinen asiakaspalvelu', salary:'~500–700 €/kk', salaryVal:600, feedback:'Hyvä valinta! Kassatyössä kohtaat satoja asiakkaita päivittäin ja kehität nopeasti erinomaisen asiakaspalvelutaidon. Kassaosaaminen on arvostettua kaupan alalla.' },
+      { id:'hyl', icon:'📦', title:'Hyllytys & varastotyö', subtitle:'~15 h/vko — logistiikka ja järjestys', salary:'~450–600 €/kk', salaryVal:525, feedback:'Taitava valinta! Hyllytystyössä opit tilausjärjestelmät, varastohallinnan ja kaupan taustatoiminnot. Logistiikkaosaaminen on kaupan alalla erittäin kysyttyä.' },
+      { id:'asi', icon:'💬', title:'Asiakaspalvelu & info', subtitle:'~20 h/vko — neuvonta ja myynti', salary:'~500–700 €/kk', salaryVal:600, feedback:'Upea valinta! Asiakaspalvelupisteessä kehität viestintätaitojasi ja opit ratkaisemaan haastavia tilanteita ammattimaisesti — arvokas taito kaikissa tehtävissä.' },
+      { id:'vky', icon:'🔑', title:'Vuoropäivystys / avaaja', subtitle:'~15–20 h/vko — vastuullinen aamutyö', salary:'~550–700 €/kk', salaryVal:625, feedback:'Vastuullinen valinta! Vuoropäivystäjänä kannat lisävastuuta jo opiskelun aikana ja opit myymälän avaamisen sekä tärkeät turvallisuusrutiinit.' },
     ],
-    ageAdd: 1.5,
-    jobAfter: opt => ({ kas:'Osa-aikainen kassatyöntekijä', hyl:'Osa-aikainen hyllytysmies/-nainen', asi:'Osa-aikainen asiakaspalvelija' }[opt.id] || 'Osa-aikainen myyjä'),
+    ageAdd: 2.5,
+    jobAfter: o => ({kas:'Osa-aikainen kassatyöntekijä',hyl:'Osa-aikainen hyllytysmies/-nainen',asi:'Osa-aikainen asiakaspalvelija',vky:'Osa-aikainen vuoropäivystäjä'}[o.id]||'Osa-aikainen myyjä'),
   },
   {
     title: 'Valmistuminen — suuntauksen valinta',
-    hint: '2 vuotta myöhemmin — olet valmistunut merkonomiksi! Valitse suuntauksesi.',
-    narrative: name => `Onnittelut, ${name}! 🎓 Kaksi vuotta on kulunut ja olet nyt valmistunut merkonomiksi. Sinulla on tutkinto kädessä ja työkokemusta opiskelun ajalta. Nyt on aika valita, mihin suuntaan haluat kehittyä kokoaikaisena työntekijänä.`,
+    hint: '3 vuotta myöhemmin — olet valmistunut merkonomiksi! Valitse suuntauksesi.',
+    narrative: name => `Onnittelut, ${name}! 🎓 Kolme vuotta on kulunut ja olet nyt valmistunut merkonomiksi. Sinulla on tutkinto kädessä ja työkokemusta opiskelun ajalta. Nyt on aika valita, mihin suuntaan haluat kehittyä kokoaikaisena työntekijänä.`,
     options: [
-      { id:'myo', icon:'🤝', title:'Myynti ja asiakaspalvelu', subtitle:'Myyjä kokoaikaisena, asiakaslähtöinen työ', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Loistava suunta! Myynnissä ja asiakaspalvelussa urasi voi edetä tiimivastaavaksi ja edelleen esihenkilöksi.' },
-      { id:'log', icon:'🚛', title:'Logistiikka ja varastointi', subtitle:'Myymälä- / varastovastaava, tilaukset', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Fiksu valinta! Logistiikkaosaajia tarvitaan kipeästi, ja alan palkkakin kehittyy hienosti vastuun kasvaessa.' },
-      { id:'vis', icon:'🎨', title:'Visuaalinen markkinointi', subtitle:'Somistus, esillepano, brändi-ilme', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Luova valinta! Visuaalinen markkinointi yhdistää kaupallisen ajattelun ja esteettisen silmän — kysytty taito.' },
+      { id:'myo', icon:'🤝', title:'Myynti ja asiakaspalvelu', subtitle:'Myyjä kokoaikaisena, asiakaslähtöinen työ', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Loistava suunta! Myynnissä ja asiakaspalvelussa urasi voi edetä tiimivastaavaksi ja edelleen esihenkilöksi. Sosiaalinen osaaja menestyy tässä tehtävässä hyvin.' },
+      { id:'log', icon:'🚛', title:'Logistiikka ja varastointi', subtitle:'Myymälä- / varastovastaava, tilaukset', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Fiksu valinta! Logistiikkaosaajia tarvitaan kipeästi kaupan alalla, ja alan palkka kehittyy hienosti vastuun kasvaessa. Järjestelmäosaaminen on vahvuutesi.' },
+      { id:'vis', icon:'🎨', title:'Visuaalinen markkinointi', subtitle:'Somistus, esillepano, brändi-ilme', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Luova valinta! Visuaalinen markkinointi yhdistää kaupallisen ajattelun ja esteettisen silmän — kysytty ja harvoin korvattavissa oleva taito.' },
+      { id:'digi', icon:'📱', title:'Digitaalinen myynti & verkkokauppa', subtitle:'Verkkokauppa, some-myynti, asiakasviestintä', salary:'~2 200–2 400 €/kk', salaryVal:2300, feedback:'Ajankohtainen valinta! Verkkokauppa kasvaa voimakkaasti ja digiosaajia tarvitaan kaikissa kaupan organisaatioissa. Erotut joukosta tällä osaamisella.' },
     ],
-    ageAdd: 2,
-    jobAfter: opt => ({ myo:'Myyjä (kokoaikainen)', log:'Myymälälogistikko (kokoaikainen)', vis:'Visuaalinen somistaja (kokoaikainen)' }[opt.id] || 'Myyjä (kokoaikainen)'),
+    ageAdd: 0,
+    jobAfter: o => ({myo:'Myyjä (kokoaikainen)',log:'Myymälälogistikko (kokoaikainen)',vis:'Visuaalinen somistaja (kokoaikainen)',digi:'Verkkokaupan myyjä (kokoaikainen)'}[o.id]||'Myyjä (kokoaikainen)'),
   },
   {
     title: 'Lisävastuut tai lisäkoulutus',
     hint: '2 vuotta valmistumisen jälkeen — esihenkilösi tarjoaa etenemismahdollisuuksia.',
-    narrative: name => `Hienoa, ${name}! Kaksi vuotta töitä valmistumisen jälkeen on kartuttanut osaamistasi merkittävästi. Esihenkilösi kutsuu sinut kahville ja esittää neljä eri urapolkua. Mikä kuulostaa sinulle sopivimmalta seuraavalta askeleelta?`,
+    narrative: name => `Hienoa, ${name}! Kaksi vuotta kokoaikaisia töitä valmistumisen jälkeen on kartuttanut osaamistasi merkittävästi. Esihenkilösi kutsuu sinut kahville ja esittää neljä eri urapolkua. Mikä kuulostaa sinulle sopivimmalta seuraavalta askeleelta?`,
     options: [
-      { id:'vuo', icon:'👑', title:'Vuorovastaava / tiiminvetäjä', subtitle:'Lisävastuut nykyisessä työpaikassa heti', salary:'~2 350–2 550 €/kk', salaryVal:2450, feedback:'Rohkea askel! Vuorovastaavana kehität johtamistaitojasi käytännössä ja palkkasi nousee merkittävästi.' },
-      { id:'lah', icon:'📋', title:'Lähiesihenkilötyön ammattitutkinto', subtitle:'Työn ohessa suoritettava ammattitutkinto', salary:'~2 550–2 750 €/kk tutkinnon jälkeen', salaryVal:2650, feedback:'Viisas investointi! Ammattitutkinto vahvistaa johtamisosaamistasi ja avaa oven esihenkilötehtäviin.' },
-      { id:'lii', icon:'📊', title:'Liiketoiminnan ammattitutkinto', subtitle:'Työn ohessa, laaja liike-elämän osaaminen', salary:'~2 550–2 800 €/kk tutkinnon jälkeen', salaryVal:2675, feedback:'Mahtava valinta! Liiketoiminnan tutkinto antaa sinulle kokonaiskuvan kaupan liiketoiminnasta ja laajentaa mahdollisuuksiasi.' },
-      { id:'tra', icon:'🎓', title:'Tradenomi AMK', subtitle:'Kokopäiväopiskelu tai monimuoto-opinnot', salary:'~2 800–3 200 €/kk valmistumisen jälkeen', salaryVal:3000, feedback:'Kunnianhimoinen tavoite! Tradenomitutkinto avaa oven korkeampiin tehtäviin, markkinointiin ja johtoon.' },
+      { id:'vuo', icon:'👑', title:'Vuorovastaava / tiiminvetäjä', subtitle:'Lisävastuut nykyisessä työpaikassa heti', salary:'~2 350–2 550 €/kk', salaryVal:2450, feedback:'Rohkea askel! Vuorovastaavana kehität johtamistaitojasi suoraan käytännössä ja palkkasi nousee samalla kun vastuusi kasvaa.' },
+      { id:'lah', icon:'📋', title:'Lähiesihenkilötyön ammattitutkinto', subtitle:'Työn ohessa suoritettava ammattitutkinto', salary:'~2 550–2 750 €/kk tutkinnon jälkeen', salaryVal:2650, feedback:'Viisas investointi! Ammattitutkinto vahvistaa johtamisosaamistasi virallisella tavalla ja avaa oven esihenkilötehtäviin organisaatiossa.' },
+      { id:'lii', icon:'📊', title:'Liiketoiminnan ammattitutkinto', subtitle:'Työn ohessa, laaja liike-elämän osaaminen', salary:'~2 550–2 800 €/kk tutkinnon jälkeen', salaryVal:2675, feedback:'Mahtava valinta! Liiketoiminnan tutkinto antaa kokonaiskuvan kaupan liiketoiminnasta ja laajentaa mahdollisuuksiasi myös toimialan ulkopuolelle.' },
+      { id:'tra', icon:'🎓', title:'Tradenomi AMK', subtitle:'Kokopäiväopiskelu tai monimuoto-opinnot', salary:'~2 800–3 200 €/kk valmistumisen jälkeen', salaryVal:3000, feedback:'Kunnianhimoinen tavoite! Tradenomitutkinto avaa oven korkeampiin johtotehtäviin, markkinointiin ja strategiseen liikkeenjohtoon.' },
     ],
     ageAdd: 2,
-    jobAfter: opt => ({ vuo:'Vuorovastaava', lah:'Lähiesihenkilö (at-tutkinto)', lii:'Myymäläpäällikön apulainen', tra:'Tradenomi (kaupan ala)' }[opt.id] || 'Esihenkilö'),
+    jobAfter: o => ({vuo:'Vuorovastaava',lah:'Lähiesihenkilö (at-tutkinto)',lii:'Myymäläpäällikön apulainen',tra:'Tradenomi (kaupan ala)'}[o.id]||'Esihenkilö'),
+  },
+  {
+    title: 'Urahuipun suunnittelu',
+    hint: '3–5 vuotta etenemisen jälkeen — aika valita suuri urasuunta!',
+    narrative: name => `Hienoa, ${name}! Olet nyt vakiinnuttanut asemasi kaupan alalla ja sinulla on selkeä käsitys omista vahvuuksistasi. Nyt on aika tehdä iso uravalinta: mihin suuntaan urasi etenee seuraavan vuosikymmenen aikana?`,
+    options: [
+      { id:'mpa', icon:'🏪', title:'Myymäläpäällikkö', subtitle:'Oman myymälän johtaminen, ~5–20 hlö', salary:'~3 000–3 600 €/kk', salaryVal:3300, feedback:'Loistava! Myymäläpäällikkönä olet vastuussa koko myymälän toiminnasta, henkilöstöstä ja tuloksesta. Arvokas johtamiskokemus, joka avaa oven isompiin tehtäviin.' },
+      { id:'apu', icon:'🗺️', title:'Aluepäällikkö (traineena)', subtitle:'Useamman myymälän ohjaus ja kehitys', salary:'~3 500–4 200 €/kk', salaryVal:3850, feedback:'Kunnianhimoinen valinta! Aluepäällikkönä vastaat useamman myymälän liiketuloksesta ja henkilöstöjohtamisesta — laaja-alainen johtamisrooli.' },
+      { id:'yri', icon:'🚀', title:'Yrittäjyys kaupan alalla', subtitle:'Oma yritys tai franchising-konsepti', salary:'2 500–5 000+ €/kk (vaihtelee)', salaryVal:3200, feedback:'Rohkea valinta! Yrittäjänä olet oman kohtasi herra. Kaupan ammattitaitosi on erinomainen pohja yritystoiminnalle — esim. franchising antaa tukirakenteen.' },
+      { id:'kat', icon:'🌍', title:'Ketjutehtävä tai kansainvälinen ura', subtitle:'Konsernin keskushallinto tai ulkomaat', salary:'~3 500–4 500 €/kk', salaryVal:4000, feedback:'Inspiroiva valinta! Ketjun keskustehtävä tai kansainvälinen ura avaa aivan uusia näköaloja — osaamisesi on kaupan alalla arvostettua myös kansainvälisesti.' },
+    ],
+    ageAdd: 4,
+    jobAfter: o => ({mpa:'Myymäläpäällikkö',apu:'Aluepäällikkö',yri:'Yrittäjä (kaupan ala)',kat:'Kansainvälinen urapolku'}[o.id]||'Johtava asiantuntija'),
   },
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────
-function fmt(n){ return n > 0 ? n.toLocaleString('fi-FI') + ' €/kk' : '0 €/kk (harjoittelu)'; }
-function fmtAge(a){ return Math.round(a * 10) / 10; }
+function fmtSal(n){ return n > 0 ? n.toLocaleString('fi-FI') + ' €/kk' : 'Harjoittelu (palkaton)'; }
+function fmtAge(a){ return (Math.round(a * 10) / 10).toLocaleString('fi-FI'); }
+
 function updateProgress(){
-  const pct = (state.phase / 4) * 100;
+  const pct = (state.phase / TOTAL_PHASES) * 100;
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = state.phase === 0 ? 'Aloitus' : `Vaihe ${state.phase} / 4`;
-  for(let i=0;i<=4;i++){
-    const d = document.getElementById('dot-'+i);
+  document.getElementById('progress-label').textContent =
+    state.phase === 0 ? 'Aloitus' : `Vaihe ${state.phase} / ${TOTAL_PHASES}`;
+  for(let i = 0; i <= TOTAL_PHASES; i++){
+    const d = document.getElementById('dot-' + i);
     if(!d) continue;
     d.className = 'dot' + (i < state.phase ? ' done' : i === state.phase ? ' active' : '');
   }
 }
-function updateStatsBar(){
-  const bar = document.getElementById('stats-bar');
-  if(state.phase === 0){ bar.style.display='none'; return; }
-  bar.style.display='block';
-  document.getElementById('sb-name').textContent = '👤 ' + (state.name || '—');
-  document.getElementById('sb-job').textContent = '💼 ' + state.currentJob;
-  document.getElementById('sb-salary').textContent = '💶 ' + fmt(state.currentSalary);
-  document.getElementById('sb-exp').textContent = '🕐 ' + (state.workYears > 0 ? fmtAge(state.workYears) + ' v työkokemusta' : 'Ei vielä');
-  document.getElementById('sb-age').textContent = '🎂 ' + fmtAge(state.currentAge) + ' v';
-}
-function renderApp(html){
-  const el = document.getElementById('app');
-  el.innerHTML = html;
-  el.querySelector('.phase-enter') && void el.querySelector('.phase-enter').offsetWidth;
+
+function updateCareerDash(){
+  const dash = document.getElementById('career-dash');
+  if(state.phase === 0){ dash.classList.remove('visible'); return; }
+  dash.classList.add('visible');
+  document.getElementById('cd-name').textContent = state.name || '—';
+  const jobEl = document.getElementById('cd-job');
+  jobEl.textContent = state.currentJob;
+  jobEl.style.fontSize = state.currentJob.length > 22 ? '.76rem' : '.88rem';
+  document.getElementById('cd-salary').textContent =
+    state.currentSalary > 0 ? state.currentSalary.toLocaleString('fi-FI') + ' €/kk' : '0 €/kk';
+  document.getElementById('cd-age').textContent = fmtAge(state.currentAge) + ' v';
+  document.getElementById('cd-exp').textContent = state.workYears > 0 ? fmtAge(state.workYears) + ' v' : '0 v';
+  const pct = Math.min(Math.round((state.currentSalary / TARGET_SALARY) * 100), 100);
+  document.getElementById('cd-bar-fill').style.width = pct + '%';
+  document.getElementById('cd-pct-text').textContent =
+    pct + ' % tavoitepalkasta (' + TARGET_SALARY.toLocaleString('fi-FI') + ' €/kk)';
 }
 
-// ── Phase 0: Personal info ───────────────────────────────────────
+function renderApp(html){
+  document.getElementById('app').innerHTML = html;
+}
+
+// ── Timeline HTML ─────────────────────────────────────────────────
+function buildTimeline(){
+  if(!state.choices.length) return `
+    <div style="background:#fff;border-radius:12px;padding:18px;text-align:center;color:#bbb;font-size:.88rem;border:2px dashed #e0e4ff">
+      ⏳ Urapolkusi alkaa rakentua, kun teet ensimmäisen valinnan sivupalkista →
+    </div>`;
+  const items = state.choices.map((c, i) => {
+    const isLast = i === state.choices.length - 1;
+    return `
+    <div class="tl-item">
+      <div class="tl-dot-col">
+        <div class="tl-dot"></div>
+        ${!isLast ? '<div class="tl-line"></div>' : ''}
+      </div>
+      <div class="tl-content">
+        <div class="tl-phase">${c.phaseTitle}</div>
+        <div class="tl-role">${c.icon} ${c.label}</div>
+        <div class="tl-meta">
+          <span>🎂 ${fmtAge(c.ageAfter)} v</span>
+          ${c.salaryAfter > 0 ? `<span>💶 ${c.salaryAfter.toLocaleString('fi-FI')} €/kk</span>` : '<span>📚 Harjoittelu</span>'}
+          <span>💼 ${c.jobAfter}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="sim-timeline"><div class="sim-tl-title">⏱ Urapolkusi tähän mennessä</div>${items}</div>`;
+}
+
+// ── Salary chart ─────────────────────────────────────────────────
+function buildSalaryChart(){
+  if(!state.choices.length) return '';
+  const maxS = Math.max(...state.choices.map(c => c.salaryAfter), TARGET_SALARY);
+  const CHART_H = 80;
+  const bars = state.choices.map(c => {
+    const h = c.salaryAfter > 0 ? Math.max(Math.round((c.salaryAfter / maxS) * CHART_H), 4) : 4;
+    const valLabel = c.salaryAfter > 0 ? c.salaryAfter.toLocaleString('fi-FI') + ' €' : 'Harj.';
+    return `<div class="sc-bar-wrap">
+      <div class="sc-bar-val">${valLabel}</div>
+      <div class="sc-bar" style="height:${h}px"></div>
+      <div class="sc-bar-lbl">${c.icon}</div>
+    </div>`;
+  }).join('');
+  return `<div class="salary-chart">
+    <h4>📈 Palkkakehityksesi simulaatiossa</h4>
+    <div class="sc-bars">${bars}</div>
+  </div>`;
+}
+
+// ── Phase 0: Personal info ────────────────────────────────────────
 function renderPhase0(){
   renderApp(`
-  <div class="section-card phase-enter">
-    <div class="narrative">
+  <div class="section-card" style="animation:fadeIn .5s ease">
+    <div class="narrative-box">
       📖 <strong>Aloitetaan merkonomiopinnoistasi...</strong><br>
-      Tässä simulaattorissa seuraat omaa urapolkuasi kaupan alalla — harjoittelusta kohti ammattitaitoa. Jokainen valintasi vaikuttaa palkkaasi, asemaasi ja kokemukseesi. Aloitetaan tutustumalla sinuun!
+      Tässä simulaattorissa seuraat omaa urapolkuasi kaupan alalla harjoittelusta kohti ammattilaisuutta.
+      Jokainen valintasi vaikuttaa palkkaasi, asemaasi ja kokemukseesi.
+      Simulaattori koostuu viidestä vaiheesta ja kestää noin 10–15 minuuttia.
     </div>
     <h2>🙋 Kerro itsestäsi</h2>
     <p class="hint">Täytä tietosi ennen simulaation aloittamista.</p>
@@ -371,68 +452,83 @@ function startSim(){
   state.age  = age;
   state.currentAge = age;
   state.experience = expEl.value;
-  state.currentJob = 'Merkonomiopiskelia';
-  // Apply bonus work years from prior experience
+  state.currentJob = 'Merkonomiopiskelija';
   const expMap = {'Ei kokemusta':0,'Alle 1 vuosi':0.5,'1–3 vuotta':2,'Yli 3 vuotta':3.5};
   state.workYears = expMap[state.experience] || 0;
   state.phase = 1;
   updateProgress();
-  updateStatsBar();
+  updateCareerDash();
   renderPhase(1);
 }
 
-// ── Render a choice phase ────────────────────────────────────────
+// ── Render a choice phase (two-column) ────────────────────────────
 function renderPhase(n){
   const p = phases[n];
   if(!p) return;
   const optCards = p.options.map(o => `
-    <div class="choice-card" id="opt-${o.id}" onclick="selectOpt('${o.id}', ${n})">
-      <div class="check-badge">✓</div>
-      <span class="c-icon">${o.icon}</span>
-      <div class="c-title">${o.title}</div>
-      <div class="c-subtitle">${o.subtitle}</div>
-      <div class="c-salary">${o.salary}</div>
+    <div class="sc-card" id="opt-${o.id}" onclick="selectOpt('${o.id}',${n})">
+      <span class="sc-icon-big">${o.icon}</span>
+      <div class="sc-body">
+        <div class="sc-title">
+          <span>${o.title}</span>
+          <span class="sc-check">✓</span>
+        </div>
+        <div class="sc-sub">${o.subtitle}</div>
+        <span class="sc-wage">${o.salary}</span>
+      </div>
     </div>`).join('');
 
   renderApp(`
-  <div class="section-card phase-enter">
-    <div class="narrative">📖 ${p.narrative(state.name)}</div>
-    <h2>${p.title}</h2>
-    <p class="hint">${p.hint}</p>
-    <div class="cards-grid">${optCards}</div>
-    <div class="feedback-box" id="feedback-box"></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="btn-next" disabled onclick="nextPhase(${n})">Jatka ▶</button>
+  <div class="sim-layout" style="animation:fadeIn .4s ease">
+
+    <!-- Left: Narrative + Timeline -->
+    <div>
+      <div class="narrative-box">📖 ${p.narrative(state.name)}</div>
+      ${buildTimeline()}
     </div>
+
+    <!-- Right: Sidebar choices -->
+    <div class="choices-sidebar">
+      <div class="sidebar-phase">
+        <div class="sp-num">Vaihe ${n} / ${TOTAL_PHASES}</div>
+        <div class="sp-title">${p.title}</div>
+        <div class="sp-hint">${p.hint}</div>
+      </div>
+      <div class="sidebar-choices">${optCards}</div>
+      <div class="sidebar-feedback" id="sidebar-feedback"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-full" id="btn-next" disabled onclick="nextPhase(${n})">
+          Jatka →
+        </button>
+      </div>
+    </div>
+
   </div>`);
   state._selectedOpt = null;
 }
 
-// ── Select an option ─────────────────────────────────────────────
+// ── Select sidebar option ─────────────────────────────────────────
 function selectOpt(id, phaseNum){
   const p = phases[phaseNum];
   const opt = p.options.find(o => o.id === id);
   if(!opt) return;
-  // deselect others
   p.options.forEach(o => {
-    const el = document.getElementById('opt-'+o.id);
+    const el = document.getElementById('opt-' + o.id);
     if(el) el.classList.remove('selected');
   });
-  document.getElementById('opt-'+id).classList.add('selected');
+  document.getElementById('opt-' + id).classList.add('selected');
   state._selectedOpt = opt;
-  // show feedback
-  const fb = document.getElementById('feedback-box');
+  const fb = document.getElementById('sidebar-feedback');
   fb.style.display = 'block';
-  fb.innerHTML = `<span class="fb-icon">🌟</span> ${opt.feedback}`;
+  fb.innerHTML = '🌟 ' + opt.feedback;
   document.getElementById('btn-next').disabled = false;
 }
 
-// ── Advance to next phase ────────────────────────────────────────
+// ── Advance to next phase ─────────────────────────────────────────
 function nextPhase(fromPhase){
   const opt = state._selectedOpt;
   if(!opt) return;
   const p = phases[fromPhase];
-  // Update state
   state.currentSalary = opt.salaryVal;
   state.currentAge   += p.ageAdd;
   state.currentJob    = p.jobAfter(opt);
@@ -449,15 +545,15 @@ function nextPhase(fromPhase){
   });
   state.phase = fromPhase + 1;
   updateProgress();
-  updateStatsBar();
-  if(state.phase <= 4) renderPhase(state.phase);
+  updateCareerDash();
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(state.phase <= TOTAL_PHASES) renderPhase(state.phase);
   else renderSummary();
 }
 
-// ── Final summary ────────────────────────────────────────────────
+// ── Final summary ─────────────────────────────────────────────────
 function renderSummary(){
-  SCORM.complete(4, 4);
-  const totalExpYears = state.workYears;
+  SCORM.complete(5, 5);
   const tl = state.choices.map((c, i) => {
     const isLast = i === state.choices.length - 1;
     return `
@@ -467,46 +563,58 @@ function renderSummary(){
         ${!isLast ? '<div class="tl-line"></div>' : ''}
       </div>
       <div class="tl-content">
-        <span class="tl-age">${fmtAge(c.ageAfter)} v</span>
-        <div class="tl-title">${c.icon} ${c.label}</div>
-        <div class="tl-detail">${c.phaseTitle} → ${c.jobAfter}</div>
-        <div class="tl-salary">${c.salaryAfter > 0 ? fmt(c.salaryAfter) : '0 €/kk (harjoittelu)'}</div>
+        <div class="tl-phase">${c.phaseTitle}</div>
+        <div class="tl-role">${c.icon} ${c.label}</div>
+        <div class="tl-meta">
+          <span>🎂 ${fmtAge(c.ageAfter)} v</span>
+          ${c.salaryAfter > 0 ? `<span>💶 ${c.salaryAfter.toLocaleString('fi-FI')} €/kk</span>` : '<span>📚 Harjoittelu</span>'}
+          <span>💼 ${c.jobAfter}</span>
+        </div>
       </div>
     </div>`;
   }).join('');
 
   renderApp(`
-  <div class="summary-screen phase-enter">
-    <div style="font-size:3rem;margin-bottom:10px">🏅</div>
-    <h2>Etenemisesi tähän mennessä</h2>
-    <p class="tagline">Tähänastinen urapolkusi, ${state.name} — hienoa työtä!</p>
+  <div class="summary-screen">
+    <div style="text-align:center;font-size:3rem;margin-bottom:10px">🏅</div>
+    <h2>Urapolkusi on rakennettu!</h2>
+    <p class="summary-tagline">Hienoa työtä, ${state.name} — katso, minne valintasi veivät!</p>
+
     <div class="summary-stats">
       <div class="stat-card">
         <div class="sc-val">${fmtAge(state.currentAge)}</div>
-        <div class="sc-label">Ikäsi nyt</div>
+        <div class="sc-lbl">Ikäsi nyt</div>
       </div>
       <div class="stat-card">
-        <div class="sc-val">${fmt(state.currentSalary).replace(' €/kk','')}</div>
-        <div class="sc-label">Kuukausipalkka (€)</div>
+        <div class="sc-val">${state.currentSalary > 0 ? state.currentSalary.toLocaleString('fi-FI') : '0'}</div>
+        <div class="sc-lbl">Kuukausipalkka (€)</div>
       </div>
       <div class="stat-card">
-        <div class="sc-val">${fmtAge(totalExpYears)}</div>
-        <div class="sc-label">Työkokemusta (vuotta)</div>
+        <div class="sc-val">${fmtAge(state.workYears)}</div>
+        <div class="sc-lbl">Työkokemusta (v)</div>
       </div>
       <div class="stat-card">
-        <div class="sc-val">${state.currentJob.split(' ')[0]}</div>
-        <div class="sc-label">Nykyinen tehtävä</div>
+        <div class="sc-val">${Math.min(Math.round((state.currentSalary / TARGET_SALARY) * 100), 100)} %</div>
+        <div class="sc-lbl">Tavoitepalkasta</div>
       </div>
     </div>
-    <div class="timeline">${tl}</div>
-    <div style="background:linear-gradient(135deg,#f0f2ff,#f7f0ff);border-radius:14px;padding:18px 22px;margin:24px 0;text-align:left;font-size:.9rem;line-height:1.7;color:#444">
-      <strong>📌 Muista:</strong> Tämä simulaattori perustuu kaupan alan TES 2025–2028 palkkataulukoihin ja tyypillisiin urapolkuihin. 
-      Todelliset palkat vaihtelevat työnantajan, paikkakunnan ja henkilökohtaisen lisän mukaan. 
+
+    ${buildSalaryChart()}
+
+    <div class="summary-tl">
+      <div class="sim-tl-title">📍 Koko urapolkusi</div>
+      ${tl}
+    </div>
+
+    <div style="background:linear-gradient(135deg,#f0f2ff,#f7f0ff);border-radius:14px;padding:18px 22px;margin:24px 0;font-size:.9rem;line-height:1.7;color:#444">
+      <strong>📌 Muista:</strong> Tämä simulaattori perustuu kaupan alan TES 2025–2028 palkkataulukoihin ja tyypillisiin urapolkuihin.
+      Todelliset palkat vaihtelevat työnantajan, paikkakunnan ja henkilökohtaisen lisän mukaan.
       Kaupan alan ura tarjoaa loistavia etenemismahdollisuuksia — tärkeintä on aloittaa ja oppia jokaisesta tehtävästä!
     </div>
+
     <div class="nav-links">
-      <button class="btn btn-secondary" onclick="restartSim()">🔄 Kokeile uudelleen</button>
-      <a class="btn btn-primary" href="../harjoitus-2-tyosopimus/index.html">Harjoitus 2: Työsopimus →</a>
+      <button class="btn btn-secondary" onclick="restartSim()">🔄 Kokeile eri polkua</button>
+      <a class="btn btn-primary" href="../harjoitus-2-tyottomyysturva-elake/index.html">Harjoitus 2: Työttömyysturva ja eläke →</a>
     </div>
   </div>`);
 }
@@ -522,13 +630,14 @@ function restartSim(){
   state.choices = [];
   state._selectedOpt = null;
   updateProgress();
-  updateStatsBar();
+  updateCareerDash();
   renderPhase0();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-// ── Boot ─────────────────────────────────────────────────────────
+// ── Boot ──────────────────────────────────────────────────────────
 updateProgress();
-updateStatsBar();
+updateCareerDash();
 renderPhase0();
 </script>
 </body>
