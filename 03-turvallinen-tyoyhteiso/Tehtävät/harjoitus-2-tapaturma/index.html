@@ -281,7 +281,7 @@ function escapeHtml(value){
     '>':'&gt;',
     '"':'&quot;',
     "'":'&#39;'
-  }[char]));
+  }[char] || char));
 }
 
 function shuffle(arr) {
@@ -307,7 +307,11 @@ function initGame(n) {
   renderGame(n);
 }
 
-function getStep(n,id){return scenariosData[n].steps.find(s=>s.id===id) || null;}
+function getStep(n,id){
+  const scenario = scenariosData[n];
+  if(!scenario || !Array.isArray(scenario.steps)) return null;
+  return scenario.steps.find(s=>s.id===id) || null;
+}
 function getPlacementZone(n,id){
   const p = gameState[n].placements;
   return zones.find(z=>p[z.id].includes(id))?.id || null;
@@ -372,9 +376,9 @@ function allowDrop(e){e.preventDefault();}
 function onDropZone(e,n,zoneId){
   e.preventDefault();
   const payload = e.dataTransfer.getData('text/plain');
-  if(!payload) return;
+  if(!payload || !payload.includes('|')) return;
   const [sn,id] = payload.split('|');
-  if(Number(sn)!==n) return;
+  if(Number(sn)!==n || !id) return;
   moveCardToZone(n,id,zoneId);
   renderGame(n);
 }
@@ -421,7 +425,8 @@ function renderCard(n,id,zoneId=''){
   const safeText = escapeHtml(step.text);
   const safeAria = escapeHtml(step.text + placeTxt);
   const safeZoneLabel = zoneMeta ? escapeHtml(zoneMeta.label) : '';
-  return `<div class="step-chip${selected?' selected':''}${zoneClass}" draggable="true" tabindex="0" role="button" aria-keyshortcuts="Enter 1 2 3" aria-label="${safeAria}" ondragstart="handleDragStart(event,${n},'${id}')" onkeydown="onCardKeyDown(event,${n},'${id}')" onclick="selectStep(${n},'${id}')">
+  const jsId = JSON.stringify(id);
+  return `<div class="step-chip${selected?' selected':''}${zoneClass}" draggable="true" tabindex="0" role="button" aria-keyshortcuts="Enter 1 2 3" aria-label="${safeAria}" ondragstart="handleDragStart(event,${n},${jsId})" onkeydown="onCardKeyDown(event,${n},${jsId})" onclick="selectStep(${n},${jsId})">
     <div class="chip-num">${step.critical?'!':'•'}</div>
     <div><div>${safeText}</div><div class="chip-tags">${step.critical?'Kriittinen toimi':'Tukitoimi'}${zoneId?` • ${safeZoneLabel}`:''}</div></div>
   </div>`;
@@ -430,10 +435,16 @@ function renderCard(n,id,zoneId=''){
 function renderGame(n){
   const data=scenariosData[n], st=gameState[n], container=document.getElementById('game'+n);
   const zonesHtml = zones.map(z=>{
-    const cards = st.placements[z.id].map(id=>`<div tabindex="0" role="button" onkeydown="if(event.key==='Enter'){returnToPool(${n},'${id}')}" onclick="returnToPool(${n},'${id}')" title="Klikkaa palauttaaksesi kortin sekalaariin">${renderCard(n,id,z.id)}</div>`).join('');
-    return `<div class="zone zone-${z.id}" tabindex="0" onkeydown="onZoneKeyDown(event,${n},'${z.id}')" ondragover="allowDrop(event)" ondrop="onDropZone(event,${n},'${z.id}')" ondragenter="setOver(this,true)" ondragleave="setOver(this,false)">
-      <h5>${z.label}<button type="button" class="zone-drop-btn" onclick="placeSelected(${n},'${z.id}')">Sijoita valittu</button></h5>
-      <div class="feedback-empty" style="margin-bottom:6px">${z.description}</div>
+    const zoneId = z.id;
+    const zoneIdJs = JSON.stringify(zoneId);
+    const zoneIdHtml = escapeHtml(zoneId);
+    const cards = st.placements[zoneId].map(id=>{
+      const jsId = JSON.stringify(id);
+      return `<div tabindex="0" role="button" onkeydown="if(event.key==='Enter'){returnToPool(${n},${jsId})}" onclick="returnToPool(${n},${jsId})" title="Klikkaa palauttaaksesi kortin sekalaariin">${renderCard(n,id,zoneId)}</div>`;
+    }).join('');
+    return `<div class="zone zone-${zoneIdHtml}" tabindex="0" onkeydown="onZoneKeyDown(event,${n},${zoneIdJs})" ondragover="allowDrop(event)" ondrop="onDropZone(event,${n},${zoneIdJs})" ondragenter="setOver(this,true)" ondragleave="setOver(this,false)">
+      <h5>${escapeHtml(z.label)}<button type="button" class="zone-drop-btn" onclick="placeSelected(${n},${zoneIdJs})">Sijoita valittu</button></h5>
+      <div class="feedback-empty" style="margin-bottom:6px">${escapeHtml(z.description)}</div>
       ${cards || '<div class="feedback-empty">Ei kortteja tässä vielä.</div>'}
     </div>`;
   }).join('');
@@ -441,13 +452,15 @@ function renderGame(n){
   const poolHtml = st.pool.map(id=>renderCard(n,id)).join('') || '<div class="feedback-empty">Kaikki kortit sijoitettu.</div>';
 
   const decisionsHtml = data.criticalChecks.map(c=>{
+    const checkIdJs = JSON.stringify(c.id);
+    const checkIdHtml = escapeHtml(c.id);
     const picked=st.checks[c.id];
     const pickedOpt=c.options.find(o=>o.id===picked);
     const result=picked?`<div class="decision-result">${pickedOpt.correct?'✅ Oikea valinta. ':'⚠️ Tämä valinta ei ole paras. '}${escapeHtml(pickedOpt.why)}</div>`:'';
     return `<div class="decision-card">
       <h5>${escapeHtml(c.question)}</h5>
       <div class="decision-options">
-        ${c.options.map(o=>`<label><input type="radio" name="${c.id}-${n}" value="${o.id}" ${picked===o.id?'checked':''} onchange="setDecisionAnswer(${n},'${c.id}','${o.id}')"> ${escapeHtml(o.text)}</label>`).join('')}
+        ${c.options.map(o=>`<label><input type="radio" name="${checkIdHtml}-${n}" value="${escapeHtml(o.id)}" ${picked===o.id?'checked':''} onchange="setDecisionAnswer(${n},${checkIdJs},${JSON.stringify(o.id)})"> ${escapeHtml(o.text)}</label>`).join('')}
       </div>
       ${result}
     </div>`;
