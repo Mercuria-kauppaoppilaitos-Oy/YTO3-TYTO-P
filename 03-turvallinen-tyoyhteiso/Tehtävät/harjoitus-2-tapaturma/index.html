@@ -7,70 +7,77 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
-.container{max-width:960px;margin:0 auto;padding:20px}
+.container{max-width:1100px;margin:0 auto;padding:20px}
 .exercise-header{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
 .exercise-header::after{content:'🚨';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
 .exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
-.exercise-header p{opacity:.9;font-size:.95rem}
+.exercise-header p{opacity:.92;font-size:.95rem}
 .progress-container{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .progress-bar{flex:1;height:8px;background:#e8e8f0;border-radius:4px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,#f093fb,#f5576c);border-radius:4px;transition:width .5s ease}
 .step-label{font-size:.9rem;font-weight:700;color:#f5576c;white-space:nowrap}
-/* Scenario selection */
 .scenario-nav{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
 .sc-nav-btn{flex:1;min-width:120px;background:#fff;border:2px solid #e0e4ff;border-radius:12px;padding:12px 16px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;color:#555;text-align:center}
 .sc-nav-btn.active{border-color:#f5576c;color:#f5576c;background:#fff0f5}
 .sc-nav-btn.completed{border-color:#22c55e;color:#22c55e;background:#f0fdf4}
 .sc-nav-btn.completed::after{content:' ✓'}
-/* Main scenario area */
 .scenario-panel{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.07);display:none}
 .scenario-panel.active{display:block;animation:fadeUp .4s ease}
 .s-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:700;margin-bottom:16px}
-.scene-visual{font-size:2rem;background:#fff0f5;border-radius:14px;padding:18px;text-align:center;margin-bottom:16px;border:2px solid #fecdd3}
-.scene-visual p{font-size:.88rem;color:#666;margin-top:8px;font-style:italic}
-.scenario-text{font-size:.92rem;line-height:1.7;color:#333;margin-bottom:20px;padding:16px;background:#fff8fa;border-radius:12px;border-left:4px solid #f093fb}
-/* Ordering game */
-.ordering-label{font-size:.88rem;font-weight:700;color:#555;margin-bottom:12px}
-.steps-container{display:flex;gap:16px;flex-wrap:wrap}
-@media(max-width:640px){.steps-container{flex-direction:column}}
-.shuffled-pool{flex:1;min-width:200px}
-.sorted-list{flex:1;min-width:200px}
-.zone-label{font-size:.8rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#888;margin-bottom:10px}
-.step-chip{background:#f7f8ff;border:2px solid #e0e4ff;border-radius:10px;padding:12px 16px;font-size:.87rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;margin-bottom:8px;line-height:1.4;user-select:none}
+.board-layout{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:16px}
+@media(max-width:980px){.board-layout{grid-template-columns:1fr}}
+.board-col{background:#f9fbff;border:1px solid #e7ebff;border-radius:12px;padding:14px}
+.board-col h4{font-size:.92rem;margin-bottom:10px;color:#333}
+.scene-visual{font-size:2rem;background:#fff0f5;border-radius:12px;padding:16px;text-align:center;margin-bottom:12px;border:2px solid #fecdd3}
+.scene-visual p{font-size:.85rem;color:#666;margin-top:8px;font-style:italic}
+.scenario-text{font-size:.9rem;line-height:1.65;color:#333}
+.zone{border:2px dashed #d4d8ea;border-radius:10px;padding:10px;min-height:94px;margin-bottom:10px;background:#fff}
+.zone h5{display:flex;align-items:center;justify-content:space-between;font-size:.82rem;margin-bottom:8px}
+.zone-immediate{border-color:#fca5a5;background:#fff1f2}
+.zone-next{border-color:#fcd34d;background:#fffbeb}
+.zone-after{border-color:#86efac;background:#f0fdf4}
+.zone[data-over="1"]{outline:3px solid #c4b5fd}
+.zone-drop-btn{border:none;background:#fff;border-radius:8px;padding:6px 8px;font-size:.75rem;cursor:pointer}
+.cards-pool{margin-top:10px}
+.cards-pool h5{font-size:.82rem;margin-bottom:8px;color:#555}
+.step-chip{background:#fff;border:2px solid #e0e4ff;border-radius:10px;padding:10px 12px;font-size:.84rem;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;line-height:1.4;user-select:none}
 .step-chip:hover{border-color:#f5576c;background:#fff0f5}
-.step-chip.selected{border-color:#f5576c;background:#fff0f5;box-shadow:0 0 0 3px rgba(245,87,108,.15)}
-.step-chip.placed{background:#f0fdf4;border-color:#86efac;cursor:default}
-.step-chip.placed:hover{transform:none}
-.step-chip .chip-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
-.placed .chip-num{background:linear-gradient(135deg,#22c55e,#86efac)}
-.sorted-slot{background:#fdf4ff;border:2px dashed #f3e8ff;border-radius:10px;padding:14px 16px;margin-bottom:8px;min-height:56px;display:flex;align-items:center;gap:10px;font-size:.87rem;color:#aaa;transition:all .2s;cursor:pointer}
-.sorted-slot:hover{border-color:#f5576c;background:#fff0f5}
-.sorted-slot.filled{background:#fff;border-style:solid;color:#1a1a2e;border-color:#e0e4ff;cursor:default}
-.sorted-slot.filled:hover{background:#fff}
-.sorted-slot.correct-slot{border-color:#22c55e;background:#f0fdf4}
-.sorted-slot.wrong-slot{border-color:#ef4444;background:#fef2f2}
-.slot-num{width:28px;height:28px;border-radius:50%;background:#e8e8f5;color:#888;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
-.correct-slot .slot-num{background:linear-gradient(135deg,#22c55e,#86efac);color:#fff}
-.wrong-slot .slot-num{background:linear-gradient(135deg,#ef4444,#f87171);color:#fff}
-/* Feedback */
+.step-chip.selected{border-color:#6366f1;background:#eef2ff;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.step-chip .chip-num{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.step-chip .chip-tags{margin-top:4px;font-size:.73rem;color:#666}
+.in-zone{border-style:solid}
+.in-zone.immediate{border-color:#ef4444;background:#fff}
+.in-zone.next{border-color:#f59e0b;background:#fff}
+.in-zone.after{border-color:#22c55e;background:#fff}
+.feedback-panel{font-size:.84rem;line-height:1.5}
+.feedback-item{padding:8px;border-radius:8px;margin-bottom:6px;background:#fff;border:1px solid #eee}
+.feedback-item.ok{border-color:#86efac;background:#f0fdf4}
+.feedback-item.late{border-color:#fcd34d;background:#fffbeb}
+.feedback-item.missing{border-color:#fca5a5;background:#fef2f2}
+.feedback-item.wrong{border-color:#c4b5fd;background:#f5f3ff}
+.feedback-empty{color:#777;font-size:.83rem}
+.decision-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-top:10px}
+.decision-card h5{font-size:.84rem;margin-bottom:8px;color:#334155}
+.decision-options label{display:block;padding:7px;border-radius:8px;cursor:pointer}
+.decision-options label:hover{background:#f8fafc}
+.decision-result{margin-top:8px;font-size:.8rem;color:#555}
+.hint{margin-top:10px;padding:10px;border-radius:10px;background:#eef2ff;border:1px solid #c7d2fe;font-size:.83rem}
 .check-result{margin-top:16px;padding:16px;border-radius:12px;display:none}
 .check-result.show{display:block;animation:fadeIn .4s ease}
 .check-result.success{background:#f0fdf4;border:1px solid #86efac}
 .check-result.partial{background:#fffbeb;border:1px solid #fcd34d}
 .check-result.fail{background:#fef2f2;border:1px solid #fca5a5}
 .check-result h4{font-size:.95rem;font-weight:700;margin-bottom:8px}
-.check-result p{font-size:.88rem;line-height:1.6}
-.correct-order{margin-top:10px;font-size:.85rem;color:#555}
-.correct-order ol{margin:8px 0 0 16px;line-height:1.8}
-/* Buttons */
-.btn{border:none;cursor:pointer;border-radius:24px;padding:12px 28px;font-size:1rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+.check-result p,.check-result li{font-size:.86rem;line-height:1.6}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+@media(max-width:740px){.result-grid{grid-template-columns:1fr}}
+.btn{border:none;cursor:pointer;border-radius:24px;padding:11px 22px;font-size:.95rem;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
 .btn-primary{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;box-shadow:0 4px 16px rgba(240,147,251,.35)}
 .btn-primary:hover{transform:translateY(-2px)}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .btn-secondary{background:#fff;color:#f5576c;border:2px solid #f5576c}
-.btn-sm{padding:8px 16px;font-size:.88rem}
+.btn-sm{padding:8px 14px;font-size:.84rem}
 .btn-row{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-/* Completion */
 .completion-screen{background:#fff;border-radius:16px;padding:40px 24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.07)}
 .completion-badge{font-size:5rem;margin-bottom:16px;animation:bounce .8s ease}
 .score-display{font-size:2.5rem;font-weight:800;color:#f5576c;margin:16px 0}
@@ -89,7 +96,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 <div class="container">
   <div class="exercise-header">
     <h1>🚨 Tapaturma! Miten toimit?</h1>
-    <p>Järjestele toimintavaiheet oikeaan järjestykseen</p>
+    <p>Rakennat tilanteeseen sopivan toimintamallin: heti nyt, seuraavaksi ja tilanteen jälkeen.</p>
   </div>
 
   <div class="progress-container">
@@ -103,71 +110,47 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
     <button class="sc-nav-btn" id="nav3" onclick="switchScenario(3)">😡 Uhkaava tilanne</button>
   </div>
 
-  <!-- Scenario 1: Fall in warehouse -->
   <div id="sp1" class="scenario-panel active">
     <div class="s-badge">🚨 Tilanne 1/3 — Varastokaatuminen</div>
-    <div class="scene-visual">
-      📦 💥 🤕 → ❓
-      <p>"Kovaan ääneen kaatuminen varastossa..."</p>
-    </div>
-    <div class="scenario-text">
-      Kuulet kovaan ääneen kaatumisen varastossa. Menet katsomaan — työkaveri <strong>Joonas</strong> makaa lattialla. Hän sanoo satuttaneensa nilkkansa, ei pysty nousemaan, mutta on tajuissaan ja puhuu normaalisti.
-    </div>
-    <div class="ordering-label">📋 Laita toimintavaiheet oikeaan järjestykseen — klikkaa ensin vasemmalta, sitten kohtaan oikealle:</div>
-    <div id="game1" class="steps-container"></div>
+    <div id="game1"></div>
     <div class="check-result" id="cr1"></div>
     <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="toggleHint(1)">💡 Vinkki</button>
       <button class="btn btn-secondary btn-sm" onclick="resetGame(1)">🔄 Nollaa</button>
-      <button class="btn btn-primary btn-sm" id="check1" onclick="checkOrder(1)" disabled>✅ Tarkista järjestys</button>
+      <button class="btn btn-primary btn-sm" id="check1" onclick="checkScenario(1)">✅ Arvioi toimintamalli</button>
     </div>
   </div>
 
-  <!-- Scenario 2: Fainting in store -->
   <div id="sp2" class="scenario-panel">
     <div class="s-badge">🚨 Tilanne 2/3 — Pyörtyminen</div>
-    <div class="scene-visual">
-      👩‍🦳 😵 → 💫 → 🧎
-      <p>"Kassajonossa asiakas menettää tajuntansa..."</p>
-    </div>
-    <div class="scenario-text">
-      Olet kassalla. Kassajonossa asiakas — nainen, noin 60 vuotta — menettää äkillisesti tajuntansa ja vajoaa hitaasti lattialle. Muut asiakkaat katsovat hämmentyneenä.
-    </div>
-    <div class="ordering-label">📋 Laita toimintavaiheet oikeaan järjestykseen:</div>
-    <div id="game2" class="steps-container"></div>
+    <div id="game2"></div>
     <div class="check-result" id="cr2"></div>
     <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="toggleHint(2)">💡 Vinkki</button>
       <button class="btn btn-secondary btn-sm" onclick="resetGame(2)">🔄 Nollaa</button>
-      <button class="btn btn-primary btn-sm" id="check2" onclick="checkOrder(2)" disabled>✅ Tarkista järjestys</button>
+      <button class="btn btn-primary btn-sm" id="check2" onclick="checkScenario(2)">✅ Arvioi toimintamalli</button>
     </div>
   </div>
 
-  <!-- Scenario 3: Threatening situation -->
   <div id="sp3" class="scenario-panel">
     <div class="s-badge">🚨 Tilanne 3/3 — Uhkaava asiakas</div>
-    <div class="scene-visual">
-      😡 🔊 ⚠️ → ❓
-      <p>"Tilanne kärjistyy myymälässä..."</p>
-    </div>
-    <div class="scenario-text">
-      Myymälässä asiakas alkaa uhkailla henkilökuntaa ääneen. Tilanne on nouseva — asiakas on aggressiivinen, ei kuuntele rauhoittelua, ja lähistöllä on muita asiakkaita.
-    </div>
-    <div class="ordering-label">📋 Laita toimintavaiheet oikeaan järjestykseen:</div>
-    <div id="game3" class="steps-container"></div>
+    <div id="game3"></div>
     <div class="check-result" id="cr3"></div>
     <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="toggleHint(3)">💡 Vinkki</button>
       <button class="btn btn-secondary btn-sm" onclick="resetGame(3)">🔄 Nollaa</button>
-      <button class="btn btn-primary btn-sm" id="check3" onclick="checkOrder(3)" disabled>✅ Tarkista järjestys</button>
+      <button class="btn btn-primary btn-sm" id="check3" onclick="checkScenario(3)">✅ Arvioi toimintamalli</button>
       <button class="btn btn-primary" id="finishBtn" onclick="showCompletion()" style="display:none">🏁 Katso tulokset</button>
     </div>
   </div>
 
-  <!-- Completion -->
   <div id="completionScreen" class="completion-screen hidden">
     <div class="completion-badge">🏆</div>
     <h2>Harjoitukset suoritettu!</h2>
     <div class="score-display" id="finalScore">0 <span class="s-max">/ 3</span></div>
-    <p id="finalFeedback" style="color:#555;max-width:500px;margin:0 auto 20px"></p>
-    <div class="finish-badge">🏁 Olet suorittanut osion 3 harjoitukset!</div>
+    <p id="finalFeedback" style="color:#555;max-width:700px;margin:0 auto 16px"></p>
+    <div id="finalHighlights" style="text-align:left;max-width:760px;margin:0 auto"></div>
+    <div class="finish-badge" style="margin-top:16px">🏁 Olet suorittanut osion 3 harjoitukset!</div>
     <div class="nav-footer" style="margin-top:24px">
       <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
     </div>
@@ -186,205 +169,402 @@ const SCORM = (() => {
 })();
 window.addEventListener('load',SCORM.init);
 
+const zones = [
+  {id:'immediate',label:'🔴 Heti nyt',order:0,description:'Turvaa ympäristö ja käynnistä hätäapu.'},
+  {id:'next',label:'🟡 Seuraavaksi / tilanteen mukaan',order:1,description:'Arvioi ja toimi tilanteen kehittymisen mukaan.'},
+  {id:'after',label:'🟢 Tilanteen jälkeen',order:2,description:'Kirjaa tapahtumat ja tee ilmoitukset.'}
+];
+
 const scenariosData = {
-    1: {
-        steps: [
-            {id:'s1a', text:'Varmista, ettei lisävaaraa ole — siivoa kaatuneet esineet ympäriltä'},
-            {id:'s1b', text:'Kysy Joonikselta, onko hän ok — arvioi tilanne rauhallisesti'},
-            {id:'s1c', text:'Hälytä apua — ilmoita työvuorovastaavalle heti'},
-            {id:'s1d', text:'Auta Joonas mukavaan asentoon, älä liikuta jos selkärankaepäily'},
-            {id:'s1e', text:'Soita 112 jos tilanne on vakava tai epäselvä'},
-            {id:'s1f', text:'Täytä tapaturmailmoitus tai läheltä piti -ilmoitus'},
-        ],
-        correctOrder: ['s1a','s1b','s1c','s1e','s1d','s1f'],
-        explanations: ['✅ Turvallisuus ensin — poista lisäriskit','✅ Arvioi uhrin tila rauhallisesti','✅ Ilmoita esihenkilölle aina heti','✅ 112 ennen siirtämistä — selkärankaepäily huomioitava','✅ Auta mukavaan asentoon vasta kun vakava vamma on suljettu pois tai apu on tulossa','✅ Dokumentointi on lakisääteinen velvollisuus'],
-    },
-    2: {
-        steps: [
-            {id:'s2a', text:'Huuda apua — hälytä kollega paikalle välittömästi'},
-            {id:'s2b', text:'Soita 112 — tajuton henkilö = aina hätätilanteeksi luokiteltava'},
-            {id:'s2c', text:'Tarkista hengittääkö asiakas (elottomuuden tarkistus)'},
-            {id:'s2d', text:'Aloita elvytys (30 painallusta + 2 puhallusta) jos ei hengitä'},
-            {id:'s2e', text:'Aseta kylkiasentoon jos hengittää — seuraa tilannetta'},
-            {id:'s2f', text:'Pidä asiakas lämpimänä ja pysy vierellä — ohjaa muut asiakkaat sivuun'},
-            {id:'s2g', text:'Täytä tapaturmailmoitus tapahtuman jälkeen'},
-        ],
-        correctOrder: ['s2a','s2c','s2b','s2d','s2e','s2f','s2g'],
-        explanations: ['✅ Apua tarvitaan heti — älä toimi yksin','✅ Hengityksen tarkistus ohjaa seuraavan toimenpiteen','✅ Tajuton = soita 112 aina — tai pyydä joku muu soittamaan','✅ Elvytys pelastaa hengen — aloita viiveettä','✅ Kylkiasento estää tukehtumisen','✅ Lämpö ja seuranta tärkeää ennen ammattiapua','✅ Dokumentointi myöhemmin'],
-    },
-    3: {
-        steps: [
-            {id:'s3a', text:'Pysy rauhallisena — älä provosoi tai uhkaile takaisin'},
-            {id:'s3b', text:'Hälytä apua — käytä hätäpainiketta tai huuda kollegalle'},
-            {id:'s3c', text:'Ohjaa muut asiakkaat pois alueelta — minimoi sivulliset riskit'},
-            {id:'s3d', text:'Poistu itse turvalliseen paikkaan tarvittaessa'},
-            {id:'s3e', text:'Soita 112 jos tilanne ei rauhoitu tai uhkaa väkivallalla'},
-            {id:'s3f', text:'Kirjaa tapahtumat muistiin heti tilanteen rauhoituttua'},
-            {id:'s3g', text:'Ilmoita esihenkilölle ja täytä väkivalta- tai uhkailmoitus'},
-        ],
-        correctOrder: ['s3a','s3b','s3c','s3d','s3e','s3f','s3g'],
-        explanations: ['✅ Rauhallisuus on tärkein työkalu — provosoiminen pahentaa','✅ Apua tarvitaan — älä kohtaa uhkaavaa tilannetta yksin','✅ Muiden turvallisuus ensin','✅ Oma turvallisuus on ensisijainen','✅ 112 kun tilanne eskaloituu','✅ Kirjaa muistiin heti — muisti pettää','✅ Viralliset kanavat aina käyttöön'],
-    }
+  1: {
+    badge:'📦 💥 🤕 → ❓',
+    subtitle:'"Kovaan ääneen kaatuminen varastossa..."',
+    story:'Kuulet kovaan ääneen kaatumisen varastossa. Menet katsomaan — työkaveri Joonas makaa lattialla. Hän on tajuissaan, mutta ei pääse ylös.',
+    hintAnchor:'Aloita ympäristön turvallistamisesta ennen muuta toimintaa.',
+    steps:[
+      {id:'s1a',text:'Varmista, ettei lisävaaraa ole — poista kaatuneet esineet ympäriltä',acceptedGroups:['immediate'],critical:true,why:'Turvallinen työympäristö estää lisävammat.'},
+      {id:'s1b',text:'Kysy Joonakselta voinnista ja arvioi tilanne rauhallisesti',acceptedGroups:['immediate','next'],critical:true,why:'Tilanteen arviointi ohjaa oikeaa ensiapua.'},
+      {id:'s1c',text:'Ilmoita työvuorovastaavalle heti',acceptedGroups:['immediate','next'],critical:false,why:'Vastuuhenkilö varmistaa resurssit ja jatkotoimet.'},
+      {id:'s1e',text:'Soita 112, jos tilanne on vakava tai epäselvä',acceptedGroups:['immediate','next'],critical:true,why:'Nopea hälytys voi ehkäistä vakavat seuraukset.'},
+      {id:'s1d',text:'Auta mukavaan asentoon, mutta älä liikuta selkärankaepäilyssä',acceptedGroups:['next'],critical:false,why:'Väärä siirtäminen voi pahentaa vammaa.'},
+      {id:'s1f',text:'Täytä tapaturmailmoitus tai läheltä piti -ilmoitus',acceptedGroups:['after'],critical:false,why:'Raportointi auttaa ennaltaehkäisyssä ja on velvoite.'}
+    ],
+    criticalChecks:[
+      {
+        id:'s1c1',
+        question:'Mitä teet, jos Joonas kertoo voimakkaasta selkäkivusta kaatumisen jälkeen?',
+        options:[
+          {id:'a',text:'Autan hänet heti seisomaan',correct:false,why:'Seisomaan auttaminen voi pahentaa selkävammaa.'},
+          {id:'b',text:'Pidän hänet paikallaan ja hälytän apua',correct:true,why:'Selkävammaepäilyssä liikkumista tulee välttää.'},
+          {id:'c',text:'Annan kipulääkkeen ja jatkan töitä',correct:false,why:'Tilanne vaatii arvioinnin eikä työtehtävien jatkamista.'}
+        ]
+      }
+    ]
+  },
+  2: {
+    badge:'👩‍🦳 😵 → 💫 → 🧎',
+    subtitle:'"Kassajonossa asiakas menettää tajuntansa..."',
+    story:'Olet kassalla. Asiakas menettää tajuntansa ja vajuu lattialle. Muut asiakkaat katsovat hämmentyneenä.',
+    hintAnchor:'Tajuttoman kohdalla hengitys tarkistetaan nopeasti ja apu hälytetään heti.',
+    steps:[
+      {id:'s2a',text:'Hälytä kollega avuksi heti',acceptedGroups:['immediate'],critical:true,why:'Yksin toimiminen hidastaa ensiapua.'},
+      {id:'s2c',text:'Tarkista hengittääkö asiakas',acceptedGroups:['immediate'],critical:true,why:'Hengityksen tila ratkaisee seuraavan toimenpiteen.'},
+      {id:'s2b',text:'Soita 112 tai pyydä toista soittamaan',acceptedGroups:['immediate','next'],critical:true,why:'Tajuton henkilö arvioidaan hätätilanteena.'},
+      {id:'s2d',text:'Aloita elvytys, jos asiakas ei hengitä normaalisti',acceptedGroups:['next'],critical:true,why:'Elvytys pitää verenkiertoa yllä ennen ammattiapua.'},
+      {id:'s2e',text:'Aseta kylkiasentoon, jos hengitys on normaali',acceptedGroups:['next'],critical:true,why:'Kylkiasento suojaa hengitystietä.'},
+      {id:'s2f',text:'Pidä asiakas lämpimänä ja ohjaa sivulliset sivuun',acceptedGroups:['next'],critical:false,why:'Rauhallinen ympäristö tukee ensiapua.'},
+      {id:'s2g',text:'Kirjaa tapahtuma tapaturmailmoitukseen',acceptedGroups:['after'],critical:false,why:'Jälkikäsittely ja dokumentointi ovat osa turvallisuutta.'}
+    ],
+    criticalChecks:[
+      {
+        id:'s2c1',
+        question:'Asiakas ei hengitä normaalisti. Mitä seuraavaksi?',
+        options:[
+          {id:'a',text:'Käännän kylkiasentoon ja odotan',correct:false,why:'Hengittämättömän kylkiasento ei riitä.'},
+          {id:'b',text:'Aloitan elvytyksen heti ja varmistan 112-hälytyksen',correct:true,why:'Nopea elvytys parantaa selviytymistä.'},
+          {id:'c',text:'Haen vettä ja yritän herätellä',correct:false,why:'Aika on kriittinen, elvytys on aloitettava.'}
+        ]
+      },
+      {
+        id:'s2c2',
+        question:'Asiakas hengittää normaalisti mutta on tajuton. Mikä on paras jatkotoimi?',
+        options:[
+          {id:'a',text:'Jätän hänet selälleen odottamaan',correct:false,why:'Selinmakuu lisää tukehtumisriskiä.'},
+          {id:'b',text:'Asetan kylkiasentoon ja seuraan hengitystä',correct:true,why:'Kylkiasento ylläpitää hengitystietä.'},
+          {id:'c',text:'Pyydän häntä nousemaan istumaan',correct:false,why:'Tajuttomalle ei anneta nousukäskyjä.'}
+        ]
+      }
+    ]
+  },
+  3: {
+    badge:'😡 🔊 ⚠️ → ❓',
+    subtitle:'"Tilanne kärjistyy myymälässä..."',
+    story:'Asiakas alkaa uhkailla henkilökuntaa ääneen. Hän ei rauhoitu puheella ja lähistöllä on muita asiakkaita.',
+    hintAnchor:'Uhkaavassa tilanteessa turvaa ensin ihmiset ja pyydä apua nopeasti.',
+    steps:[
+      {id:'s3a',text:'Pysy rauhallisena — älä provosoi tai uhkaile takaisin',acceptedGroups:['immediate'],critical:true,why:'Rauhallisuus ehkäisee tilanteen eskaloitumista.'},
+      {id:'s3b',text:'Hälytä apua hätäpainikkeella tai kollegalle',acceptedGroups:['immediate'],critical:true,why:'Uhkaavaa tilannetta ei tule hoitaa yksin.'},
+      {id:'s3c',text:'Ohjaa asiakkaat pois alueelta',acceptedGroups:['immediate','next'],critical:true,why:'Sivullisten turvaaminen on ensisijaista.'},
+      {id:'s3d',text:'Siirry itse turvalliseen paikkaan tarvittaessa',acceptedGroups:['next'],critical:true,why:'Työturvallisuus koskee myös auttajaa.'},
+      {id:'s3e',text:'Soita 112, jos uhka jatkuu tai väkivalta uhkaa',acceptedGroups:['next'],critical:true,why:'Viranomaisapu tarvitaan eskaloituvassa uhassa.'},
+      {id:'s3f',text:'Kirjaa tapahtumat heti tilanteen rauhoituttua',acceptedGroups:['after'],critical:false,why:'Kirjaus tukee käsittelyä ja jälkiarviota.'},
+      {id:'s3g',text:'Ilmoita esihenkilölle ja täytä uhkailmoitus',acceptedGroups:['after'],critical:false,why:'Virallinen raportointi mahdollistaa jatkotoimet.'}
+    ],
+    criticalChecks:[
+      {
+        id:'s3c1',
+        question:'Asiakas lähestyy aggressiivisesti ja huutaa. Mikä on tärkein valinta?',
+        options:[
+          {id:'a',text:'Korotan ääntä, jotta saan tilanteen hallintaan',correct:false,why:'Vastakkainasettelu pahentaa uhkaa.'},
+          {id:'b',text:'Pidän etäisyyden, hälytän apua ja ohjaan sivulliset pois',correct:true,why:'Tämä minimoi välittömän riskin.'},
+          {id:'c',text:'Jään yksin keskustelemaan pitkään',correct:false,why:'Yksin jääminen voi olla vaarallista.'}
+        ]
+      }
+    ]
+  }
 };
 
 const gameState = {};
-const scoresData = { 1: 0, 2: 0, 3: 0 };
+const scoresData = {1:0,2:0,3:0};
 const completedScenarios = new Set();
 
-function initGame(n) {
-    const data = scenariosData[n];
-    gameState[n] = {
-        pool: shuffle([...data.steps]),
-        placed: Array(data.steps.length).fill(null),
-        selected: null
-    };
-    renderGame(n);
-}
-
 function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function initGame(n) {
+  const data = scenariosData[n];
+  gameState[n] = {
+    selected:null,
+    placements:{immediate:[],next:[],after:[]},
+    pool:shuffle([...data.steps.map(s=>s.id)]),
+    checks:{},
+    feedbackByCard:{},
+    explanation:data.steps[0].why,
+    showHint:false
+  };
+  data.criticalChecks.forEach(c=>gameState[n].checks[c.id]='');
+  renderGame(n);
+}
+
+function getStep(n,id){return scenariosData[n].steps.find(s=>s.id===id);}
+function getPlacementZone(n,id){
+  const p = gameState[n].placements;
+  return zones.find(z=>p[z.id].includes(id))?.id || null;
+}
+
+function removeFromAllZones(n,id){
+  const p = gameState[n].placements;
+  zones.forEach(z=>{p[z.id]=p[z.id].filter(x=>x!==id);});
+}
+
+function selectStep(n,id){
+  const st = gameState[n];
+  st.selected = st.selected===id?null:id;
+  const step = getStep(n,id);
+  if(step) st.explanation = step.why;
+  renderGame(n);
+}
+
+function placeSelected(n,zoneId){
+  const st = gameState[n];
+  if(!st.selected) return;
+  moveCardToZone(n,st.selected,zoneId);
+  st.selected = null;
+  renderGame(n);
+}
+
+function moveCardToZone(n,id,zoneId){
+  removeFromAllZones(n,id);
+  const st = gameState[n];
+  st.pool = st.pool.filter(x=>x!==id);
+  st.placements[zoneId].push(id);
+  st.explanation = getStep(n,id).why;
+}
+
+function returnToPool(n,id){
+  removeFromAllZones(n,id);
+  if(!gameState[n].pool.includes(id)) gameState[n].pool.push(id);
+  renderGame(n);
+}
+
+function onCardKeyDown(e,n,id){
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();selectStep(n,id);}
+  if(['1','2','3'].includes(e.key)){
+    const m={1:'immediate',2:'next',3:'after'};
+    e.preventDefault();
+    moveCardToZone(n,id,m[e.key]);
+    renderGame(n);
+  }
+}
+
+function onZoneKeyDown(e,n,zoneId){
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();placeSelected(n,zoneId);}
+}
+
+function handleDragStart(e,n,id){
+  e.dataTransfer.setData('text/plain',`${n}|${id}`);
+}
+
+function allowDrop(e){e.preventDefault();}
+
+function onDropZone(e,n,zoneId){
+  e.preventDefault();
+  const payload = e.dataTransfer.getData('text/plain');
+  if(!payload) return;
+  const [sn,id] = payload.split('|');
+  if(Number(sn)!==n) return;
+  moveCardToZone(n,id,zoneId);
+  renderGame(n);
+}
+
+function setOver(zoneEl,val){zoneEl.dataset.over = val ? '1' : '0';}
+
+function setDecisionAnswer(n,checkId,optionId){
+  gameState[n].checks[checkId]=optionId;
+}
+
+function toggleHint(n){
+  gameState[n].showHint=!gameState[n].showHint;
+  renderGame(n);
+}
+
+function feedbackClass(status){
+  return status==='oikein'?'ok':status==='myöhässä'?'late':status==='puuttuu kriittinen toimi'?'missing':'wrong';
+}
+
+function renderCard(n,id,zoneId=''){
+  const st=gameState[n], step=getStep(n,id), selected=st.selected===id;
+  const zoneClass=zoneId?` in-zone ${zoneId}`:'';
+  const placeTxt = zoneId ? ` [${zones.find(z=>z.id===zoneId).label}]` : '';
+  return `<div class="step-chip${selected?' selected':''}${zoneClass}" draggable="true" tabindex="0" role="button" aria-label="${step.text}${placeTxt}" ondragstart="handleDragStart(event,${n},'${id}')" onkeydown="onCardKeyDown(event,${n},'${id}')" onclick="selectStep(${n},'${id}')">
+    <div class="chip-num">${step.critical?'!':'•'}</div>
+    <div><div>${step.text}</div><div class="chip-tags">${step.critical?'Kriittinen toimi':'Tukitoimi'}${zoneId?` • ${zones.find(z=>z.id===zoneId).label}`:''}</div></div>
+  </div>`;
+}
+
+function renderGame(n){
+  const data=scenariosData[n], st=gameState[n], container=document.getElementById('game'+n);
+  const zonesHtml = zones.map(z=>{
+    const cards = st.placements[z.id].map(id=>`<div onclick="returnToPool(${n},'${id}')" title="Klikkaa palauttaaksesi kortin sekalaariin">${renderCard(n,id,z.id)}</div>`).join('');
+    return `<div class="zone zone-${z.id}" tabindex="0" onkeydown="onZoneKeyDown(event,${n},'${z.id}')" ondragover="allowDrop(event)" ondrop="onDropZone(event,${n},'${z.id}')" ondragenter="setOver(this,true)" ondragleave="setOver(this,false)">
+      <h5>${z.label}<button type="button" class="zone-drop-btn" onclick="placeSelected(${n},'${z.id}')">Sijoita valittu</button></h5>
+      <div class="feedback-empty" style="margin-bottom:6px">${z.description}</div>
+      ${cards || '<div class="feedback-empty">Ei kortteja tässä vielä.</div>'}
+    </div>`;
+  }).join('');
+
+  const poolHtml = st.pool.map(id=>renderCard(n,id)).join('') || '<div class="feedback-empty">Kaikki kortit sijoitettu.</div>';
+
+  const decisionsHtml = data.criticalChecks.map(c=>{
+    const picked=st.checks[c.id];
+    const pickedOpt=c.options.find(o=>o.id===picked);
+    const result=picked?`<div class="decision-result">${pickedOpt.correct?'✅ Oikea valinta. ':'⚠️ Tämä valinta ei ole paras. '}${pickedOpt.why}</div>`:'';
+    return `<div class="decision-card">
+      <h5>${c.question}</h5>
+      <div class="decision-options">
+        ${c.options.map(o=>`<label><input type="radio" name="${c.id}-${n}" value="${o.id}" ${picked===o.id?'checked':''} onchange="setDecisionAnswer(${n},'${c.id}','${o.id}')"> ${o.text}</label>`).join('')}
+      </div>
+      ${result}
+    </div>`;
+  }).join('');
+
+  const feedbackRows = Object.entries(st.feedbackByCard).map(([id,obj])=>{
+    const step=getStep(n,id);
+    return `<div class="feedback-item ${feedbackClass(obj.status)}"><strong>${step.text}</strong><br>${obj.status.toUpperCase()}: ${obj.reason}</div>`;
+  }).join('') || '<div class="feedback-empty">Arvioi toimintamalli nähdäksesi korttikohtaisen palautteen.</div>';
+
+  container.innerHTML = `<div class="board-layout">
+    <div class="board-col">
+      <h4>Tilannekuva</h4>
+      <div class="scene-visual">${data.badge}<p>${data.subtitle}</p></div>
+      <div class="scenario-text">${data.story}</div>
+      ${st.showHint?`<div class="hint">💡 ${data.hintAnchor}</div>`:''}
+      <div class="cards-pool">
+        <h5>📋 Toimintakortit (valitse, vedä tai käytä näppäimiä 1/2/3)</h5>
+        ${poolHtml}
+      </div>
+    </div>
+    <div class="board-col">
+      <h4>Toimintataulu</h4>
+      ${zonesHtml}
+      ${decisionsHtml}
+    </div>
+    <div class="board-col">
+      <h4>Miksi tämä on tärkeää?</h4>
+      <div class="feedback-panel" style="margin-bottom:10px">${st.explanation}</div>
+      <h4>Korttikohtainen palaute</h4>
+      <div>${feedbackRows}</div>
+      <div class="hint" style="margin-top:10px">Näppäimistö: valitse kortti Enterillä, siirrä vyöhykkeisiin näppäimillä 1/2/3.</div>
+    </div>
+  </div>`;
+}
+
+function checkScenario(n){
+  const data=scenariosData[n], st=gameState[n];
+  let points=0;
+  let max=data.steps.length + (data.criticalChecks.length*2);
+  const fb={};
+
+  data.steps.forEach(step=>{
+    const placed = getPlacementZone(n,step.id);
+    if(!placed){
+      fb[step.id]={status:step.critical?'puuttuu kriittinen toimi':'väärä ajoitus',reason:step.critical?'Kriittinen toimi puuttuu kokonaan toimintamallista.':'Kortti puuttuu vyöhykkeeltä.'};
+      return;
     }
-    return arr;
-}
-
-function renderGame(n) {
-    const state = gameState[n];
-    const data = scenariosData[n];
-    const container = document.getElementById('game' + n);
-    const poolSteps = state.pool.filter(s => !state.placed.includes(s.id));
-    let html = `<div class="shuffled-pool">
-      <div class="zone-label">📋 Sekaisin — klikkaa valitaksesi</div>`;
-    poolSteps.forEach(step => {
-        const isSel = state.selected === step.id;
-        html += `<div class="step-chip${isSel ? ' selected' : ''}" onclick="selectStep(${n},'${step.id}',this)">
-          <div class="chip-num">?</div>
-          <span>${step.text}</span>
-        </div>`;
-    });
-    html += `</div><div class="sorted-list">
-      <div class="zone-label">✅ Oikea järjestys — klikkaa paikkaasi</div>`;
-    for (let i = 0; i < data.steps.length; i++) {
-        const placed = state.placed[i];
-        const step = placed ? data.steps.find(s => s.id === placed) : null;
-        if (step) {
-            html += `<div class="sorted-slot filled" onclick="removeFromSlot(${n},${i})">
-              <div class="slot-num">${i+1}</div>
-              <span>${step.text} <small style="color:#888;font-size:.78rem">(klikkaa poistaaksesi)</small></span>
-            </div>`;
-        } else {
-            html += `<div class="sorted-slot" onclick="placeInSlot(${n},${i})">
-              <div class="slot-num">${i+1}</div>
-              <span>Klikkaa tähän sijoittaaksesi valitun vaiheen</span>
-            </div>`;
-        }
+    if(step.acceptedGroups.includes(placed)){
+      points += 1;
+      fb[step.id]={status:'oikein',reason:'Toimi on sijoitettu tilanteeseen sopivaan vaiheeseen.'};
+      return;
     }
-    html += '</div>';
-    container.innerHTML = html;
-    const allPlaced = state.placed.every(p => p !== null);
-    document.getElementById('check' + n).disabled = !allPlaced;
+    const placedOrder = zones.find(z=>z.id===placed).order;
+    const minOrder = Math.min(...step.acceptedGroups.map(a=>zones.find(z=>z.id===a).order));
+    if(placedOrder>minOrder){
+      fb[step.id]={status:'myöhässä',reason:'Toimi kuuluu aikaisempaan vaiheeseen.'};
+    } else {
+      fb[step.id]={status:'väärä ajoitus',reason:'Toimi on liian aikaisin tähän tilanteeseen.'};
+    }
+  });
+
+  let correctChecks=0;
+  data.criticalChecks.forEach(c=>{
+    const selected=st.checks[c.id];
+    const opt=c.options.find(o=>o.id===selected);
+    if(opt&&opt.correct){
+      correctChecks++;
+      points += 2;
+    }
+  });
+
+  st.feedbackByCard = fb;
+  renderGame(n);
+
+  const pct = points/max;
+  scoresData[n]=pct;
+  completedScenarios.add(n);
+  document.getElementById('nav'+n).classList.add('completed');
+  updateProgress();
+
+  const strengths=[];
+  const practice=[];
+  Object.values(fb).forEach(v=>{
+    if(v.status==='oikein') strengths.push(v.reason);
+    else practice.push(v.reason);
+  });
+  if(correctChecks===data.criticalChecks.length) strengths.push('Kriittiset päätöspisteet menivät oikein.');
+  else practice.push('Harjoittele kriittisiä päätöspisteitä erityisesti.');
+
+  const crEl=document.getElementById('cr'+n);
+  crEl.className='check-result show '+(pct>=0.8?'success':pct>=0.5?'partial':'fail');
+  crEl.innerHTML=`<h4>${pct>=0.8?'🎯 Toimintamalli on vahva!':pct>=0.5?'⚠️ Hyvä perusta, kehitä vielä!':'❌ Harjoittele toimintamallia lisää'}</h4>
+    <p>Pisteet: <strong>${points}/${max}</strong> • Vyöhykkeet + päätöspisteet arvioitu.</p>
+    <div class="result-grid">
+      <div><strong>Vahvuudet</strong><ul>${(strengths.slice(0,4).map(s=>`<li>${s}</li>`).join('')||'<li>Aloita ympäristön turvaamisesta ja avun hälyttämisestä.</li>')}</ul></div>
+      <div><strong>Harjoittele tätä</strong><ul>${(practice.slice(0,4).map(s=>`<li>${s}</li>`).join('')||'<li>Toimintamalli oli tasapainoinen.</li>')}</ul></div>
+    </div>`;
+
+  if(completedScenarios.size===3) document.getElementById('finishBtn').style.display='inline-flex';
 }
 
-function selectStep(n, id, el) {
-    gameState[n].selected = gameState[n].selected === id ? null : id;
-    renderGame(n);
+function updateProgress(){
+  const pct=(completedScenarios.size/3)*100;
+  document.getElementById('progressFill').style.width=pct+'%';
 }
 
-function placeInSlot(n, slotIdx) {
-    const state = gameState[n];
-    if (!state.selected) return;
-    state.placed[slotIdx] = state.selected;
-    state.selected = null;
-    renderGame(n);
+function resetGame(n){
+  completedScenarios.delete(n);
+  scoresData[n]=0;
+  document.getElementById('cr'+n).className='check-result';
+  document.getElementById('cr'+n).innerHTML='';
+  document.getElementById('nav'+n).classList.remove('completed');
+  initGame(n);
+  updateProgress();
+  if(completedScenarios.size<3) document.getElementById('finishBtn').style.display='none';
 }
 
-function removeFromSlot(n, slotIdx) {
-    gameState[n].placed[slotIdx] = null;
-    renderGame(n);
+function switchScenario(n){
+  document.querySelectorAll('.scenario-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sc-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sp'+n).classList.add('active');
+  document.getElementById('nav'+n).classList.add('active');
+  document.getElementById('currentSc').textContent=n;
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function checkOrder(n) {
-    const state = gameState[n];
-    const data = scenariosData[n];
-    let correct = 0;
-    const slots = document.querySelectorAll('#game' + n + ' .sorted-slot.filled');
-    state.placed.forEach((placed, i) => {
-        const correct_id = data.correctOrder[i];
-        const slot = document.querySelectorAll('#game' + n + ' .sorted-slot')[i];
-        if (placed === correct_id) {
-            correct++;
-            slot.classList.add('correct-slot');
-        } else {
-            slot.classList.add('wrong-slot');
-        }
+function showCompletion(){
+  const total=Object.values(scoresData).reduce((a,b)=>a+b,0);
+  const score=Math.round(total);
+  const maxScore=3;
+  document.querySelectorAll('.scenario-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('completionScreen').classList.remove('hidden');
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('finalScore').innerHTML=score+' <span class="s-max">/ '+maxScore+'</span>';
+
+  const strengths=[];
+  const practice=[];
+  Object.entries(gameState).forEach(([,st])=>{
+    Object.values(st.feedbackByCard||{}).forEach(f=>{
+      if(f.status==='oikein') strengths.push(f.reason);
+      else practice.push(f.reason);
     });
-    const pct = correct / data.steps.length;
-    scoresData[n] = pct >= 1 ? 1 : pct >= 0.5 ? 0.5 : 0;
-    completedScenarios.add(n);
-    const crEl = document.getElementById('cr' + n);
-    crEl.className = 'check-result show ' + (pct >= 1 ? 'success' : pct >= 0.5 ? 'partial' : 'fail');
-    crEl.innerHTML = `<h4>${pct >= 1 ? '🎉 Täydellinen järjestys!' : pct >= 0.5 ? '⚠️ Lähes oikein!' : '❌ Järjestyksessä virheitä'}</h4>
-      <p>${pct >= 1 ? 'Kaikki vaiheet oikeassa järjestyksessä — erinomaista!' : `${correct}/${data.steps.length} vaihetta oikein.`}</p>
-      <div class="correct-order"><strong>Oikea järjestys oli:</strong><ol>${data.correctOrder.map((id, i) => {
-          const step = data.steps.find(s => s.id === id);
-          return `<li>${step.text} <em style="color:#22c55e">${data.explanations[i]}</em></li>`;
-      }).join('')}</ol></div>`;
-    document.getElementById('check' + n).disabled = true;
-    document.getElementById('nav' + n).classList.add('completed');
-    updateProgress();
-    if (n === 3) document.getElementById('finishBtn').style.display = 'inline-flex';
+  });
+
+  const msg = score>=3?'Erinomainen suoritus! Toimit turvallisesti ja johdonmukaisesti.':score>=2?'Hyvä suoritus! Tunnistat keskeiset vaiheet, hio ajoitusta vielä.':'Jatka harjoittelua — keskity ensin turvallistamiseen ja avun hälyttämiseen.';
+  document.getElementById('finalFeedback').textContent=msg;
+  document.getElementById('finalHighlights').innerHTML=`<div class="result-grid">
+    <div><strong>Vahvuudet</strong><ul>${(strengths.slice(0,6).map(s=>`<li>${s}</li>`).join('')||'<li>Tunnistit joitakin oikeita toimintaperiaatteita.</li>')}</ul></div>
+    <div><strong>Harjoittele tätä</strong><ul>${(practice.slice(0,6).map(s=>`<li>${s}</li>`).join('')||'<li>Toimintamallisi oli tasapainoinen.</li>')}</ul></div>
+  </div>`;
+
+  SCORM.complete(Math.round((total/maxScore)*100),100);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function updateProgress() {
-    const pct = (completedScenarios.size / 3) * 100;
-    document.getElementById('progressFill').style.width = pct + '%';
-}
-
-function resetGame(n) {
-    completedScenarios.delete(n);
-    document.getElementById('cr' + n).className = 'check-result';
-    initGame(n);
-    document.getElementById('check' + n).disabled = true;
-    document.getElementById('nav' + n).classList.remove('completed');
-    document.querySelectorAll('#game' + n + ' .sorted-slot').forEach(s => {
-        s.classList.remove('correct-slot','wrong-slot');
-    });
-    if (n === 3) document.getElementById('finishBtn').style.display = 'none';
-}
-
-function switchScenario(n) {
-    document.querySelectorAll('.scenario-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.sc-nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('sp' + n).classList.add('active');
-    document.getElementById('nav' + n).classList.add('active');
-    document.getElementById('currentSc').textContent = n;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function showCompletion() {
-    const total = Object.values(scoresData).reduce((a,b) => a+b, 0);
-    document.querySelectorAll('.scenario-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('completionScreen').classList.remove('hidden');
-    document.getElementById('progressFill').style.width = '100%';
-    const score = Math.round(total);
-    const maxScore = 3;
-    document.getElementById('finalScore').innerHTML = score + ' <span class="s-max">/ ' + maxScore + '</span>';
-    const msgs = [
-        'Harjoittele lisää! Katso oikeat järjestykset ja yritä uudelleen. 💪',
-        'Hyvä alku! Jotkut vaiheet menivät pieleen — lue selitykset.',
-        'Hyvin menee! Lähes täydellinen suoritus. 🌟',
-        'Erinomainen! Tiedät miten toimia hätätilanteessa! 🏆'
-    ];
-    document.getElementById('finalFeedback').textContent = msgs[score <= 0.5 ? 0 : score <= 1.5 ? 1 : score <= 2.5 ? 2 : 3];
-    SCORM.complete(Math.round((total / maxScore) * 100), 100);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Initialize all games
-initGame(1);
-initGame(2);
-initGame(3);
+initGame(1);initGame(2);initGame(3);
 </script>
 </body>
 </html>
