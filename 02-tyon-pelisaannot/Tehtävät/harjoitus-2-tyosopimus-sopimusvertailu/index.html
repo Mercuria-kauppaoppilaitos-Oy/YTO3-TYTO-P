@@ -936,6 +936,7 @@ const quizData = [
 const QUESTIONS_PER_SCREEN = quizData.map((screen) => screen.length);
 const TOTAL_QUESTIONS = QUESTIONS_PER_SCREEN.reduce((sum, count) => sum + count, 0);
 const FEEDBACK_DISPLAY_DURATION_MS = 2600;
+const INFO_BOX_DISPLAY_DURATION_MS = 5000;
 
 // ── State ──────────────────────────────────────────────────────────────────
 const state = {
@@ -1038,7 +1039,7 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
 
   // Next question or enable next screen
   const nextQ = qi + 1;
-  const delay = data.info ? 5000 : FEEDBACK_DISPLAY_DURATION_MS;
+  const delay = data.info ? INFO_BOX_DISPLAY_DURATION_MS : FEEDBACK_DISPLAY_DURATION_MS;
   if (nextQ < questionCount) {
     setTimeout(() => {
       state.currentQ[si] = nextQ;
