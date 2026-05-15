@@ -137,6 +137,14 @@ a{color:inherit;text-decoration:none}
   padding:1px 7px;border-radius:99px;vertical-align:middle;margin-left:6px;
 }
 
+/* ── Legal info box ───────────────────────────────────────────── */
+.info-box{
+  margin-top:10px;padding:12px 16px;border-radius:10px;font-size:.88rem;
+  font-weight:600;background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;display:none;
+}
+.info-box.show{display:block;animation:fadeUp .2s ease}
+.info-box .info-expl{font-weight:400;margin-top:4px;font-size:.83rem;opacity:.9}
+
 .contract-signature{border-top:1px solid #ccc;margin-top:20px;padding-top:16px;display:flex;gap:40px;font-size:.82rem;color:#555}
 .sig-col{flex:1}
 .sig-line{border-bottom:1px solid #999;margin-top:24px;margin-bottom:4px}
@@ -400,6 +408,7 @@ a{color:inherit;text-decoration:none}
       <div class="q-text" id="s2qText"></div>
       <div class="choices" id="s2choices"></div>
       <div class="feedback-box" id="s2fb"></div>
+      <div class="info-box" id="s2info"></div>
     </div>
 
     <div class="inline-next-wrap" id="s2nextWrap">
@@ -830,28 +839,32 @@ const quizData = [
   // Screen 2 — Toimeksiantosopimus
   [
     {
+      q:'Onko tässä sopimuksessa kyse työsuhteesta?',
+      choices:['Kyllä — kevytyrittäjyys on työsuhde','Ei — sopimus ei muodosta työsuhdetta','Riippuu työtuntien määrästä'],
+      correct:1,
+      expl:'§1 mukaan tämä sopimus ei muodosta työsuhdetta. Kevytyrittäjyys on yrittäjyyden muoto, ei automaattisesti työsuhde.',
+      info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> Suomen työsopimuslain (1:1 §) mukaan työsuhde syntyy aina, kun työn todelliset olosuhteet vastaavat työsuhteen tunnusmerkkejä — riippumatta siitä, miten sopimus on otsikoitu. Tässä sopimuksessa §2 kuitenkin määrää kiinteän työpaikan ja kiinteät työajat toimeksiantajan tiloissa. Tämä voi tarkoittaa, että kyseessä on tosiasiallisesti työsuhde, jota kutsutaan <em>näennäisyrittäjyydeksi</em>. Kyseenalaistaminen kannattaa — erityisesti jos käytännön työskentelyolosuhteet vastaavat työsuhteen tunnusmerkkejä.'
+    },
+    {
       q:'Kuinka suuri on sopimussakko, jos otat yhteyttä yrityksen asiakkaisiin omatoimisesti kahden vuoden sisällä sopimuksen päättymisestä?',
       choices:['5 000 €','20 000 €','Ei sopimussakkoa'],
       correct:1,
-      expl:'§5 mukaan sopimussakko on 20 000 €, jos otat yhteyttä toimeksiantajan asiakkaisiin 24 kuukauden sisällä sopimuksen päättymisestä.'
+      expl:'§5 mukaan sopimussakko on 20 000 €, jos otat yhteyttä toimeksiantajan asiakkaisiin 24 kuukauden sisällä sopimuksen päättymisestä.',
+      info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> 20 000 euron sopimussakko voi olla oikeudellisesti kohtuuton erityisesti nuorelle henkilölle. Oikeustoimilain 36 §:n yleislausekkeen nojalla kohtuuton sopimusehto voidaan sovitella tai julistaa pätemättömäksi. Käräjäoikeus voi alentaa suhteettoman suuren sopimussakkoa — mutta prosessi on kallis ja aikaa vievä. Ehto kannattaa neuvotella pienemmäksi ennen allekirjoittamista.'
     },
     {
       q:'Mitä tapahtuu pohjapalkkiolle, jos peruutusprosentti ylittää 10 %?',
       choices:['Pohjapalkkio katoaa kokonaan','Pohjapalkkiosta vähennetään 50 %','Ei mitään vaikutusta'],
       correct:1,
-      expl:'§4 mukaan pohjapalkkiosta vähennetään 50 % kyseisen peruutuskuukauden ajalta, jos peruutusprosentti ylittää 10 %.'
-    },
-    {
-      q:'Onko tässä sopimuksessa kyse työsuhteesta?',
-      choices:['Kyllä — kevytyrittäjyys on työsuhde','Ei — sopimus ei muodosta työsuhdetta','Riippuu työtuntien määrästä'],
-      correct:1,
-      expl:'§1 mukaan tämä sopimus ei muodosta työsuhdetta. Kevytyrittäjyys on yrittäjyyden muoto, ei automaattisesti työsuhde.'
+      expl:'§4 mukaan pohjapalkkiosta vähennetään 50 % kyseisen peruutuskuukauden ajalta, jos peruutusprosentti ylittää 10 %.',
+      info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> Pohjapalkkion puolittaminen asiakkaiden peruutuksista on oikeudellisesti kyseenalainen ehto — toimeksisaajalla ei useinkaan ole mahdollisuutta vaikuttaa siihen, peruuttavatko asiakkaat tilauksensa. Jos työsuhde katsottaisiin tosiasiallisesti työsopimukseksi, tällainen palkan vähentämisehto olisi lain vastainen. Toimeksiantosopimuksessakin ehto voidaan riitauttaa oikeustoimilain kohtuuttomuusperusteella.'
     },
     {
       q:'Mikä kohta voi viitata naamioituun työsuhteeseen?',
       choices:['Toimeksisaaja laskuttaa työn itse','Toimeksiantaja määrittää työpaikan ja työajat','Erimielisyydet ratkaistaan käräjäoikeudessa'],
       correct:1,
-      expl:'§2 mukaan työ tehdään toimeksiantajan tiloissa ja toimeksiantajan määrittäminä työaikoina. Tämä muistuttaa työsuhteen tunnusmerkkejä.'
+      expl:'§2 mukaan työ tehdään toimeksiantajan tiloissa ja toimeksiantajan määrittäminä työaikoina. Tämä muistuttaa työsuhteen tunnusmerkkejä.',
+      info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> Jos tosiasiallinen työsuhde paljastuu myöhemmin, toimeksisaajalla on oikeus vaatia kaikkia työsuhde-etuja takautuvasti: sairausajan palkkaa, lomapalkkaa, irtisanomissuojaa ja TES:n mukaisia palkkoja. Väärinkäytetty toimeksiantosopimus voi altistaa yrityksen merkittäville jälkimaksuille — mutta myös toimeksisaajan asema on epäselvä ja oikeuksien vaatiminen vaatii oikeudenkäynnin.'
     },
     {
       q:'Kuka vastaa veroista, YEL-maksuista ja sosiaalivakuutuksista?',
@@ -863,7 +876,8 @@ const quizData = [
       q:'Kuinka kauan kilpailukielto on voimassa sopimuksen päättymisen jälkeen?',
       choices:['6 kuukautta','12 kuukautta','24 kuukautta'],
       correct:1,
-      expl:'§5 mukaan toimeksisaajalla on 12 kuukauden kilpailukielto toimeksiannon päättymisen jälkeen samalla toimialalla.'
+      expl:'§5 mukaan toimeksisaajalla on 12 kuukauden kilpailukielto toimeksiannon päättymisen jälkeen samalla toimialalla.',
+      info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> Työsopimuksissa kilpailukieltoa säätelee työsopimuslaki (3:5 §): yli 6 kuukauden kilpailukiellosta työnantajan on maksettava korvaus, ja kilpailukielto vaatii erityisen painavan syyn. Toimeksiantosopimuksissa nämä suojasäädökset eivät automaattisesti koske toimeksisaajaa — 12 kuukauden kilpailukielto ilman korvauksia on mahdollinen, mutta se voidaan silti riitauttaa tuomioistuimessa esimerkiksi kohtuuttomuusperusteella.'
     },
     {
       q:'Milloin pohjapalkkio maksetaan?',
@@ -922,6 +936,7 @@ const quizData = [
 const QUESTIONS_PER_SCREEN = quizData.map((screen) => screen.length);
 const TOTAL_QUESTIONS = QUESTIONS_PER_SCREEN.reduce((sum, count) => sum + count, 0);
 const FEEDBACK_DISPLAY_DURATION_MS = 2600;
+const INFO_BOX_DISPLAY_DURATION_MS = 5000;
 
 // ── State ──────────────────────────────────────────────────────────────────
 const state = {
@@ -947,6 +962,8 @@ function renderQuestion(screenNum, si, qi) {
   document.getElementById(pfx + 'qText').textContent = data.q;
   document.getElementById(pfx + 'fb').className = 'feedback-box';
   document.getElementById(pfx + 'fb').innerHTML = '';
+  const ibClear = document.getElementById(pfx + 'info');
+  if (ibClear) { ibClear.className = 'info-box'; ibClear.innerHTML = ''; }
 
   // dots
   for (let i = 0; i < questionCount; i++) {
@@ -989,6 +1006,18 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
   fb.innerHTML = (correct ? '✓ Oikein!' : '✗ Väärin.') +
     '<div class="expl">' + data.expl + '</div>';
 
+  // Legal info box (shown when question has an 'info' field)
+  const ib = document.getElementById(pfx + 'info');
+  if (ib) {
+    if (data.info) {
+      ib.innerHTML = data.info;
+      ib.className = 'info-box show';
+    } else {
+      ib.className = 'info-box';
+      ib.innerHTML = '';
+    }
+  }
+
   // Track
   if (correct) state.scores[si]++;
   state.answered[si].push(correct);
@@ -1010,17 +1039,18 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
 
   // Next question or enable next screen
   const nextQ = qi + 1;
+  const delay = data.info ? INFO_BOX_DISPLAY_DURATION_MS : FEEDBACK_DISPLAY_DURATION_MS;
   if (nextQ < questionCount) {
     setTimeout(() => {
       state.currentQ[si] = nextQ;
       renderQuestion(screenNum, si, nextQ);
-    }, FEEDBACK_DISPLAY_DURATION_MS);
+    }, delay);
   } else {
     setTimeout(() => {
       document.getElementById('s' + screenNum + 'next').disabled = false;
       document.getElementById('s' + screenNum + 'nextWrap').style.display = 'block';
       updateProgress();
-    }, FEEDBACK_DISPLAY_DURATION_MS);
+    }, delay);
   }
 }
 
