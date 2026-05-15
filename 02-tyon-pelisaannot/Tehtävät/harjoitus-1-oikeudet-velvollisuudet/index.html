@@ -60,6 +60,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 .btn-secondary{background:#fff;color:#11998e;border:2px solid #11998e}
 /* Results panel */
 .results-panel{background:#fff;border-radius:16px;padding:24px;margin-top:16px;display:none}
+/* Score banner inside results */
+.score-banner{text-align:center;padding:24px;background:linear-gradient(135deg,#11998e,#38ef7d);border-radius:14px;color:#fff;margin-top:20px}
+.score-banner .sb-num{font-size:2.5rem;font-weight:800}
+.score-banner .sb-max{font-size:1.5rem;opacity:.7}
+.score-banner .sb-msg{margin-top:6px;font-size:.95rem;opacity:.9}
 .result-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0}
 .result-item:last-child{border-bottom:none}
 .ri-icon{font-size:1.2rem;width:28px;flex-shrink:0;text-align:center}
@@ -151,25 +156,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
     <div class="results-panel" id="resultsPanel"></div>
   </div>
 
-  <div id="completionScreen" class="hidden">
-    <div class="completion-screen" style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.07)">
-      <div class="completion-badge">🏆</div>
-      <h2>Harjoitus suoritettu!</h2>
-      <div class="score-display" id="finalScore">0 <span class="s-max">/ 12</span></div>
-      <p id="finalFeedback" style="color:#555;max-width:500px;margin:0 auto 20px"></p>
-      <button class="btn btn-secondary" onclick="document.getElementById('completionScreen').classList.add('hidden');document.getElementById('mainArea').classList.remove('hidden');resetAll()" style="margin-bottom:20px">🔄 Yritä uudelleen</button>
-      <div class="nav-footer">
-        <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
-        <div class="next-exercise">
-          <span class="next-label">Seuraava harjoitus:</span>
-          <a href="../harjoitus-2-tyosopimus-sopimusvertailu/index.html" class="btn-next">
-            📝 Työsopimus ja sopimusvertailu →
-            <small>Vertaile kolmea sopimustyyppiä</small>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="completionScreen" class="hidden" style="display:none!important"></div>
 </div>
 
 <script>
@@ -231,9 +218,11 @@ function renderZones() {
         document.getElementById('cnt-' + zone).textContent = cnt.length;
         cnt.forEach(c => {
             const d = document.createElement('div');
-            d.className = 'drag-card placed-' + zone;
-            d.innerHTML = `<span class="c-icon">${c.icon}</span><span class="c-text">${c.text}</span>`;
-            d.addEventListener('click', () => returnCard(c.id));
+            const isCorrect = checked && c.correct === zone;
+            const isWrong = checked && c.correct !== zone;
+            d.className = 'drag-card placed-' + zone + (isCorrect ? ' correct-card' : isWrong ? ' wrong-card' : '');
+            d.innerHTML = `<span class="c-icon">${c.icon}</span><span class="c-text">${c.text}</span><span class="result-badge">${isCorrect ? '✓' : isWrong ? '✗' : ''}</span>`;
+            if (!checked) d.addEventListener('click', () => returnCard(c.id));
             el.appendChild(d);
         });
     });
@@ -289,18 +278,31 @@ function checkAnswers() {
           </div>
         </div>`;
     });
+    const msgs = ['Harjoittele lisää! Lue selitykset ja yritä uudelleen. 💪', 'Hyvä alku! Muutama epäselvyys vielä — katso selitykset.', 'Hyvin menee! Melkein täydellistä! 🌟', 'Loistava suoritus! Olet lakiekspertti! 🏆'];
+    const feedbackMsg = msgs[score <= 4 ? 0 : score <= 8 ? 1 : score <= 11 ? 2 : 3];
+    html += `<div class="score-banner">
+      <div class="sb-num">${score} <span class="sb-max">/ 12</span></div>
+      <div class="sb-msg">${feedbackMsg}</div>
+    </div>
+    <div class="btn-row" style="margin-top:16px">
+      <button class="btn btn-secondary" onclick="resetAll()">🔄 Aloita uudelleen</button>
+    </div>
+    <div class="nav-footer" style="margin-top:16px">
+      <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
+      <div class="next-exercise">
+        <span class="next-label">Seuraava harjoitus:</span>
+        <a href="../harjoitus-2-tyosopimus-sopimusvertailu/index.html" class="btn-next">
+          📝 Työsopimus ja sopimusvertailu →
+          <small>Vertaile kolmea sopimustyyppiä</small>
+        </a>
+      </div>
+    </div>`;
     resultsPanel.innerHTML = html;
     resultsPanel.style.display = 'block';
-    setTimeout(() => {
-        document.getElementById('mainArea').classList.add('hidden');
-        document.getElementById('completionScreen').classList.remove('hidden');
-        const pct = Math.round((score / 12) * 100);
-        document.getElementById('finalScore').innerHTML = score + ' <span class="s-max">/ 12</span>';
-        const msgs = ['Harjoittele lisää! Lue selitykset ja yritä uudelleen. 💪', 'Hyvä alku! Muutama epäselvyys vielä — katso selitykset.', 'Hyvin menee! Melkein täydellistä! 🌟', 'Loistava suoritus! Olet lakiekspertti! 🏆'];
-        document.getElementById('finalFeedback').textContent = msgs[score <= 4 ? 0 : score <= 8 ? 1 : score <= 11 ? 2 : 3];
-        SCORM.complete(pct, 100);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 2000);
+    renderZones();
+    const pct = Math.round((score / 12) * 100);
+    SCORM.complete(pct, 100);
+    resultsPanel.scrollIntoView({ behavior: 'smooth' });
 }
 
 function resetAll() {

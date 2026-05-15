@@ -213,7 +213,26 @@ a{color:inherit;text-decoration:none}
 .finish-score .big{font-size:3.5rem;font-weight:900;line-height:1}
 .finish-score p{margin-top:8px;font-size:1rem;opacity:.92}
 
-/* ── Responsive ───────────────────────────────────────────────── */
+/* ── Analysis grid (final screen) ─────────────────────────────── */
+.analysis-section-title{font-size:.82rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#11998e;text-align:center;padding:10px 0 6px;margin-bottom:10px;border-bottom:2px solid #e0f0ea}
+.analysis-contract-label{text-align:center;font-size:.9rem;font-weight:800;color:#1a1a2e;padding:10px 12px;background:#f0fff8;border-radius:10px;margin-bottom:12px}
+.analysis-contract-label.c2{background:#fff8e6}.analysis-contract-label.c3{background:#edf1ff}
+.analysis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+@media(max-width:700px){.analysis-grid{grid-template-columns:1fr}}
+.analysis-card{border-radius:12px;padding:16px}
+.analysis-card.opps{background:#edfdf5;border:2px solid #6ee7b7}
+.analysis-card.risks{background:#fff9e6;border:2px solid #f0d080}
+.analysis-card.risks.c2-risk{background:#fef2f2;border-color:#fca5a5}
+.analysis-card h4{font-size:.85rem;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.analysis-card.opps h4{color:#065f46}.analysis-card.risks h4{color:#92400e}.analysis-card.risks.c2-risk h4{color:#991b1b}
+.analysis-item{display:flex;gap:8px;padding:5px 0;font-size:.83rem;line-height:1.4;border-bottom:1px solid rgba(0,0,0,.05)}
+.analysis-item:last-child{border-bottom:none}
+.analysis-item .ai-ico{flex-shrink:0;width:16px;text-align:center}
+
+/* ── Inline next button ───────────────────────────────────────── */
+.inline-next-wrap{display:none;text-align:right;margin:14px 0 4px}
+.inline-next-wrap .btn-primary{display:inline-flex}
+
 @media(max-width:600px){
   .contract-paper{padding:20px 18px}
   .contract-header-row{flex-direction:column;align-items:center}
@@ -261,13 +280,19 @@ a{color:inherit;text-decoration:none}
           <div class="q-dot" id="s1d2"></div>
           <div class="q-dot" id="s1d3"></div>
           <div class="q-dot" id="s1d4"></div>
-          <span style="margin-left:6px;font-size:.78rem;color:#888" id="s1qLabel">Kysymys 1 / 5</span>
-          <span class="score-badge" id="s1score">0 / 5</span>
+          <div class="q-dot" id="s1d5"></div>
+          <div class="q-dot" id="s1d6"></div>
+          <span style="margin-left:6px;font-size:.78rem;color:#888" id="s1qLabel">Kysymys 1 / 7</span>
+          <span class="score-badge" id="s1score">0 / 7</span>
         </div>
       <div class="q-num" id="s1qNum">Kysymys 1</div>
       <div class="q-text" id="s1qText">Milloin palkka maksetaan?</div>
       <div class="choices" id="s1choices"></div>
       <div class="feedback-box" id="s1fb"></div>
+    </div>
+
+    <div class="inline-next-wrap" id="s1nextWrap">
+      <button class="btn btn-primary" onclick="goToScreen(2)">Seuraava sopimus →</button>
     </div>
 
     <!-- Contract 1 -->
@@ -366,13 +391,19 @@ a{color:inherit;text-decoration:none}
         <div class="q-dot" id="s2d2"></div>
         <div class="q-dot" id="s2d3"></div>
         <div class="q-dot" id="s2d4"></div>
-        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s2qLabel">Kysymys 1 / 5</span>
-        <span class="score-badge" style="background:linear-gradient(135deg,#f0b429,#f7d070);color:#7a4f00" id="s2score">0 / 5</span>
+        <div class="q-dot" id="s2d5"></div>
+        <div class="q-dot" id="s2d6"></div>
+        <span style="margin-left:6px;font-size:.78rem;color:#888" id="s2qLabel">Kysymys 1 / 7</span>
+        <span class="score-badge" style="background:linear-gradient(135deg,#f0b429,#f7d070);color:#7a4f00" id="s2score">0 / 7</span>
       </div>
       <div class="q-num" id="s2qNum" style="color:#c89010">Kysymys 1</div>
       <div class="q-text" id="s2qText"></div>
       <div class="choices" id="s2choices"></div>
       <div class="feedback-box" id="s2fb"></div>
+    </div>
+
+    <div class="inline-next-wrap" id="s2nextWrap">
+      <button class="btn btn-primary" onclick="goToScreen(3)">Seuraava sopimus →</button>
     </div>
 
     <!-- Contract 2 -->
@@ -485,13 +516,19 @@ a{color:inherit;text-decoration:none}
           <div class="q-dot" id="s3d2"></div>
           <div class="q-dot" id="s3d3"></div>
           <div class="q-dot" id="s3d4"></div>
-          <span style="margin-left:6px;font-size:.78rem;color:#888" id="s3qLabel">Kysymys 1 / 5</span>
-          <span class="score-badge" style="background:linear-gradient(135deg,#5c7cfa,#a8bff7);color:#fff" id="s3score">0 / 5</span>
+          <div class="q-dot" id="s3d5"></div>
+          <div class="q-dot" id="s3d6"></div>
+          <span style="margin-left:6px;font-size:.78rem;color:#888" id="s3qLabel">Kysymys 1 / 7</span>
+          <span class="score-badge" style="background:linear-gradient(135deg,#5c7cfa,#a8bff7);color:#fff" id="s3score">0 / 7</span>
         </div>
       <div class="q-num" id="s3qNum" style="color:#5c7cfa">Kysymys 1</div>
       <div class="q-text" id="s3qText"></div>
       <div class="choices" id="s3choices"></div>
       <div class="feedback-box" id="s3fb"></div>
+    </div>
+
+    <div class="inline-next-wrap" id="s3nextWrap">
+      <button class="btn btn-primary" onclick="goToScreen(4)">Loppuanalyysi →</button>
     </div>
 
     <!-- Contract 3 -->
@@ -608,56 +645,71 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
 
-    <!-- Risk analysis -->
+    <!-- 3-contract analysis -->
     <div class="final-card">
-      <h2>⚠️ Toimeksiantosopimuksen riskit — klikkaa lausekkeita sopimuksesta</h2>
-      <p style="font-size:.88rem;color:#666;margin-bottom:16px">Toimeksiantosopimus (kevytyrittäjyys) voi sopia tilanteeseen, mutta nämä riskit on hyvä tiedostaa:</p>
+      <h2>📋 Sopimusten vertailu: Mahdollisuudet ja Riskit</h2>
 
-      <ul class="risk-list">
-        <li class="risk-item">
-          <span class="risk-icon">🚫</span>
-          <div class="risk-text">
-            <strong>Ei työsuhdetta — ei TES-suojaa</strong>
-            <span>Et saa kaupan alan TES:n mukaisia etuja (sairausajan palkkaa työnantajalta, vuosilomaa, ylityökorotuksia) automaattisesti.</span>
-          </div>
-        </li>
-        <li class="risk-item">
-          <span class="risk-icon">💰</span>
-          <div class="risk-text">
-            <strong>Verot ja YEL maksat itse</strong>
-            <span>Bruttotulostasi vähennetään ennakkovero + yrittäjän eläkemaksu. 600 €/kk voi olla nettona huomattavasti vähemmän.</span>
-          </div>
-        </li>
-        <li class="risk-item">
-          <span class="risk-icon">📉</span>
-          <div class="risk-text">
-            <strong>Pohjapalkkio voi puolittua (§ 4)</strong>
-            <span>Jos peruutusprosentti ylittää 10 %, pohjapalkkiosta vähennetään 50 % — vaikka peruutukset eivät olisi sinun vikasi.</span>
-          </div>
-        </li>
-        <li class="risk-item">
-          <span class="risk-icon">⚖️</span>
-          <div class="risk-text">
-            <strong>20 000 € sopimussakko (§ 5)</strong>
-            <span>Yhteydenotto asiakkaisiin 24 kuukauden sisällä johtaa erittäin suureen sopimussakkoon. Tämä on poikkeuksellisen kova ehto.</span>
-          </div>
-        </li>
-        <li class="risk-item">
-          <span class="risk-icon">🔚</span>
-          <div class="risk-text">
-            <strong>Sopimus voidaan päättää heti (§ 6)</strong>
-            <span>Toimeksiantaja voi lopettaa sopimuksen välittömästi ilman korvauksia. Työsopimuksessa on aina irtisanomisaika.</span>
-          </div>
-        </li>
-      </ul>
+      <!-- Contract labels row -->
+      <div class="analysis-grid" style="margin-bottom:4px">
+        <div class="analysis-contract-label">📄 Kesätyösopimus<br><span style="font-weight:400;font-size:.8rem;color:#555">Saariston Ruokatori</span></div>
+        <div class="analysis-contract-label c2">📑 Toimeksiantosopimus<br><span style="font-weight:400;font-size:.8rem;color:#555">DigiSales Nordic</span></div>
+        <div class="analysis-contract-label c3">📝 Osa-aikainen työsopimus<br><span style="font-weight:400;font-size:.8rem;color:#555">Pohjola Market</span></div>
+      </div>
 
-      <h3 style="margin-top:22px">✅ Milloin kevytyrittäjyys voi sopia?</h3>
-      <ul class="tes-list">
-        <li class="tes-item"><span class="tes-check">✓</span>Haluat kokeilla myyntityötä sivutulojen lähteenä muun työn ohessa</li>
-        <li class="tes-item"><span class="tes-check">✓</span>Sinulla on jo vakituinen työ tai opiskelu, joka kattaa sosiaaliturvan</li>
-        <li class="tes-item"><span class="tes-check">✓</span>Provisiopalkka kiinnostaa ja sinulla on hyvä myyntimotivaatio</li>
-        <li class="tes-item"><span class="tes-check">✓</span>Ymmärrät ja hyväksyt sopimuksen ehdot tietoisesti</li>
-      </ul>
+      <!-- Row 1: Mahdollisuudet -->
+      <div class="analysis-section-title">✅ Mahdollisuudet</div>
+      <div class="analysis-grid">
+        <div class="analysis-card opps">
+          <h4>✅ Mahdollisuudet</h4>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>TES-suoja: sairausajan palkka, vuosiloma ja ylityökorotukset</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Selkeä sopimuskausi (kesä) — helppo ennakoida</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Perehdytys järjestetään uudelle työntekijälle</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Kertynyt loma maksetaan lomakorvauksena työsuhteen päättyessä</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Hyvä tapa saada ensimmäistä työkokemusta</span></div>
+        </div>
+        <div class="analysis-card opps">
+          <h4>✅ Mahdollisuudet</h4>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Mahdollisuus provisiotuloihin myyntiosaamisen kasvaessa</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Joustava muoto — sopii sivutuloihin tai opiskelun oheen</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Yrittäjyyskokemus ja myyntitaito kartuttavat CV:tä</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Nopea aloitus ilman pitkiä rekrytointiprosesseja</span></div>
+        </div>
+        <div class="analysis-card opps">
+          <h4>✅ Mahdollisuudet</h4>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Vakituinen sopimus — jatkuvuus ja turvallisuus</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>20 h/viikko taattu minimityöaika</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>TES-lisät: ilta-, lauantai- ja sunnuntailisät</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Irtisanomissuoja koeajan jälkeen — työnantaja tarvitsee laillisen syyn</span></div>
+          <div class="analysis-item"><span class="ai-ico">✓</span><span>Sairausajan palkka ja vuosiloma lain mukaan</span></div>
+        </div>
+      </div>
+
+      <!-- Row 2: Riskit -->
+      <div class="analysis-section-title">⚠️ Riskit</div>
+      <div class="analysis-grid">
+        <div class="analysis-card risks">
+          <h4>⚠️ Riskit</h4>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>Sopimus päättyy automaattisesti — ei jatkuvuutta ilman uutta sopimusta</span></div>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>Työvuorot sovitaan viikoittain — tuntimäärä voi vaihdella</span></div>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>Vain kuukauden koeaika — lyhyt harkinta-aika molemmille</span></div>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>Kesäsopimus ei rakenna pitkää työsuhdehistoriaa</span></div>
+        </div>
+        <div class="analysis-card risks c2-risk">
+          <h4>⚠️ Riskit</h4>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Ei TES-suojaa — ei automaattista sairausajan palkkaa, vuosilomaa eikä ylityökorotuksia</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Verot ja YEL maksat itse — nettotulo voi olla huomattavasti pienempi kuin mainostettu</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Pohjapalkkio voi puolittua peruutusprosentin ylittäessä 10 % (§ 4)</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>20 000 € sopimussakko asiakaskontakteista 24 kk sisällä (§ 5)</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Sopimus voidaan päättää välittömästi ilman korvauksia (§ 6)</span></div>
+        </div>
+        <div class="analysis-card risks">
+          <h4>⚠️ Riskit</h4>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>4 kuukauden koeaika — pidempi epävarmuusjakso kuin kesätyössä</span></div>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>Työvuorot annetaan vain 2 viikkoa etukäteen — muun elämän suunnittelu haasteellista</span></div>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>Osa-aikainen sopimus — tulot voivat jäädä pieniksi ilman lisiä</span></div>
+          <div class="analysis-item"><span class="ai-ico">⚠</span><span>Työnantajalla oikeus siirtää muihin tehtäviin toimipisteen sisällä</span></div>
+        </div>
+      </div>
     </div>
 
     <!-- Comparison table -->
@@ -761,6 +813,18 @@ const quizData = [
       choices:['Loma menetetään kokonaan','Kertynyt loma maksetaan lomakorvauksena','Loma on pakko pitää ennen työsuhteen loppua'],
       correct:1,
       expl:'§7 mukaan kertynyt vuosiloma maksetaan lomakorvauksena työsuhteen päättyessä.'
+    },
+    {
+      q:'Kuinka monta tuntia viikossa voi tehdä enintään töitä tämän sopimuksen mukaan?',
+      choices:['25 h/viikko','37,5 h/viikko','45 h/viikko'],
+      correct:1,
+      expl:'§4 mukaan säännöllinen viikkotyöaika on enintään 37,5 h/viikko.'
+    },
+    {
+      q:'Milloin sopimus astuu voimaan?',
+      choices:['1.5.2025','1.6.2025','1.7.2025'],
+      correct:1,
+      expl:'§1 mukaan sopimus on voimassa 1.6.–31.8.2025, eli se alkaa 1.6.2025.'
     }
   ],
   // Screen 2 — Toimeksiantosopimus
@@ -794,6 +858,18 @@ const quizData = [
       choices:['Toimeksiantaja','Toimeksisaaja itse','Valtio maksaa ne automaattisesti'],
       correct:1,
       expl:'§3 mukaan toimeksisaaja vastaa itse veroista, YEL-maksuista ja sosiaalivakuutusmaksuista.'
+    },
+    {
+      q:'Kuinka kauan kilpailukielto on voimassa sopimuksen päättymisen jälkeen?',
+      choices:['6 kuukautta','12 kuukautta','24 kuukautta'],
+      correct:1,
+      expl:'§5 mukaan toimeksisaajalla on 12 kuukauden kilpailukielto toimeksiannon päättymisen jälkeen samalla toimialalla.'
+    },
+    {
+      q:'Milloin pohjapalkkio maksetaan?',
+      choices:['Automaattisesti aina','Vain jos viikkotavoite täyttyy jokaisella viikolla','Kerran vuodessa bonuksena'],
+      correct:1,
+      expl:'§3 mukaan pohjapalkkio 600 €/kk maksetaan vain, jos viikkotavoite (§2) täyttyy jokaisella viikolla.'
     }
   ],
   // Screen 3 — Osa-aikainen työsopimus
@@ -827,6 +903,18 @@ const quizData = [
       choices:['Viimeistään samana aamuna','Vähintään 2 viikkoa etukäteen','Vain kerran kuukaudessa'],
       correct:1,
       expl:'§4 mukaan työvuorot sovitaan työvuorolistalla vähintään 2 viikkoa etukäteen.'
+    },
+    {
+      q:'Milloin minimityöaika (20 h/vk) voi jäädä toteutumatta?',
+      choices:['Työnantajan niin päättäessä','Kun työntekijä itse pyytää poikkeusta','Sesongin hiljaisina aikoina automaattisesti'],
+      correct:1,
+      expl:'§4 mukaan 20 h/viikko taataan, ellei työntekijä itse pyydä poikkeusta. Työnantaja ei voi yksipuolisesti alittaa tätä.'
+    },
+    {
+      q:'Onko työnantajalla oikeus siirtää sinut muihin tehtäviin?',
+      choices:['Ei — tehtävänkuva on kiinteä','Kyllä, toimipisteen sisällä muihin tehtäviin','Vain pysyvällä sopimuksen muutoksella'],
+      correct:1,
+      expl:'§2 mukaan työnantajalla on oikeus siirtää työntekijä toimipisteen sisällä muihin tehtäviin tarpeen niin vaatiessa.'
     }
   ]
 ];
@@ -930,6 +1018,7 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
   } else {
     setTimeout(() => {
       document.getElementById('s' + screenNum + 'next').disabled = false;
+      document.getElementById('s' + screenNum + 'nextWrap').style.display = 'block';
       updateProgress();
     }, FEEDBACK_DISPLAY_DURATION_MS);
   }
@@ -978,9 +1067,9 @@ function showFinalScreen() {
   document.getElementById('fs3').textContent = state.scores[2] + '/' + QUESTIONS_PER_SCREEN[2];
 
   let msg = '';
-  if (total >= 13) msg = '🏆 Erinomainen tulos! Tunnet sopimukset hyvin.';
-  else if (total >= 10) msg = '👍 Hyvä tulos! Käy läpi virheelliset vastaukset.';
-  else if (total >= 7) msg = '📚 Kohtuullinen tulos. Lue sopimusten ehdot uudelleen.';
+  if (total >= 18) msg = '🏆 Erinomainen tulos! Tunnet sopimukset hyvin.';
+  else if (total >= 14) msg = '👍 Hyvä tulos! Käy läpi virheelliset vastaukset.';
+  else if (total >= 10) msg = '📚 Kohtuullinen tulos. Lue sopimusten ehdot uudelleen.';
   else msg = '🔄 Harjoittele lisää — sopimustuntemus on tärkeä taito!';
   document.getElementById('finalScoreMsg').textContent = msg;
 

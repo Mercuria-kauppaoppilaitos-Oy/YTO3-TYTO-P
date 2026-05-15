@@ -62,8 +62,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
 .day-head{text-align:center}
 .day-head span{display:block;font-size:.78rem;font-weight:600;color:#64748b;margin-top:3px}
 .time-label,.slot{border-bottom:1px solid var(--line)}
-.time-label{padding:0 10px;height:24px;font-size:.74rem;color:#64748b;background:#fbfdff;display:flex;align-items:flex-start;justify-content:flex-end;position:sticky;left:0;z-index:1}
-.slot{height:24px;border-left:1px solid var(--line);background:#fff;cursor:crosshair;transition:background .12s ease;position:relative}
+.time-label{padding:0 10px;height:24px;font-size:.74rem;color:#64748b;background:#fbfdff;display:flex;align-items:flex-start;justify-content:flex-end;position:sticky;left:0;z-index:2;user-select:none}
+.slot{height:24px;border-left:1px solid var(--line);background:#fff;cursor:crosshair;transition:background .12s ease;position:relative;user-select:none}
 .slot:hover{background:#f8fbff}
 .slot.selected-range{background:rgba(14,165,233,.18)!important}
 .slot.study{background:var(--study-soft)}
@@ -73,6 +73,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
 .slot[data-bordered="study"]{box-shadow:inset 4px 0 0 var(--study)}
 .slot[data-bordered="work"]{box-shadow:inset 4px 0 0 var(--work)}
 .slot-label{position:absolute;left:10px;top:3px;font-size:.72rem;font-weight:800;letter-spacing:.02em}
+.slot-delete-btn{position:absolute;right:4px;top:3px;border:none;background:rgba(239,68,68,.85);color:#fff;border-radius:50%;width:18px;height:18px;font-size:.68rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;padding:0;line-height:1;font-weight:700}
+.slot-delete-btn:hover{background:#dc2626}
+.day-total-row{display:none}
 .slot.study .slot-label{color:var(--study)}
 .slot.work .slot-label{color:var(--work)}
 .day-total-row{display:grid;grid-template-columns:repeat(7,minmax(135px,1fr));gap:12px;margin:16px 0 6px 92px;min-width:1010px}
@@ -155,7 +158,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
         <div class="legend-item"><span class="legend-swatch legend-work"></span>Työvuoro</div>
         <div class="legend-item"><span class="legend-swatch legend-select"></span>Valittava alue</div>
       </div>
-      <div class="helper-line">Vinkki: voit poistaa merkinnän klikkaamalla sen rivin poista-painiketta päivän listassa.</div>
+      <div class="helper-line">Voit poistaa merkinnän klikkaamalla sitä kalenterissa.</div>
     </div>
 
 
@@ -206,13 +209,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
       <p>Laskenta huomioi automaattisesti työvuoroihin osuvat ilta- ja viikonloppulisät tämän tehtävän mallissa seuraavasti: iltalisä klo 18–22 <strong>+1,33 €/h</strong>, lauantailisä <strong>+1,33 €/h</strong> ja sunnuntaityö <strong>+100 % perustuntipalkasta</strong>. Sunnuntain iltalisä lisätään sunnuntaikorotuksen päälle.</p>
       <div class="field">
         <label for="hourlyRate">Syötä TES:n mukainen tuntipalkka (€ / h)</label>
-        <input id="hourlyRate" type="number" min="0" step="0.01" placeholder="Esim. 11,96">
-        <small>Vinkki: vuoden 2023–2025 taulukossa myyjän 1. vuoden tuntipalkka oli esimerkiksi pääkaupunkiseudulla 11,96 €/h ja muualla Suomessa 11,49 €/h.</small>
-      </div>
-      <div class="field">
-        <label for="reflection">Pohdi lyhyesti</label>
-        <input id="reflection" type="text" placeholder="Mitä huomaat viikkosi kuormasta ja palkasta?">
-        <small>Tavoitteena on huomata, miten työmäärä, opiskeluaika ja ansiot vaikuttavat arkeesi.</small>
+        <input id="hourlyRate" type="number" min="0" step="0.01" placeholder="Esim. 13,50">
       </div>
     </div>
 
@@ -224,7 +221,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
       <div class="result-row"><span>Sunnuntaikorotus / viikko</span><span id="sundayPayWeek">0,00 €</span></div>
       <div class="result-row"><span><strong>Palkka työvuoroista viikossa</strong></span><strong id="weeklyPay">0,00 €</strong></div>
       <div class="result-row"><span><strong>Palkka työvuoroista kuukaudessa</strong></span><strong id="monthlyPay">0,00 €</strong></div>
-      <div class="helper-line">Kuukausipalkka on arvio, jossa saman viikon oletetaan toistuvan koko kuukauden ajan.</div>
+      <div class="helper-line">Kuukausipalkka on laskennallinen arvio, jossa oletetaan, että työvuorot toistuvat samanlaisina kuukauden ajan joka viikko.</div>
     </div>
   </div>
 
@@ -292,7 +289,6 @@ const blocksGridEl = document.getElementById('blocksGrid');
 const modalEl = document.getElementById('typeModal');
 const modalTextEl = document.getElementById('modalText');
 const hourlyRateEl = document.getElementById('hourlyRate');
-const reflectionEl = document.getElementById('reflection');
 
 function fmtHours(hours){
   return (Math.round(hours * 10) / 10).toLocaleString('fi-FI', { minimumFractionDigits: hours % 1 === 0 ? 0 : 1, maximumFractionDigits: 1 }) + ' h';
@@ -339,6 +335,9 @@ function createCalendar(){
       cell.dataset.slot = slot;
       cell.addEventListener('mousedown', startSelection);
       cell.addEventListener('mouseenter', updateSelection);
+      cell.addEventListener('click', e => {
+        if (cell.dataset.entryId) showDeleteOnEntry(cell.dataset.entryId);
+      });
       calendarEl.appendChild(cell);
     });
   }
@@ -427,6 +426,18 @@ function removeEntry(entryId){
     entries.splice(index, 1);
     renderEverything();
   }
+}
+
+function showDeleteOnEntry(entryId){
+  document.querySelectorAll('.slot-delete-btn').forEach(el => el.remove());
+  const firstSlot = document.querySelector(`.slot[data-entry-id="${entryId}"][data-rounded-top="true"]`);
+  if (!firstSlot) return;
+  const btn = document.createElement('button');
+  btn.className = 'slot-delete-btn';
+  btn.title = 'Poista merkintä';
+  btn.textContent = '✕';
+  btn.addEventListener('click', e => { e.stopPropagation(); removeEntry(entryId); });
+  firstSlot.appendChild(btn);
 }
 
 function renderCalendarEntries(){
@@ -573,8 +584,7 @@ function updateCompletion(){
   const hasStudy = entries.some(entry => entry.type === 'study');
   const hasWork = entries.some(entry => entry.type === 'work');
   const hasRate = (Number(hourlyRateEl.value.replace(',', '.')) || 0) > 0;
-  const hasReflection = reflectionEl.value.trim().length > 5;
-  if (!completed && hasStudy && hasWork && hasRate && hasReflection) {
+  if (!completed && hasStudy && hasWork && hasRate) {
     completed = true;
     document.getElementById('completedBanner').style.display = 'block';
     SCORM.complete();
@@ -595,12 +605,16 @@ document.addEventListener('mouseup', finishSelection);
 document.addEventListener('mouseleave', event => {
   if (event.target === document.documentElement) finishSelection();
 });
+document.addEventListener('click', event => {
+  if (!event.target.closest('.slot[data-entry-id]') && !event.target.closest('.slot-delete-btn')) {
+    document.querySelectorAll('.slot-delete-btn').forEach(el => el.remove());
+  }
+});
 document.getElementById('studyBtn').addEventListener('click', () => addEntry('study'));
 document.getElementById('workBtn').addEventListener('click', () => addEntry('work'));
 document.getElementById('cancelBtn').addEventListener('click', closeModal);
 modalEl.addEventListener('click', event => { if (event.target === modalEl) closeModal(); });
 hourlyRateEl.addEventListener('input', renderEverything);
-reflectionEl.addEventListener('input', updateCompletion);
 
 createCalendar();
 renderEverything();
