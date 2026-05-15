@@ -268,9 +268,21 @@ const gameState = {};
 const scoresData = {1:0,2:0,3:0};
 const completedScenarios = new Set();
 const DEFAULT_EXPLANATION = 'Valitse toimintakortti nähdäksesi perustelun.';
+// Kriittiset päätökset painotetaan korkeammalle, koska ne vaikuttavat välittömään turvallisuuteen.
 const CRITICAL_CHECK_POINTS = 2;
+// Rajataan palautelistat, jotta näkymä pysyy luettavana eri ruutukoissa.
 const MAX_SCENARIO_FEEDBACK_ITEMS = 4;
 const MAX_FINAL_FEEDBACK_ITEMS = 6;
+
+function escapeHtml(value){
+  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[char]));
+}
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -295,7 +307,7 @@ function initGame(n) {
   renderGame(n);
 }
 
-function getStep(n,id){return scenariosData[n].steps.find(s=>s.id===id);}
+function getStep(n,id){return scenariosData[n].steps.find(s=>s.id===id) || null;}
 function getPlacementZone(n,id){
   const p = gameState[n].placements;
   return zones.find(z=>p[z.id].includes(id))?.id || null;
@@ -327,7 +339,8 @@ function moveCardToZone(n,id,zoneId){
   const st = gameState[n];
   st.pool = st.pool.filter(x=>x!==id);
   st.placements[zoneId].push(id);
-  st.explanation = getStep(n,id).why;
+  const step = getStep(n,id);
+  st.explanation = step ? step.why : DEFAULT_EXPLANATION;
 }
 
 function returnToPool(n,id){
@@ -378,7 +391,7 @@ function toggleHint(n){
 }
 
 function feedbackClass(status){
-  return status==='oikein'?'ok':status==='myöhässä'?'late':status==='puuttuu kriittinen toimi'?'missing':'wrong';
+  return status==='oikein'?'ok':status==='myöhässä'?'late':(status==='puuttuu kriittinen toimi'||status==='puuttuu')?'missing':'wrong';
 }
 
 function aggregateFeedbackLists(feedbackEntries){
@@ -391,7 +404,7 @@ function aggregateFeedbackLists(feedbackEntries){
       strengths.push('Tunnistit oikean toimenpiteen, mutta ajoitus myöhästyi.');
       practice.push(v.reason);
     } else if(v.status==='puuttuu kriittinen toimi'){
-      practice.push('Kriittinen turvallisuustoimi puuttuu: ' + v.reason);
+      practice.push(`Kriittinen turvallisuustoimi puuttuu: ${v.reason}`);
     } else {
       practice.push(v.reason);
     }
@@ -401,19 +414,23 @@ function aggregateFeedbackLists(feedbackEntries){
 
 function renderCard(n,id,zoneId=''){
   const st=gameState[n], step=getStep(n,id), selected=st.selected===id;
+  if(!step) return '';
   const zoneClass=zoneId?` in-zone ${zoneId}`:'';
   const zoneMeta = zoneId ? zones.find(z=>z.id===zoneId) : null;
   const placeTxt = zoneMeta ? ` [${zoneMeta.label}]` : '';
-  return `<div class="step-chip${selected?' selected':''}${zoneClass}" draggable="true" tabindex="0" role="button" aria-label="${step.text}${placeTxt}" ondragstart="handleDragStart(event,${n},'${id}')" onkeydown="onCardKeyDown(event,${n},'${id}')" onclick="selectStep(${n},'${id}')">
+  const safeText = escapeHtml(step.text);
+  const safeAria = escapeHtml(step.text + placeTxt);
+  const safeZoneLabel = zoneMeta ? escapeHtml(zoneMeta.label) : '';
+  return `<div class="step-chip${selected?' selected':''}${zoneClass}" draggable="true" tabindex="0" role="button" aria-keyshortcuts="Enter 1 2 3" aria-label="${safeAria}" ondragstart="handleDragStart(event,${n},'${id}')" onkeydown="onCardKeyDown(event,${n},'${id}')" onclick="selectStep(${n},'${id}')">
     <div class="chip-num">${step.critical?'!':'•'}</div>
-    <div><div>${step.text}</div><div class="chip-tags">${step.critical?'Kriittinen toimi':'Tukitoimi'}${zoneId?` • ${zones.find(z=>z.id===zoneId).label}`:''}</div></div>
+    <div><div>${safeText}</div><div class="chip-tags">${step.critical?'Kriittinen toimi':'Tukitoimi'}${zoneId?` • ${safeZoneLabel}`:''}</div></div>
   </div>`;
 }
 
 function renderGame(n){
   const data=scenariosData[n], st=gameState[n], container=document.getElementById('game'+n);
   const zonesHtml = zones.map(z=>{
-    const cards = st.placements[z.id].map(id=>`<div onclick="returnToPool(${n},'${id}')" title="Klikkaa palauttaaksesi kortin sekalaariin">${renderCard(n,id,z.id)}</div>`).join('');
+    const cards = st.placements[z.id].map(id=>`<div tabindex="0" role="button" onkeydown="if(event.key==='Enter'){returnToPool(${n},'${id}')}" onclick="returnToPool(${n},'${id}')" title="Klikkaa palauttaaksesi kortin sekalaariin">${renderCard(n,id,z.id)}</div>`).join('');
     return `<div class="zone zone-${z.id}" tabindex="0" onkeydown="onZoneKeyDown(event,${n},'${z.id}')" ondragover="allowDrop(event)" ondrop="onDropZone(event,${n},'${z.id}')" ondragenter="setOver(this,true)" ondragleave="setOver(this,false)">
       <h5>${z.label}<button type="button" class="zone-drop-btn" onclick="placeSelected(${n},'${z.id}')">Sijoita valittu</button></h5>
       <div class="feedback-empty" style="margin-bottom:6px">${z.description}</div>
@@ -426,11 +443,11 @@ function renderGame(n){
   const decisionsHtml = data.criticalChecks.map(c=>{
     const picked=st.checks[c.id];
     const pickedOpt=c.options.find(o=>o.id===picked);
-    const result=picked?`<div class="decision-result">${pickedOpt.correct?'✅ Oikea valinta. ':'⚠️ Tämä valinta ei ole paras. '}${pickedOpt.why}</div>`:'';
+    const result=picked?`<div class="decision-result">${pickedOpt.correct?'✅ Oikea valinta. ':'⚠️ Tämä valinta ei ole paras. '}${escapeHtml(pickedOpt.why)}</div>`:'';
     return `<div class="decision-card">
-      <h5>${c.question}</h5>
+      <h5>${escapeHtml(c.question)}</h5>
       <div class="decision-options">
-        ${c.options.map(o=>`<label><input type="radio" name="${c.id}-${n}" value="${o.id}" ${picked===o.id?'checked':''} onchange="setDecisionAnswer(${n},'${c.id}','${o.id}')"> ${o.text}</label>`).join('')}
+        ${c.options.map(o=>`<label><input type="radio" name="${c.id}-${n}" value="${o.id}" ${picked===o.id?'checked':''} onchange="setDecisionAnswer(${n},'${c.id}','${o.id}')"> ${escapeHtml(o.text)}</label>`).join('')}
       </div>
       ${result}
     </div>`;
@@ -438,15 +455,16 @@ function renderGame(n){
 
   const feedbackRows = Object.entries(st.feedbackByCard).map(([id,obj])=>{
     const step=getStep(n,id);
-    return `<div class="feedback-item ${feedbackClass(obj.status)}"><strong>${step.text}</strong><br>${obj.status.toUpperCase()}: ${obj.reason}</div>`;
+    if(!step) return '';
+    return `<div class="feedback-item ${feedbackClass(obj.status)}"><strong>${escapeHtml(step.text)}</strong><br>${escapeHtml(obj.status.toUpperCase())}: ${escapeHtml(obj.reason)}</div>`;
   }).join('') || '<div class="feedback-empty">Arvioi toimintamalli nähdäksesi korttikohtaisen palautteen.</div>';
 
   container.innerHTML = `<div class="board-layout">
     <div class="board-col">
       <h4>Tilannekuva</h4>
-      <div class="scene-visual">${data.badge}<p>${data.subtitle}</p></div>
-      <div class="scenario-text">${data.story}</div>
-      ${st.showHint?`<div class="hint">💡 ${data.hintText}</div>`:''}
+      <div class="scene-visual">${escapeHtml(data.badge)}<p>${escapeHtml(data.subtitle)}</p></div>
+      <div class="scenario-text">${escapeHtml(data.story)}</div>
+      ${st.showHint?`<div class="hint">💡 ${escapeHtml(data.hintText)}</div>`:''}
       <div class="cards-pool">
         <h5>📋 Toimintakortit (valitse, vedä tai käytä näppäimiä 1/2/3)</h5>
         ${poolHtml}
@@ -459,7 +477,7 @@ function renderGame(n){
     </div>
     <div class="board-col">
       <h4>Miksi tämä on tärkeää?</h4>
-      <div class="feedback-panel" style="margin-bottom:10px">${st.explanation}</div>
+      <div class="feedback-panel" style="margin-bottom:10px">${escapeHtml(st.explanation)}</div>
       <h4>Korttikohtainen palaute</h4>
       <div>${feedbackRows}</div>
       <div class="hint" style="margin-top:10px">Näppäimistö: valitse kortti Enterillä, siirrä vyöhykkeisiin näppäimillä 1/2/3.</div>
@@ -469,8 +487,8 @@ function renderGame(n){
 
 function renderFeedbackLists(strengths, practice, maxItems){
   return `<div class="result-grid">
-    <div><strong>Vahvuudet</strong><ul>${(strengths.slice(0,maxItems).map(s=>`<li>${s}</li>`).join('')||'<li>Tunnistit joitakin oikeita toimintaperiaatteita.</li>')}</ul></div>
-    <div><strong>Harjoittele tätä</strong><ul>${(practice.slice(0,maxItems).map(s=>`<li>${s}</li>`).join('')||'<li>Toimintamalli oli tasapainoinen.</li>')}</ul></div>
+    <div><strong>Vahvuudet</strong><ul>${(strengths.slice(0,maxItems).map(s=>`<li>${escapeHtml(s)}</li>`).join('')||'<li>Tunnistit joitakin oikeita toimintaperiaatteita.</li>')}</ul></div>
+    <div><strong>Harjoittele tätä</strong><ul>${(practice.slice(0,maxItems).map(s=>`<li>${escapeHtml(s)}</li>`).join('')||'<li>Toimintamalli oli tasapainoinen.</li>')}</ul></div>
   </div>`;
 }
 
@@ -483,7 +501,7 @@ function checkScenario(n){
   data.steps.forEach(step=>{
     const placed = getPlacementZone(n,step.id);
     if(!placed){
-      fb[step.id]={status:step.critical?'puuttuu kriittinen toimi':'väärä ajoitus',reason:step.critical?'Kriittinen toimi puuttuu kokonaan toimintamallista.':'Kortti puuttuu vyöhykkeeltä.'};
+      fb[step.id]={status:step.critical?'puuttuu kriittinen toimi':'puuttuu',reason:step.critical?'Kriittinen toimi puuttuu kokonaan toimintamallista.':'Kortti puuttuu vyöhykkeeltä.'};
       return;
     }
     if(step.acceptedGroups.includes(placed)){
