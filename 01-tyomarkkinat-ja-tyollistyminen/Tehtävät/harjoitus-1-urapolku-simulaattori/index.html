@@ -274,17 +274,17 @@ const phases = [
       { id:'vky', icon:'🔑', title:'Vuoropäivystys / avaaja', subtitle:'~15–20 h/vko — vastuullinen aamutyö', salary:'~550–700 €/kk', salaryVal:625, feedback:'Vastuullinen valinta! Vuoropäivystäjänä kannat lisävastuuta jo opiskelun aikana ja opit myymälän avaamisen sekä tärkeät turvallisuusrutiinit.' },
     ],
     ageAdd: 2.5,
-    jobAfter: o => ({kas:'Osa-aikainen kassatyöntekijä',hyl:'Osa-aikainen hyllytysmies/-nainen',asi:'Osa-aikainen asiakaspalvelija',vky:'Osa-aikainen vuoropäivystäjä'}[o.id]||'Osa-aikainen myyjä'),
+    jobAfter: o => ({kas:'Osa-aikainen kassatyöntekijä',hyl:'Osa-aikainen varastotyöntekijä',asi:'Osa-aikainen asiakaspalvelija',vky:'Osa-aikainen vuoropäivystäjä'}[o.id]||'Osa-aikainen myyjä'),
   },
   {
     title: 'Valmistuminen — suuntauksen valinta',
     hint: '3 vuotta myöhemmin — olet valmistunut merkonomiksi! Valitse suuntauksesi.',
-    narrative: name => `Onnittelut, ${name}! 🎓 Kolme vuotta on kulunut ja olet nyt valmistunut merkonomiksi. Sinulla on tutkinto kädessä ja työkokemusta opiskelun ajalta. Nyt on aika valita, mihin suuntaan haluat kehittyä kokoaikaisena työntekijänä.`,
+    narrative: name => `Onnittelut, ${name}! 🎓 Kolme vuotta on kulunut ja olet nyt valmistunut merkonomiksi. Sinulla on tutkinto kädessä ja työkokemusta opiskelun ajalta. <strong>💡 Hyvä tietää:</strong> Ammatillisen tutkinnon suorittaneena saat kaupan alalla suoraan 4. vuoden taulukkopalkan — tämä on konkreettinen tunnustus koulutuksestasi ja merkittävä etu verrattuna ilman tutkintoa töihin siirtyviin! Nyt on aika valita, mihin suuntaan haluat kehittyä kokoaikaisena työntekijänä.`,
     options: [
-      { id:'myo', icon:'🤝', title:'Myynti ja asiakaspalvelu', subtitle:'Myyjä kokoaikaisena, asiakaslähtöinen työ', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Loistava suunta! Myynnissä ja asiakaspalvelussa urasi voi edetä tiimivastaavaksi ja edelleen esihenkilöksi. Sosiaalinen osaaja menestyy tässä tehtävässä hyvin.' },
-      { id:'log', icon:'🚛', title:'Logistiikka ja varastointi', subtitle:'Myymälä- / varastovastaava, tilaukset', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Fiksu valinta! Logistiikkaosaajia tarvitaan kipeästi kaupan alalla, ja alan palkka kehittyy hienosti vastuun kasvaessa. Järjestelmäosaaminen on vahvuutesi.' },
-      { id:'vis', icon:'🎨', title:'Visuaalinen markkinointi', subtitle:'Somistus, esillepano, brändi-ilme', salary:'~2 138–2 280 €/kk (TES A/B)', salaryVal:2200, feedback:'Luova valinta! Visuaalinen markkinointi yhdistää kaupallisen ajattelun ja esteettisen silmän — kysytty ja harvoin korvattavissa oleva taito.' },
-      { id:'digi', icon:'📱', title:'Digitaalinen myynti & verkkokauppa', subtitle:'Verkkokauppa, some-myynti, asiakasviestintä', salary:'~2 200–2 400 €/kk', salaryVal:2300, feedback:'Ajankohtainen valinta! Verkkokauppa kasvaa voimakkaasti ja digiosaajia tarvitaan kaikissa kaupan organisaatioissa. Erotut joukosta tällä osaamisella.' },
+      { id:'myo', icon:'🤝', title:'Myynti ja asiakaspalvelu', subtitle:'Myyjä kokoaikaisena, asiakaslähtöinen työ', salary:'~2 267 €/kk (TES B, 4. vuosi)', salaryVal:2267, feedback:'Loistava suunta! Tutkintosi ansiosta aloitat suoraan 4. vuoden palkkatasolla (TES B ~2 267 €/kk). Myynnissä ja asiakaspalvelussa urasi voi edetä tiimivastaavaksi ja edelleen esihenkilöksi. Sosiaalinen osaaja menestyy tässä tehtävässä hyvin.' },
+      { id:'log', icon:'🚛', title:'Logistiikka ja varastointi', subtitle:'Myymälä- / varastovastaava, tilaukset', salary:'~2 267 €/kk (TES B, 4. vuosi)', salaryVal:2267, feedback:'Fiksu valinta! Tutkintosi ansiosta aloitat suoraan 4. vuoden palkkatasolla (TES B ~2 267 €/kk). Logistiikkaosaajia tarvitaan kipeästi kaupan alalla, ja alan palkka kehittyy hienosti vastuun kasvaessa. Järjestelmäosaaminen on vahvuutesi.' },
+      { id:'vis', icon:'🎨', title:'Visuaalinen markkinointi', subtitle:'Somistus, esillepano, brändi-ilme', salary:'~2 418 €/kk (TES C, 4. vuosi)', salaryVal:2418, feedback:'Luova valinta! Visuaalinen markkinointi on erikoisasiantuntijatyötä, josta maksetaan TES C -tason palkkaa (~2 418 €/kk, 4. vuosi). Yhdistää kaupallisen ajattelun ja esteettisen silmän — kysytty ja harvoin korvattavissa oleva taito.' },
+      { id:'digi', icon:'📱', title:'Digitaalinen myynti & verkkokauppa', subtitle:'Verkkokauppa, some-myynti, asiakasviestintä', salary:'~2 418 €/kk (TES C, 4. vuosi)', salaryVal:2418, feedback:'Ajankohtainen valinta! Digiosaajat sijoittuvat kaupan alalla TES C -tasolle (~2 418 €/kk, 4. vuosi). Verkkokauppa kasvaa voimakkaasti ja digiosaajia tarvitaan kaikissa kaupan organisaatioissa. Erotut joukosta tällä osaamisella.' },
     ],
     ageAdd: 0,
     jobAfter: o => ({myo:'Myyjä (kokoaikainen)',log:'Myymälälogistikko (kokoaikainen)',vis:'Visuaalinen somistaja (kokoaikainen)',digi:'Verkkokaupan myyjä (kokoaikainen)'}[o.id]||'Myyjä (kokoaikainen)'),
@@ -303,17 +303,18 @@ const phases = [
     jobAfter: o => ({vuo:'Vuorovastaava',lah:'Lähiesihenkilö (at-tutkinto)',lii:'Myymäläpäällikön apulainen',tra:'Tradenomi (kaupan ala)'}[o.id]||'Esihenkilö'),
   },
   {
-    title: 'Urahuipun suunnittelu',
-    hint: '3–5 vuotta etenemisen jälkeen — aika valita suuri urasuunta!',
-    narrative: name => `Hienoa, ${name}! Olet nyt vakiinnuttanut asemasi kaupan alalla ja sinulla on selkeä käsitys omista vahvuuksistasi. Nyt on aika tehdä iso uravalinta: mihin suuntaan urasi etenee seuraavan vuosikymmenen aikana?`,
+    title: 'Urasuunnan valinta',
+    hint: '3–5 vuotta etenemisen jälkeen — mihin suuntaan haluat kehittyä?',
+    narrative: name => `Hienoa, ${name}! Olet nyt vakiinnuttanut asemasi kaupan alalla ja sinulla on selkeä käsitys omista vahvuuksistasi. Nyt on aika pohtia isompaa urasuuntaa: haluatko johtamisvastuuta, asiantuntijaroolin, pysyä ja kasvaa nykyisessä tehtävässäsi vai lähteä kokonaan uusille vesille?`,
     options: [
       { id:'mpa', icon:'🏪', title:'Myymäläpäällikkö', subtitle:'Oman myymälän johtaminen, ~5–20 hlö', salary:'~3 000–3 600 €/kk', salaryVal:3300, feedback:'Loistava! Myymäläpäällikkönä olet vastuussa koko myymälän toiminnasta, henkilöstöstä ja tuloksesta. Arvokas johtamiskokemus, joka avaa oven isompiin tehtäviin.' },
-      { id:'apu', icon:'🗺️', title:'Aluepäällikkö (traineena)', subtitle:'Useamman myymälän ohjaus ja kehitys', salary:'~3 500–4 200 €/kk', salaryVal:3850, feedback:'Kunnianhimoinen valinta! Aluepäällikkönä vastaat useamman myymälän liiketuloksesta ja henkilöstöjohtamisesta — laaja-alainen johtamisrooli.' },
+      { id:'ask', icon:'🔬', title:'Asiantuntijatehtävät', subtitle:'Ostaja, kategoriavastaava, HR tai koulutusasiantuntija', salary:'~3 000–3 800 €/kk', salaryVal:3400, feedback:'Erinomainen valinta! Kaupan alan asiantuntijatehtävissä voit hyödyntää syvää osaamistasi esimerkiksi ostotoiminnassa, kategoriajohtamisessa, HR:ssä tai henkilöstön kehittämisessä. Ei esimiesvastuuta, mutta vaikutusmahdollisuudet ovat suuret.' },
       { id:'yri', icon:'🚀', title:'Yrittäjyys kaupan alalla', subtitle:'Oma yritys tai franchising-konsepti', salary:'2 500–5 000+ €/kk (vaihtelee)', salaryVal:3200, feedback:'Rohkea valinta! Yrittäjänä olet oman kohtasi herra. Kaupan ammattitaitosi on erinomainen pohja yritystoiminnalle — esim. franchising antaa tukirakenteen.' },
-      { id:'kat', icon:'🌍', title:'Ketjutehtävä tai kansainvälinen ura', subtitle:'Konsernin keskushallinto tai ulkomaat', salary:'~3 500–4 500 €/kk', salaryVal:4000, feedback:'Inspiroiva valinta! Ketjun keskustehtävä tai kansainvälinen ura avaa aivan uusia näköaloja — osaamisesi on kaupan alalla arvostettua myös kansainvälisesti.' },
+      { id:'kat', icon:'🌍', title:'Ketjuorganisaatio tai kansainväliset tehtävät', subtitle:'Ketjun keskushallinto, kehitystehtävät tai ulkomaat', salary:'~3 500–4 500 €/kk', salaryVal:4000, feedback:'Inspiroiva valinta! Ketjun keskustehtävissä tai kansainvälisessä urassa pääset vaikuttamaan laajemmin kuin yksittäisessä myymälässä. Osaamisesi on kaupan alalla arvostettua myös kansainvälisesti.' },
+      { id:'jat', icon:'⭐', title:'Jatkaminen nykytehtävässä', subtitle:'Kasvetaan ja kehitytään omassa roolissa', salary:'~2 500–3 000 €/kk', salaryVal:2750, feedback:'Erinomainen valinta! Kaikki hyvä ura ei tarkoita etenemistä ylöspäin. Jos viihdyt nykyisessä tehtävässäsi — esimerkiksi myyjänä tai logistikkona — se on aivan yhtä arvokas urapolku. Voit syventää ammattitaitoasi, toimia mentorina uusille työntekijöille ja kehittyä entistä paremmaksi omassa työssäsi.' },
     ],
     ageAdd: 4,
-    jobAfter: o => ({mpa:'Myymäläpäällikkö',apu:'Aluepäällikkö',yri:'Yrittäjä (kaupan ala)',kat:'Kansainvälinen urapolku'}[o.id]||'Johtava asiantuntija'),
+    jobAfter: o => ({mpa:'Myymäläpäällikkö',ask:'Asiantuntija (kaupan ala)',yri:'Yrittäjä (kaupan ala)',kat:'Ketjun tai kansainvälinen asiantuntija',jat:'Kokenut ammattilainen (nykytehtävä)'}[o.id]||'Johtava asiantuntija'),
   },
 ];
 
@@ -608,6 +609,7 @@ function renderSummary(){
 
     <div style="background:linear-gradient(135deg,#f0f2ff,#f7f0ff);border-radius:14px;padding:18px 22px;margin:24px 0;font-size:.9rem;line-height:1.7;color:#444">
       <strong>📌 Muista:</strong> Tämä simulaattori perustuu kaupan alan TES 2025–2028 palkkataulukoihin ja tyypillisiin urapolkuihin.
+      Ammatillisen tutkinnon suorittaneena aloitat kaupan alalla suoraan 4. vuoden taulukkopalkkatasolta — se on merkittävä etu!
       Todelliset palkat vaihtelevat työnantajan, paikkakunnan ja henkilökohtaisen lisän mukaan.
       Kaupan alan ura tarjoaa loistavia etenemismahdollisuuksia — tärkeintä on aloittaa ja oppia jokaisesta tehtävästä!
     </div>
