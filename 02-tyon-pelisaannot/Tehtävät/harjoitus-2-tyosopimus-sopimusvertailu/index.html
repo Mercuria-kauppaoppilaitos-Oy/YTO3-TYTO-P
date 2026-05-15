@@ -223,7 +223,7 @@ a{color:inherit;text-decoration:none}
 
 /* ── Analysis grid (final screen) ─────────────────────────────── */
 .analysis-section-title{font-size:.82rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#11998e;text-align:center;padding:10px 0 6px;margin-bottom:10px;border-bottom:2px solid #e0f0ea}
-.analysis-contract-label{text-align:center;font-size:.9rem;font-weight:800;color:#1a1a2e;padding:10px 12px;background:#f0fff8;border-radius:10px;margin-bottom:12px}
+.analysis-contract-label{text-align:center;font-size:.9rem;font-weight:800;color:#1a1a2e;padding:10px 12px;background:#f0fff8;border-radius:10px;border-bottom-left-radius:0;border-bottom-right-radius:0;margin-bottom:12px;border-bottom:4px solid #16a34a}
 .analysis-contract-label.c2{background:#fff8e6}.analysis-contract-label.c3{background:#edf1ff}
 .analysis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
 @media(max-width:700px){.analysis-grid{grid-template-columns:1fr}}
@@ -231,6 +231,13 @@ a{color:inherit;text-decoration:none}
 .analysis-card.opps{background:#edfdf5;border:2px solid #6ee7b7}
 .analysis-card.risks{background:#fff9e6;border:2px solid #f0d080}
 .analysis-card.risks.c2-risk{background:#fef2f2;border-color:#fca5a5}
+.analysis-grid.contract-columns>div{position:relative}
+.analysis-grid.contract-columns>div:not(:first-child){border-left:3px solid #d9e4de;padding-left:16px}
+.analysis-grid.contract-columns>div:nth-child(1){border-left-color:#16a34a}
+.analysis-grid.contract-columns>div:nth-child(2){border-left-color:#d97706}
+.analysis-grid.contract-columns>div:nth-child(3){border-left-color:#2563eb}
+.analysis-contract-label.c2{border-bottom-color:#d97706}
+.analysis-contract-label.c3{border-bottom-color:#2563eb}
 .analysis-card h4{font-size:.85rem;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .analysis-card.opps h4{color:#065f46}.analysis-card.risks h4{color:#92400e}.analysis-card.risks.c2-risk h4{color:#991b1b}
 .analysis-item{display:flex;gap:8px;padding:5px 0;font-size:.83rem;line-height:1.4;border-bottom:1px solid rgba(0,0,0,.05)}
@@ -659,7 +666,7 @@ a{color:inherit;text-decoration:none}
       <h2>📋 Sopimusten vertailu: Mahdollisuudet ja Riskit</h2>
 
       <!-- Contract labels row -->
-      <div class="analysis-grid" style="margin-bottom:4px">
+      <div class="analysis-grid contract-columns" style="margin-bottom:4px">
         <div class="analysis-contract-label">📄 Kesätyösopimus<br><span style="font-weight:400;font-size:.8rem;color:#555">Saariston Ruokatori</span></div>
         <div class="analysis-contract-label c2">📑 Toimeksiantosopimus<br><span style="font-weight:400;font-size:.8rem;color:#555">DigiSales Nordic</span></div>
         <div class="analysis-contract-label c3">📝 Osa-aikainen työsopimus<br><span style="font-weight:400;font-size:.8rem;color:#555">Pohjola Market</span></div>
@@ -667,7 +674,7 @@ a{color:inherit;text-decoration:none}
 
       <!-- Row 1: Mahdollisuudet -->
       <div class="analysis-section-title">✅ Mahdollisuudet</div>
-      <div class="analysis-grid">
+      <div class="analysis-grid contract-columns">
         <div class="analysis-card opps">
           <h4>✅ Mahdollisuudet</h4>
           <div class="analysis-item"><span class="ai-ico">✓</span><span>TES-suoja: sairausajan palkka, vuosiloma ja ylityökorotukset</span></div>
@@ -695,7 +702,7 @@ a{color:inherit;text-decoration:none}
 
       <!-- Row 2: Riskit -->
       <div class="analysis-section-title">⚠️ Riskit</div>
-      <div class="analysis-grid">
+      <div class="analysis-grid contract-columns">
         <div class="analysis-card risks">
           <h4>⚠️ Riskit</h4>
           <div class="analysis-item"><span class="ai-ico">⚠</span><span>Sopimus päättyy automaattisesti — ei jatkuvuutta ilman uutta sopimusta</span></div>
@@ -705,11 +712,11 @@ a{color:inherit;text-decoration:none}
         </div>
         <div class="analysis-card risks c2-risk">
           <h4>⚠️ Riskit</h4>
-          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Ei TES-suojaa — ei automaattista sairausajan palkkaa, vuosilomaa eikä ylityökorotuksia</span></div>
-          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Verot ja YEL maksat itse — nettotulo voi olla huomattavasti pienempi kuin mainostettu</span></div>
-          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Pohjapalkkio voi puolittua peruutusprosentin ylittäessä 10 % (§ 4)</span></div>
-          <div class="analysis-item"><span class="ai-ico">🚫</span><span>20 000 € sopimussakko asiakaskontakteista 24 kk sisällä (§ 5)</span></div>
-          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Sopimus voidaan päättää välittömästi ilman korvauksia (§ 6)</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Ei automaattista TES-suojaa (jos työ on tosiasiallisesti työsuhde, suoja voi silti kuulua työntekijälle)</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Verot maksat itse, ja YEL-vakuutus voi tulla pakolliseksi työtulon ylittäessä alarajan — nettotulo voi jäädä odotettua pienemmäksi</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Pohjapalkkion puolitus peruutusprosentin perusteella (§ 4) voi olla kohtuuton ehto; huomio: saattaa olla lainvastainen ehto</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>20 000 € sopimussakko asiakaskontakteista 24 kk sisällä (§ 5) voi olla kohtuuton; huomio: saattaa olla lainvastainen ehto</span></div>
+          <div class="analysis-item"><span class="ai-ico">🚫</span><span>Välitön päättäminen ilman korvauksia (§ 6) voi olla ongelmallinen, jos kyse on tosiasiallisesti työsuhteesta; huomio: saattaa olla lainvastainen ehto</span></div>
         </div>
         <div class="analysis-card risks">
           <h4>⚠️ Riskit</h4>
