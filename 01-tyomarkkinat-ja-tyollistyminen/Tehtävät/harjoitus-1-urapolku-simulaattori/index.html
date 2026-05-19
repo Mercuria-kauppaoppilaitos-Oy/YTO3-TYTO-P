@@ -147,6 +147,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 .cd-median-marker:hover .cd-median-tooltip{display:block}
 .cd-median-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(15,12,40,.96);color:#fff;font-size:.7rem;padding:10px 14px;border-radius:10px;width:230px;line-height:1.55;text-align:left;z-index:10;pointer-events:none;white-space:normal;box-shadow:0 4px 18px rgba(0,0,0,.35)}
 .cd-median-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:rgba(15,12,40,.96)}
+.cd-median-label{position:absolute;top:calc(100% + 5px);left:50%;transform:translateX(-50%);font-size:.5rem;color:#ff6b9d;white-space:nowrap;font-weight:700;text-align:center;pointer-events:auto;line-height:1.3}
+.cd-info-icon{display:inline-flex;align-items:center;justify-content:center;width:1.2em;height:1.2em;background:#ff6b9d;color:#fff;border-radius:50%;font-size:.75em;font-weight:900;margin-left:2px;vertical-align:middle;cursor:pointer;font-style:normal}
 .cd-milestone-labels{display:flex;justify-content:space-between;margin-top:4px}
 .cd-milestone-labels span{font-size:.58rem;opacity:.4;color:#fff}
 
@@ -239,6 +241,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
         <div class="cd-milestone" style="left:75%"></div>
         <div class="cd-median-marker" style="left:60.425%">
           <div class="cd-median-tooltip">📊 <strong>Alle 30-v. mediaanitulo: 2 417 €/kk</strong><br><br>25–29-vuotiaiden veronalaisten tulojen mediaani vuonna 2024.<br><br>Mediaani tarkoittaa tuloa, jonka kohdalla puolet saa enemmän ja puolet vähemmän – se kuvaa tyypillistä tulotasoa paremmin kuin keskiarvo, koska suurituloiset eivät voi nostaa sitä ylöspäin.<br><br><em>Lähde: Verohallinto, verovuosi 2024</em></div>
+          <div class="cd-median-label">ALLE 30V MEDIAANI <i class="cd-info-icon">i</i></div>
         </div>
         <div class="cd-bar-track">
           <div class="cd-bar-fill" id="cd-bar-fill" style="width:0%"></div>
@@ -462,7 +465,7 @@ function buildAgeChart(){
     const h = Math.max(Math.round((d.val / maxVal) * CHART_H), 4);
     const hlClass = d.hl ? ' hl' : '';
     const valFmt = d.val >= 1000
-      ? (d.val / 1000).toFixed(1).replace('.',',') + ' k€'
+      ? d.val.toLocaleString('fi-FI') + ' €'
       : d.val + ' €';
     return `<div class="age-bar-group">
       <div class="age-bar-val${hlClass}">${valFmt}</div>
