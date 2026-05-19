@@ -56,32 +56,32 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 /* ── Timeline ──────────────────────── */
 .sim-timeline{margin-top:4px}
 .sim-tl-title{font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#999;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.tl-item{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;animation:fadeIn .4s ease}
+.tl-item{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start;animation:fadeIn .4s ease}
 .tl-dot-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
-.tl-dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin-top:4px}
-.tl-line{width:2px;flex:1;background:#e0e4ff;min-height:24px;margin-top:3px}
-.tl-content{background:#fff;border:1px solid #e8ecff;border-radius:10px;padding:10px 14px;flex:1}
-.tl-content .tl-phase{font-size:.7rem;color:#667eea;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
-.tl-content .tl-role{font-weight:800;font-size:.9rem;color:#1a1a2e;margin-bottom:4px}
-.tl-content .tl-meta{font-size:.78rem;color:#777;display:flex;gap:10px;flex-wrap:wrap}
+.tl-dot{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin-top:4px;box-shadow:0 2px 8px rgba(102,126,234,.35)}
+.tl-line{width:2px;flex:1;background:#e0e4ff;min-height:28px;margin-top:3px}
+.tl-content{background:#fff;border:1px solid #e8ecff;border-radius:14px;padding:14px 18px;flex:1;box-shadow:0 2px 8px rgba(102,126,234,.07)}
+.tl-content .tl-phase{font-size:.7rem;color:#667eea;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.tl-content .tl-role{font-weight:800;font-size:.95rem;color:#1a1a2e;margin-bottom:6px}
+.tl-content .tl-meta{font-size:.8rem;color:#666;display:flex;gap:12px;flex-wrap:wrap}
 
 /* ── Choices sidebar ───────────────── */
-.choices-sidebar{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 24px rgba(102,126,234,.15);border:2px solid #e8ecff;position:sticky;top:16px}
-.sidebar-phase{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:10px;padding:14px 16px;margin-bottom:16px}
-.sidebar-phase .sp-num{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-bottom:3px}
-.sidebar-phase .sp-title{font-size:1rem;font-weight:800;margin-bottom:3px}
-.sidebar-phase .sp-hint{font-size:.8rem;opacity:.82;line-height:1.4}
-.sidebar-choices{display:flex;flex-direction:column;gap:10px}
-.sc-card{border:2px solid #e0e4ff;border-radius:12px;padding:13px 14px;cursor:pointer;transition:all .22s;background:#f7f8ff;display:flex;gap:12px;align-items:flex-start}
-.sc-card:hover{border-color:#667eea;background:#eef0ff;transform:translateX(-3px);box-shadow:0 4px 14px rgba(102,126,234,.18)}
+.choices-sidebar{background:#fff;border-radius:20px;padding:24px;box-shadow:0 6px 32px rgba(102,126,234,.18);border:2px solid #e8ecff;position:sticky;top:16px}
+.sidebar-phase{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:14px;padding:18px 20px;margin-bottom:20px}
+.sidebar-phase .sp-num{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-bottom:4px}
+.sidebar-phase .sp-title{font-size:1.1rem;font-weight:800;margin-bottom:5px}
+.sidebar-phase .sp-hint{font-size:.83rem;opacity:.85;line-height:1.45}
+.sidebar-choices{display:flex;flex-direction:column;gap:12px}
+.sc-card{border:2px solid #e0e4ff;border-radius:16px;padding:16px 18px;cursor:pointer;transition:all .22s;background:#f7f8ff;display:flex;gap:14px;align-items:flex-start}
+.sc-card:hover{border-color:#667eea;background:#eef0ff;transform:translateX(-3px);box-shadow:0 6px 18px rgba(102,126,234,.22)}
 .sc-card.selected{border-color:#667eea;background:linear-gradient(135deg,#edf0ff,#e8eaff);box-shadow:0 0 0 3px rgba(102,126,234,.2)}
-.sc-card .sc-icon-big{font-size:1.7rem;flex-shrink:0;margin-top:2px}
+.sc-card .sc-icon-big{font-size:2.1rem;flex-shrink:0;margin-top:3px}
 .sc-card .sc-body{flex:1;min-width:0}
-.sc-card .sc-title{font-size:.88rem;font-weight:800;color:#1a1a2e;margin-bottom:2px;display:flex;justify-content:space-between;align-items:flex-start;gap:4px}
-.sc-card .sc-check{background:#667eea;color:#fff;border-radius:50%;width:20px;height:20px;display:none;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.sc-card .sc-title{font-size:.92rem;font-weight:800;color:#1a1a2e;margin-bottom:3px;display:flex;justify-content:space-between;align-items:flex-start;gap:4px}
+.sc-card .sc-check{background:#667eea;color:#fff;border-radius:50%;width:22px;height:22px;display:none;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0}
 .sc-card.selected .sc-check{display:flex}
-.sc-card .sc-sub{font-size:.76rem;color:#777;line-height:1.35;margin-bottom:5px}
-.sc-card .sc-wage{font-size:.75rem;color:#667eea;font-weight:700;background:#eef0ff;display:inline-block;padding:2px 8px;border-radius:6px}
+.sc-card .sc-sub{font-size:.8rem;color:#666;line-height:1.4;margin-bottom:7px}
+.sc-card .sc-wage{font-size:.78rem;color:#667eea;font-weight:700;background:linear-gradient(135deg,#eef0ff,#e8eaff);display:inline-block;padding:4px 10px;border-radius:8px;border:1px solid #d0d8ff}
 .sidebar-feedback{background:linear-gradient(135deg,#e8f5e9,#f0fff4);border:1px solid #81c784;border-radius:10px;padding:12px 14px;margin-top:14px;font-size:.84rem;line-height:1.5;color:#2e7d32;display:none;animation:fadeIn .3s ease}
 
 /* ── Buttons ───────────────────────── */
@@ -139,6 +139,33 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
   .form-row{grid-template-columns:1fr}
   .cd-grid{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ── Salary bar milestone & median ─── */
+.cd-salary-bar-wrap{position:relative;padding:5px 0}
+.cd-milestone{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.22);pointer-events:none;z-index:1}
+.cd-median-marker{position:absolute;top:0;bottom:0;width:3px;background:#ff6b9d;border-radius:2px;cursor:pointer;transform:translateX(-50%);z-index:2}
+.cd-median-marker:hover .cd-median-tooltip{display:block}
+.cd-median-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(15,12,40,.96);color:#fff;font-size:.7rem;padding:10px 14px;border-radius:10px;width:230px;line-height:1.55;text-align:left;z-index:10;pointer-events:none;white-space:normal;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.cd-median-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:rgba(15,12,40,.96)}
+.cd-milestone-labels{display:flex;justify-content:space-between;margin-top:4px}
+.cd-milestone-labels span{font-size:.58rem;opacity:.4;color:#fff}
+
+/* ── Age group chart ───────────────── */
+.age-chart{background:#fff;border-radius:16px;padding:24px 22px;margin:24px 0;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.age-chart-title{font-size:.97rem;font-weight:800;color:#1a1a2e;margin-bottom:20px;text-align:center;line-height:1.4}
+.age-chart-bars{display:flex;align-items:flex-end;gap:5px;height:180px;padding:0 2px}
+.age-bar-group{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:0}
+.age-bar-val{font-size:.58rem;color:#667eea;font-weight:700;margin-bottom:3px;text-align:center;white-space:nowrap;line-height:1.2}
+.age-bar-val.hl{color:#cc6600}
+.age-bar{border-radius:5px 5px 0 0;width:100%;min-height:4px;background:linear-gradient(180deg,#764ba2,#667eea);transition:height .8s ease}
+.age-bar.hl{background:linear-gradient(180deg,#ff8c00,#ffd700);box-shadow:0 0 10px rgba(255,165,0,.35)}
+.age-bar-lbl{font-size:.56rem;color:#888;margin-top:5px;text-align:center;line-height:1.35;width:100%}
+.age-bar-lbl.hl{color:#cc6600;font-weight:700}
+.age-chart-note{font-size:.84rem;color:#444;line-height:1.75;margin-top:18px;padding:14px 18px;background:linear-gradient(135deg,#f7f8ff,#f0f2ff);border-radius:12px;border-left:4px solid #667eea}
+.age-chart-source{font-size:.72rem;color:#aaa;margin-top:10px;line-height:1.5}
+.age-chart-source a{color:#667eea;text-decoration:none}
+.age-chart-source a:hover{text-decoration:underline}
+
 </style>
 </head>
 <body>
@@ -203,11 +230,22 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
     </div>
     <div class="cd-progress">
       <div class="cd-prog-row">
-        <span>Palkkakehitys</span>
-        <span id="cd-pct-text">0 %</span>
+        <span>📈 Palkkakehitys</span>
+        <span id="cd-pct-text">—</span>
       </div>
-      <div class="cd-bar-track">
-        <div class="cd-bar-fill" id="cd-bar-fill" style="width:0%"></div>
+      <div class="cd-salary-bar-wrap">
+        <div class="cd-milestone" style="left:25%"></div>
+        <div class="cd-milestone" style="left:50%"></div>
+        <div class="cd-milestone" style="left:75%"></div>
+        <div class="cd-median-marker" style="left:60.425%">
+          <div class="cd-median-tooltip">📊 <strong>Alle 30-v. mediaanitulo: 2 417 €/kk</strong><br><br>25–29-vuotiaiden veronalaisten tulojen mediaani vuonna 2024.<br><br>Mediaani tarkoittaa tuloa, jonka kohdalla puolet saa enemmän ja puolet vähemmän – se kuvaa tyypillistä tulotasoa paremmin kuin keskiarvo, koska suurituloiset eivät voi nostaa sitä ylöspäin.<br><br><em>Lähde: Verohallinto, verovuosi 2024</em></div>
+        </div>
+        <div class="cd-bar-track">
+          <div class="cd-bar-fill" id="cd-bar-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="cd-milestone-labels">
+        <span>0 €</span><span>1 000 €</span><span>2 000 €</span><span>3 000 €</span><span>4 000+ €</span>
       </div>
     </div>
   </div>
@@ -232,15 +270,14 @@ window.addEventListener('load', SCORM.init);
 
 // ── Constants ────────────────────────────────────────────────────
 const TOTAL_PHASES = 5;
-const TARGET_SALARY = 4200; // used for progress bar
+const SAL_MAX = 4000; // used for salary bar scale
 
 // ── State ────────────────────────────────────────────────────────
 const state = {
   phase: 0,
   name: '',
-  age: 18,
-  experience: 'Ei kokemusta',
-  currentAge: 18,
+  age: 16,
+  currentAge: 16,
   currentJob: '—',
   currentSalary: 0,
   workYears: 0,
@@ -346,10 +383,10 @@ function updateCareerDash(){
     state.currentSalary > 0 ? state.currentSalary.toLocaleString('fi-FI') + ' €/kk' : '0 €/kk';
   document.getElementById('cd-age').textContent = fmtAge(state.currentAge) + ' v';
   document.getElementById('cd-exp').textContent = state.workYears > 0 ? fmtAge(state.workYears) + ' v' : '0 v';
-  const pct = Math.min(Math.round((state.currentSalary / TARGET_SALARY) * 100), 100);
+  const pct = Math.min(Math.round((state.currentSalary / SAL_MAX) * 100), 100);
   document.getElementById('cd-bar-fill').style.width = pct + '%';
   document.getElementById('cd-pct-text').textContent =
-    pct + ' % tavoitepalkasta (' + TARGET_SALARY.toLocaleString('fi-FI') + ' €/kk)';
+    state.currentSalary > 0 ? state.currentSalary.toLocaleString('fi-FI') + ' €/kk' : '—';
 }
 
 function renderApp(html){
@@ -387,7 +424,7 @@ function buildTimeline(){
 // ── Salary chart ─────────────────────────────────────────────────
 function buildSalaryChart(){
   if(!state.choices.length) return '';
-  const maxS = Math.max(...state.choices.map(c => c.salaryAfter), TARGET_SALARY);
+  const maxS = Math.max(...state.choices.map(c => c.salaryAfter), SAL_MAX);
   const CHART_H = 80;
   const bars = state.choices.map(c => {
     const h = c.salaryAfter > 0 ? Math.max(Math.round((c.salaryAfter / maxS) * CHART_H), 4) : 4;
@@ -401,6 +438,51 @@ function buildSalaryChart(){
   return `<div class="salary-chart">
     <h4>📈 Palkkakehityksesi simulaatiossa</h4>
     <div class="sc-bars">${bars}</div>
+  </div>`;
+}
+
+// ── Age group median chart ────────────────────────────────────────
+function buildAgeChart(){
+  const data = [
+    {group:'15–17',  val:84},
+    {group:'18–24',  val:962},
+    {group:'25–29',  val:2417, hl:true},
+    {group:'30–34',  val:2957},
+    {group:'35–39',  val:3220},
+    {group:'40–44',  val:3498},
+    {group:'45–49',  val:3703},
+    {group:'50–54',  val:3615},
+    {group:'55–59',  val:3434},
+    {group:'60–64',  val:3176},
+    {group:'65–69',  val:2263},
+  ];
+  const maxVal = Math.max(...data.map(d => d.val));
+  const CHART_H = 160;
+  const bars = data.map(d => {
+    const h = Math.max(Math.round((d.val / maxVal) * CHART_H), 4);
+    const hlClass = d.hl ? ' hl' : '';
+    const valFmt = d.val >= 1000
+      ? (d.val / 1000).toFixed(1).replace('.',',') + ' k€'
+      : d.val + ' €';
+    return `<div class="age-bar-group">
+      <div class="age-bar-val${hlClass}">${valFmt}</div>
+      <div class="age-bar${hlClass}" style="height:${h}px"></div>
+      <div class="age-bar-lbl${hlClass}">${d.group}</div>
+    </div>`;
+  }).join('');
+  return `<div class="age-chart">
+    <div class="age-chart-title">📊 Veronalaisten tulojen mediaani kuukaudessa ikäryhmittäin, 2024</div>
+    <div class="age-chart-bars">${bars}</div>
+    <div class="age-chart-note">
+      Kaaviosta näkyy, että veronalaisten tulojen mediaani nousee selvästi nuorista ikäryhmistä kohti työuran keskivaihetta.
+      <strong>25–29-vuotiaiden mediaanitulo oli noin 2 417 euroa kuukaudessa</strong>, kun esimerkiksi
+      40–49-vuotiailla mediaani oli jo noin 3 500–3 700 euroa kuukaudessa.
+    </div>
+    <div class="age-chart-source">
+      Lähde: Verohallinnon tilastotietokanta, Henkilöasiakkaiden tulovero – Tulot tulonsaajaryhmittäin ja ikäluokittain,
+      taulukko 1.2, verovuosi 2024, tunnusluku 5. desiili / mediaani.<br>
+      <a href="https://vero2.stat.fi/PXWeb/pxweb/fi/Vero/Vero__Henkiloasiakkaiden_tuloverot__lopulliset__tulot/tulot_103.px/table/tableViewLayout1/" target="_blank">vero2.stat.fi</a>
+    </div>
   </div>`;
 }
 
@@ -418,22 +500,13 @@ function renderPhase0(){
     <p class="hint">Täytä tietosi ennen simulaation aloittamista.</p>
     <div class="form-row">
       <div class="form-group">
-        <label for="inp-name">Nimesi</label>
-        <input type="text" id="inp-name" placeholder="Esim. Matti Meikäläinen" maxlength="40">
+        <label for="inp-name">Etunimi</label>
+        <input type="text" id="inp-name" placeholder="Esim. Matti" maxlength="40">
       </div>
       <div class="form-group">
-        <label for="inp-age">Ikäsi (vuosissa)</label>
-        <input type="number" id="inp-age" min="16" max="30" value="18" placeholder="16–30">
+        <label for="inp-age">Ikäsi</label>
+        <input type="number" id="inp-age" min="16" max="30" value="16" placeholder="16–30">
       </div>
-    </div>
-    <div class="form-group">
-      <label for="inp-exp">Kokemusvuosia kaupan alalta</label>
-      <select id="inp-exp">
-        <option value="Ei kokemusta">Ei kokemusta</option>
-        <option value="Alle 1 vuosi">Alle 1 vuosi</option>
-        <option value="1–3 vuotta">1–3 vuotta</option>
-        <option value="Yli 3 vuotta">Yli 3 vuotta</option>
-      </select>
     </div>
     <div class="btn-row">
       <button class="btn btn-primary" onclick="startSim()">Aloita simulaatio ▶</button>
@@ -444,7 +517,6 @@ function renderPhase0(){
 function startSim(){
   const nameEl = document.getElementById('inp-name');
   const ageEl  = document.getElementById('inp-age');
-  const expEl  = document.getElementById('inp-exp');
   const name = nameEl.value.trim();
   const age  = parseInt(ageEl.value, 10);
   if(!name){ nameEl.focus(); nameEl.style.borderColor='#e53935'; return; }
@@ -452,10 +524,8 @@ function startSim(){
   state.name = name;
   state.age  = age;
   state.currentAge = age;
-  state.experience = expEl.value;
+  state.workYears = 0;
   state.currentJob = 'Merkonomiopiskelija';
-  const expMap = {'Ei kokemusta':0,'Alle 1 vuosi':0.5,'1–3 vuotta':2,'Yli 3 vuotta':3.5};
-  state.workYears = expMap[state.experience] || 0;
   state.phase = 1;
   updateProgress();
   updateCareerDash();
@@ -594,10 +664,6 @@ function renderSummary(){
         <div class="sc-val">${fmtAge(state.workYears)}</div>
         <div class="sc-lbl">Työkokemusta (v)</div>
       </div>
-      <div class="stat-card">
-        <div class="sc-val">${Math.min(Math.round((state.currentSalary / TARGET_SALARY) * 100), 100)} %</div>
-        <div class="sc-lbl">Tavoitepalkasta</div>
-      </div>
     </div>
 
     ${buildSalaryChart()}
@@ -612,7 +678,17 @@ function renderSummary(){
       Ammatillisen tutkinnon suorittaneena aloitat kaupan alalla suoraan 4. vuoden taulukkopalkkatasolta — se on merkittävä etu!
       Todelliset palkat vaihtelevat työnantajan, paikkakunnan ja henkilökohtaisen lisän mukaan.
       Kaupan alan ura tarjoaa loistavia etenemismahdollisuuksia — tärkeintä on aloittaa ja oppia jokaisesta tehtävästä!
+      <div style="margin-top:14px;padding:14px 18px;background:rgba(255,107,157,.1);border-radius:12px;border-left:4px solid #ff6b9d">
+        <strong>📊 Tiesithän?</strong> 25–29-vuotiaiden veronalaisten tulojen mediaani oli vuonna 2024 noin <strong>2 417 euroa kuukaudessa</strong> ennen veroja.<br><br>
+        <em>Mediaani</em> tarkoittaa sitä tuloa, jonka kohdalla puolet ikäryhmästä ansaitsee enemmän ja puolet vähemmän.
+        Se kuvaa tyypillistä tulotasoa paremmin kuin keskiarvo, koska suurituloiset henkilöt eivät voi nostaa mediaania ylöspäin —
+        mediaani pysyy "tavallisen ihmisen tulona". Ajattele se niin: jos laitat kaikki 25–29-vuotiaat jonoon tulojen mukaan,
+        mediaani on jonon puolivälin henkilön tulo.<br><br>
+        <small style="color:#888">Lähde: Verohallinnon tilastotietokanta, Henkilöasiakkaiden tulovero – Tulot tulonsaajaryhmittäin ja ikäluokittain, taulukko 1.2, verovuosi 2024, ikäluokka 25–29, tunnusluku 5. desiili / mediaani.</small>
+      </div>
     </div>
+
+    ${buildAgeChart()}
 
     <div class="nav-links">
       <button class="btn btn-secondary" onclick="restartSim()">🔄 Kokeile eri polkua</button>
@@ -624,8 +700,8 @@ function renderSummary(){
 function restartSim(){
   state.phase = 0;
   state.name = '';
-  state.age = 18;
-  state.currentAge = 18;
+  state.age = 16;
+  state.currentAge = 16;
   state.currentJob = '—';
   state.currentSalary = 0;
   state.workYears = 0;
