@@ -332,15 +332,16 @@ const phases = [
   {
     title: 'Lisävastuut tai lisäkoulutus',
     hint: '2 vuotta valmistumisen jälkeen — esihenkilösi tarjoaa etenemismahdollisuuksia.',
-    narrative: name => `Hienoa, ${name}! Kaksi vuotta kokoaikaisia töitä valmistumisen jälkeen on kartuttanut osaamistasi merkittävästi. Esihenkilösi kutsuu sinut kahville ja esittää neljä eri urapolkua. Mikä kuulostaa sinulle sopivimmalta seuraavalta askeleelta?`,
+    narrative: name => `Hienoa, ${name}! Kaksi vuotta kokoaikaisia töitä valmistumisen jälkeen on kartuttanut osaamistasi merkittävästi. Esihenkilösi kutsuu sinut kahville ja esittää useita eri urapolkuja. Mikä kuulostaa sinulle sopivimmalta seuraavalta askeleelta?`,
     options: [
       { id:'vuo', icon:'👑', title:'Vuorovastaava / tiiminvetäjä', subtitle:'Lisävastuut nykyisessä työpaikassa heti', salary:'~2 350–2 550 €/kk', salaryVal:2450, feedback:'Rohkea askel! Vuorovastaavana kehität johtamistaitojasi suoraan käytännössä ja palkkasi nousee samalla kun vastuusi kasvaa.' },
       { id:'lah', icon:'📋', title:'Lähiesihenkilötyön ammattitutkinto', subtitle:'Työn ohessa suoritettava ammattitutkinto', salary:'~2 550–2 750 €/kk tutkinnon jälkeen', salaryVal:2650, feedback:'Viisas investointi! Ammattitutkinto vahvistaa johtamisosaamistasi virallisella tavalla ja avaa oven esihenkilötehtäviin organisaatiossa.' },
       { id:'lii', icon:'📊', title:'Liiketoiminnan ammattitutkinto', subtitle:'Työn ohessa, laaja liike-elämän osaaminen', salary:'~2 550–2 800 €/kk tutkinnon jälkeen', salaryVal:2675, feedback:'Mahtava valinta! Liiketoiminnan tutkinto antaa kokonaiskuvan kaupan liiketoiminnasta ja laajentaa mahdollisuuksiasi myös toimialan ulkopuolelle.' },
       { id:'tra', icon:'🎓', title:'Tradenomi AMK', subtitle:'Kokopäiväopiskelu tai monimuoto-opinnot', salary:'~2 800–3 200 €/kk valmistumisen jälkeen', salaryVal:3000, feedback:'Kunnianhimoinen tavoite! Tradenomitutkinto avaa oven korkeampiin johtotehtäviin, markkinointiin ja strategiseen liikkeenjohtoon.' },
+      { id:'jat', icon:'⭐', title:'Jatkaminen nykytehtävässä', subtitle:'Kasvetaan ja kehitytään omassa roolissa', salary:'~2 300–2 450 €/kk', salaryVal:2375, feedback:'Loistava valinta! Kaikki kasvu ei tarkoita etenemistä ylöspäin. Vakiintumalla omaan rooliisi syvenät ammattitaitoasi, kehität sisäistä osaamistasi ja voit toimia tukena uusille kollegoille. TES-palkkasi kehittyy vuosien karttuessa.' },
     ],
     ageAdd: 2,
-    jobAfter: o => ({vuo:'Vuorovastaava',lah:'Lähiesihenkilö (at-tutkinto)',lii:'Myymäläpäällikön apulainen',tra:'Tradenomi (kaupan ala)'}[o.id]||'Esihenkilö'),
+    jobAfter: o => ({vuo:'Vuorovastaava',lah:'Lähiesihenkilö (at-tutkinto)',lii:'Myymäläpäällikön apulainen',tra:'Tradenomi (kaupan ala)',jat:'Vakiintunut ammattilainen (nykytehtävä)'}[o.id]||'Esihenkilö'),
   },
   {
     title: 'Urasuunnan valinta',
