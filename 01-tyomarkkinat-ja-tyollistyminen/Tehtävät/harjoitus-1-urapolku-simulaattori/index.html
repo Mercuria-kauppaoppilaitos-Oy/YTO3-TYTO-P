@@ -266,7 +266,8 @@ const SCORM = (() => {
   function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;}}
   function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
   function commit(){if(!connected||!api)return;api.LMSCommit('');}
-  function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
+  function finish(){if(!connected||!api)return;api.LMSFinish('');}
+  function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();finish();}
   return{init,complete};
 })();
 window.addEventListener('load', SCORM.init);
@@ -620,7 +621,8 @@ function nextPhase(fromPhase){
   state.phase = fromPhase + 1;
   updateProgress();
   updateCareerDash();
-  window.scrollTo({top:0, behavior:'smooth'});
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({top:0, behavior: prefersReducedMotion ? 'auto' : 'smooth'});
   if(state.phase <= TOTAL_PHASES) renderPhase(state.phase);
   else renderSummary();
 }
@@ -713,7 +715,7 @@ function restartSim(){
   updateProgress();
   updateCareerDash();
   renderPhase0();
-  window.scrollTo({top:0, behavior:'smooth'});
+  window.scrollTo({top:0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
 }
 
 // ── Boot ──────────────────────────────────────────────────────────
