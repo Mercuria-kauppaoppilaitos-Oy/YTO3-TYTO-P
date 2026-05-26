@@ -597,7 +597,9 @@ function nextPhase(fromPhase){
   const opt = state._selectedOpt;
   if(!opt) return;
   const p = phases[fromPhase];
-  state.currentSalary = opt.salaryVal;
+  // Salary never drops: keep the highest salary reached so far
+  const effectiveSalary = Math.max(state.currentSalary, opt.salaryVal);
+  state.currentSalary = effectiveSalary;
   state.currentAge   += p.ageAdd;
   state.currentJob    = p.jobAfter(opt);
   if(opt.salaryVal > 0) state.workYears += p.ageAdd;
@@ -606,7 +608,7 @@ function nextPhase(fromPhase){
     phaseTitle: p.title,
     label: opt.title,
     icon: opt.icon,
-    salaryAfter: opt.salaryVal,
+    salaryAfter: effectiveSalary,
     ageAfter: state.currentAge,
     jobAfter: state.currentJob,
     salary: opt.salary,
