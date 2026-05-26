@@ -9,7 +9,7 @@
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
 
 /* ── Layout ────────────────────────── */
-.container{max-width:1100px;margin:0 auto;padding:20px}
+.container{max-width:100%;margin:0 auto;padding:20px}
 
 /* ── Nav bar ───────────────────────── */
 .nav-bar{background:#fff;border-radius:12px;padding:12px 20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -172,13 +172,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 </head>
 <body>
 <div class="container">
-
-  <!-- ── Nav ──────────────────────────────────────────────────────── -->
-  <div class="nav-bar">
-    <a href="../index.html">← Takaisin tehtävälistaukseen</a>
-    <span>|</span>
-    <a href="../harjoitus-2-tyottomyysturva-elake/index.html">Harjoitus 2: Työttömyysturva ja eläke →</a>
-  </div>
 
   <!-- ── Header ───────────────────────────────────────────────────── -->
   <div class="exercise-header">
@@ -697,7 +690,6 @@ function renderSummary(){
 
     <div class="nav-links">
       <button class="btn btn-secondary" onclick="restartSim()">🔄 Kokeile eri polkua</button>
-      <a class="btn btn-primary" href="../harjoitus-2-tyottomyysturva-elake/index.html">Harjoitus 2: Työttömyysturva ja eläke →</a>
     </div>
   </div>`);
 }

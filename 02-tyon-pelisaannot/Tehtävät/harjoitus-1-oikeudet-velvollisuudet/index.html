@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
-.container{max-width:1024px;margin:0 auto;padding:20px}
+.container{max-width:100%;margin:0 auto;padding:20px}
 .exercise-header{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;padding:32px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
 .exercise-header::after{content:'🤝';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.15}
 .exercise-header h1{font-size:clamp(1.2rem,3.5vw,2rem);font-weight:800;margin-bottom:6px}
@@ -286,16 +286,6 @@ function checkAnswers() {
     </div>
     <div class="btn-row" style="margin-top:16px">
       <button class="btn btn-secondary" onclick="resetAll()">🔄 Aloita uudelleen</button>
-    </div>
-    <div class="nav-footer" style="margin-top:16px">
-      <a href="../index.html" class="btn-back">← Takaisin osion tehtäviin</a>
-      <div class="next-exercise">
-        <span class="next-label">Seuraava harjoitus:</span>
-        <a href="../harjoitus-2-tyosopimus-sopimusvertailu/index.html" class="btn-next">
-          📝 Työsopimus ja sopimusvertailu →
-          <small>Vertaile kolmea sopimustyyppiä</small>
-        </a>
-      </div>
     </div>`;
     resultsPanel.innerHTML = html;
     resultsPanel.style.display = 'block';
