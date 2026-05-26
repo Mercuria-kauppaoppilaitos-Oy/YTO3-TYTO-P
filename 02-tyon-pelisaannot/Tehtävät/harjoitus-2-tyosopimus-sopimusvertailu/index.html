@@ -306,8 +306,12 @@ a{color:inherit;text-decoration:none}
       <div class="feedback-box" id="s1fb"></div>
     </div>
 
+    <div class="inline-next-wrap" id="s1nextQWrap">
+      <button class="btn btn-primary" onclick="nextQuestion(1)">Seuraava kysymys →</button>
+    </div>
+
     <div class="inline-next-wrap" id="s1nextWrap">
-      <button class="btn btn-primary" onclick="goToScreen(2)">Seuraava sopimus →</button>
+      <button class="btn btn-primary" onclick="goToScreen(2)">Siirry seuraavaan sopimukseen →</button>
     </div>
 
     <!-- Contract 1 -->
@@ -417,8 +421,12 @@ a{color:inherit;text-decoration:none}
       <div class="info-box" id="s2info"></div>
     </div>
 
+    <div class="inline-next-wrap" id="s2nextQWrap">
+      <button class="btn btn-primary" onclick="nextQuestion(2)">Seuraava kysymys →</button>
+    </div>
+
     <div class="inline-next-wrap" id="s2nextWrap">
-      <button class="btn btn-primary" onclick="goToScreen(3)">Seuraava sopimus →</button>
+      <button class="btn btn-primary" onclick="goToScreen(3)">Siirry seuraavaan sopimukseen →</button>
     </div>
 
     <!-- Contract 2 -->
@@ -540,6 +548,10 @@ a{color:inherit;text-decoration:none}
       <div class="q-text" id="s3qText"></div>
       <div class="choices" id="s3choices"></div>
       <div class="feedback-box" id="s3fb"></div>
+    </div>
+
+    <div class="inline-next-wrap" id="s3nextQWrap">
+      <button class="btn btn-primary" onclick="nextQuestion(3)">Seuraava kysymys →</button>
     </div>
 
     <div class="inline-next-wrap" id="s3nextWrap">
@@ -940,8 +952,6 @@ const quizData = [
 
 const QUESTIONS_PER_SCREEN = quizData.map((screen) => screen.length);
 const TOTAL_QUESTIONS = QUESTIONS_PER_SCREEN.reduce((sum, count) => sum + count, 0);
-const FEEDBACK_DISPLAY_DURATION_MS = 2600;
-const INFO_BOX_DISPLAY_DURATION_MS = 5000;
 
 // ── State ──────────────────────────────────────────────────────────────────
 const state = {
@@ -1044,19 +1054,22 @@ function handleAnswer(screenNum, si, qi, chosen, btn) {
 
   // Next question or enable next screen
   const nextQ = qi + 1;
-  const delay = data.info ? INFO_BOX_DISPLAY_DURATION_MS : FEEDBACK_DISPLAY_DURATION_MS;
   if (nextQ < questionCount) {
-    setTimeout(() => {
-      state.currentQ[si] = nextQ;
-      renderQuestion(screenNum, si, nextQ);
-    }, delay);
+    document.getElementById('s' + screenNum + 'nextQWrap').style.display = 'block';
   } else {
-    setTimeout(() => {
-      document.getElementById('s' + screenNum + 'next').disabled = false;
-      document.getElementById('s' + screenNum + 'nextWrap').style.display = 'block';
-      updateProgress();
-    }, delay);
+    document.getElementById('s' + screenNum + 'next').disabled = false;
+    document.getElementById('s' + screenNum + 'nextWrap').style.display = 'block';
+    updateProgress();
   }
+}
+
+// ── Next question (manual advance) ────────────────────────────────────────
+function nextQuestion(screenNum) {
+  const si = screenNum - 1;
+  const nextQ = state.currentQ[si] + 1;
+  document.getElementById('s' + screenNum + 'nextQWrap').style.display = 'none';
+  state.currentQ[si] = nextQ;
+  renderQuestion(screenNum, si, nextQ);
 }
 
 // ── Screen navigation ──────────────────────────────────────────────────────
