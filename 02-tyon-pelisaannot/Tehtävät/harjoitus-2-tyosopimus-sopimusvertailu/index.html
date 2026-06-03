@@ -857,8 +857,8 @@ const quizData = [
   [
     {
       q:'Onko tässä sopimuksessa kyse työsuhteesta?',
-      choices:['Kyllä — kevytyrittäjyys on työsuhde','Ei — sopimus ei muodosta työsuhdetta','Riippuu työtuntien määrästä'],
-      correct:1,
+      choices:['Ei — sopimus ei muodosta työsuhdetta','Kyllä — kevytyrittäjyys on työsuhde','Riippuu työtuntien määrästä'],
+      correct:0,
       expl:'§1 mukaan tämä sopimus ei muodosta työsuhdetta. Kevytyrittäjyys on yrittäjyyden muoto, ei automaattisesti työsuhde.',
       info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> Suomen työsopimuslain (1:1 §) mukaan työsuhde syntyy aina, kun työn todelliset olosuhteet vastaavat työsuhteen tunnusmerkkejä — riippumatta siitä, miten sopimus on otsikoitu. Tässä sopimuksessa §2 kuitenkin määrää kiinteän työpaikan ja kiinteät työajat toimeksiantajan tiloissa. Tämä voi tarkoittaa, että kyseessä on tosiasiallisesti työsuhde, jota kutsutaan <em>näennäisyrittäjyydeksi</em>. Kyseenalaistaminen kannattaa — erityisesti jos käytännön työskentelyolosuhteet vastaavat työsuhteen tunnusmerkkejä.'
     },
@@ -871,8 +871,8 @@ const quizData = [
     },
     {
       q:'Mitä tapahtuu pohjapalkkiolle, jos peruutusprosentti ylittää 10 %?',
-      choices:['Pohjapalkkio katoaa kokonaan','Pohjapalkkiosta vähennetään 50 %','Ei mitään vaikutusta'],
-      correct:1,
+      choices:['Pohjapalkkio katoaa kokonaan','Ei mitään vaikutusta','Pohjapalkkiosta vähennetään 50 %'],
+      correct:2,
       expl:'§4 mukaan pohjapalkkiosta vähennetään 50 % kyseisen peruutuskuukauden ajalta, jos peruutusprosentti ylittää 10 %.',
       info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> Pohjapalkkion puolittaminen asiakkaiden peruutuksista on oikeudellisesti kyseenalainen ehto — toimeksisaajalla ei useinkaan ole mahdollisuutta vaikuttaa siihen, peruuttavatko asiakkaat tilauksensa. Jos työsuhde katsottaisiin tosiasiallisesti työsopimukseksi, tällainen palkan vähentämisehto olisi lain vastainen. Toimeksiantosopimuksessakin ehto voidaan riitauttaa oikeustoimilain kohtuuttomuusperusteella.'
     },
@@ -885,14 +885,14 @@ const quizData = [
     },
     {
       q:'Kuka vastaa veroista, YEL-maksuista ja sosiaalivakuutuksista?',
-      choices:['Toimeksiantaja','Toimeksisaaja itse','Valtio maksaa ne automaattisesti'],
-      correct:1,
+      choices:['Toimeksisaaja itse','Toimeksiantaja','Valtio maksaa ne automaattisesti'],
+      correct:0,
       expl:'§3 mukaan toimeksisaaja vastaa itse veroista, YEL-maksuista ja sosiaalivakuutusmaksuista.'
     },
     {
       q:'Kuinka kauan kilpailukielto on voimassa sopimuksen päättymisen jälkeen?',
-      choices:['6 kuukautta','12 kuukautta','24 kuukautta'],
-      correct:1,
+      choices:['6 kuukautta','24 kuukautta','12 kuukautta'],
+      correct:2,
       expl:'§5 mukaan toimeksisaajalla on 12 kuukauden kilpailukielto toimeksiannon päättymisen jälkeen samalla toimialalla.',
       info:'⚖️ <strong>Huomio lain näkökulmasta:</strong> Työsopimuksissa kilpailukieltoa säätelee työsopimuslaki (3:5 §): yli 6 kuukauden kilpailukiellosta työnantajan on maksettava korvaus, ja kilpailukielto vaatii erityisen painavan syyn. Toimeksiantosopimuksissa nämä suojasäädökset eivät automaattisesti koske toimeksisaajaa — 12 kuukauden kilpailukielto ilman korvauksia on mahdollinen, mutta se voidaan silti riitauttaa tuomioistuimessa esimerkiksi kohtuuttomuusperusteella.'
     },
@@ -907,8 +907,8 @@ const quizData = [
   [
     {
       q:'Kuinka pitkä on koeaika tässä sopimuksessa?',
-      choices:['1 kuukausi','4 kuukautta','6 kuukautta'],
-      correct:1,
+      choices:['1 kuukausi','6 kuukautta','4 kuukautta'],
+      correct:2,
       expl:'§5 mukaan koeaika on 4 kuukautta. Vakituisessa työsuhteessa pidempi koeaika on TES:n mukaan sallittu.'
     },
     {
@@ -919,8 +919,8 @@ const quizData = [
     },
     {
       q:'Milloin työnantaja voi irtisanoa sinut ilman erityistä perustetta?',
-      choices:['Ei lainkaan — tarvitsee aina perustelun','Vain koeajan aikana','Heti ilman perusteluja milloin tahansa'],
-      correct:1,
+      choices:['Vain koeajan aikana','Ei lainkaan — tarvitsee aina perustelun','Heti ilman perusteluja milloin tahansa'],
+      correct:0,
       expl:'§5 ja §6 mukaan koeajan aikana irtisanominen ei vaadi erityistä perustetta. Koeajan jälkeen työnantaja tarvitsee aina laillisen syyn (henkilökohtainen tai tuotannollinen).'
     },
     {
@@ -931,14 +931,14 @@ const quizData = [
     },
     {
       q:'Kuinka aikaisin työvuorot on annettava työntekijälle?',
-      choices:['Viimeistään samana aamuna','Vähintään 2 viikkoa etukäteen','Vain kerran kuukaudessa'],
-      correct:1,
+      choices:['Viimeistään samana aamuna','Vain kerran kuukaudessa','Vähintään 2 viikkoa etukäteen'],
+      correct:2,
       expl:'§4 mukaan työvuorot sovitaan työvuorolistalla vähintään 2 viikkoa etukäteen.'
     },
     {
       q:'Milloin minimityöaika (20 h/vk) voi jäädä toteutumatta?',
-      choices:['Työnantajan niin päättäessä','Kun työntekijä itse pyytää poikkeusta','Sesongin hiljaisina aikoina automaattisesti'],
-      correct:1,
+      choices:['Kun työntekijä itse pyytää poikkeusta','Työnantajan niin päättäessä','Sesongin hiljaisina aikoina automaattisesti'],
+      correct:0,
       expl:'§4 mukaan 20 h/viikko taataan, ellei työntekijä itse pyydä poikkeusta. Työnantaja ei voi yksipuolisesti alittaa tätä.'
     },
     {

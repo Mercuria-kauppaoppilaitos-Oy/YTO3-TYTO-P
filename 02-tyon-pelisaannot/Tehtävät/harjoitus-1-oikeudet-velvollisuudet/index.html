@@ -100,7 +100,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 
   <div class="instructions">
     <span class="i-icon">💡</span>
-    <p><strong>Miten pelata:</strong> Vedä ja pudota kortit oikeaan lokeroon — <strong>Työnantajan velvollisuus</strong>, <strong>Työntekijän oikeus</strong> tai <strong>Molemmat</strong>. Mobiililla: klikkaa ensin korttia, sitten lokeroa. Kun kaikki kortit on sijoitettu, tarkista vastauksesi!</p>
+    <p><strong>Miten pelata:</strong> Vedä ja pudota kortit oikeaan lokeroon — <strong>Mitkä oikeudet ja velvollisuudet koskevat työnantajaa, työntekijää tai molempia.</strong> Kun kaikki kortit on sijoitettu, tarkista vastauksesi!</p>
   </div>
 
   <div id="mainArea">
@@ -117,7 +117,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
            onclick="placeSelectedMobile('employer')">
         <div class="zone-header">
           <span class="z-icon">🔵</span>
-          <h3>Työnantajan velvollisuus</h3>
+          <h3>Koskee työnantajaa</h3>
           <span class="z-count" id="cnt-employer">0</span>
         </div>
         <div class="zone-cards" id="zcards-employer"></div>
@@ -129,7 +129,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
            onclick="placeSelectedMobile('employee')">
         <div class="zone-header">
           <span class="z-icon">🟢</span>
-          <h3>Työntekijän oikeus</h3>
+          <h3>Koskee työntekijää</h3>
           <span class="z-count" id="cnt-employee">0</span>
         </div>
         <div class="zone-cards" id="zcards-employee"></div>
@@ -141,7 +141,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
            onclick="placeSelectedMobile('both')">
         <div class="zone-header">
           <span class="z-icon">🟡</span>
-          <h3>Molemmat</h3>
+          <h3>Koskee molempia</h3>
           <span class="z-count" id="cnt-both">0</span>
         </div>
         <div class="zone-cards" id="zcards-both"></div>
@@ -179,10 +179,10 @@ const cards = [
   { id:'c5', icon:'⚖️', text:'Noudattaa tasa-arvo- ja yhdenvertaisuuslakia', correct:'both' },
   { id:'c6', icon:'🔒', text:'Pitää salassa liikesalaisuudet', correct:'both' },
   { id:'c7', icon:'🦺', text:'Tarjota turvallinen työympäristö', correct:'employer' },
-  { id:'c8', icon:'📅', text:'Ilmoittaa poissaolosta hyvissä ajoin', correct:'both' },
+  { id:'c8', icon:'📅', text:'Ilmoittaa poissaolosta hyvissä ajoin', correct:'employee' },
   { id:'c9', icon:'👶', text:'Saada perhevapaita', correct:'employee' },
-  { id:'c10', icon:'📝', text:'Kirjata työsopimus kirjallisesti', correct:'employer' },
-  { id:'c11', icon:'📚', text:'Kehittää omaa ammattitaitoa', correct:'both' },
+  { id:'c10', icon:'📝', text:'Kirjata työsopimus kirjallisesti', correct:'both' },
+  { id:'c11', icon:'📚', text:'Kehittää omaa ammattitaitoa', correct:'employee' },
   { id:'c12', icon:'💬', text:'Saada palautetta ja ohjausta', correct:'employee' },
 ];
 
@@ -267,7 +267,7 @@ function checkAnswers() {
         const given = placement[c.id];
         const isCorrect = given === c.correct;
         if (isCorrect) score++;
-        const zoneNames = { employer:'Työnantajan velvollisuus', employee:'Työntekijän oikeus', both:'Molemmat' };
+        const zoneNames = { employer:'Koskee työnantajaa', employee:'Koskee työntekijää', both:'Koskee molempia' };
         html += `<div class="result-item">
           <span class="ri-icon">${isCorrect ? '✅' : '❌'}</span>
           <div class="ri-text">
