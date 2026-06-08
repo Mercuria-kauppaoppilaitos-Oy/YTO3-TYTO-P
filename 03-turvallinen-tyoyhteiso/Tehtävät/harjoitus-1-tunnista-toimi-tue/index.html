@@ -88,14 +88,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 
   <div class="progress-container">
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <div class="step-label">Skenaario <span id="currentScenario">1</span>/4</div>
+    <div class="step-label">Skenaario <span id="currentScenario">1</span>/8</div>
   </div>
 
   <div class="scenarios-overview" id="scenariosOv">
-    <div class="ov-item current" id="ov1"><span class="ov-icon">💬</span>Häirintä</div>
-    <div class="ov-item" id="ov2"><span class="ov-icon">📋</span>Syrjintä</div>
-    <div class="ov-item" id="ov3"><span class="ov-icon">😤</span>Uhkaava asiakas</div>
-    <div class="ov-item" id="ov4"><span class="ov-icon">📱</span>Some-kiusaaminen</div>
+    <div class="ov-item current" id="ov1"><span class="ov-icon">💬</span>Häirintä 1</div>
+    <div class="ov-item" id="ov2"><span class="ov-icon">📋</span>Syrjintä 1</div>
+    <div class="ov-item" id="ov3"><span class="ov-icon">😤</span>Uhkaava 1</div>
+    <div class="ov-item" id="ov4"><span class="ov-icon">📱</span>Some 1</div>
+    <div class="ov-item" id="ov5"><span class="ov-icon">💬</span>Häirintä 2</div>
+    <div class="ov-item" id="ov6"><span class="ov-icon">📋</span>Syrjintä 2</div>
+    <div class="ov-item" id="ov7"><span class="ov-icon">😤</span>Uhkaava 2</div>
+    <div class="ov-item" id="ov8"><span class="ov-icon">📱</span>Some 2</div>
   </div>
 
   <!-- Scenario 1 -->
@@ -191,7 +195,107 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
     <div class="score-row" id="sr4" style="display:none">Pisteet tästä tilanteesta: <strong id="spts4">0</strong>/3</div>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="nextScenario(3)">← Edellinen</button>
-      <button class="btn btn-primary" id="next4" onclick="showCompletion()" disabled>Katso tuloksesi 🏆</button>
+      <button class="btn btn-primary" id="next4" onclick="nextScenario(5)" disabled>Seuraava skenaario →</button>
+    </div>
+  </div>
+
+  <!-- Scenario 5 -->
+  <div id="sc5" class="scenario-card">
+    <div class="s-badge">📋 Skenaario 5/8</div>
+    <div class="scene-visual">
+      🛍️ 👩‍💼 ← 🧑
+      <p>"Hän ei jätä sinua rauhaan..."</p>
+    </div>
+    <div class="scenario-text">
+      <strong>Sinä</strong> olet vuorossa myymälässä. Nuori miesasiakas tulee luoksesi toistuvasti ja pyytää puhelinnumeroasi. Kun sanot kohteliaasti "ei kiitos", hän ei luovuta: hän seuraa sinua käytävillä, kommentoi ulkonäköäsi ja pyytää uudelleen lähtemään hänen kanssaan kahville. Tilanne alkaa tuntua ahdistavalta, etkä pysty tekemään työtäsi normaalisti.
+    </div>
+    <div class="action-label">💭 Miten toimit?</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(5,'a',this)">Ilmoita tilanteesta työvuorovastaavalle tai esihenkilölle heti</button>
+      <button class="action-btn" onclick="answer(5,'b',this)">Kerro asiasta vasta työvuoron jälkeen kaverillesi — ehkä se loppuu itsestään</button>
+      <button class="action-btn" onclick="answer(5,'c',this)">Pyydä kollegaa tulemaan lähelläsi, jotta et jää yksin asiakkaan kanssa</button>
+      <button class="action-btn" onclick="answer(5,'d',this)">Anna puhelinnumerosi, jotta tilanne raukeaa nopeasti</button>
+    </div>
+    <div class="feedback-panel" id="fb5"></div>
+    <div class="score-row" id="sr5" style="display:none">Pisteet tästä tilanteesta: <strong id="spts5">0</strong>/3</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextScenario(4)">← Edellinen</button>
+      <button class="btn btn-primary" id="next5" onclick="nextScenario(6)" disabled>Seuraava skenaario →</button>
+    </div>
+  </div>
+
+  <!-- Scenario 6 -->
+  <div id="sc6" class="scenario-card">
+    <div class="s-badge">📋 Skenaario 6/8</div>
+    <div class="scene-visual">
+      🤰 📅 ❓ 😟
+      <p>"Työvuorot vähenevät yhtäkkiä..."</p>
+    </div>
+    <div class="scenario-text">
+      <strong>Emilia</strong> kertoi työnantajalleen olevansa raskaana ja haluavansa jatkaa töissä mahdollisimman pitkään. Seuraavan viikon työvuorolista tulee — Emilialla on selvästi vähemmän tunteja kuin ennen ja paljon vähemmän kuin muilla uusilla työntekijöillä. Kukaan ei anna mitään selitystä muutokselle.
+    </div>
+    <div class="action-label">💭 Mitä Emilia tekee?</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(6,'a',this)">Kysy esihenkilöltä suoraan ja asiallisesti, miksi tuntimäärä on laskenut</button>
+      <button class="action-btn" onclick="answer(6,'b',this)">Ota yhteyttä luottamusmieheen ja selvitä oikeutesi</button>
+      <button class="action-btn" onclick="answer(6,'c',this)">Hyväksy tilanne — ehkä kyse on vain hiljaisemmasta kaudesta</button>
+      <button class="action-btn" onclick="answer(6,'d',this)">Irtisanoudu välittömästi ja tee rikosilmoitus</button>
+    </div>
+    <div class="feedback-panel" id="fb6"></div>
+    <div class="score-row" id="sr6" style="display:none">Pisteet tästä tilanteesta: <strong id="spts6">0</strong>/3</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextScenario(5)">← Edellinen</button>
+      <button class="btn btn-primary" id="next6" onclick="nextScenario(7)" disabled>Seuraava skenaario →</button>
+    </div>
+  </div>
+
+  <!-- Scenario 7 -->
+  <div id="sc7" class="scenario-card">
+    <div class="s-badge">📋 Skenaario 7/8</div>
+    <div class="scene-visual">
+      🛒 😵 🚶 → 🧍
+      <p>"Henkilö tulee liian lähelle..."</p>
+    </div>
+    <div class="scenario-text">
+      Olet hyllyttämässä tuotteita kaupan sivummalla olevalla käytävällä. Asiakas tulee nopeasti lähelle ja vaikuttaa sekavalta: hän puhuu epäselvästi, liikkuu levottomasti ja saattaa olla huumausaineiden vaikutuksen alaisena. Aluksi hän kysyy, missä tietyt tuotteet ovat, mutta alkaa pian korottaa ääntään ja syyttää sinua tavaroiden "piilottelusta". Hän tulee liian lähelle, huitoo käsillään ja estää sinua poistumasta käytävältä.
+    </div>
+    <div class="action-label">💭 Miten toimit?</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(7,'a',this)">Puhu lyhyesti ja rauhallisesti, etsi tilaisuus siirtyä pois ja hälytä kollega tai esihenkilö heti tilanteesta</button>
+      <button class="action-btn" onclick="answer(7,'b',this)">Ala väitellä ja selittää pitkästi, ettei tavaroita ole piiloteltu</button>
+      <button class="action-btn" onclick="answer(7,'c',this)">Jää odottamaan yksin, että tilanne rauhoittuu</button>
+      <button class="action-btn" onclick="answer(7,'d',this)">Töni hänet sivuun ja poistu käytävältä nopeasti</button>
+    </div>
+    <div class="feedback-panel" id="fb7"></div>
+    <div class="score-row" id="sr7" style="display:none">Pisteet tästä tilanteesta: <strong id="spts7">0</strong>/3</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextScenario(6)">← Edellinen</button>
+      <button class="btn btn-primary" id="next7" onclick="nextScenario(8)" disabled>Seuraava skenaario →</button>
+    </div>
+  </div>
+
+  <!-- Scenario 8 -->
+  <div id="sc8" class="scenario-card">
+    <div class="s-badge">📋 Skenaario 8/8</div>
+    <div class="scene-visual">
+      📸 😴 → 📱 😂
+      <p>"Kuva leviää työkaverien ryhmässä..."</p>
+    </div>
+    <div class="scenario-text">
+      Työkaverit ovat ottaneet salaa epäedullisia kuvia työtoveristasi <strong>Miasta</strong> hänen tietämättään — kuvissa Mia nojaa väsyneenä tauolla pöytään. Kuvia jaetaan työkaverien WhatsApp-ryhmässä naureskellen kommenteilla. Sinä saat kuvat ryhmäviestinä.
+    </div>
+    <div class="action-label">💭 Mitä teet?</div>
+    <div class="action-btns">
+      <button class="action-btn" onclick="answer(8,'a',this)">Ilmoita tilanteesta esihenkilölle — salakuvaaminen ja kuvien levittäminen on kiusaamista ja voi olla laitonta</button>
+      <button class="action-btn" onclick="answer(8,'b',this)">Kirjoita ryhmään, että kuvien jakaminen on väärin, ja kerro asiasta myös esihenkilölle</button>
+      <button class="action-btn" onclick="answer(8,'c',this)">Älä reagoi — se ei koske sinua, se on Mian ongelma</button>
+      <button class="action-btn" onclick="answer(8,'d',this)">Jaa kuvat eteenpäin omassa ryhmässäsi — kaikki muutkin tekevät niin</button>
+    </div>
+    <div class="feedback-panel" id="fb8"></div>
+    <div class="score-row" id="sr8" style="display:none">Pisteet tästä tilanteesta: <strong id="spts8">0</strong>/3</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="nextScenario(7)">← Edellinen</button>
+      <button class="btn btn-primary" id="next8" onclick="showCompletion()" disabled>Katso tuloksesi 🏆</button>
     </div>
   </div>
 
@@ -199,7 +303,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
   <div id="completionScreen" class="completion-screen hidden">
     <div class="completion-badge">🏆</div>
     <h2>Harjoitus suoritettu!</h2>
-    <div class="score-display" id="finalScore">0 <span class="s-max">/ 12</span></div>
+    <div class="score-display" id="finalScore">0 <span class="s-max">/ 24</span></div>
     <p id="finalFeedback" style="color:#555;max-width:500px;margin:0 auto 20px"></p>
   </div>
 </div>
@@ -252,10 +356,46 @@ const scenarios = {
             c:{type:'wrong',pts:0,text:'Passiivisuus mahdollistaa kiusaamisen jatkumisen. Sivustakatsoja ei ole viaton — he ovat osa ryhmädynamiikkaa.',learn:'Kiusaaminen tarvitsee yleisön — passiivinen hyväksyntä rohkaisee kiusaajaa.'},
             d:{type:'wrong',pts:0,text:'Vastavideon tekeminen lisää konfliktia eikä ratkaise sitä. Se voi myös tehdä sinusta osapuolen.',learn:'Vastahyökkäys somessa ei ole ratkaisu — se vain ruokkii konfliktia.'}
         }
+    },
+    5: {
+        correct:'a', partial:'c',
+        fb:{
+            a:{type:'correct',pts:3,text:'Oikein! Esihenkilölle tai työvuorovastaavalle ilmoittaminen on tärkein askel. Sinulla on oikeus turvalliseen työympäristöön, eikä sinun tarvitse sietää painostavaa lähestymistä.',learn:'Asiakkaan painostava käyttäytyminen on häirintää. Työnantajalla on velvollisuus puuttua tilanteeseen ja tarvittaessa poistaa asiakas liikkeestä.'},
+            b:{type:'wrong',pts:0,text:'Tilanteen sivuuttaminen ei auta — painostava käytös harvoin loppuu itsestään, ja se voi eskaloitua.',learn:'Älä jätä asiaa vain omalle vastuullesi. Työnantajalla on velvollisuus suojata sinut asiakkaiden häiritsevältä käyttäytymiseltä.'},
+            c:{type:'partial',pts:1,text:'Hyvä tilannetaju — kollegan pyytäminen lähelleen on järkevä ensiaskel. Muista kuitenkin ilmoittaa myös esihenkilölle.',learn:'Kollegan läsnäolo voi auttaa hetkellisesti, mutta tilanne täytyy silti raportoida esihenkilölle virallisesti.'},
+            d:{type:'wrong',pts:0,text:'Puhelinnumeron antaminen ei ratkaise tilannetta — se voi rohkaista lisäkontaktiin ja asettaa sinut epämukavaan asemaan vapaa-ajallasi.',learn:'Sinulla on oikeus kieltäytyä jakamasta henkilökohtaisia tietojasi. Painostamiseen tulee puuttua virallisen kanavan kautta.'}
+        }
+    },
+    6: {
+        correct:'a', partial:'b',
+        fb:{
+            a:{type:'correct',pts:3,text:'Oikein! Suora ja asiallinen kysyminen esihenkilöltä on oikea ensiaskel. Emilialla on oikeus saada selitys tuntimäärän muutokselle.',learn:'Raskaana olevan tai raskaaksi tulevan henkilön syrjiminen työvuoroissa on kiellettyä tasa-arvolain nojalla. Kysyminen on Emilian oikeus.'},
+            b:{type:'partial',pts:2,text:'Luottamusmieheen ottaminen yhteyttä on erittäin hyvä vaihtoehto — erityisesti jos esihenkilö ei reagoi. Sekä vastaus a että b ovat oikeita.',learn:'Luottamusmies voi auttaa selvittämään tilannetta ja kertoa Emilian oikeuksista. Hänellä on salassapitovelvollisuus.'},
+            c:{type:'wrong',pts:0,text:'Muutos ei ole sattumanvarainen, jos se tapahtuu heti raskausuutisen jälkeen. Hyväksyminen jatkaa syrjintää.',learn:'Tasa-arvolaki kieltää raskauden perusteella syrjimisen. Emilialla on oikeus selvittää, onko kohtelu lainmukaista.'},
+            d:{type:'wrong',pts:0,text:'Välitön irtisanoutuminen ja rikosilmoitus ovat liian rajuja ensiaskeleita ilman aiempaa selvitystä.',learn:'Prosessi etenee: esihenkilö → luottamusmies → tasa-arvovaltuutettu → oikeuskanava tarvittaessa.'}
+        }
+    },
+    7: {
+        correct:'a', partial:null,
+        fb:{
+            a:{type:'correct',pts:3,text:'Oikein! Rauhallinen puhe, poistumismahdollisuuden etsiminen ja avun hälyttäminen on oikea toimintatapa. Turvallisuutesi on tärkein prioriteetti.',learn:'Sekavasti käyttäytyvän henkilön kanssa: älä provosoi, pyri poistumaan tilanteesta turvallisesti ja ilmoita asiasta heti kollegalle tai esihenkilölle.'},
+            b:{type:'wrong',pts:0,text:'Väittely ja pitkät selitykset eivät auta sekavasti käyttäytyvän henkilön kanssa — ne voivat pahentaa tilannetta.',learn:'Sekava tai aggressiivinen henkilö ei reagoi järkiperusteluihin. Lyhyt, rauhallinen kommunikointi ja poistumisvalmius on parempi strategia.'},
+            c:{type:'wrong',pts:0,text:'Yksin jääminen tilanteessa on riski — tilanne voi eskaloitua nopeasti.',learn:'Älä jää yksin uhkaavan henkilön kanssa. Hälytä apua mahdollisimman pian.'},
+            d:{type:'wrong',pts:0,text:'Fyysinen koskeminen on vaarallista ja voi johtaa tilanteen voimakkaaseen eskaloitumiseen.',learn:'Älä koske henkilöön — se voi laukaista vakavan konfliktin. Poistuminen rauhallisesti on parempi vaihtoehto.'}
+        }
+    },
+    8: {
+        correct:'a', partial:'b',
+        fb:{
+            a:{type:'correct',pts:3,text:'Oikein! Esihenkilölle ilmoittaminen on tärkein ja vastuullisin toimintatapa. Salakuvaaminen ja kuvien levittäminen ilman henkilön suostumusta voi olla laitonta ja on aina kiusaamista.',learn:'Henkilön salakuvaaminen ja kuvien levittäminen loukkaa hänen yksityisyyttään ja on kiusaamista. Työnantajalla on velvollisuus puuttua tähän.'},
+            b:{type:'partial',pts:2,text:'Hyvä, että pyydät poistamaan kuvat ja ilmoitat esihenkilölle! Molemmat osat ovat oikein — tämä on lähes yhtä hyvä kuin a-vastaus.',learn:'Ryhmässä puuttuminen voi auttaa heti, mutta virallinen ilmoitus esihenkilölle on välttämätön, jotta tilanne ratkaistaan asianmukaisesti.'},
+            c:{type:'wrong',pts:0,text:'Passiivisuus tekee sinustakin osan kiusaamisketjua. Mia ei edes tiedä, että hänestä on otettu kuvia.',learn:'Kiusaaminen tarvitsee yleisön. Passiiviset sivustakatsojat mahdollistavat kiusaamisen jatkumisen.'},
+            d:{type:'wrong',pts:0,text:'Kuvien edelleen levittäminen tekee sinusta osallisen kiusaamiseen ja voi olla lainvastaista.',learn:'Kuvien jakaminen ilman henkilön suostumusta loukkaa hänen yksityisyyttään. Äläkä koskaan jaa tällaisia kuvia eteenpäin.'}
+        }
     }
 };
 
-const scores = { 1:0, 2:0, 3:0, 4:0 };
+const scores = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0 };
 const answered = {};
 
 function answer(scNum, choice, btn) {
@@ -280,7 +420,7 @@ function answer(scNum, choice, btn) {
 }
 
 function updateProgress(n) {
-    const pct = (Object.keys(answered).length / 4) * 100;
+    const pct = (Object.keys(answered).length / 8) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
     const types = { correct:'done-correct', partial:'done-partial', wrong:'done-wrong' };
     const ovEl = document.getElementById('ov' + n);
@@ -292,7 +432,7 @@ function updateProgress(n) {
 
 function nextScenario(n) {
     document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
-    if (n >= 1 && n <= 4) {
+    if (n >= 1 && n <= 8) {
         document.getElementById('sc' + n).classList.add('active');
         document.getElementById('currentScenario').textContent = n;
         document.querySelectorAll('.ov-item').forEach((el, i) => {
@@ -309,19 +449,19 @@ function nextScenario(n) {
 }
 
 function showCompletion() {
-    const total = scores[1] + scores[2] + scores[3] + scores[4];
+    const total = scores[1] + scores[2] + scores[3] + scores[4] + scores[5] + scores[6] + scores[7] + scores[8];
     document.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('active'));
     document.getElementById('completionScreen').classList.remove('hidden');
     document.getElementById('progressFill').style.width = '100%';
-    document.getElementById('finalScore').innerHTML = total + ' <span class="s-max">/ 12</span>';
+    document.getElementById('finalScore').innerHTML = total + ' <span class="s-max">/ 24</span>';
     const msgs = [
         'Harjoittele lisää! Lue selitykset huolella — nämä tilanteet ovat tärkeitä. 💪',
         'Hyvä alku! Muutama tilanne oli vaikea — katso selitykset. 👍',
         'Hyvin menee! Tunnistit useimmat tilanteet oikein. 🌟',
         'Erinomainen! Olet valmis kohtaamaan hankalat tilanteet työpaikalla! 🏆'
     ];
-    document.getElementById('finalFeedback').textContent = msgs[total <= 4 ? 0 : total <= 8 ? 1 : total <= 11 ? 2 : 3];
-    SCORM.complete(Math.round((total/12)*100), 100);
+    document.getElementById('finalFeedback').textContent = msgs[total <= 8 ? 0 : total <= 16 ? 1 : total <= 22 ? 2 : 3];
+    SCORM.complete(Math.round((total/24)*100), 100);
     window.scrollTo({ top:0, behavior:'smooth' });
 }
 </script>

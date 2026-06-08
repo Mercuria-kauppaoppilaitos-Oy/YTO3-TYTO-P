@@ -82,6 +82,11 @@ input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
 
   <div id="completedBanner" class="completed-banner">🎉 Hienoa! Olet käyttänyt laskuria — harjoitus merkitty suoritetuksi!</div>
 
+  <div style="background:#fff;border-radius:14px;padding:20px 24px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:5px solid #11998e">
+    <p style="font-size:.97rem;line-height:1.7;color:#1a1a2e;margin-bottom:10px"><strong>Vaihe 1:</strong> Tutustu laskuriin vapaasti — kokeile eri tuntimääriä, tuntipalkka-arvoja ja lisiä ja katso, miten ne vaikuttavat brutto- ja nettopalkkaasi.</p>
+    <p style="font-size:.97rem;line-height:1.7;color:#1a1a2e"><strong>Vaihe 2:</strong> Tee alla oleva tehtävä: käy laskemassa oma veroprosenttisi ja syötä se laskuriin.</p>
+  </div>
+
   <div class="layout">
     <!-- Input panel -->
     <div class="card">
@@ -195,9 +200,9 @@ input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
     <h3 style="font-size:1rem;font-weight:800;margin-bottom:10px;color:#1e40af;display:flex;align-items:center;gap:8px">📋 Tehtävä: Laske veroprosentti tulotiedoilla</h3>
     <p style="font-size:.9rem;color:#1e3a8a;margin-bottom:14px;line-height:1.55">Käy laskemassa veroprosenttisi Vero.fi:n ilmaisella veroprosenttilaskurilla alla olevilla ohjeilla:</p>
     <ol style="font-size:.9rem;color:#1e3a8a;margin-left:20px;line-height:2.1">
-      <li>Avaa laskuri: <a href="https://avoinomavero.vero.fi/_/" target="_blank" rel="noopener" style="color:#2563eb;font-weight:700;text-decoration:underline">avoinomavero.vero.fi/_/</a></li>
+      <li>Avaa laskuri: <a href="https://www.vero.fi/henkiloasiakkaat/verokortti-ja-veroilmoitus/verokortti/veroprosenttilaskuri/" target="_blank" rel="noopener" style="color:#2563eb;font-weight:700;text-decoration:underline">OmaVero -palvelu</a></li>
       <li>Syötä kohtaan <strong>"Arvio palkan määrästä koko vuonna"</strong>: <strong id="annualGrossDisplay" style="color:#1e40af">–</strong></li>
-      <li>Muita vähennyksiä tai lisätietoja ei tarvitse täyttää tässä tehtävässä</li>
+      <li>Siirry eteenpäin lomakkeella aivan loppuun. Muita vähennyksiä tai lisätietoja ei tarvitse täyttää tässä tehtävässä</li>
       <li>Katso laskurin antama veroprosentti ja syötä se yllä olevan laskurin <strong>Veroprosentti</strong>-kenttään</li>
     </ol>
   </div>
@@ -222,14 +227,6 @@ input[type=range]{width:100%;accent-color:#11998e;cursor:pointer;height:6px}
     </div>
   </div>
 
-  <!-- Scenario: Tiina -->
-  <div class="scenario-box">
-    <h3>🧮 Kokeile yhdessä: Tiina</h3>
-    <p style="font-size:.88rem;color:#555;margin-bottom:12px">Tiina tekee 20 h/vk, tuntipalkka 13,50 €, 5 h iltalisää kuukaudessa, verokortti 18 %. Aseta liukusäätimet ja katso tulos!</p>
-    <button class="btn btn-primary" onclick="setTiina()" style="font-size:.88rem;padding:10px 18px">🎯 Aseta Tiinan luvut automaattisesti</button>
-    <div class="scenario-result" id="tiinaSummary" style="display:none"></div>
-  </div>
-</div>
 
 <script>
 const SCORM = (() => {
@@ -323,38 +320,6 @@ function calc() {
     // Update annual gross for mini-task
     const annualGross = Math.round(gross * 12);
     document.getElementById('annualGrossDisplay').textContent = annualGross.toLocaleString('fi-FI') + ' €';
-}
-
-function setTiina() {
-    document.getElementById('hoursSlider').value = 20;
-    document.getElementById('rateSlider').value = 1350;
-    document.getElementById('eveningSlider').value = 5;
-    document.getElementById('satSlider').value = 0;
-    document.getElementById('sunSlider').value = 0;
-    document.getElementById('taxSlider').value = 18;
-    document.getElementById('taxInput').value = 18;
-    setType('part', document.getElementById('btn-part'));
-    calc();
-    const hours = 20 * (52/12);
-    const rate = 13.50;
-    const base = hours * rate;
-    const evening = 5 * 1.22;
-    const gross = base + evening;
-    const tax = gross * 0.18;
-    const tyel = gross * 0.0715;
-    const sick = gross * 0.015;
-    const net = gross - tax - tyel - sick;
-    document.getElementById('tiinaSummary').style.display = 'block';
-    document.getElementById('tiinaSummary').innerHTML = `
-      <strong>🧮 Tiinan laskelma:</strong><br>
-      • Kuukausitunnit: ${Math.round(hours)} h<br>
-      • Perusansio: ${base.toFixed(2).replace('.',',')} €<br>
-      • Iltalisät (5 h × 1,22 €): ${evening.toFixed(2).replace('.',',')} €<br>
-      • <strong>Bruttopalkka: ${gross.toFixed(2).replace('.',',')} €</strong><br>
-      • Verot (18 %): -${tax.toFixed(2).replace('.',',')} €<br>
-      • TyEL (7,15 %): -${tyel.toFixed(2).replace('.',',')} €<br>
-      • SV-maksu (1,5 %): -${sick.toFixed(2).replace('.',',')} €<br>
-      • <strong style="color:#11998e">Nettopalkka: ${net.toFixed(2).replace('.',',')} €</strong>`;
 }
 
 calc();
