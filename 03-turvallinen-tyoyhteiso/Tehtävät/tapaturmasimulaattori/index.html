@@ -6,7 +6,7 @@
 <title>Tapaturmasimulaattori – toimiiko sinun tapasi?</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f8;min-height:100vh;overflow-x:hidden}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f5fb;color:#1e293b;min-height:100vh;overflow-x:hidden}
 
 /* ── SCREENS ── */
 .screen{display:none;min-height:100vh;flex-direction:column}
@@ -18,16 +18,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
 /* ══════════════════════════════════════════════════
    INTRO SCREEN
    ══════════════════════════════════════════════════ */
-.intro-hero{background:linear-gradient(145deg,#0d2a52,#061428);border:1px solid #1a3560;border-radius:20px;padding:36px 28px;text-align:center;position:relative;overflow:hidden}
-.intro-hero::after{content:'🦺';position:absolute;right:-10px;bottom:-16px;font-size:120px;opacity:.06;pointer-events:none;line-height:1}
-.hero-kicker{display:inline-block;background:rgba(45,143,232,.18);border:1px solid rgba(45,143,232,.3);color:#7ab8f5;border-radius:20px;padding:4px 14px;font-size:.75rem;font-weight:700;letter-spacing:.07em;margin-bottom:14px;text-transform:uppercase}
+.intro-hero{background:linear-gradient(145deg,#dbeafe,#eff6ff);border:1px solid #bfdbfe;border-radius:20px;padding:36px 28px;text-align:center;position:relative;overflow:hidden}
+.intro-hero::after{content:'🦺';position:absolute;right:-10px;bottom:-16px;font-size:120px;opacity:.08;pointer-events:none;line-height:1}
+.hero-kicker{display:inline-block;background:rgba(45,143,232,.15);border:1px solid rgba(45,143,232,.35);color:#1d4ed8;border-radius:20px;padding:4px 14px;font-size:.75rem;font-weight:700;letter-spacing:.07em;margin-bottom:14px;text-transform:uppercase}
 .intro-hero h1{font-size:clamp(1.4rem,4vw,2.1rem);font-weight:900;margin-bottom:10px;line-height:1.2}
-.intro-hero>p{font-size:.97rem;color:#94a3b8;line-height:1.65;max-width:520px;margin:0 auto}
+.intro-hero>p{font-size:.97rem;color:#475569;line-height:1.65;max-width:520px;margin:0 auto}
 
 .sc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:580px){.sc-grid{grid-template-columns:1fr;gap:8px}}
 
-.sc-card{background:#0d1e36;border:2px solid #1a3560;border-radius:16px;padding:20px 14px 16px;cursor:pointer;font-family:inherit;color:#f0f4f8;text-align:center;transition:all .22s;position:relative;overflow:hidden}
+.sc-card{background:#ffffff;border:2px solid #e2e8f0;border-radius:16px;padding:20px 14px 16px;cursor:pointer;font-family:inherit;color:#1e293b;text-align:center;transition:all .22s;position:relative;overflow:hidden}
 .sc-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(45,143,232,.08),transparent 70%);opacity:0;transition:opacity .3s}
 .sc-card:hover::before{opacity:1}
 .sc-card:hover{border-color:#2d8fe8;transform:translateY(-4px);box-shadow:0 10px 28px rgba(45,143,232,.18)}
@@ -35,31 +35,31 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
 .sc-icon{font-size:2.8rem;display:block;margin-bottom:10px;line-height:1}
 .sc-name{font-size:.98rem;font-weight:800;margin-bottom:5px}
 .sc-sub{font-size:.8rem;color:#64748b;line-height:1.4;margin-bottom:10px}
-.sc-badge{display:inline-flex;align-items:center;gap:4px;font-size:.73rem;font-weight:700;color:#4a7fa8;background:#0a1628;border-radius:10px;padding:2px 10px}
+.sc-badge{display:inline-flex;align-items:center;gap:4px;font-size:.73rem;font-weight:700;color:#1d4ed8;background:#eff6ff;border-radius:10px;padding:2px 10px}
 .sc-card.done{border-color:#10b981}
 .sc-card.done .sc-badge{color:#10b981}
 
-.intro-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid #0d1e36;flex-wrap:wrap;gap:6px}
-.intro-nav a{color:#4a7fa8;font-size:.83rem;font-weight:600;text-decoration:none;transition:color .15s}
+.intro-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid #e2e8f0;flex-wrap:wrap;gap:6px}
+.intro-nav a{color:#2563eb;font-size:.83rem;font-weight:600;text-decoration:none;transition:color .15s}
 .intro-nav a:hover{color:#2d8fe8}
-.intro-nav span{font-size:.78rem;color:#2d4a6a}
+.intro-nav span{font-size:.78rem;color:#64748b}
 
 /* ══════════════════════════════════════════════════
    SIM SCREEN HEADER
    ══════════════════════════════════════════════════ */
-.sim-hdr{background:#080f1c;border-bottom:1px solid #0d1e36;padding:11px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;position:sticky;top:0;z-index:20}
-.back-btn{background:transparent;border:1px solid #1a3560;color:#64748b;border-radius:8px;padding:6px 11px;font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
-.back-btn:hover{border-color:#4a7fa8;color:#f0f4f8}
-.sim-sc-title{font-size:.92rem;font-weight:700;color:#f0f4f8;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sim-hdr{background:#ffffff;border-bottom:1px solid #e2e8f0;padding:11px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;position:sticky;top:0;z-index:20}
+.back-btn{background:transparent;border:1px solid #cbd5e1;color:#64748b;border-radius:8px;padding:6px 11px;font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.back-btn:hover{border-color:#2563eb;color:#1e293b}
+.sim-sc-title{font-size:.92rem;font-weight:700;color:#1e293b;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hearts{display:flex;gap:3px}
 .heart{font-size:1rem;transition:all .3s;line-height:1}
 .heart.lost{opacity:.22;filter:grayscale(1)}
-.step-pill{background:#0d1e36;border:1px solid #1a3560;border-radius:10px;padding:4px 12px;font-size:.8rem;font-weight:700;color:#4a7fa8;white-space:nowrap}
+.step-pill{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:4px 12px;font-size:.8rem;font-weight:700;color:#1d4ed8;white-space:nowrap}
 
 /* ══════════════════════════════════════════════════
    SCENE PANEL
    ══════════════════════════════════════════════════ */
-.scene-wrap{border-radius:16px;overflow:hidden;flex-shrink:0;border:1px solid #1a3560;position:relative}
+.scene-wrap{border-radius:16px;overflow:hidden;flex-shrink:0;border:1px solid #e2e8f0;position:relative}
 .scene-bd{height:220px;position:relative;overflow:hidden}
 
 /* Warehouse backdrop */
@@ -84,7 +84,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
   background:linear-gradient(180deg,#3a5065 0%,#2d3f50 100%)}
 
 /* Characters */
-.char{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;
+.char{position:absolute;display:flex;flex-direction:column;align-items:center;gap:1px;z-index:2;
   transition:left .65s cubic-bezier(.34,1.56,.64,1),bottom .65s cubic-bezier(.34,1.56,.64,1),opacity .4s ease,transform .4s ease}
 .char.gone{opacity:0;transform:scale(.5)}
 .ch-em{font-size:38px;line-height:1;display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}
@@ -98,11 +98,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
 .anim-shake .ch-em{animation:charShake .5s ease-in-out 2}
 
 /* Scene status bar */
-.scene-bar{background:rgba(8,15,28,.82);backdrop-filter:blur(4px);padding:9px 14px;
-  display:flex;align-items:center;gap:8px;border-top:1px solid #0d1e36}
+.scene-bar{background:rgba(255,255,255,.95);backdrop-filter:blur(4px);padding:9px 14px;
+  display:flex;align-items:center;gap:8px;border-top:1px solid #e2e8f0}
 .scene-step-tag{background:#2d8fe8;color:#fff;font-size:.72rem;font-weight:700;
   padding:2px 10px;border-radius:10px;flex-shrink:0}
-.scene-step-label{font-size:.86rem;font-weight:700;color:#e2e8f0;flex:1}
+.scene-step-label{font-size:.86rem;font-weight:700;color:#1e293b;flex:1}
 
 /* ══════════════════════════════════════════════════
    STEP TIMELINE
@@ -111,42 +111,42 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
 .tl-node{display:flex;align-items:center;flex:1}
 .tl-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   font-size:.74rem;font-weight:800;flex-shrink:0;transition:all .35s;
-  border:2px solid #1a3560;background:#0d1e36;color:#334e6a}
+  border:2px solid #cbd5e1;background:#f8fafc;color:#94a3b8}
 .tl-dot.done{background:#10b981;border-color:#10b981;color:#fff}
 .tl-dot.active{background:#2d8fe8;border-color:#2d8fe8;color:#fff;
   box-shadow:0 0 0 5px rgba(45,143,232,.22);animation:tlPop .35s cubic-bezier(.34,1.56,.64,1)}
-.tl-line{flex:1;height:3px;background:#0d1e36;margin:0 2px;transition:background .35s;border-radius:2px}
+.tl-line{flex:1;height:3px;background:#e2e8f0;margin:0 2px;transition:background .35s;border-radius:2px}
 .tl-line.done{background:#10b981}
 
 /* ══════════════════════════════════════════════════
    NARRATION CARD
    ══════════════════════════════════════════════════ */
-.narr{background:#0d1e36;border:1px solid #1a3560;border-radius:14px;padding:16px 18px;animation:fadeSlide .35s ease}
-.narr-badge{display:inline-flex;align-items:center;gap:5px;background:#080f1c;
-  color:#4a7fa8;font-size:.7rem;font-weight:700;padding:3px 11px;border-radius:20px;
+.narr{background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;padding:16px 18px;animation:fadeSlide .35s ease}
+.narr-badge{display:inline-flex;align-items:center;gap:5px;background:#eff6ff;
+  color:#1d4ed8;font-size:.7rem;font-weight:700;padding:3px 11px;border-radius:20px;
   margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase}
-.narr h2{font-size:1rem;font-weight:800;color:#f0f4f8;margin-bottom:7px;line-height:1.3}
-.narr p{font-size:.88rem;color:#94a3b8;line-height:1.68}
+.narr h2{font-size:1rem;font-weight:800;color:#1e293b;margin-bottom:7px;line-height:1.3}
+.narr p{font-size:.88rem;color:#475569;line-height:1.68}
 
 /* ══════════════════════════════════════════════════
    CHOICES
    ══════════════════════════════════════════════════ */
-.choices-lbl{font-size:.72rem;font-weight:700;color:#4a7fa8;text-transform:uppercase;
+.choices-lbl{font-size:.72rem;font-weight:700;color:#2563eb;text-transform:uppercase;
   letter-spacing:.09em;margin-bottom:7px}
 .choices-list{display:flex;flex-direction:column;gap:7px}
 
-.ch-btn{background:#0d1e36;border:2px solid #1a3560;border-radius:12px;
-  padding:13px 15px;cursor:pointer;font-family:inherit;color:#f0f4f8;
+.ch-btn{background:#ffffff;border:2px solid #e2e8f0;border-radius:12px;
+  padding:13px 15px;cursor:pointer;font-family:inherit;color:#1e293b;
   text-align:left;display:flex;align-items:center;gap:12px;
   transition:all .2s;position:relative}
-.ch-btn:hover:not([disabled]){border-color:#2d8fe8;background:#0f2440;transform:translateX(4px)}
+.ch-btn:hover:not([disabled]){border-color:#2d8fe8;background:#eff6ff;transform:translateX(4px)}
 .ch-btn:focus-visible{outline:3px solid #2d8fe8;outline-offset:2px}
 .ch-btn[disabled]{cursor:default}
 .ch-ico{font-size:1.55rem;flex-shrink:0;width:36px;text-align:center;line-height:1}
 .ch-txt{font-size:.9rem;font-weight:600;line-height:1.4;flex:1}
 .ch-mark{font-size:1.15rem;flex-shrink:0;opacity:0;transition:opacity .25s}
-.ch-btn.correct{border-color:#10b981;background:#071f14;animation:flashGreen .55s ease}
-.ch-btn.wrong{border-color:#ef4444;background:#1f0a0a;animation:shakeBtn .4s ease}
+.ch-btn.correct{border-color:#10b981;background:#ecfdf5;animation:flashGreen .55s ease}
+.ch-btn.wrong{border-color:#ef4444;background:#fef2f2;animation:shakeBtn .4s ease}
 .ch-btn.correct .ch-mark,.ch-btn.wrong .ch-mark{opacity:1}
 .ch-btn.dim{opacity:.38}
 
@@ -156,17 +156,17 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
 .fb-panel{border-radius:14px;border:2px solid transparent;padding:15px 17px;
   display:none;animation:fadeSlide .3s ease}
 .fb-panel.show{display:block}
-.fb-panel.fb-ok{border-color:#10b981;background:#071f14}
-.fb-panel.fb-err{border-color:#ef4444;background:#1f0a0a}
+.fb-panel.fb-ok{border-color:#10b981;background:#ecfdf5}
+.fb-panel.fb-err{border-color:#ef4444;background:#fef2f2}
 .fb-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
 .fb-ico{font-size:1.5rem;flex-shrink:0;line-height:1.2}
-.fb-txt{font-size:.89rem;line-height:1.65;color:#e2e8f0;flex:1}
+.fb-txt{font-size:.89rem;line-height:1.65;color:#1e293b;flex:1}
 .fb-btns{display:flex;gap:8px;flex-wrap:wrap}
 .btn-next{background:linear-gradient(135deg,#2d8fe8,#1a6abf);color:#fff;border:none;
   border-radius:10px;padding:10px 20px;font-size:.9rem;font-weight:700;
   font-family:inherit;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
 .btn-next:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(45,143,232,.35)}
-.btn-retry{background:transparent;color:#f87171;border:1px solid #7f1d1d;
+.btn-retry{background:transparent;color:#dc2626;border:1px solid #fca5a5;
   border-radius:10px;padding:10px 18px;font-size:.9rem;font-weight:700;
   font-family:inherit;cursor:pointer;transition:all .2s}
 .btn-retry:hover{background:rgba(239,68,68,.1);border-color:#ef4444}
@@ -178,8 +178,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
   justify-content:center;padding:24px 16px;gap:16px;text-align:center}
 .done-anim{font-size:5rem;animation:bounceIn .7s cubic-bezier(.34,1.56,.64,1)}
 .done-title{font-size:clamp(1.3rem,4vw,2rem);font-weight:900;line-height:1.2}
-.done-sub{font-size:.95rem;color:#94a3b8;line-height:1.55;max-width:380px}
-.score-box{background:#0d1e36;border:2px solid #1a3560;border-radius:20px;
+.done-sub{font-size:.95rem;color:#475569;line-height:1.55;max-width:380px}
+.score-box{background:#ffffff;border:2px solid #e2e8f0;border-radius:20px;
   padding:18px 36px;display:flex;flex-direction:column;align-items:center;gap:4px}
 .score-num{font-size:3rem;font-weight:900;color:#2d8fe8;line-height:1}
 .score-lbl{font-size:.82rem;color:#64748b;margin-top:2px}
@@ -189,35 +189,35 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#080f1c;color:#f0f4f
   border-radius:12px;padding:12px 22px;font-size:.92rem;font-weight:700;
   font-family:inherit;cursor:pointer;transition:all .2s}
 .btn-next-sc:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(45,143,232,.3)}
-.btn-intro{background:#0d1e36;color:#94a3b8;border:1px solid #1a3560;
+.btn-intro{background:#f8fafc;color:#475569;border:1px solid #cbd5e1;
   border-radius:12px;padding:12px 22px;font-size:.92rem;font-weight:700;
   font-family:inherit;cursor:pointer;transition:all .2s}
-.btn-intro:hover{color:#f0f4f8;border-color:#4a7fa8}
+.btn-intro:hover{color:#1e293b;border-color:#2563eb}
 
-.review-box{background:#0d1e36;border:1px solid #1a3560;border-radius:14px;
+.review-box{background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;
   padding:13px 16px;text-align:left;width:100%;max-width:500px}
-.review-box h3{font-size:.73rem;font-weight:700;color:#4a7fa8;text-transform:uppercase;
+.review-box h3{font-size:.73rem;font-weight:700;color:#2563eb;text-transform:uppercase;
   letter-spacing:.07em;margin-bottom:9px}
 .rv-item{display:flex;align-items:flex-start;gap:7px;padding:5px 0;
-  border-bottom:1px solid #0d1e36;font-size:.85rem;color:#94a3b8;line-height:1.4}
+  border-bottom:1px solid #f1f5f9;font-size:.85rem;color:#475569;line-height:1.4}
 .rv-item:last-child{border-bottom:none}
 .rv-item .rvi{flex-shrink:0;font-size:.95rem}
-.rv-item.ok{color:#6ee7b7}
-.rv-item.err{color:#fca5a5}
+.rv-item.ok{color:#059669}
+.rv-item.err{color:#dc2626}
 
 /* ── NAV FOOTER ── */
-.nav-foot{background:#080f1c;border-top:1px solid #0d1e36;padding:11px 16px;
+.nav-foot{background:#ffffff;border-top:1px solid #e2e8f0;padding:11px 16px;
   display:flex;align-items:center;justify-content:space-between;flex-shrink:0;flex-wrap:wrap;gap:6px}
-.nav-foot a{color:#4a7fa8;font-size:.82rem;font-weight:600;text-decoration:none}
+.nav-foot a{color:#2563eb;font-size:.82rem;font-weight:600;text-decoration:none}
 .nav-foot a:hover{color:#2d8fe8}
-.nav-foot span{font-size:.76rem;color:#2d4a6a}
+.nav-foot span{font-size:.76rem;color:#64748b}
 
 /* ── ANIMATIONS ── */
 @keyframes charIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes charPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
 @keyframes charWave{0%,100%{transform:rotate(0)}25%{transform:rotate(14deg)}75%{transform:rotate(-10deg)}}
 @keyframes charShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-@keyframes flashGreen{0%{background:#071f14}40%{background:#0a3020}100%{background:#071f14}}
+@keyframes flashGreen{0%{background:#ecfdf5}40%{background:#d1fae5}100%{background:#ecfdf5}}
 @keyframes shakeBtn{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-7px)}80%{transform:translateX(7px)}}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes bounceIn{0%{transform:scale(.3);opacity:0}55%{transform:scale(1.15)}75%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
@@ -356,10 +356,10 @@ var DATA = [
           {em:'📦',lb:'',x:86,y:22,a:''}
         ],
         choices:[
-          {ico:'📍',txt:'Arvioi ensin oma sijaintisi — onko reitti Mikon luo turvallinen?',ok:true,
-           fb:'✅ Juuri näin! Ennen avustamista tarkista oma turvallisuutesi. Märälle lattialle ryntääminen voi kaataa sinutkin ja tehdä tilanteesta pahemman.'},
           {ico:'🏃',txt:'Juokse heti Mikon luo — nopeus on tärkeintä!',ok:false,
            fb:'⚠️ Ryntääminen märälle lattialle on vaarallista. Saatat kaatua itse ja vahingoittua. Arvioi oma turvallisuutesi ensin.'},
+          {ico:'📍',txt:'Arvioi ensin oma sijaintisi — onko reitti Mikon luo turvallinen?',ok:true,
+           fb:'✅ Juuri näin! Ennen avustamista tarkista oma turvallisuutesi. Märälle lattialle ryntääminen voi kaataa sinutkin ja tehdä tilanteesta pahemman.'},
           {ico:'📢',txt:'Huuda kaikille varastossa: "Täällä on tapaturma!"',ok:false,
            fb:'⚠️ Avun pyytäminen tulee myöhemmin. Ensimmäinen askel on oman turvallisuuden arviointi — ei huutaminen.'}
         ]
@@ -374,12 +374,12 @@ var DATA = [
           {em:'🧑',lb:'Työkaveri',x:14,y:28,a:'anim-idle'}
         ],
         choices:[
-          {ico:'⚠️',txt:'Aseta varoitusmerkki ja pyydä työkaveria vahtimaan vaarakohtaa',ok:true,
-           fb:'✅ Oikein! Merkitsemätön märkä lattia on aktiivinen vaara — seuraava henkilö voi liukastua samaan kohtaan. Varoitusmerkki on välitön prioriteetti.'},
           {ico:'🆙',txt:'Auta Mikko heti ylös lattialta seisomaan',ok:false,
            fb:'⚠️ Älä siirrä loukkaantunutta, ennen kuin tiedät onko hänellä selkä- tai kaulavamma! Siirtäminen voi pahentaa vammoja vakavasti.'},
           {ico:'📱',txt:'Ota puhelin esiin ja soita heti 112',ok:false,
-           fb:'⚠️ 112 tulee pian, mutta ensin pitää merkitä vaara. Järjestys: 1) Merkitse vaara 2) Tarkista Mikon vointi 3) Soita tarvittaessa 112.'}
+           fb:'⚠️ 112 tulee pian, mutta ensin pitää merkitä vaara. Järjestys: 1) Merkitse vaara 2) Tarkista Mikon vointi 3) Soita tarvittaessa 112.'},
+          {ico:'⚠️',txt:'Aseta varoitusmerkki ja pyydä työkaveria vahtimaan vaarakohtaa',ok:true,
+           fb:'✅ Oikein! Merkitsemätön märkä lattia on aktiivinen vaara — seuraava henkilö voi liukastua samaan kohtaan. Varoitusmerkki on välitön prioriteetti.'}
         ]
       },
       {
@@ -410,10 +410,10 @@ var DATA = [
           {em:'🧑',lb:'Työkaveri',x:14,y:28,a:'anim-idle'}
         ],
         choices:[
-          {ico:'📞',txt:'Soita 112 ja kutsu työkaveri avuksi — älä jätä Mikkoa yksin',ok:true,
-           fb:'✅ Täsmälleen oikein! Kun loukkaantunut ei pysty liikkumaan ja on voimakkaita kipuja, tarvitaan ammattiapu. Pidä Mikko rauhallisena ja työkaveri auttaa tilanteen hallinnassa.'},
           {ico:'🚗',txt:'Kuljeta Mikko itse autolla sairaalaan — se on nopeampaa',ok:false,
            fb:'⚠️ Älä kuljeta loukkaantunutta itse! Se voi pahentaa vammoja vakavasti. 112 lähettää ammattimaisen ensiavun oikeilla välineillä.'},
+          {ico:'📞',txt:'Soita 112 ja kutsu työkaveri avuksi — älä jätä Mikkoa yksin',ok:true,
+           fb:'✅ Täsmälleen oikein! Kun loukkaantunut ei pysty liikkumaan ja on voimakkaita kipuja, tarvitaan ammattiapu. Pidä Mikko rauhallisena ja työkaveri auttaa tilanteen hallinnassa.'},
           {ico:'⏳',txt:'Odota hetki ja katso, parantuuko olo itsestään',ok:false,
            fb:'⚠️ Voimakas kipu ja liikkumattomuus vaativat ammattilaisen arvion viipymättä. Odottaminen voi pahentaa vammoja.'}
         ]
@@ -447,12 +447,12 @@ var DATA = [
           {em:'✅',lb:'Lattia siivottu',x:54,y:9,a:''}
         ],
         choices:[
-          {ico:'📋',txt:'Täytä tapaturmailmoitus ja ilmoita esihenkilölle viipymättä',ok:true,
-           fb:'✅ Ehdottoman tärkeää! Jokainen tapaturma kirjataan lain mukaan. Tapaturmailmoitus auttaa työnantajaa ehkäisemään tulevia tapaturmia. Myös "läheltä piti" -tilanteet kirjataan.'},
           {ico:'🏠',txt:'Lähde kotiin — olet stressaantunut ja ansainnut levon',ok:false,
            fb:'⚠️ Tapaturmailmoitus täytetään ennen poistumista — se on lain mukainen velvollisuus. Sen laiminlyönti on ongelma työnantajalle ja sinulle.'},
           {ico:'📱',txt:'Jaa tapaus somessa muiden varoittamiseksi',ok:false,
-           fb:'⚠️ Tapauksen jakaminen somessa loukkaa Mikon yksityisyyttä ja voi olla lainvastaista. Asiat hoidetaan aina sisäisesti.'}
+           fb:'⚠️ Tapauksen jakaminen somessa loukkaa Mikon yksityisyyttä ja voi olla lainvastaista. Asiat hoidetaan aina sisäisesti.'},
+          {ico:'📋',txt:'Täytä tapaturmailmoitus ja ilmoita esihenkilölle viipymättä',ok:true,
+           fb:'✅ Ehdottoman tärkeää! Jokainen tapaturma kirjataan lain mukaan. Tapaturmailmoitus auttaa työnantajaa ehkäisemään tulevia tapaturmia. Myös "läheltä piti" -tilanteet kirjataan.'}
         ]
       }
     ]
@@ -473,12 +473,12 @@ var DATA = [
           {em:'🛒',lb:'',x:38,y:9,a:''}
         ],
         choices:[
-          {ico:'🚶',txt:'Lähesty rauhallisesti ja arvioi tilanne ennen kuin toimit',ok:true,
-           fb:'✅ Oikein! Rauhallinen lähestyminen estää lisäonnettomuudet. Se antaa sinulle tilan ja ajan arvioida tilanne oikein. Ei paniikkia, ei ryntäilyä.'},
           {ico:'🏃',txt:'Juokse heti asiakkaan luo mahdollisimman nopeasti',ok:false,
            fb:'⚠️ Juokseminen kiireisessä myymälässä voi kaataa muita asiakkaita tai sinut itsesi. Lähesty aina rauhallisesti.'},
           {ico:'📢',txt:'Huuda myymälässä: "Apua! Joku on pyörtynyt!"',ok:false,
-           fb:'⚠️ Huutaminen aiheuttaa paniikkia. Arvioi ensin tilanne, sitten pyydä apua rauhallisesti.'}
+           fb:'⚠️ Huutaminen aiheuttaa paniikkia. Arvioi ensin tilanne, sitten pyydä apua rauhallisesti.'},
+          {ico:'🚶',txt:'Lähesty rauhallisesti ja arvioi tilanne ennen kuin toimit',ok:true,
+           fb:'✅ Oikein! Rauhallinen lähestyminen estää lisäonnettomuudet. Se antaa sinulle tilan ja ajan arvioida tilanne oikein. Ei paniikkia, ei ryntäilyä.'}
         ]
       },
       {
@@ -507,10 +507,10 @@ var DATA = [
           {em:'👥',lb:'Muut',x:80,y:30,a:''}
         ],
         choices:[
-          {ico:'🫁',txt:'Kallista pää taaksepäin, tarkista hengitys 10 s: katso, kuule, tunne',ok:true,
-           fb:'✅ Oikein! Katso nouseeko rintakehä, kuule hengitysäänet, tunne ilmavirta. Jos ei hengitä normaalisti → soita 112 ja aloita elvytys.'},
           {ico:'💧',txt:'Pirskota vettä kasvoille — se herättää pyörtyneen',ok:false,
            fb:'⚠️ Tämä on myytti. Se ei auta ja häiritsee tilannearviota. Tarkista hengitys asianmukaisesti.'},
+          {ico:'🫁',txt:'Kallista pää taaksepäin, tarkista hengitys 10 s: katso, kuule, tunne',ok:true,
+           fb:'✅ Oikein! Katso nouseeko rintakehä, kuule hengitysäänet, tunne ilmavirta. Jos ei hengitä normaalisti → soita 112 ja aloita elvytys.'},
           {ico:'⏳',txt:'Odota hetki — tajuton yleensä herää itsestään pian',ok:false,
            fb:'⚠️ Tajuttomuus voi johtua sydänkohtauksesta tai aivoverenkierron häiriöstä. Älä odota — toimi heti.'}
         ]
@@ -542,12 +542,12 @@ var DATA = [
           {em:'👥',lb:'Tungos',x:80,y:28,a:'anim-pulse'}
         ],
         choices:[
-          {ico:'🤲',txt:'Pyydä muita kunnioittavasti siirtymään: "Annetaan tilaa auttaa"',ok:true,
-           fb:'✅ Oikein! Rauhallinen, asiallinen pyyntö suojaa asiakkaan yksityisyyttä ja antaa tilaa toimia. Rauhallinen asenne rauhoittaa muutkin.'},
           {ico:'🙅',txt:'Huuda kaikille poistumaan kaupasta välittömästi',ok:false,
            fb:'⚠️ Asiakkaiden häätäminen koko kaupasta on ylireagointia ja aiheuttaa paniikkia. Ohjaa vain lähialueen ihmiset sivuun.'},
           {ico:'📸',txt:'Estä kaikki kuvaaminen — se on kiireellisin prioriteetti',ok:false,
-           fb:'⚠️ Yksityisyyden suojaaminen on tärkeää, mutta ensisijaista on tilanteen hallinta. Ohjaa ihmiset sivuun ensin.'}
+           fb:'⚠️ Yksityisyyden suojaaminen on tärkeää, mutta ensisijaista on tilanteen hallinta. Ohjaa ihmiset sivuun ensin.'},
+          {ico:'🤲',txt:'Pyydä muita kunnioittavasti siirtymään: "Annetaan tilaa auttaa"',ok:true,
+           fb:'✅ Oikein! Rauhallinen, asiallinen pyyntö suojaa asiakkaan yksityisyyttä ja antaa tilaa toimia. Rauhallinen asenne rauhoittaa muutkin.'}
         ]
       },
       {
@@ -559,10 +559,10 @@ var DATA = [
           {em:'📋',lb:'Kirjaus',x:60,y:30,a:''}
         ],
         choices:[
-          {ico:'📋',txt:'Kirjaa tapahtuma ja ilmoita esihenkilölle',ok:true,
-           fb:'✅ Tärkeää! Kirjaa: aika, paikka, toimenpiteet. Ilmoita esihenkilölle — hänellä on oikeus tietää. Muista myös huolehtia omasta olostasi stressaavien tilanteiden jälkeen.'},
           {ico:'☕',txt:'Mene tauolle — olet ansainnut sen',ok:false,
            fb:'⚠️ Tauko voi tulla, mutta kirjaus tehdään ensin — asia on tuoreessa muistissa nyt. Tapaus on dokumentoitava.'},
+          {ico:'📋',txt:'Kirjaa tapahtuma ja ilmoita esihenkilölle',ok:true,
+           fb:'✅ Tärkeää! Kirjaa: aika, paikka, toimenpiteet. Ilmoita esihenkilölle — hänellä on oikeus tietää. Muista myös huolehtia omasta olostasi stressaavien tilanteiden jälkeen.'},
           {ico:'🤫',txt:'Älä mainitse asiaa kenellekään — asiakas haluaa yksityisyyttä',ok:false,
            fb:'⚠️ Asiakkaan yksityisyyttä suojataan, mutta esihenkilölle on ehdottomasti ilmoitettava. Hänellä on oikeus tietää.'}
         ]
@@ -601,10 +601,10 @@ var DATA = [
           {em:'🚪',lb:'Uloskäynti',x:88,y:35,a:''}
         ],
         choices:[
-          {ico:'🗣️',txt:'Puhu matalalla, rauhallisella äänellä: "Kuulen että olet turhautunut"',ok:true,
-           fb:'✅ Oikein! Matala, rauhallinen ääni ja empaattinen ilmaisu voivat rauhoittaa kiihtymystä. Vältä ehdottomasti provosointia ja haastamista.'},
           {ico:'😤',txt:'Sano tiukasti: "Pyydän poistumaan myymälästä välittömästi"',ok:false,
            fb:'⚠️ Käskeminen voi kärjistää tilannetta entisestään. Koeta ensin rauhoittaa rauhallisella, empaattisella kommunikaatiolla.'},
+          {ico:'🗣️',txt:'Puhu matalalla, rauhallisella äänellä: "Kuulen että olet turhautunut"',ok:true,
+           fb:'✅ Oikein! Matala, rauhallinen ääni ja empaattinen ilmaisu voivat rauhoittaa kiihtymystä. Vältä ehdottomasti provosointia ja haastamista.'},
           {ico:'🤐',txt:'Vaikene täysin ja odota — hiljaisuus rauhoittaa',ok:false,
            fb:'⚠️ Täydellinen hiljaisuus voi tuntua uhmakkaalta. Rauhallinen, lyhyt vuoropuhelu toimii paremmin.'}
         ]
@@ -619,12 +619,12 @@ var DATA = [
           {em:'👥',lb:'Muut asiakkaat',x:10,y:30,a:''}
         ],
         choices:[
-          {ico:'✋',txt:'Tee hienovarainen ele muille: ohjaa heidät pois hyllyvälistä',ok:true,
-           fb:'✅ Oikein! Sivullisten ohjaaminen turvaan on tärkeää, mutta se tehdään hienovaraisesti — ei niin, että tilanne pahenee.'},
           {ico:'📣',txt:'Huuda muille: "Menkää pois — täällä on uhkaava asiakas!"',ok:false,
            fb:'⚠️ Tämä aiheuttaa paniikkia ja voi kärjistää uhkaavan asiakkaan käytöstä. Toimi hiljaa ja harkiten.'},
           {ico:'🚶',txt:'Jätä muut asiakkaat omaan arvoonsa — omasi ensin',ok:false,
-           fb:'⚠️ Sivullisten turvallisuus on myös vastuullasi. Suojaa heidät hienovaraisesti ilman, että kärjistät tilannetta.'}
+           fb:'⚠️ Sivullisten turvallisuus on myös vastuullasi. Suojaa heidät hienovaraisesti ilman, että kärjistät tilannetta.'},
+          {ico:'✋',txt:'Tee hienovarainen ele muille: ohjaa heidät pois hyllyvälistä',ok:true,
+           fb:'✅ Oikein! Sivullisten ohjaaminen turvaan on tärkeää, mutta se tehdään hienovaraisesti — ei niin, että tilanne pahenee.'}
         ]
       },
       {
@@ -645,20 +645,21 @@ var DATA = [
         ]
       },
       {
-        title:'Asiakas uhkaa fyysisesti',
-        text:'Tilanne kiristyy entisestään. Asiakas uhkaa fyysisesti. Vartija ei ehdi ajoissa.',
+        title:'Asiakas uhkaa väkivallalla',
+        text:'Tilanne kiristyy entisestään. Asiakas alkaa uhkaamaan väkivallalla sinua. Vartija tulee onneksi paikalle samalla hetkellä.',
         chars:[
           {em:'😰',lb:'Sinä',x:76,y:28,a:'anim-idle'},
           {em:'🤬',lb:'Asiakas',x:26,y:28,a:'anim-pulse'},
+          {em:'👮',lb:'Vartija',x:55,y:28,a:'anim-wave'},
           {em:'🚪',lb:'Uloskäynti',x:88,y:35,a:''}
         ],
         choices:[
-          {ico:'📞',txt:'Soita 112 heti — kerro sijainti ja tilanne lyhyesti',ok:true,
-           fb:'✅ Oikein! Välitön fyysinen uhka = soita 112. Kerro: "Myymälässä uhkaava asiakas [osoite]. Tilanne kärjistyy." Pysy linjalla ja seuraa ohjeita.'},
-          {ico:'🤼',txt:'Puolustaudu fyysisesti jos hän hyökkää',ok:false,
-           fb:'⚠️ Fyysinen konfrontaatio kasvattaa vammariskiä molemmin puolin. Poistu turvaan ja soita 112 — oma turvallisuus ensin.'},
-          {ico:'🕊️',txt:'Jatka puhumista rauhallisesti — tilanne kyllä laukeaa',ok:false,
-           fb:'⚠️ Välittömän fyysisen uhan tilanteessa pelkkä vuoropuhelu ei riitä. Poistu turvaan ja soita 112.'}
+          {ico:'🤼',txt:'Puolustaudu fyysisesti — vartija tukee sinua',ok:false,
+           fb:'⚠️ Fyysinen konfrontaatio kasvattaa vammariskiä molemmin puolin. Siirry etäämmälle — vartija hoitaa välittömän tilanteen.'},
+          {ico:'🚶',txt:'Siirry etäämmälle ja soita 112 heti — kerro sijainti ja tilanne lyhyesti',ok:true,
+           fb:'✅ Oikein! Kun asiakas uhkaa fyysisesti, siirry välittömästi turvaan etäämmälle. Vartija hoitaa akuutin tilanteen. Soita 112 ja kerro: missä olet ja mitä tapahtuu. Pysy linjalla ja seuraa ohjeita.'},
+          {ico:'🕊️',txt:'Jatka puhumista rauhallisesti — vartija rauhoittaa tilanteen kyllä',ok:false,
+           fb:'⚠️ Välittömän fyysisen uhan tilanteessa pelkkä puhuminen ei riitä. Siirry turvaan etäämmälle ja soita 112.'}
         ]
       },
       {
@@ -670,12 +671,12 @@ var DATA = [
           {em:'📋',lb:'Kirjauslomake',x:66,y:30,a:''}
         ],
         choices:[
-          {ico:'📋',txt:'Kirjaa uhkatilanne yksityiskohtaisesti ja ilmoita esihenkilölle',ok:true,
-           fb:'✅ Oikein! Uhkatilanteet kirjataan aina. Kirjaa: aika, paikka, kuvaus, toimenpiteet. Tietoja tarvitaan jos tilanne menee poliisiasiaksi tai tehdään turvallisuusarvio.'},
           {ico:'🤫',txt:'Älä kerro kenellekään — asiakas on jo poissa',ok:false,
            fb:'⚠️ Uhkatilanteita ei saa jättää kirjaamatta. Toistuvat tapaukset pitää tunnistaa ja niihin pitää pystyä puuttumaan.'},
           {ico:'😤',txt:'Valita johdolle, että myymälässä on liian vähän vartijoita',ok:false,
-           fb:'⚠️ Palaute on pitkällä tähtäimellä tärkeää, mutta nyt ensisijaista on kirjata tapaus asianmukaisesti. Tee se ensin.'}
+           fb:'⚠️ Palaute on pitkällä tähtäimellä tärkeää, mutta nyt ensisijaista on kirjata tapaus asianmukaisesti. Tee se ensin.'},
+          {ico:'📋',txt:'Kirjaa uhkatilanne yksityiskohtaisesti ja ilmoita esihenkilölle',ok:true,
+           fb:'✅ Oikein! Uhkatilanteet kirjataan aina. Kirjaa: aika, paikka, kuvaus, toimenpiteet. Tietoja tarvitaan jos tilanne menee poliisiasiaksi tai tehdään turvallisuusarvio.'}
         ]
       }
     ]
@@ -952,7 +953,7 @@ function finishScenario(){
       +reviewHtml
     +'</div>'
     +'<div class="done-btns">'
-      +(nextIdx>=0?'<button class="btn-next-sc" onclick="startScenario('+nextIdx+')">'+DATA[nextIdx].icon+' '+DATA[nextIdx].title+' →</button>':'')
+      +(nextIdx>=0?'<button class="btn-next-sc" onclick="startScenario('+nextIdx+')">Seuraava tilanne: '+DATA[nextIdx].icon+' '+DATA[nextIdx].title+' →</button>':'')
       +(doneAllCount===DATA.length?'<button class="btn-next-sc" onclick="showIntro()">✅ Kaikki suoritettu!</button>':'')
       +'<button class="btn-intro" onclick="showIntro()">↩ Valitse skenaario</button>'
     +'</div>';
