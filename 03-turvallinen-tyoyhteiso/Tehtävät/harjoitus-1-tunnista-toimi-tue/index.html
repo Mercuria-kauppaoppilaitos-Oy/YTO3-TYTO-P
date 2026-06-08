@@ -312,10 +312,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 const SCORM = (() => {
     let api=null,connected=false;
     function findAPI(win){let a=0;while(win&&!win.API&&a<10){if(win.parent&&win.parent!==win)win=win.parent;else if(win.opener)win=win.opener;else break;a++;}return win&&win.API?win.API:null;}
-    function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;}}
+    function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;if(connected)setValue('cmi.core.lesson_status','incomplete');}}
     function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
     function commit(){if(!connected||!api)return;api.LMSCommit('');}
-    function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
+    function finish(){if(!connected||!api)return;api.LMSFinish('');}
+    function complete(score,max){setValue('cmi.core.score.raw',score);setValue('cmi.core.score.max',max);setValue('cmi.core.score.min',0);setValue('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();finish();}
     return{init,complete};
 })();
 window.addEventListener('load',SCORM.init);
