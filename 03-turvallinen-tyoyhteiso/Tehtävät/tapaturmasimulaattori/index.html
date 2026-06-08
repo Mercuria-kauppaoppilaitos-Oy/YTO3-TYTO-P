@@ -325,10 +325,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f5fb;color:#1e293
 var SCORM = (function(){
   var api=null,conn=false;
   function find(w){var n=0;while(w&&!w.API&&n<10){if(w.parent&&w.parent!==w)w=w.parent;else if(w.opener)w=w.opener;else break;n++;}return w&&w.API?w.API:null;}
-  function init(){api=find(window);if(api){var r=api.LMSInitialize('');conn=(r==='true'||r===true);}}
+  function init(){api=find(window);if(api){var r=api.LMSInitialize('');conn=(r==='true'||r===true);if(conn)set('cmi.core.lesson_status','incomplete');}}
   function set(k,v){if(!conn||!api)return;api.LMSSetValue(k,String(v));}
   function commit(){if(!conn||!api)return;api.LMSCommit('');}
-  function complete(score,max){set('cmi.core.score.raw',score);set('cmi.core.score.max',max);set('cmi.core.score.min',0);set('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();}
+  function finish(){if(!conn||!api)return;api.LMSFinish('');}
+  function complete(score,max){set('cmi.core.score.raw',score);set('cmi.core.score.max',max);set('cmi.core.score.min',0);set('cmi.core.lesson_status',(score/max)>=0.5?'passed':'failed');commit();finish();}
   return{init:init,complete:complete};
 })();
 window.addEventListener('load',SCORM.init);
