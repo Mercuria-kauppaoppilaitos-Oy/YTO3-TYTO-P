@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tapaturmasimulaattori – huomaa riskit ja toimi turvallisesti</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:980px;margin:0 auto;padding:20px}
+
+/* ── Header ─────────────────────────────────────────────── */
+.ex-header{background:linear-gradient(135deg,#0878b8,#004e8c);color:#fff;padding:30px 32px;border-radius:16px;margin-bottom:22px;position:relative;overflow:hidden}
+.ex-header::after{content:'🦺';position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:76px;opacity:.12}
+.ex-header h1{font-size:clamp(1.1rem,3vw,1.75rem);font-weight:800;line-height:1.25;margin-bottom:8px}
+.ex-header p{font-size:.9rem;opacity:.9;line-height:1.6;max-width:580px}
+
+/* ── Scenario tabs ───────────────────────────────────────── */
+.sc-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.sc-tab{flex:1;min-width:155px;background:#fff;border:2px solid #dce3ed;border-radius:12px;padding:12px 10px;cursor:pointer;font-family:inherit;font-size:.83rem;font-weight:600;color:#555;text-align:center;transition:all .2s;line-height:1.3}
+.sc-tab .t-icon{font-size:1.5rem;display:block;margin-bottom:4px}
+.sc-tab:hover{border-color:#0878b8;color:#0878b8;background:#f0f7ff}
+.sc-tab.active{border-color:#0878b8;color:#0878b8;background:#e8f4fe}
+.sc-tab.explored{border-color:#22c55e;color:#15803d;background:#f0fdf4}
+.sc-tab:focus-visible{outline:3px solid #0878b8;outline-offset:2px}
+
+/* ── Panels ──────────────────────────────────────────────── */
+.sc-panel{display:none}
+.sc-panel.active{display:block;animation:fadeUp .35s ease}
+
+/* ── Situation card ──────────────────────────────────────── */
+.sit-card{background:#fff;border-radius:14px;padding:18px 22px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;border-left:4px solid #0878b8}
+.sit-badge{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,#0878b8,#004e8c);color:#fff;border-radius:20px;padding:3px 11px;font-size:.73rem;font-weight:700;margin-bottom:10px}
+.sit-card h3{font-size:.98rem;font-weight:800;margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.sit-card p{font-size:.9rem;line-height:1.7;color:#334}
+
+/* ── Main 2-col area ─────────────────────────────────────── */
+.main-area{display:grid;grid-template-columns:1fr 295px;gap:14px;margin-bottom:14px;align-items:start}
+@media(max-width:720px){.main-area{grid-template-columns:1fr}}
+
+/* ── Scene card ──────────────────────────────────────────── */
+.scene-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.scene-subtitle{font-size:.75rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.scene-visual{background:#eef3f8;border-radius:10px;border:2px solid #dce3ed;padding:4px 8px 8px;margin-bottom:12px}
+.scene-zones{display:grid;gap:6px;margin-bottom:0}
+.zone{border-radius:8px;padding:10px 10px 8px;text-align:center}
+.zone .z-emojis{font-size:1.35rem;display:block;line-height:1.2;margin-bottom:4px}
+.zone small{font-size:.73rem;color:#556;font-weight:600;line-height:1.2}
+
+/* ── Hotspot grid ────────────────────────────────────────── */
+.hspot-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+@media(max-width:440px){.hspot-grid{grid-template-columns:1fr}}
+.hspot{background:#f7f9fc;border:2px solid #dce3ed;border-radius:10px;padding:9px 11px;cursor:pointer;font-family:inherit;font-size:.83rem;font-weight:600;color:#334;text-align:left;display:flex;align-items:center;gap:8px;transition:all .2s;min-height:50px;line-height:1.3}
+.hspot .hi{font-size:1.25rem;flex-shrink:0;width:26px;text-align:center}
+.hspot:hover{border-color:#0878b8;background:#f0f7ff;transform:translateY(-2px);box-shadow:0 3px 10px rgba(8,120,184,.1)}
+.hspot.clicked{border-color:#0878b8;background:#ddf0fe;color:#004e8c}
+.hspot.active-hl{border-color:#004e8c;background:#bde3fb;box-shadow:0 0 0 3px rgba(8,120,184,.2)}
+.hspot:focus-visible{outline:3px solid #0878b8;outline-offset:2px}
+.hspot .check-mark{font-size:.7rem;color:#0878b8;margin-left:auto;flex-shrink:0;font-weight:700}
+
+/* ── Observation sidebar ─────────────────────────────────── */
+.obs-card{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;position:sticky;top:16px}
+.obs-head{background:linear-gradient(135deg,#162a45,#1a3a6e);color:#fff;padding:15px 17px}
+.obs-head .oh-lbl{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:5px}
+.obs-head .oh-icon{font-size:1.8rem;display:block;margin-bottom:4px}
+.obs-head .oh-title{font-size:.93rem;font-weight:700;line-height:1.3}
+.obs-body{padding:15px 17px}
+.obs-empty{color:#aaa;font-size:.86rem;line-height:1.6;text-align:center;padding:12px 0}
+.obs-empty .oe-ico{font-size:2rem;display:block;margin-bottom:8px}
+.obs-text{font-size:.87rem;line-height:1.65;color:#334;margin-bottom:8px}
+.obs-why{background:#f0f7ff;border-left:3px solid #0878b8;padding:9px 12px;margin:8px 0;font-size:.84rem;line-height:1.55;color:#1a3a6e;border-radius:0 8px 8px 0}
+.obs-dont{background:#fff5f5;border-left:3px solid #dc2626;padding:9px 12px;font-size:.84rem;line-height:1.55;color:#7f1d1d;border-radius:0 8px 8px 0}
+.obs-dont strong{color:#dc2626}
+.obs-why strong{color:#0878b8}
+
+/* ── Meter ───────────────────────────────────────────────── */
+.meter-sec{background:#fff;border-radius:14px;padding:17px 20px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px}
+.meter-head{font-size:.77rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:13px}
+.meter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:440px){.meter-grid{grid-template-columns:1fr}}
+.meter-item{background:#f5f8fc;border-radius:10px;padding:11px 13px}
+.mi-top{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.mi-icon{font-size:1.1rem}
+.mi-label{font-size:.82rem;font-weight:700;color:#334;flex:1;line-height:1.2}
+.mi-count{font-size:.77rem;font-weight:700;color:#0878b8}
+.mi-track{height:7px;background:#dce3ed;border-radius:4px;overflow:hidden}
+.mi-fill{height:100%;background:linear-gradient(90deg,#0878b8,#49b5e8);border-radius:4px;transition:width .55s ease}
+.mi-fill.done{background:linear-gradient(90deg,#22c55e,#4ade80)}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.btn{border:none;cursor:pointer;border-radius:24px;padding:11px 21px;font-size:.9rem;font-weight:700;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:linear-gradient(135deg,#0878b8,#004e8c);color:#fff;box-shadow:0 3px 12px rgba(8,120,184,.22)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(8,120,184,.32)}
+.btn-secondary{background:#fff;color:#0878b8;border:2px solid #0878b8}
+.btn-secondary:hover{background:#f0f7ff}
+.btn:focus-visible{outline:3px solid #0878b8;outline-offset:3px}
+.hidden{display:none!important}
+
+/* ── Summary ─────────────────────────────────────────────── */
+.summary{background:#fff;border-radius:14px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.07);margin-bottom:14px;display:none}
+.summary.show{display:block;animation:fadeIn .4s ease}
+.sum-head{font-size:1.05rem;font-weight:800;color:#0878b8;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.sum-sub{font-size:.88rem;color:#555;margin-bottom:14px;line-height:1.5}
+.sum-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.sum-list li{background:#f0f7ff;border-radius:10px;padding:10px 13px;font-size:.88rem;color:#1a2742;line-height:1.5;display:flex;align-items:flex-start;gap:8px}
+.sum-list li::before{content:'✅';flex-shrink:0;margin-top:1px}
+
+/* ── Nav footer ──────────────────────────────────────────── */
+.nav-footer{background:#fff;border-radius:14px;padding:15px 22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-top:20px}
+.nav-footer a{color:#0878b8;font-size:.87rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:4px}
+.nav-footer a:hover{text-decoration:underline}
+.nav-info{font-size:.82rem;color:#888}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="ex-header">
+  <h1>🦺 Tapaturmasimulaattori – huomaa riskit ja toimi turvallisesti</h1>
+  <p>Klikkaa työpaikan näkymästä asioita, jotka työntekijän pitää huomioida. Tavoitteena on oppia havainnoimaan riskit ja rakentaa turvallinen tapa toimia.</p>
+</div>
+
+<div class="sc-tabs" role="tablist" aria-label="Valitse skenaario">
+  <button class="sc-tab active" id="tab-1" onclick="selectSc(1)" role="tab" aria-selected="true" aria-controls="panel-1">
+    <span class="t-icon" aria-hidden="true">📦</span>Kaatuminen<br>varastossa
+  </button>
+  <button class="sc-tab" id="tab-2" onclick="selectSc(2)" role="tab" aria-selected="false" aria-controls="panel-2">
+    <span class="t-icon" aria-hidden="true">😵</span>Pyörtyminen<br>myymälässä
+  </button>
+  <button class="sc-tab" id="tab-3" onclick="selectSc(3)" role="tab" aria-selected="false" aria-controls="panel-3">
+    <span class="t-icon" aria-hidden="true">⚠️</span>Uhkaava<br>asiakas
+  </button>
+</div>
+
+<div id="panel-1" class="sc-panel active" role="tabpanel" aria-labelledby="tab-1"></div>
+<div id="panel-2" class="sc-panel" role="tabpanel" aria-labelledby="tab-2"></div>
+<div id="panel-3" class="sc-panel" role="tabpanel" aria-labelledby="tab-3"></div>
+
+<div class="nav-footer">
+  <a href="../index.html">← Takaisin tehtävälistaan</a>
+  <span class="nav-info">Osio 3: Turvallinen ja hyvinvoiva työyhteisö</span>
+</div>
+
+</div>
+<script>
+/* ── SCORM 1.2 ─────────────────────────────────────────────── */
+const SCORM = (function(){
+  var api = null, conn = false;
+  function find(w) {
+    var n = 0;
+    while (w && !w.API && n < 10) {
+      if (w.parent && w.parent !== w) w = w.parent;
+      else if (w.opener) w = w.opener;
+      else break;
+      n++;
+    }
+    return w && w.API ? w.API : null;
+  }
+  function init() { api = find(window); if (api) { var r = api.LMSInitialize(''); conn = (r === 'true' || r === true); } }
+  function set(k, v) { if (!conn || !api) return; api.LMSSetValue(k, String(v)); }
+  function commit() { if (!conn || !api) return; api.LMSCommit(''); }
+  function complete(score, max) {
+    set('cmi.core.score.raw', score);
+    set('cmi.core.score.max', max);
+    set('cmi.core.score.min', 0);
+    set('cmi.core.lesson_status', (score / max) >= 0.5 ? 'passed' : 'failed');
+    commit();
+  }
+  return { init: init, complete: complete };
+})();
+window.addEventListener('load', SCORM.init);
+
+/* ── SCENARIO DATA ─────────────────────────────────────────── */
+var SC = {
+  1: {
+    title: 'Kaatuminen varastossa',
+    icon: '📦💥',
+    badge: 'Skenaario 1 / 3',
+    desc: 'Olet töissä päivittäistavarakaupan varastossa. Kuulet äkillisen kolahduksen — työkaveri <strong>Mikko</strong> on liukastunut märällä lattialla ja makaa liikkumattomana. Ympärillä on kaatuneita laatikoita. Varastossa liikkuu myös muuta henkilökuntaa.',
+    zones: [
+      { bg: '#e8ece8', emojis: '📦📦📦', label: 'Hyllyt' },
+      { bg: '#fef3c0', emojis: '🤕⚠️', label: 'Tapaturmapaikka' },
+      { bg: '#e8f4e8', emojis: '🚪🔦', label: 'Uloskäynti' }
+    ],
+    zonesLayout: 'repeat(3,1fr)',
+    points: [
+      { id: 'oma-sijainti', icon: '📍', label: 'Oma sijainti', cat: 'safety',
+        text: 'Arvioi ensin oma sijaintisi ja turvallisuutesi.',
+        why: 'Selvitä nopeasti, missä olet ja onko sinulla turvallinen reitti loukkaantuneen luo. Varastossa lattialla voi olla kaaduttua nestettä tai kaatuneita tavaroita.',
+        dont: 'Älä ryntää suoraan loukkaantuneen luo tarkistamatta, onko reitti turvallinen.' },
+      { id: 'poistumisreitti', icon: '🚪', label: 'Poistumisreitti', cat: 'safety',
+        text: 'Varmista, että uloskäynti on vapaa.',
+        why: 'Tiedä, mistä poistut tarvittaessa. Varastossa voi olla lisää tavaraa putoamassa tai trukkiliikennettä, joten poistumisreitin pitää olla auki.',
+        dont: 'Älä tuki poistumisreittiä tavaroilla tai omalla toiminnallasi.' },
+      { id: 'loukkaantunut', icon: '🤕', label: 'Loukkaantunut Mikko', cat: 'help',
+        text: 'Tarkista Mikon vointi rauhallisesti.',
+        why: 'Kysy rauhallisesti: "Mikko, kuuletko minua?" Tarkista: onko hän tajuissaan? Pystyykö puhumaan? Valittaako kipua pään, kaulan tai selän alueella?',
+        dont: 'Älä siirrä loukkaantunutta, jos epäilet selkä- tai kaulavammaa — se voi pahentaa tilannetta.' },
+      { id: 'vaaratekijä', icon: '⚠️', label: 'Vaaratekijä: liukas lattia', cat: 'safety',
+        text: 'Merkitse vaarakohta ja estä lisätapaturmat.',
+        why: 'Aseta varoituskolmio tai -kyltti kaatumispaikan eteen. Jos mahdollista, pyydä työkaveria vahtimaan aluetta, kunnes lattia on siivottu.',
+        dont: 'Älä jätä märkää lattiaa merkitsemättä — seuraava henkilö voi liukastua samaan kohtaan.' },
+      { id: 'työkaveri', icon: '🧑‍🤝‍🧑', label: 'Työkaveri / esihenkilö', cat: 'help',
+        text: 'Pyydä apua välittömästi ääneen.',
+        why: 'Kutsu työkaveri tai esihenkilö paikalle heti. Älä jätä Mikkoa yksin. Lisäkädet auttavat alueen turvaamisessa ja avun järjestämisessä.',
+        dont: 'Älä yritä hoitaa tilannetta täysin yksin — pyydä apua ajoissa.' },
+      { id: 'puhelin-112', icon: '📞', label: 'Puhelin / 112', cat: 'help',
+        text: 'Soita 112, jos epäilet vakavaa vammaa.',
+        why: 'Jos Mikko ei pysty liikkumaan, hänellä on voimakkaita kipuja tai hän on sekava, soita 112 heti. Kerro: "Henkilö on kaatunut varastossa. Osoitteemme on..."',
+        dont: 'Älä odota liikaa — vakava vamma (pää, kaula, selkä) vaatii ammattilaisen arvion nopeasti.' },
+      { id: 'ensiapukaappi', icon: '🩹', label: 'Ensiapukaappi', cat: 'help',
+        text: 'Tiedä, missä ensiapukaappi sijaitsee.',
+        why: 'Ensiapukaapista löydät sidetarvikkeita ja kylmäpusseja. Pienet haavat ja mustelmat voi hoitaa itse — isommat vaativat ammattilaisen.',
+        dont: 'Älä aloita laajaa ensiapua epäselvissä tilanteissa — soita ensin 112 ja toimi hätäkeskuksen ohjeiden mukaan.' },
+      { id: 'muut-henkilöt', icon: '👥', label: 'Muut henkilöt alueella', cat: 'others',
+        text: 'Ohjaa muut pois tapaturma-alueelta.',
+        why: 'Varastossa voi olla muita työntekijöitä tai trukkiliikennettä. Suojaa heidät kehottamalla pysymään poissa alueelta, kunnes tilanne on hoidettu.',
+        dont: 'Älä salli turhaa tungosta tapaturmapaikalle — se vaikeuttaa avun antamista ja aiheuttaa lisäriskejä.' },
+      { id: 'tapaturmailmoitus', icon: '📋', label: 'Tapaturmailmoitus', cat: 'after',
+        text: 'Ilmoita tapaturmasta esihenkilölle ja kirjaa se.',
+        why: 'Jokainen tapaturma on ilmoitettava esihenkilölle viipymättä. Tapaturmailmoitus täytetään yhdessä — se on lain mukainen velvollisuus ja auttaa ehkäisemään tulevia tapaturmia.',
+        dont: 'Älä jätä tapaturmaa ilmoittamatta, vaikka se tuntuisi pieneltä — myös "läheltä piti" -tilanteet kirjataan.' }
+    ],
+    summary: [
+      'Varmistin ensin oman turvallisuuteni ja arvioin poistumisreitin.',
+      'Tarkistin loukkaantuneen voinnin ja soitin tarvittaessa 112.',
+      'Merkitsin vaaratekijän, ettei kukaan muu liukastu samaan kohtaan.',
+      'Pyysin työkaverin paikalle — en jättänyt loukkaantunutta yksin.',
+      'Huomioin muut alueella liikkujat ja ohjasin heidät pois.',
+      'Ilmoitin tapaturmasta esihenkilölle ja täytin tapaturmailmoituksen.'
+    ]
+  },
+  2: {
+    title: 'Pyörtyminen myymälässä',
+    icon: '😵🏪',
+    badge: 'Skenaario 2 / 3',
+    desc: 'Olet myymälässä kassaosastolla. Asiakas <strong>kaatuu äkillisesti</strong> lattialle ja makaa liikkumattomana. Lähellä on muita asiakkaita ja työkavereita. Tilanne on yllättävä.',
+    zones: [
+      { bg: '#e8f0f8', emojis: '🛒🧾', label: 'Kassat ja asiakkaat' },
+      { bg: '#fff0e8', emojis: '😵', label: 'Pyörtynyt henkilö' },
+      { bg: '#f0e8f8', emojis: '👥', label: 'Muut asiakkaat' }
+    ],
+    zonesLayout: 'repeat(3,1fr)',
+    points: [
+      { id: 'oma-sijainti', icon: '📍', label: 'Oma sijainti', cat: 'safety',
+        text: 'Arvioi oma sijaintisi — onko sinulla tilaa toimia?',
+        why: 'Varmista, että voit lähestyä pyörtynyttä turvallisesti etkä itse aiheuta ruuhkaa tai lisäonnettomuutta. Siirry rauhallisesti pyörtyneen luo.',
+        dont: 'Älä kompastele tai juokse — liiku rauhallisesti.' },
+      { id: 'pyörtynyt', icon: '😵', label: 'Pyörtynyt henkilö', cat: 'help',
+        text: 'Tarkista, onko henkilö tajuissaan.',
+        why: 'Tee herättelykoe: huuda nimellä ja naputtele olkapäästä. Jos henkilö ei reagoi, hän on tajuton — tarvitset apua välittömästi.',
+        dont: 'Älä ravistele voimakkaasti — se voi pahentaa tilannetta, jos taustalla on pääloukkaantuminen.' },
+      { id: 'hengitys', icon: '🫁', label: 'Hengityksen tarkistus', cat: 'help',
+        text: 'Tarkista hengitys 10 sekunnin kuluessa.',
+        why: 'Kallista pää varovasti taaksepäin ja katso, kuule ja tunne, hengittääkö henkilö. Jos ei hengitä normaalisti, soita heti 112 ja aloita painanta-puhalluselvytys.',
+        dont: 'Älä jätä hengitystä tarkistamatta — tajuttomalla on aina tukehtumisriski.' },
+      { id: 'kylkiasento', icon: '🔄', label: 'Kylkiasento', cat: 'help',
+        text: 'Tajuton mutta hengittävä laitetaan kylkiasentoon.',
+        why: 'Kylkiasento estää henkilöä tukehtumasta omaan oksennukseen tai syljeen. Pysy vierellä ja seuraa hengitystä, kunnes ammattiapu saapuu.',
+        dont: 'Älä laita kylkiasentoon, jos epäilet selkä- tai kaulavammaa — odota 112-ohjeita.' },
+      { id: 'puhelin-112', icon: '📞', label: 'Puhelin / 112', cat: 'help',
+        text: 'Soita 112 heti, jos henkilö ei reagoi.',
+        why: 'Kerro: "Asiakas on pyörtynyt myymälässä, on tajuton. Osoitteemme on..." Pysy linjalla ja noudata ohjeita tarkkaan.',
+        dont: 'Älä odota — tajuttomuus voi johtua vakavasta syystä: sydänkohtaus, aivoverenkierron häiriö tai matala verensokeri.' },
+      { id: 'muut-asiakkaat', icon: '👥', label: 'Muut asiakkaat', cat: 'others',
+        text: 'Ohjaa muut asiakkaat kunnioittavasti sivuun.',
+        why: 'Pyydä rauhallisesti muita poistumaan lähialueelta: "Hoidamme tilannetta, pyydän siirtymään kassalle." Se suojaa pyörtyneen yksityisyyttä ja antaa tilaa toimia.',
+        dont: 'Älä huutele tai aiheuta paniikkia — rauhallinen asenne rauhoittaa myös muut.' },
+      { id: 'työkaveri', icon: '🧑‍🤝‍🧑', label: 'Työkaveri', cat: 'help',
+        text: 'Kutsu työkaveri avuksi välittömästi.',
+        why: 'Työkaveri voi soittaa 112 samalla kun sinä huolehdit pyörtyneestä. Kaksin on turvallisempaa ja tilannetta on helpompi hallita.',
+        dont: 'Älä jätä pyörtynyttä yksin — joku on oltava vierellä koko ajan.' },
+      { id: 'ilmoitus', icon: '📋', label: 'Ilmoitus esihenkilölle', cat: 'after',
+        text: 'Kirjaa tapahtuma ja ilmoita esihenkilölle.',
+        why: 'Tapauksen jälkeen kirjaa mitä tapahtui: aika, paikka, mitä tehtiin. Ilmoita esihenkilölle — hänellä pitää olla tieto asiakkaalle sattuneesta.',
+        dont: 'Älä unohda jälkihoitoa — myös oman mielesi rauhoittaminen on tärkeää stressaavien tilanteiden jälkeen.' }
+    ],
+    summary: [
+      'Lähestyin pyörtynyttä rauhallisesti ja tarkistin, reagoiko hän.',
+      'Tarkistin hengityksen — tajuton mutta hengittävä laitetaan kylkiasentoon.',
+      'Soitin 112 heti, kun selväksi tuli, ettei henkilö reagoi normaalisti.',
+      'Pyysin työkaverin auttamaan — kaksin on turvallisempaa.',
+      'Ohjasin muut asiakkaat kunnioittavasti sivuun.',
+      'Kirjasin tapahtuman ja ilmoitin esihenkilölle tilanteen jälkeen.'
+    ]
+  },
+  3: {
+    title: 'Uhkaava asiakas hyllyvälissä',
+    icon: '⚠️😠',
+    badge: 'Skenaario 3 / 3',
+    desc: 'Olet hyllyttämässä tuotteita hyllyvälissä. Asiakas tulee peremmälle, alkaa puhua sekavasti ja korottaa ääntään. Hän tulee <strong>liian lähelle</strong> ja käyttäytyy arvaamattomasti. Hyllyvälin toisessa päässä on muita asiakkaita.',
+    zones: [
+      { bg: '#e8ece8', emojis: '📦📦', label: 'Hyllyväli' },
+      { bg: '#fde8e8', emojis: '😠', label: 'Uhkaava asiakas' },
+      { bg: '#e8f0f8', emojis: '🚪👥', label: 'Uloskäynti / muut' }
+    ],
+    zonesLayout: 'repeat(3,1fr)',
+    points: [
+      { id: 'oma-sijainti', icon: '📍', label: 'Oma sijainti', cat: 'safety',
+        text: 'Missä sinä olet? Onko sinulla tilaa liikkua?',
+        why: 'Arvioi heti: oletko ahtaassa paikassa? Pystytkö siirtymään sivummalle tai poistumaan? Vältä tilanteita, joissa jäät jumiin.',
+        dont: 'Älä jää seisomaan paikalleen, jos tilanne kiristyy — siirry rauhallisesti sivummalle.' },
+      { id: 'poistumisreitti', icon: '🚪', label: 'Poistumisreitti', cat: 'safety',
+        text: 'Pidä poistumistie avoinna koko ajan.',
+        why: 'Uhkaavassa tilanteessa tärkein asia on oma turvallisuutesi. Tiedä, mistä pääset pois hyllyvälistä. Asemoi itsesi niin, että voit poistua tarvittaessa.',
+        dont: 'Älä anna tilanteen sulkea sinua paikalleen — jos poistumistie on tukossa, siirry välittömästi.' },
+      { id: 'uhkaava-asiakas', icon: '😠', label: 'Uhkaava asiakas', cat: 'safety',
+        text: 'Ylläpidä turvallinen etäisyys ja pysy rauhallisena.',
+        why: 'Pidä vähintään käsivarren etäisyys. Puhu matalalla, rauhallisella äänellä: "Voin auttaa sinua, jos kerrot mitä tarvitset." Vältä provosoivaa kieltä ja katsekontaktin haastamista.',
+        dont: 'Älä haasta, väittele tai nolaa asiakasta — se kärjistää tilannetta. Älä käänny selkä asiakkaaseen.' },
+      { id: 'muut-asiakkaat', icon: '👥', label: 'Muut asiakkaat', cat: 'others',
+        text: 'Huomioi sivulliset ja suojaa heidät.',
+        why: 'Jos se on turvallista, pyydä rauhallisesti muita asiakkaita poistumaan hyllyvälistä: "Käykää siirtymään kassalle hetkeksi." Sivullisten turvallisuus on ensisijaista.',
+        dont: 'Älä luo paniikkia — rauhallinen ja selkeä viestintä auttaa paremmin kuin huuto.' },
+      { id: 'vartija-työkaveri', icon: '🛡️', label: 'Vartija / työkaveri', cat: 'help',
+        text: 'Hälytä apua mahdollisimman nopeasti.',
+        why: 'Jos mahdollista, tee katsekontakti työkaverin kanssa tai käytä hälytintä: "Tarvitsen apua hyllyväli 3:ssa." Älä jää hoitamaan tilannetta yksin.',
+        dont: 'Älä odota, kunnes tilanne on jo käsistä — kutsu apua ajoissa.' },
+      { id: 'puhelin-112', icon: '📞', label: 'Puhelin / 112', cat: 'help',
+        text: 'Soita 112, jos väkivallan uhka on välitön.',
+        why: 'Jos asiakas uhkaa sinua tai muita fyysisesti, soita 112 heti. Kerro: "Myymälässä on uhkaava asiakas. Sijainti: [osoite]."',
+        dont: 'Älä ota riskiä — oma turvallisuutesi on tärkeämpää kuin asiakassuhde. Poliisi on sitä varten.' },
+      { id: 'rauhallinen-viestinta', icon: '🗣️', label: 'Rauhallinen viestintä', cat: 'safety',
+        text: 'Puhu selkeästi, lyhyesti ja rauhallisesti.',
+        why: 'Rauhallisuus voi rauhoittaa uhkaavaa henkilöä. Käytä lyhyitä lauseita: "Kuulen, että olet turhautunut. Miten voin auttaa?" Kuuntele aktiivisesti.',
+        dont: 'Älä huuda, ivaa tai uhkaile takaisin. Vältä ehdottomasti fyysistä kontaktia.' },
+      { id: 'tilanteen-kirjaaminen', icon: '📋', label: 'Tilanteen kirjaaminen', cat: 'after',
+        text: 'Kirjaa uhkatilanne tilanteen rauettua.',
+        why: 'Uhkatilanteet kirjataan aina. Kirjaa: aika, paikka, kuvaus tapahtumista. Tämä auttaa työnantajaa kehittämään turvallisuutta ja on tarpeen, jos tilanne menee poliisiasiaksi.',
+        dont: 'Älä jätä kirjaamatta, vaikka tilanne rauettuisi itsestään — toistuvat uhkatilanteet pitää tunnistaa.' }
+    ],
+    summary: [
+      'Arvioin oman sijaintini ja varmistin, että poistumisreitti on auki.',
+      'Pidin turvallisen etäisyyden ja pysyin rauhallisena.',
+      'Pyysin työkaveria tai vartijaa avuksi mahdollisimman varhain.',
+      'Ohjasin muut asiakkaat turvaan rauhallisesti.',
+      'Soitin 112, jos fyysinen väkivalta oli välittömästi uhkaava.',
+      'Kirjasin uhkatilanteen tilanteen rauettua ja ilmoitin esihenkilölle.'
+    ]
+  }
+};
+
+var CATS = {
+  safety: { label: 'Oma turvallisuus',   icon: '🛡️' },
+  help:   { label: 'Avun hälyttäminen',  icon: '🚨' },
+  others: { label: 'Muiden suojaaminen', icon: '👥' },
+  after:  { label: 'Jälkitoimet',        icon: '📋' }
+};
+
+/* ── STATE ─────────────────────────────────────────────────── */
+var found = { 1: {}, 2: {}, 3: {} };  /* {pointId: true} */
+var lastClick = { 1: null, 2: null, 3: null };
+var scormDone = false;
+
+/* ── PANEL INIT ─────────────────────────────────────────────── */
+function initPanel(id) {
+  var sc = SC[id];
+  var hotspotsHtml = sc.points.map(function(p) {
+    var clicked = found[id][p.id];
+    return '<button class="hspot' + (clicked ? ' clicked' : '') + '"' +
+      ' id="hs-' + id + '-' + p.id + '"' +
+      ' onclick="clickPoint(' + id + ',\'' + p.id + '\')"' +
+      ' aria-label="' + p.label + (clicked ? ' (havaittu)' : '') + '">' +
+      '<span class="hi" aria-hidden="true">' + p.icon + '</span>' +
+      '<span>' + p.label + '</span>' +
+      (clicked ? '<span class="check-mark" aria-hidden="true">✓</span>' : '') +
+      '</button>';
+  }).join('');
+
+  var zonesHtml = sc.zones.map(function(z) {
+    return '<div class="zone" style="background:' + z.bg + '">' +
+      '<span class="z-emojis" aria-hidden="true">' + z.emojis + '</span>' +
+      '<small>' + z.label + '</small>' +
+      '</div>';
+  }).join('');
+
+  var meterHtml = buildMeterHtml(id);
+  var foundCount = Object.keys(found[id]).length;
+  var total = sc.points.length;
+  var showSumBtn = foundCount >= Math.ceil(total * 0.6);
+
+  document.getElementById('panel-' + id).innerHTML =
+    '<div class="sit-card">' +
+      '<div class="sit-badge">' + sc.badge + '</div>' +
+      '<h3><span aria-hidden="true">' + sc.icon + '</span> ' + sc.title + '</h3>' +
+      '<p>' + sc.desc + '</p>' +
+    '</div>' +
+
+    '<div class="main-area">' +
+      '<div class="scene-card">' +
+        '<div class="scene-subtitle" aria-hidden="true">🔍 Klikkaa havaintopisteitä</div>' +
+        '<div class="scene-visual">' +
+          '<div class="scene-zones" style="display:grid;grid-template-columns:' + sc.zonesLayout + ';gap:6px;padding:6px" aria-label="Tilanteen visuaalinen kuvaus">' +
+            zonesHtml +
+          '</div>' +
+        '</div>' +
+        '<div class="hspot-grid" role="group" aria-label="Havaintopisteet">' +
+          hotspotsHtml +
+        '</div>' +
+      '</div>' +
+
+      '<div class="obs-card" id="obs-' + id + '">' +
+        '<div class="obs-head">' +
+          '<div class="oh-lbl">Havaintokortti</div>' +
+          '<span class="oh-icon" id="obs-icon-' + id + '" aria-hidden="true">' + (lastClick[id] ? SC[id].points.find(function(p){return p.id===lastClick[id];}).icon : '👁️') + '</span>' +
+          '<div class="oh-title" id="obs-title-' + id + '">' + (lastClick[id] ? SC[id].points.find(function(p){return p.id===lastClick[id];}).label : 'Valitse havaintopiste') + '</div>' +
+        '</div>' +
+        '<div class="obs-body" id="obs-body-' + id + '">' +
+          buildObsBodyHtml(id, lastClick[id]) +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="meter-sec">' +
+      '<div class="meter-head" aria-hidden="true">📊 Tilannemittari – <span id="found-count-' + id + '">' + foundCount + '</span>/' + total + ' havaintoa</div>' +
+      '<div class="meter-grid" id="meter-grid-' + id + '">' + meterHtml + '</div>' +
+    '</div>' +
+
+    '<div class="btn-row">' +
+      '<button class="btn btn-primary' + (showSumBtn ? '' : ' hidden') + '" id="sum-btn-' + id + '" onclick="toggleSummary(' + id + ')" aria-expanded="false">📋 Näytä yhteenveto</button>' +
+      '<button class="btn btn-secondary" onclick="resetSc(' + id + ')">🔄 Aloita alusta</button>' +
+    '</div>' +
+
+    '<div class="summary" id="summary-' + id + '" role="region" aria-live="polite">' +
+      '<div class="sum-head">✅ Hyvä turvallisuustilanne huomioi nämä</div>' +
+      '<p class="sum-sub" id="sum-sub-' + id + '">Tässä on yhteenveto tärkeimmistä toimista:</p>' +
+      '<ul class="sum-list">' +
+        sc.summary.map(function(s) { return '<li>' + s + '</li>'; }).join('') +
+      '</ul>' +
+    '</div>';
+}
+
+function buildObsBodyHtml(id, pointId) {
+  if (!pointId) {
+    return '<div class="obs-empty"><span class="oe-ico" aria-hidden="true">👆</span>Klikkaa vasemmalta havaintopiste nähdäksesi selityksen.</div>';
+  }
+  var pt = SC[id].points.find(function(p) { return p.id === pointId; });
+  if (!pt) return '';
+  return '<div class="obs-explanation">' +
+    '<p class="obs-text">' + pt.text + '</p>' +
+    '<div class="obs-why"><strong>💡 Miksi tärkeää:</strong><br>' + pt.why + '</div>' +
+    '<div class="obs-dont"><strong>⚠️ Vältä:</strong><br>' + pt.dont + '</div>' +
+    '</div>';
+}
+
+function buildMeterHtml(id) {
+  var sc = SC[id];
+  return Object.keys(CATS).map(function(key) {
+    var cat = CATS[key];
+    var total = sc.points.filter(function(p) { return p.cat === key; }).length;
+    var done = Object.keys(found[id]).filter(function(fid) {
+      return sc.points.some(function(p) { return p.id === fid && p.cat === key; });
+    }).length;
+    var pct = total ? Math.round(done / total * 100) : 0;
+    return '<div class="meter-item">' +
+      '<div class="mi-top">' +
+        '<span class="mi-icon" aria-hidden="true">' + cat.icon + '</span>' +
+        '<span class="mi-label">' + cat.label + '</span>' +
+        '<span class="mi-count" id="mc-' + id + '-' + key + '">' + done + '/' + total + '</span>' +
+      '</div>' +
+      '<div class="mi-track" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100" aria-label="' + cat.label + ': ' + pct + '%">' +
+        '<div class="mi-fill' + (pct === 100 ? ' done' : '') + '" id="mf-' + id + '-' + key + '" style="width:' + pct + '%"></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── CLICK HANDLER ──────────────────────────────────────────── */
+function clickPoint(scId, pointId) {
+  var sc = SC[scId];
+  var pt = sc.points.find(function(p) { return p.id === pointId; });
+  if (!pt) return;
+
+  var isNew = !found[scId][pointId];
+  found[scId][pointId] = true;
+  lastClick[scId] = pointId;
+
+  if (isNew) {
+    /* Update button state */
+    var btn = document.getElementById('hs-' + scId + '-' + pointId);
+    if (btn) {
+      btn.classList.add('clicked');
+      btn.setAttribute('aria-label', pt.label + ' (havaittu)');
+      if (!btn.querySelector('.check-mark')) {
+        var chk = document.createElement('span');
+        chk.className = 'check-mark';
+        chk.setAttribute('aria-hidden', 'true');
+        chk.textContent = '✓';
+        btn.appendChild(chk);
+      }
+    }
+
+    /* Update meter bars */
+    updateMeter(scId);
+
+    /* Update found count */
+    var count = Object.keys(found[scId]).length;
+    var el = document.getElementById('found-count-' + scId);
+    if (el) el.textContent = count;
+
+    /* Show summary button when 60%+ found */
+    var total = sc.points.length;
+    if (count >= Math.ceil(total * 0.6)) {
+      var sumBtn = document.getElementById('sum-btn-' + scId);
+      if (sumBtn) sumBtn.classList.remove('hidden');
+    }
+
+    /* Mark tab as explored */
+    document.getElementById('tab-' + scId).classList.add('explored');
+
+    /* SCORM completion check */
+    tryScorm();
+  }
+
+  /* Update observation card (always, even on re-click) */
+  var iconEl = document.getElementById('obs-icon-' + scId);
+  var titleEl = document.getElementById('obs-title-' + scId);
+  var bodyEl = document.getElementById('obs-body-' + scId);
+  if (iconEl) iconEl.textContent = pt.icon;
+  if (titleEl) titleEl.textContent = pt.label;
+  if (bodyEl) bodyEl.innerHTML = buildObsBodyHtml(scId, pointId);
+
+  /* Highlight active button */
+  document.querySelectorAll('#panel-' + scId + ' .hspot.active-hl').forEach(function(b) {
+    b.classList.remove('active-hl');
+  });
+  var activeBtn = document.getElementById('hs-' + scId + '-' + pointId);
+  if (activeBtn) activeBtn.classList.add('active-hl');
+
+  /* Scroll obs card into view on small screens */
+  if (window.innerWidth <= 720) {
+    var obs = document.getElementById('obs-' + scId);
+    if (obs) setTimeout(function() { obs.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
+  }
+}
+
+function updateMeter(scId) {
+  var sc = SC[scId];
+  Object.keys(CATS).forEach(function(key) {
+    var total = sc.points.filter(function(p) { return p.cat === key; }).length;
+    var done = Object.keys(found[scId]).filter(function(fid) {
+      return sc.points.some(function(p) { return p.id === fid && p.cat === key; });
+    }).length;
+    var pct = total ? Math.round(done / total * 100) : 0;
+    var fill = document.getElementById('mf-' + scId + '-' + key);
+    var count = document.getElementById('mc-' + scId + '-' + key);
+    var track = fill && fill.parentElement;
+    if (fill) {
+      fill.style.width = pct + '%';
+      fill.classList.toggle('done', pct === 100);
+    }
+    if (count) count.textContent = done + '/' + total;
+    if (track) {
+      track.setAttribute('aria-valuenow', pct);
+      track.setAttribute('aria-label', CATS[key].label + ': ' + pct + '%');
+    }
+  });
+}
+
+function toggleSummary(id) {
+  var s = document.getElementById('summary-' + id);
+  var btn = document.getElementById('sum-btn-' + id);
+  var show = !s.classList.contains('show');
+  s.classList.toggle('show', show);
+  if (btn) {
+    btn.setAttribute('aria-expanded', show ? 'true' : 'false');
+    btn.innerHTML = show ? '📋 Piilota yhteenveto' : '📋 Näytä yhteenveto';
+  }
+  if (show) {
+    var sub = document.getElementById('sum-sub-' + id);
+    if (sub) sub.textContent = 'Olet löytänyt ' + Object.keys(found[id]).length + '/' + SC[id].points.length + ' havaintopistettä. Tässä on yhteenveto tärkeimmistä toimista:';
+    tryScorm();
+  }
+}
+
+function resetSc(id) {
+  found[id] = {};
+  lastClick[id] = null;
+  document.getElementById('tab-' + id).classList.remove('explored');
+  initPanel(id);
+}
+
+function selectSc(id) {
+  document.querySelectorAll('.sc-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.sc-tab').forEach(function(t) {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+  document.getElementById('panel-' + id).classList.add('active');
+  var tab = document.getElementById('tab-' + id);
+  tab.classList.add('active');
+  tab.setAttribute('aria-selected', 'true');
+}
+
+function tryScorm() {
+  if (scormDone) return;
+  var totalAll = 0, doneAll = 0;
+  [1, 2, 3].forEach(function(id) {
+    totalAll += SC[id].points.length;
+    doneAll += Object.keys(found[id]).length;
+  });
+  if (doneAll / totalAll >= 0.5) {
+    SCORM.complete(Math.round(doneAll / totalAll * 100), 100);
+    scormDone = true;
+  }
+}
+
+/* ── BOOTSTRAP ──────────────────────────────────────────────── */
+[1, 2, 3].forEach(initPanel);
+</script>
+</body>
+</html>
