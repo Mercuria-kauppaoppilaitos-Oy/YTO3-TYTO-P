@@ -256,7 +256,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
 const SCORM = (() => {
   let api = null, connected = false;
   function findAPI(w){let n=0;while(w&&!w.API&&n<10){if(w.parent&&w.parent!==w)w=w.parent;else if(w.opener)w=w.opener;else break;n++;}return w&&w.API?w.API:null;}
-  function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;}}
+  function init(){api=findAPI(window);if(api){const r=api.LMSInitialize('');connected=r==='true'||r===true;if(connected)setValue('cmi.core.lesson_status','incomplete');}}
   function setValue(k,v){if(!connected||!api)return;api.LMSSetValue(k,String(v));}
   function commit(){if(!connected||!api)return;api.LMSCommit('');}
   function finish(){if(!connected||!api)return;api.LMSFinish('');}
